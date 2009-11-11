@@ -25,5 +25,33 @@ namespace SharpCash
                 return this.prices.AsReadOnly();
             }
         }
+
+        public decimal? GetPrice(Commodity commodity, Commodity currency)
+        {
+            if (commodity == currency)
+            {
+                return 1;
+            }
+
+            var price = GetPrice(commodity, currency, DateTime.Today);
+
+            if (price == null)
+            {
+                return null;
+            }
+            else
+            {
+                return price.Value;
+            }
+        }
+
+        private Price GetPrice(Commodity commodity, Commodity currency, DateTime date)
+        {
+            return (from p in this.prices
+                     where p.Commodity == commodity
+                     where p.Currency == currency
+                     orderby Math.Abs((date - p.Time).TotalDays)
+                     select p).FirstOrDefault();
+        }
     }
 }

@@ -12,11 +12,13 @@ namespace SharpCash.Debug
         {
             try
             {
-                var doc = Engine.Load(@"C:\Sync\data\finances.gnucash");
+                var doc = Engine.Load(@"C:\Users\otac0n\Sync\data\finances.gnucash");
                 var book = doc.First();
 
+                var baseCommodity = book.CommodityDatabase.FindCommodity("ISO4217", "USD");
+
                 var account = (from a in book.AccountDatabase.Accounts
-                               where a.Name.Contains("Cash")
+                               where a.FullName.Contains("Vanguard 401(k):Van")
                                select a).FirstOrDefault();
 
                 if (account == null)
@@ -29,13 +31,29 @@ namespace SharpCash.Debug
                 Console.WriteLine();
 
                 var balance = (from s in book.TransactionDatabase.AllSplits
-                               where s.Account == account
+                               where s.Account.Id == account.Id
                                where s.Transaction.DatePosted.Date <= DateTime.Today
                                select s.Value).Sum();
-                Console.WriteLine("Balance: $" + balance);
+                var quantity = (from s in book.TransactionDatabase.AllSplits
+                               where s.Account.Id == account.Id
+                               where s.Transaction.DatePosted.Date <= DateTime.Today
+                               select s.Quantity).Sum();
+                var commodity = account.Commodity;
+                var price = book.PriceDatabase.GetPrice(commodity, baseCommodity);
+                if (price.HasValue && price.Value != 1)
+                {
+                    Console.WriteLine("Cost Basis: $" + balance);
+                    Console.WriteLine("Balance: $" + balance * price);
+                }
+                else
+                {
+                    Console.WriteLine("Balance: $" + balance);
+                }
                 Console.WriteLine();
 
                 Console.WriteLine("Count of scheduled items: " + book.ScheduleDatabase.Schedules.Count);
+
+
             }
             finally
             {
