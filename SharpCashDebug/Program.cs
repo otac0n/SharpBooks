@@ -12,7 +12,7 @@ namespace SharpCash.Debug
         {
             try
             {
-                var doc = Engine.Load(@"C:\Users\otac0n\Sync\data\finances.gnucash");
+                var doc = Engine.Load(@"C:\Sync\data\finances.gnucash");
                 var book = doc.First();
 
                 var baseCommodity = book.CommodityDatabase.FindCommodity("ISO4217", "USD");
@@ -43,7 +43,8 @@ namespace SharpCash.Debug
                 if (price.HasValue && price.Value != 1)
                 {
                     Console.WriteLine("Cost Basis: $" + balance);
-                    Console.WriteLine("Balance: $" + balance * price);
+                    Console.WriteLine("Balance: " + quantity + " " + commodity.Id);
+                    Console.WriteLine("Balance: $" + quantity * price);
                 }
                 else
                 {
