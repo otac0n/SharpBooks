@@ -53,7 +53,7 @@ namespace SharpCash.Debug
                 Console.WriteLine();
 
                 Console.WriteLine("Count of scheduled items: " + book.ScheduleDatabase.Schedules.Count);
-
+                Console.WriteLine("Count of accounts: " + book.ScheduleDatabase.Template.AccountDatabase.Accounts.Count);
 
             }
             finally
