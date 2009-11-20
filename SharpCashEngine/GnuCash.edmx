@@ -1,0 +1,1234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="testModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="testModelStoreContainer">
+          <EntitySet Name="accounts" EntityType="testModel.Store.accounts" store:Type="Tables" />
+          <EntitySet Name="billterms" EntityType="testModel.Store.billterms" store:Type="Tables" />
+          <EntitySet Name="books" EntityType="testModel.Store.books" store:Type="Tables" />
+          <EntitySet Name="budget_amounts" EntityType="testModel.Store.budget_amounts" store:Type="Tables" />
+          <EntitySet Name="budgets" EntityType="testModel.Store.budgets" store:Type="Tables" />
+          <EntitySet Name="commodities" EntityType="testModel.Store.commodities" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="testModel.Store.customers" store:Type="Tables" />
+          <EntitySet Name="employees" EntityType="testModel.Store.employees" store:Type="Tables" />
+          <EntitySet Name="entries" EntityType="testModel.Store.entries" store:Type="Tables" />
+          <EntitySet Name="invoices" EntityType="testModel.Store.invoices" store:Type="Tables" />
+          <EntitySet Name="jobs" EntityType="testModel.Store.jobs" store:Type="Tables" />
+          <EntitySet Name="lots" EntityType="testModel.Store.lots" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="testModel.Store.orders" store:Type="Tables" />
+          <EntitySet Name="prices" EntityType="testModel.Store.prices" store:Type="Tables" />
+          <EntitySet Name="recurrences" EntityType="testModel.Store.recurrences" store:Type="Tables" />
+          <EntitySet Name="schedxactions" EntityType="testModel.Store.schedxactions" store:Type="Tables" />
+          <EntitySet Name="slots" EntityType="testModel.Store.slots" store:Type="Tables" />
+          <EntitySet Name="splits" EntityType="testModel.Store.splits" store:Type="Tables" />
+          <EntitySet Name="taxtable_entries" EntityType="testModel.Store.taxtable_entries" store:Type="Tables" />
+          <EntitySet Name="taxtables" EntityType="testModel.Store.taxtables" store:Type="Tables" />
+          <EntitySet Name="transactions" EntityType="testModel.Store.transactions" store:Type="Tables" />
+          <EntitySet Name="vendors" EntityType="testModel.Store.vendors" store:Type="Tables" />
+          <EntitySet Name="versions" EntityType="testModel.Store.versions" store:Type="Tables" />
+        </EntityContainer>
+        <EntityType Name="accounts">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="account_type" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="commodity_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="commodity_scu" Type="integer" Nullable="false" />
+          <Property Name="non_std_scu" Type="integer" Nullable="false" />
+          <Property Name="parent_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="code" Type="nvarchar" MaxLength="2048" />
+          <Property Name="description" Type="nvarchar" MaxLength="2048" />
+          <Property Name="hidden" Type="integer" />
+          <Property Name="placeholder" Type="integer" />
+        </EntityType>
+        <EntityType Name="billterms">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="description" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="refcount" Type="integer" Nullable="false" />
+          <Property Name="invisible" Type="integer" Nullable="false" />
+          <Property Name="parent" Type="nvarchar" MaxLength="32" />
+          <Property Name="child" Type="nvarchar" MaxLength="32" />
+          <Property Name="type" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="duedays" Type="integer" />
+          <Property Name="discountdays" Type="integer" />
+          <Property Name="discount_num" Type="integer" />
+          <Property Name="discount_denom" Type="integer" />
+          <Property Name="cutoff" Type="integer" />
+        </EntityType>
+        <EntityType Name="books">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="root_account_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="root_template_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="budget_amounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="budget_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="account_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="period_num" Type="integer" Nullable="false" />
+          <Property Name="amount_num" Type="integer" Nullable="false" />
+          <Property Name="amount_denom" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="budgets">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="description" Type="nvarchar" MaxLength="2048" />
+          <Property Name="num_periods" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="commodities">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="namespace" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="mnemonic" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="fullname" Type="nvarchar" MaxLength="2048" />
+          <Property Name="cusip" Type="nvarchar" MaxLength="2048" />
+          <Property Name="fraction" Type="integer" Nullable="false" />
+          <Property Name="quote_flag" Type="integer" Nullable="false" />
+          <Property Name="quote_source" Type="nvarchar" MaxLength="2048" />
+          <Property Name="quote_tz" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="notes" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="discount_num" Type="integer" Nullable="false" />
+          <Property Name="discount_denom" Type="integer" Nullable="false" />
+          <Property Name="credit_num" Type="integer" Nullable="false" />
+          <Property Name="credit_denom" Type="integer" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="tax_override" Type="integer" Nullable="false" />
+          <Property Name="addr_name" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr1" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr2" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr3" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr4" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_phone" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_fax" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_email" Type="nvarchar" MaxLength="256" />
+          <Property Name="shipaddr_name" Type="nvarchar" MaxLength="1024" />
+          <Property Name="shipaddr_addr1" Type="nvarchar" MaxLength="1024" />
+          <Property Name="shipaddr_addr2" Type="nvarchar" MaxLength="1024" />
+          <Property Name="shipaddr_addr3" Type="nvarchar" MaxLength="1024" />
+          <Property Name="shipaddr_addr4" Type="nvarchar" MaxLength="1024" />
+          <Property Name="shipaddr_phone" Type="nvarchar" MaxLength="128" />
+          <Property Name="shipaddr_fax" Type="nvarchar" MaxLength="128" />
+          <Property Name="shipaddr_email" Type="nvarchar" MaxLength="256" />
+          <Property Name="terms" Type="nvarchar" MaxLength="32" />
+          <Property Name="tax_included" Type="integer" />
+          <Property Name="taxtable" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="language" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="acl" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="ccard_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="workday_num" Type="integer" Nullable="false" />
+          <Property Name="workday_denom" Type="integer" Nullable="false" />
+          <Property Name="rate_num" Type="integer" Nullable="false" />
+          <Property Name="rate_denom" Type="integer" Nullable="false" />
+          <Property Name="addr_name" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr1" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr2" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr3" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr4" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_phone" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_fax" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_email" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="entries">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="entered" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="description" Type="nvarchar" MaxLength="2048" />
+          <Property Name="action" Type="nvarchar" MaxLength="2048" />
+          <Property Name="notes" Type="nvarchar" MaxLength="2048" />
+          <Property Name="quantity_num" Type="integer" />
+          <Property Name="quantity_denom" Type="integer" />
+          <Property Name="i_acct" Type="nvarchar" MaxLength="32" />
+          <Property Name="i_price_num" Type="integer" />
+          <Property Name="i_price_denom" Type="integer" />
+          <Property Name="i_discount_num" Type="integer" />
+          <Property Name="i_discount_denom" Type="integer" />
+          <Property Name="invoice" Type="nvarchar" MaxLength="32" />
+          <Property Name="i_disc_type" Type="nvarchar" MaxLength="2048" />
+          <Property Name="i_disc_how" Type="nvarchar" MaxLength="2048" />
+          <Property Name="i_taxable" Type="integer" />
+          <Property Name="i_taxincluded" Type="integer" />
+          <Property Name="i_taxtable" Type="nvarchar" MaxLength="32" />
+          <Property Name="b_acct" Type="nvarchar" MaxLength="32" />
+          <Property Name="b_price_num" Type="integer" />
+          <Property Name="b_price_denom" Type="integer" />
+          <Property Name="bill" Type="nvarchar" MaxLength="32" />
+          <Property Name="b_taxable" Type="integer" />
+          <Property Name="b_taxincluded" Type="integer" />
+          <Property Name="b_taxtable" Type="nvarchar" MaxLength="32" />
+          <Property Name="b_paytype" Type="integer" />
+          <Property Name="billable" Type="integer" />
+          <Property Name="billto_type" Type="integer" />
+          <Property Name="billto_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="order_guid" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="invoices">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="date_opened" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="date_posted" Type="nvarchar" MaxLength="14" />
+          <Property Name="notes" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="owner_type" Type="integer" />
+          <Property Name="owner_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="terms" Type="nvarchar" MaxLength="32" />
+          <Property Name="billing_id" Type="nvarchar" MaxLength="2048" />
+          <Property Name="post_txn" Type="nvarchar" MaxLength="32" />
+          <Property Name="post_lot" Type="nvarchar" MaxLength="32" />
+          <Property Name="post_acc" Type="nvarchar" MaxLength="32" />
+          <Property Name="billto_type" Type="integer" />
+          <Property Name="billto_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="charge_amt_num" Type="integer" />
+          <Property Name="charge_amt_denom" Type="integer" />
+        </EntityType>
+        <EntityType Name="jobs">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="reference" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="owner_type" Type="integer" />
+          <Property Name="owner_guid" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="lots">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="account_guid" Type="nvarchar" MaxLength="32" />
+          <Property Name="is_closed" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="notes" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="reference" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="date_opened" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="date_closed" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="owner_type" Type="integer" Nullable="false" />
+          <Property Name="owner_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="prices">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="commodity_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="currency_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="source" Type="nvarchar" MaxLength="2048" />
+          <Property Name="type" Type="nvarchar" MaxLength="2048" />
+          <Property Name="value_num" Type="integer" Nullable="false" />
+          <Property Name="value_denom" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="recurrences">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="obj_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="recurrence_mult" Type="integer" Nullable="false" />
+          <Property Name="recurrence_period_type" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="recurrence_period_start" Type="nvarchar" Nullable="false" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="schedxactions">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" MaxLength="2048" />
+          <Property Name="enabled" Type="integer" Nullable="false" />
+          <Property Name="start_date" Type="nvarchar" MaxLength="8" />
+          <Property Name="end_date" Type="nvarchar" MaxLength="8" />
+          <Property Name="last_occur" Type="nvarchar" MaxLength="8" />
+          <Property Name="num_occur" Type="integer" Nullable="false" />
+          <Property Name="rem_occur" Type="integer" Nullable="false" />
+          <Property Name="auto_create" Type="integer" Nullable="false" />
+          <Property Name="auto_notify" Type="integer" Nullable="false" />
+          <Property Name="adv_creation" Type="integer" Nullable="false" />
+          <Property Name="adv_notify" Type="integer" Nullable="false" />
+          <Property Name="instance_count" Type="integer" Nullable="false" />
+          <Property Name="template_act_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="obj_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="4096" />
+          <Property Name="slot_type" Type="integer" Nullable="false" />
+          <Property Name="int64_val" Type="integer" />
+          <Property Name="string_val" Type="nvarchar" MaxLength="4096" />
+          <Property Name="double_val" Type="float" />
+          <Property Name="timespec_val" Type="nvarchar" MaxLength="14" />
+          <Property Name="guid_val" Type="nvarchar" MaxLength="32" />
+          <Property Name="numeric_val_num" Type="integer" />
+          <Property Name="numeric_val_denom" Type="integer" />
+        </EntityType>
+        <EntityType Name="splits">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="tx_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="account_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="memo" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="action" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="reconcile_state" Type="nvarchar" Nullable="false" MaxLength="1" />
+          <Property Name="reconcile_date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="value_num" Type="integer" Nullable="false" />
+          <Property Name="value_denom" Type="integer" Nullable="false" />
+          <Property Name="quantity_num" Type="integer" Nullable="false" />
+          <Property Name="quantity_denom" Type="integer" Nullable="false" />
+          <Property Name="lot_guid" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="taxtable_entries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="taxtable" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="account" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="amount_num" Type="integer" Nullable="false" />
+          <Property Name="amount_denom" Type="integer" Nullable="false" />
+          <Property Name="type" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="taxtables">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="refcount" Type="integer" Nullable="false" />
+          <Property Name="invisible" Type="integer" Nullable="false" />
+          <Property Name="parent" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="transactions">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="currency_guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="num" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="post_date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="enter_date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="description" Type="nvarchar" MaxLength="2048" />
+        </EntityType>
+        <EntityType Name="vendors">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="id" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="notes" Type="nvarchar" Nullable="false" MaxLength="2048" />
+          <Property Name="currency" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="active" Type="integer" Nullable="false" />
+          <Property Name="tax_override" Type="integer" Nullable="false" />
+          <Property Name="addr_name" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr1" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr2" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr3" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_addr4" Type="nvarchar" MaxLength="1024" />
+          <Property Name="addr_phone" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_fax" Type="nvarchar" MaxLength="128" />
+          <Property Name="addr_email" Type="nvarchar" MaxLength="256" />
+          <Property Name="terms" Type="nvarchar" MaxLength="32" />
+          <Property Name="tax_inc" Type="nvarchar" MaxLength="2048" />
+          <Property Name="tax_table" Type="nvarchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="versions">
+          <Key>
+            <PropertyRef Name="table_name" />
+          </Key>
+          <Property Name="table_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="table_version" Type="integer" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SharpCash" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="GnuCashDatabase">
+          <EntitySet Name="Accounts" EntityType="SharpCash.Account" />
+          <EntitySet Name="billterms" EntityType="SharpCash.billterms" />
+          <EntitySet Name="Books" EntityType="SharpCash.Book" />
+          <EntitySet Name="budget_amounts" EntityType="SharpCash.budget_amounts" />
+          <EntitySet Name="budgets" EntityType="SharpCash.budgets" />
+          <EntitySet Name="Commodities" EntityType="SharpCash.Commodity" />
+          <EntitySet Name="customers" EntityType="SharpCash.customers" />
+          <EntitySet Name="employees" EntityType="SharpCash.employees" />
+          <EntitySet Name="entries" EntityType="SharpCash.entries" />
+          <EntitySet Name="invoices" EntityType="SharpCash.invoices" />
+          <EntitySet Name="jobs" EntityType="SharpCash.jobs" />
+          <EntitySet Name="lots" EntityType="SharpCash.lots" />
+          <EntitySet Name="orders" EntityType="SharpCash.orders" />
+          <EntitySet Name="prices" EntityType="SharpCash.prices" />
+          <EntitySet Name="recurrences" EntityType="SharpCash.recurrences" />
+          <EntitySet Name="schedxactions" EntityType="SharpCash.schedxactions" />
+          <EntitySet Name="slots" EntityType="SharpCash.slots" />
+          <EntitySet Name="Splits" EntityType="SharpCash.Split" />
+          <EntitySet Name="taxtable_entries" EntityType="SharpCash.taxtable_entries" />
+          <EntitySet Name="taxtables" EntityType="SharpCash.taxtables" />
+          <EntitySet Name="Transactions" EntityType="SharpCash.Transaction" />
+          <EntitySet Name="vendors" EntityType="SharpCash.vendors" />
+          <EntitySet Name="versions" EntityType="SharpCash.versions" />
+          </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="AccountType" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="commodity_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="commodity_scu" Type="Int64" Nullable="false" />
+          <Property Name="non_std_scu" Type="Int64" Nullable="false" />
+          <Property Name="parent_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="code" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="hidden" Type="Int64" />
+          <Property Name="placeholder" Type="Int64" />
+          </EntityType>
+        <EntityType Name="billterms">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="refcount" Type="Int64" Nullable="false" />
+          <Property Name="invisible" Type="Int64" Nullable="false" />
+          <Property Name="parent" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="child" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="duedays" Type="Int64" />
+          <Property Name="discountdays" Type="Int64" />
+          <Property Name="discount_num" Type="Int64" />
+          <Property Name="discount_denom" Type="Int64" />
+          <Property Name="cutoff" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="Guid" />
+          </Key>
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="RootAccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="RootTemplateGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          </EntityType>
+        <EntityType Name="budget_amounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="budget_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="account_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="period_num" Type="Int64" Nullable="false" />
+          <Property Name="amount_num" Type="Int64" Nullable="false" />
+          <Property Name="amount_denom" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="budgets">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="num_periods" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Commodity">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="namespace" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="mnemonic" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="fullname" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="cusip" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="fraction" Type="Int64" Nullable="false" />
+          <Property Name="quote_flag" Type="Int64" Nullable="false" />
+          <Property Name="quote_source" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="quote_tz" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="notes" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="discount_num" Type="Int64" Nullable="false" />
+          <Property Name="discount_denom" Type="Int64" Nullable="false" />
+          <Property Name="credit_num" Type="Int64" Nullable="false" />
+          <Property Name="credit_denom" Type="Int64" Nullable="false" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="tax_override" Type="Int64" Nullable="false" />
+          <Property Name="addr_name" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr1" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr2" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr3" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr4" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_phone" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_fax" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_email" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_name" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_addr1" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_addr2" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_addr3" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_addr4" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_phone" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_fax" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="shipaddr_email" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="terms" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="tax_included" Type="Int64" />
+          <Property Name="taxtable" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="language" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="acl" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="ccard_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="workday_num" Type="Int64" Nullable="false" />
+          <Property Name="workday_denom" Type="Int64" Nullable="false" />
+          <Property Name="rate_num" Type="Int64" Nullable="false" />
+          <Property Name="rate_denom" Type="Int64" Nullable="false" />
+          <Property Name="addr_name" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr1" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr2" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr3" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr4" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_phone" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_fax" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_email" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="entries">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="date" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="entered" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="action" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="notes" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="quantity_num" Type="Int64" />
+          <Property Name="quantity_denom" Type="Int64" />
+          <Property Name="i_acct" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="i_price_num" Type="Int64" />
+          <Property Name="i_price_denom" Type="Int64" />
+          <Property Name="i_discount_num" Type="Int64" />
+          <Property Name="i_discount_denom" Type="Int64" />
+          <Property Name="invoice" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="i_disc_type" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="i_disc_how" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="i_taxable" Type="Int64" />
+          <Property Name="i_taxincluded" Type="Int64" />
+          <Property Name="i_taxtable" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="b_acct" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="b_price_num" Type="Int64" />
+          <Property Name="b_price_denom" Type="Int64" />
+          <Property Name="bill" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="b_taxable" Type="Int64" />
+          <Property Name="b_taxincluded" Type="Int64" />
+          <Property Name="b_taxtable" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="b_paytype" Type="Int64" />
+          <Property Name="billable" Type="Int64" />
+          <Property Name="billto_type" Type="Int64" />
+          <Property Name="billto_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="order_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="invoices">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="date_opened" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="date_posted" Type="String" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="notes" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="owner_type" Type="Int64" />
+          <Property Name="owner_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="terms" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="billing_id" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="post_txn" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="post_lot" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="post_acc" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="billto_type" Type="Int64" />
+          <Property Name="billto_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="charge_amt_num" Type="Int64" />
+          <Property Name="charge_amt_denom" Type="Int64" />
+        </EntityType>
+        <EntityType Name="jobs">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="reference" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="owner_type" Type="Int64" />
+          <Property Name="owner_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="lots">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="account_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="is_closed" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="notes" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="reference" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="date_opened" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="date_closed" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="owner_type" Type="Int64" Nullable="false" />
+          <Property Name="owner_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="prices">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="commodity_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="currency_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="date" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="source" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="type" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="value_num" Type="Int64" Nullable="false" />
+          <Property Name="value_denom" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="recurrences">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="obj_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="recurrence_mult" Type="Int64" Nullable="false" />
+          <Property Name="recurrence_period_type" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="recurrence_period_start" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="schedxactions">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="enabled" Type="Int64" Nullable="false" />
+          <Property Name="start_date" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="end_date" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="last_occur" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="num_occur" Type="Int64" Nullable="false" />
+          <Property Name="rem_occur" Type="Int64" Nullable="false" />
+          <Property Name="auto_create" Type="Int64" Nullable="false" />
+          <Property Name="auto_notify" Type="Int64" Nullable="false" />
+          <Property Name="adv_creation" Type="Int64" Nullable="false" />
+          <Property Name="adv_notify" Type="Int64" Nullable="false" />
+          <Property Name="instance_count" Type="Int64" Nullable="false" />
+          <Property Name="template_act_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="slots">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="obj_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="4096" Unicode="true" FixedLength="false" />
+          <Property Name="slot_type" Type="Int64" Nullable="false" />
+          <Property Name="int64_val" Type="Int64" />
+          <Property Name="string_val" Type="String" MaxLength="4096" Unicode="true" FixedLength="false" />
+          <Property Name="double_val" Type="Double" />
+          <Property Name="timespec_val" Type="String" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="guid_val" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="numeric_val_num" Type="Int64" />
+          <Property Name="numeric_val_denom" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Split">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="tx_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="account_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="memo" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="action" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="reconcile_state" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
+          <Property Name="reconcile_date" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="value_num" Type="Int64" Nullable="false" />
+          <Property Name="value_denom" Type="Int64" Nullable="false" />
+          <Property Name="quantity_num" Type="Int64" Nullable="false" />
+          <Property Name="quantity_denom" Type="Int64" Nullable="false" />
+          <Property Name="lot_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="taxtable_entries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="taxtable" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="account" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="amount_num" Type="Int64" Nullable="false" />
+          <Property Name="amount_denom" Type="Int64" Nullable="false" />
+          <Property Name="type" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="taxtables">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="refcount" Type="Int64" Nullable="false" />
+          <Property Name="invisible" Type="Int64" Nullable="false" />
+          <Property Name="parent" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="currency_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="num" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="PostDate" Type="String" Nullable="false" />
+          <Property Name="EnterDate" Type="String" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="vendors">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="notes" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="active" Type="Int64" Nullable="false" />
+          <Property Name="tax_override" Type="Int64" Nullable="false" />
+          <Property Name="addr_name" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr1" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr2" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr3" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_addr4" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
+          <Property Name="addr_phone" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_fax" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="addr_email" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="terms" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="tax_inc" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="tax_table" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="versions">
+          <Key>
+            <PropertyRef Name="table_name" />
+          </Key>
+          <Property Name="table_name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="table_version" Type="Int64" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="testModelStoreContainer" CdmEntityContainer="GnuCashDatabase">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Account)">
+              <MappingFragment StoreEntitySet="accounts">
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="AccountType" ColumnName="account_type" />
+                <ScalarProperty Name="commodity_guid" ColumnName="commodity_guid" />
+                <ScalarProperty Name="commodity_scu" ColumnName="commodity_scu" />
+                <ScalarProperty Name="non_std_scu" ColumnName="non_std_scu" />
+                <ScalarProperty Name="parent_guid" ColumnName="parent_guid" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="hidden" ColumnName="hidden" />
+                <ScalarProperty Name="placeholder" ColumnName="placeholder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="billterms">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.billterms)">
+              <MappingFragment StoreEntitySet="billterms">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="refcount" ColumnName="refcount" />
+                <ScalarProperty Name="invisible" ColumnName="invisible" />
+                <ScalarProperty Name="parent" ColumnName="parent" />
+                <ScalarProperty Name="child" ColumnName="child" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="duedays" ColumnName="duedays" />
+                <ScalarProperty Name="discountdays" ColumnName="discountdays" />
+                <ScalarProperty Name="discount_num" ColumnName="discount_num" />
+                <ScalarProperty Name="discount_denom" ColumnName="discount_denom" />
+                <ScalarProperty Name="cutoff" ColumnName="cutoff" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Book)">
+              <MappingFragment StoreEntitySet="books">
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="RootAccountGuid" ColumnName="root_account_guid" />
+                <ScalarProperty Name="RootTemplateGuid" ColumnName="root_template_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="budget_amounts">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.budget_amounts)">
+              <MappingFragment StoreEntitySet="budget_amounts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="budget_guid" ColumnName="budget_guid" />
+                <ScalarProperty Name="account_guid" ColumnName="account_guid" />
+                <ScalarProperty Name="period_num" ColumnName="period_num" />
+                <ScalarProperty Name="amount_num" ColumnName="amount_num" />
+                <ScalarProperty Name="amount_denom" ColumnName="amount_denom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="budgets">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.budgets)">
+              <MappingFragment StoreEntitySet="budgets">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="num_periods" ColumnName="num_periods" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Commodities">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Commodity)">
+              <MappingFragment StoreEntitySet="commodities">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="namespace" ColumnName="namespace" />
+                <ScalarProperty Name="mnemonic" ColumnName="mnemonic" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="cusip" ColumnName="cusip" />
+                <ScalarProperty Name="fraction" ColumnName="fraction" />
+                <ScalarProperty Name="quote_flag" ColumnName="quote_flag" />
+                <ScalarProperty Name="quote_source" ColumnName="quote_source" />
+                <ScalarProperty Name="quote_tz" ColumnName="quote_tz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.customers)">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="discount_num" ColumnName="discount_num" />
+                <ScalarProperty Name="discount_denom" ColumnName="discount_denom" />
+                <ScalarProperty Name="credit_num" ColumnName="credit_num" />
+                <ScalarProperty Name="credit_denom" ColumnName="credit_denom" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="tax_override" ColumnName="tax_override" />
+                <ScalarProperty Name="addr_name" ColumnName="addr_name" />
+                <ScalarProperty Name="addr_addr1" ColumnName="addr_addr1" />
+                <ScalarProperty Name="addr_addr2" ColumnName="addr_addr2" />
+                <ScalarProperty Name="addr_addr3" ColumnName="addr_addr3" />
+                <ScalarProperty Name="addr_addr4" ColumnName="addr_addr4" />
+                <ScalarProperty Name="addr_phone" ColumnName="addr_phone" />
+                <ScalarProperty Name="addr_fax" ColumnName="addr_fax" />
+                <ScalarProperty Name="addr_email" ColumnName="addr_email" />
+                <ScalarProperty Name="shipaddr_name" ColumnName="shipaddr_name" />
+                <ScalarProperty Name="shipaddr_addr1" ColumnName="shipaddr_addr1" />
+                <ScalarProperty Name="shipaddr_addr2" ColumnName="shipaddr_addr2" />
+                <ScalarProperty Name="shipaddr_addr3" ColumnName="shipaddr_addr3" />
+                <ScalarProperty Name="shipaddr_addr4" ColumnName="shipaddr_addr4" />
+                <ScalarProperty Name="shipaddr_phone" ColumnName="shipaddr_phone" />
+                <ScalarProperty Name="shipaddr_fax" ColumnName="shipaddr_fax" />
+                <ScalarProperty Name="shipaddr_email" ColumnName="shipaddr_email" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="tax_included" ColumnName="tax_included" />
+                <ScalarProperty Name="taxtable" ColumnName="taxtable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.employees)">
+              <MappingFragment StoreEntitySet="employees">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="acl" ColumnName="acl" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="ccard_guid" ColumnName="ccard_guid" />
+                <ScalarProperty Name="workday_num" ColumnName="workday_num" />
+                <ScalarProperty Name="workday_denom" ColumnName="workday_denom" />
+                <ScalarProperty Name="rate_num" ColumnName="rate_num" />
+                <ScalarProperty Name="rate_denom" ColumnName="rate_denom" />
+                <ScalarProperty Name="addr_name" ColumnName="addr_name" />
+                <ScalarProperty Name="addr_addr1" ColumnName="addr_addr1" />
+                <ScalarProperty Name="addr_addr2" ColumnName="addr_addr2" />
+                <ScalarProperty Name="addr_addr3" ColumnName="addr_addr3" />
+                <ScalarProperty Name="addr_addr4" ColumnName="addr_addr4" />
+                <ScalarProperty Name="addr_phone" ColumnName="addr_phone" />
+                <ScalarProperty Name="addr_fax" ColumnName="addr_fax" />
+                <ScalarProperty Name="addr_email" ColumnName="addr_email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entries">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.entries)">
+              <MappingFragment StoreEntitySet="entries">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="entered" ColumnName="entered" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="quantity_num" ColumnName="quantity_num" />
+                <ScalarProperty Name="quantity_denom" ColumnName="quantity_denom" />
+                <ScalarProperty Name="i_acct" ColumnName="i_acct" />
+                <ScalarProperty Name="i_price_num" ColumnName="i_price_num" />
+                <ScalarProperty Name="i_price_denom" ColumnName="i_price_denom" />
+                <ScalarProperty Name="i_discount_num" ColumnName="i_discount_num" />
+                <ScalarProperty Name="i_discount_denom" ColumnName="i_discount_denom" />
+                <ScalarProperty Name="invoice" ColumnName="invoice" />
+                <ScalarProperty Name="i_disc_type" ColumnName="i_disc_type" />
+                <ScalarProperty Name="i_disc_how" ColumnName="i_disc_how" />
+                <ScalarProperty Name="i_taxable" ColumnName="i_taxable" />
+                <ScalarProperty Name="i_taxincluded" ColumnName="i_taxincluded" />
+                <ScalarProperty Name="i_taxtable" ColumnName="i_taxtable" />
+                <ScalarProperty Name="b_acct" ColumnName="b_acct" />
+                <ScalarProperty Name="b_price_num" ColumnName="b_price_num" />
+                <ScalarProperty Name="b_price_denom" ColumnName="b_price_denom" />
+                <ScalarProperty Name="bill" ColumnName="bill" />
+                <ScalarProperty Name="b_taxable" ColumnName="b_taxable" />
+                <ScalarProperty Name="b_taxincluded" ColumnName="b_taxincluded" />
+                <ScalarProperty Name="b_taxtable" ColumnName="b_taxtable" />
+                <ScalarProperty Name="b_paytype" ColumnName="b_paytype" />
+                <ScalarProperty Name="billable" ColumnName="billable" />
+                <ScalarProperty Name="billto_type" ColumnName="billto_type" />
+                <ScalarProperty Name="billto_guid" ColumnName="billto_guid" />
+                <ScalarProperty Name="order_guid" ColumnName="order_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="invoices">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.invoices)">
+              <MappingFragment StoreEntitySet="invoices">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date_opened" ColumnName="date_opened" />
+                <ScalarProperty Name="date_posted" ColumnName="date_posted" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="owner_type" ColumnName="owner_type" />
+                <ScalarProperty Name="owner_guid" ColumnName="owner_guid" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="billing_id" ColumnName="billing_id" />
+                <ScalarProperty Name="post_txn" ColumnName="post_txn" />
+                <ScalarProperty Name="post_lot" ColumnName="post_lot" />
+                <ScalarProperty Name="post_acc" ColumnName="post_acc" />
+                <ScalarProperty Name="billto_type" ColumnName="billto_type" />
+                <ScalarProperty Name="billto_guid" ColumnName="billto_guid" />
+                <ScalarProperty Name="charge_amt_num" ColumnName="charge_amt_num" />
+                <ScalarProperty Name="charge_amt_denom" ColumnName="charge_amt_denom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="jobs">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.jobs)">
+              <MappingFragment StoreEntitySet="jobs">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="owner_type" ColumnName="owner_type" />
+                <ScalarProperty Name="owner_guid" ColumnName="owner_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lots">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.lots)">
+              <MappingFragment StoreEntitySet="lots">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="account_guid" ColumnName="account_guid" />
+                <ScalarProperty Name="is_closed" ColumnName="is_closed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.orders)">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="date_opened" ColumnName="date_opened" />
+                <ScalarProperty Name="date_closed" ColumnName="date_closed" />
+                <ScalarProperty Name="owner_type" ColumnName="owner_type" />
+                <ScalarProperty Name="owner_guid" ColumnName="owner_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prices">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.prices)">
+              <MappingFragment StoreEntitySet="prices">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="commodity_guid" ColumnName="commodity_guid" />
+                <ScalarProperty Name="currency_guid" ColumnName="currency_guid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="source" ColumnName="source" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="value_num" ColumnName="value_num" />
+                <ScalarProperty Name="value_denom" ColumnName="value_denom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="recurrences">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.recurrences)">
+              <MappingFragment StoreEntitySet="recurrences">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="obj_guid" ColumnName="obj_guid" />
+                <ScalarProperty Name="recurrence_mult" ColumnName="recurrence_mult" />
+                <ScalarProperty Name="recurrence_period_type" ColumnName="recurrence_period_type" />
+                <ScalarProperty Name="recurrence_period_start" ColumnName="recurrence_period_start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="schedxactions">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.schedxactions)">
+              <MappingFragment StoreEntitySet="schedxactions">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="last_occur" ColumnName="last_occur" />
+                <ScalarProperty Name="num_occur" ColumnName="num_occur" />
+                <ScalarProperty Name="rem_occur" ColumnName="rem_occur" />
+                <ScalarProperty Name="auto_create" ColumnName="auto_create" />
+                <ScalarProperty Name="auto_notify" ColumnName="auto_notify" />
+                <ScalarProperty Name="adv_creation" ColumnName="adv_creation" />
+                <ScalarProperty Name="adv_notify" ColumnName="adv_notify" />
+                <ScalarProperty Name="instance_count" ColumnName="instance_count" />
+                <ScalarProperty Name="template_act_guid" ColumnName="template_act_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="slots">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.slots)">
+              <MappingFragment StoreEntitySet="slots">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="obj_guid" ColumnName="obj_guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="slot_type" ColumnName="slot_type" />
+                <ScalarProperty Name="int64_val" ColumnName="int64_val" />
+                <ScalarProperty Name="string_val" ColumnName="string_val" />
+                <ScalarProperty Name="double_val" ColumnName="double_val" />
+                <ScalarProperty Name="timespec_val" ColumnName="timespec_val" />
+                <ScalarProperty Name="guid_val" ColumnName="guid_val" />
+                <ScalarProperty Name="numeric_val_num" ColumnName="numeric_val_num" />
+                <ScalarProperty Name="numeric_val_denom" ColumnName="numeric_val_denom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Splits">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Split)">
+              <MappingFragment StoreEntitySet="splits">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="tx_guid" ColumnName="tx_guid" />
+                <ScalarProperty Name="account_guid" ColumnName="account_guid" />
+                <ScalarProperty Name="memo" ColumnName="memo" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="reconcile_state" ColumnName="reconcile_state" />
+                <ScalarProperty Name="reconcile_date" ColumnName="reconcile_date" />
+                <ScalarProperty Name="value_num" ColumnName="value_num" />
+                <ScalarProperty Name="value_denom" ColumnName="value_denom" />
+                <ScalarProperty Name="quantity_num" ColumnName="quantity_num" />
+                <ScalarProperty Name="quantity_denom" ColumnName="quantity_denom" />
+                <ScalarProperty Name="lot_guid" ColumnName="lot_guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taxtable_entries">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.taxtable_entries)">
+              <MappingFragment StoreEntitySet="taxtable_entries">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="taxtable" ColumnName="taxtable" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="amount_num" ColumnName="amount_num" />
+                <ScalarProperty Name="amount_denom" ColumnName="amount_denom" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taxtables">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.taxtables)">
+              <MappingFragment StoreEntitySet="taxtables">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="refcount" ColumnName="refcount" />
+                <ScalarProperty Name="invisible" ColumnName="invisible" />
+                <ScalarProperty Name="parent" ColumnName="parent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Transaction)">
+              <MappingFragment StoreEntitySet="transactions">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="currency_guid" ColumnName="currency_guid" />
+                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="PostDate" ColumnName="post_date" />
+                <ScalarProperty Name="EnterDate" ColumnName="enter_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vendors">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.vendors)">
+              <MappingFragment StoreEntitySet="vendors">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="tax_override" ColumnName="tax_override" />
+                <ScalarProperty Name="addr_name" ColumnName="addr_name" />
+                <ScalarProperty Name="addr_addr1" ColumnName="addr_addr1" />
+                <ScalarProperty Name="addr_addr2" ColumnName="addr_addr2" />
+                <ScalarProperty Name="addr_addr3" ColumnName="addr_addr3" />
+                <ScalarProperty Name="addr_addr4" ColumnName="addr_addr4" />
+                <ScalarProperty Name="addr_phone" ColumnName="addr_phone" />
+                <ScalarProperty Name="addr_fax" ColumnName="addr_fax" />
+                <ScalarProperty Name="addr_email" ColumnName="addr_email" />
+                <ScalarProperty Name="terms" ColumnName="terms" />
+                <ScalarProperty Name="tax_inc" ColumnName="tax_inc" />
+                <ScalarProperty Name="tax_table" ColumnName="tax_table" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="versions">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.versions)">
+              <MappingFragment StoreEntitySet="versions">
+                <ScalarProperty Name="table_name" ColumnName="table_name" />
+                <ScalarProperty Name="table_version" ColumnName="table_version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="GnuCash">
+        <EntityTypeShape EntityType="SharpCash.Account" Width="1.5" PointX="0.75" PointY="0.75" Height="3.1340950520833335" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.billterms" Width="1.5" PointX="2.75" PointY="0.75" Height="3.5186979166666665" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Book" Width="1.5" PointX="4.75" PointY="0.75" Height="1.5956835937499998" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.budget_amounts" Width="1.5" PointX="4.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.budgets" Width="1.5" PointX="0.75" PointY="5.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Commodity" Width="1.5" PointX="6.75" PointY="0.75" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.customers" Width="1.5" PointX="2.75" PointY="6.75" Height="6.787822265625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.employees" Width="1.5" PointX="6.75" PointY="4.75" Height="4.8648079427083317" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.entries" Width="1.5" PointX="8.75" PointY="0.75" Height="6.9801236979166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.invoices" Width="1.5" PointX="8.75" PointY="8.75" Height="4.480205078125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.jobs" Width="1.5" PointX="10.75" PointY="0.75" Height="2.3648893229166665" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.lots" Width="1.5" PointX="10.75" PointY="4.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.orders" Width="1.5" PointX="4.75" PointY="10.75" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.prices" Width="1.5" PointX="10.75" PointY="7.75" Height="2.5571907552083326" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.recurrences" Width="1.5" PointX="10.75" PointY="11.75" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.schedxactions" Width="1.5" PointX="12.75" PointY="0.75" Height="3.7109993489583322" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.slots" Width="1.5" PointX="12.75" PointY="5.75" Height="3.1340950520833326" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Split" Width="1.5" PointX="12.75" PointY="9.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.taxtable_entries" Width="1.5" PointX="14.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.taxtables" Width="1.5" PointX="0.75" PointY="14.75" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Transaction" Width="1.5" PointX="2.75" PointY="14.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.vendors" Width="1.5" PointX="14.75" PointY="3.75" Height="4.480205078125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.versions" Width="1.5" PointX="4.75" PointY="14.75" Height="1.4033821614583317" IsExpanded="true" />
+        </Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
