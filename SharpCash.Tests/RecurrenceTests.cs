@@ -84,7 +84,7 @@ namespace SharpCash.Tests
         {
             DateTime startDate = new DateTime(2000, 1, 1);
             DateTime endDate = startDate;
-            var monthly = new MonthDayRecurrence(startDate, endDate, 1, null);
+            var monthly = new MonthRecurrence(startDate, endDate, 1, null);
 
             int occ = CountOccurences(monthly);
 
@@ -99,7 +99,7 @@ namespace SharpCash.Tests
             for (int i = 1; i <= 100; i++)
             {
                 DateTime endDate = startDate.AddMonths(i);
-                var monthly = new MonthDayRecurrence(startDate, endDate, 1, null);
+                var monthly = new MonthRecurrence(startDate, endDate, 1, null);
 
                 int occ = CountOccurences(monthly);
 
@@ -112,7 +112,7 @@ namespace SharpCash.Tests
         {
             DateTime startDate = new DateTime(2000, 1, 1);
             DateTime endDate = startDate.AddDays(-1);
-            var monthly = new MonthDayRecurrence(startDate, endDate, 1, null);
+            var monthly = new MonthRecurrence(startDate, endDate, 1, null);
 
             int occ = CountOccurences(monthly);
 
@@ -124,7 +124,7 @@ namespace SharpCash.Tests
         {
             DateTime startDate = new DateTime(2000, 1, 31);
             DateTime endDate = startDate.AddMonths(100);
-            var monthly = new MonthDayRecurrence(startDate, endDate, 1, null);
+            var monthly = new MonthRecurrence(startDate, endDate, 1, null);
 
             var first = monthly.GetNextOccurence();
             var second = monthly.GetNextOccurence();

@@ -39,7 +39,7 @@ namespace SharpCash.Debug
                                   {
                                       Num = (decimal)s.QuantityNumerator,
                                       Denom = (decimal)s.QuantityDenominator,
-                                      PostDate = DateTime.ParseExact(txList.Where(t => t.Guid == s.TransactionGuid).Single().PostDate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).Date
+                                      PostDate = ParseDate(txList.Where(t => t.Guid == s.TransactionGuid).Single().PostDate).Date
                                   }).ToList();
 
                 var balance = (from s in splitsList
@@ -58,6 +58,15 @@ namespace SharpCash.Debug
                 Console.WriteLine("------------------");
                 foreach (var s in db.Recurrences)
                 {
+                    RecurrenceBase r = null;
+                    switch (s.PeriodType)
+                    {
+                        case "month":
+                            r = new MonthRecurrence(
+                                ParseDate(s.PeriodStart),
+                                s.Multiplier);
+                    }
+
                     Console.WriteLine("{0}  {1}  {2}", s.PeriodStart, s.PeriodType, s.Multiplier);
                 }
             }
@@ -65,6 +74,16 @@ namespace SharpCash.Debug
             {
                 Console.ReadKey(true);
             }
+        }
+
+        public DateTime ParseDate(string s)
+        {
+            return DateTime.ParseExact(s, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+        }
+
+        public bool TryParseDate(string s, out DateTime result)
+        {
+            return DateTime.TryParseExact(s, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
         }
     }
 }
