@@ -25,12 +25,12 @@ namespace SharpCash.Debug
                                select a).FirstOrDefault();
 
                 var intrustSplits = from s in db.Splits
-                                 where s.account_guid == intrust.Guid
-                                 select s;
+                                    where s.account_guid == intrust.Guid
+                                    select s;
 
                 var intrustTx = from t in db.Transactions
-                                          where intrustSplits.Where(s => s.tx_guid == t.guid).Any()
-                                          select t;
+                                where intrustSplits.Where(s => s.tx_guid == t.guid).Any()
+                                select t;
 
                 var txList = intrustTx.ToList();
 
@@ -45,7 +45,7 @@ namespace SharpCash.Debug
                 var balance = (from s in splitsList
                                where s.PostDate <= DateTime.Today
                                select s.Num / s.Denom).Sum();
-                
+
                 Console.WriteLine(balance);
             }
             finally
