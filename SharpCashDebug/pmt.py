@@ -6,7 +6,7 @@ def ipmt(i, num, l, p, a, b):
     n = 1
     while True:
         h = p * i
-        if (n == num):
+        if (n >= num):
             return h
         c = m - h
         p = p - c
@@ -20,7 +20,7 @@ def ppmt(i, num, l, p, a, b):
     while True:
         h = p * i
         c = m - h
-        if (n == num):
+        if (n >= num):
             return c
         p = p - c
         if (p < 0):
