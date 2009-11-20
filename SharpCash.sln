@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashDebug", "SharpCash
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashEngine", "SharpCashEngine\SharpCashEngine.csproj", "{C969A904-6640-4F30-AAC8-A696E68A39D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCash.Tests", "SharpCash.Tests\SharpCash.Tests.csproj", "{68C2185A-3671-4431-9406-5DF3BC38AEF2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E7A154C1-1495-42F2-A003-18B97B2CA397}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
@@ -19,9 +17,6 @@ Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SharpCash.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,12 +35,11 @@ Global
 		{C969A904-6640-4F30-AAC8-A696E68A39D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C969A904-6640-4F30-AAC8-A696E68A39D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C969A904-6640-4F30-AAC8-A696E68A39D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68C2185A-3671-4431-9406-5DF3BC38AEF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68C2185A-3671-4431-9406-5DF3BC38AEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68C2185A-3671-4431-9406-5DF3BC38AEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68C2185A-3671-4431-9406-5DF3BC38AEF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SharpCash.vsmdi
 	EndGlobalSection
 EndGlobal
