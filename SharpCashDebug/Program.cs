@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace SharpCash.Debug
 {
@@ -27,17 +28,23 @@ namespace SharpCash.Debug
                                  where s.account_guid == intrust.Guid
                                  select s;
 
-                var intrustTransactions = from t in db.Transactions
+                var intrustTx = from t in db.Transactions
                                           where intrustSplits.Where(s => s.tx_guid == t.guid).Any()
                                           select t;
 
-                var splitsList = intrustSplits.ToList();
-                var txList = intrustTransactions.ToList();
+                var txList = intrustTx.ToList();
+
+                var splitsList = (from s in intrustSplits.ToList()
+                                  select new
+                                  {
+                                      Num = (decimal)s.value_num,
+                                      Denom = (decimal)s.value_denom,
+                                      PostDate = DateTime.ParseExact(txList.Where(t => t.guid == s.tx_guid).Single().PostDate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).Date
+                                  }).ToList();
 
                 var balance = (from s in splitsList
-                               where s.account_guid == intrust.Guid
-                               where txList.Where(t => t.guid == s.tx_guid).Single().PostDate.CompareTo(DateTime.Today.AddDays(0).ToString("yyyyMMddHHmmss")) < 0
-                               select (decimal)s.quantity_num / s.quantity_denom).Sum();
+                               where s.PostDate <= DateTime.Today
+                               select s.Num / s.Denom).Sum();
                 
                 Console.WriteLine(balance);
             }
