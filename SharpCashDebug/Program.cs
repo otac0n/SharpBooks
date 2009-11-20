@@ -36,7 +36,7 @@ namespace SharpCash.Debug
 
                 var balance = (from s in splitsList
                                where s.account_guid == intrust.Guid
-                               where txList.Where(t => t.guid == s.tx_guid).Single().PostDate.CompareTo(DateTime.Today.ToString("yyyyMMddHHmmss")) >= 1
+                               where txList.Where(t => t.guid == s.tx_guid).Single().PostDate.CompareTo(DateTime.Today.AddDays(0).ToString("yyyyMMddHHmmss")) < 0
                                select (decimal)s.quantity_num / s.quantity_denom).Sum();
                 
                 Console.WriteLine(balance);
