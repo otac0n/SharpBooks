@@ -23,15 +23,15 @@ namespace SharpCash.Debug
                                where a.Name.Contains("Intrust")
                                select a).FirstOrDefault();
 
-                var denom = (double)(from s in db.Splits
-                                        where s.account_guid == intrust.Guid
-                                        select s.quantity_denom).Max();
+                var allSplits = (from s in db.Splits
+                                 where s.account_guid == intrust.Guid
+                                 select s).ToList();
 
-                var balance = (from s in db.Splits
+                var balance = (from s in allSplits
                                where s.account_guid == intrust.Guid
-                               select s.quantity_num * (denom / s.quantity_denom)).Sum();
+                               select (decimal)s.quantity_num / s.quantity_denom).Sum();
                 
-                Console.WriteLine(balance / denom);
+                Console.WriteLine(balance);
             }
             finally
             {
