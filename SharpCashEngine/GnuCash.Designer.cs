@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 11/20/2009 11:12:11 AM
+// Generation date: 11/20/2009 11:14:49 AM
 namespace SharpCash
 {
     
@@ -256,20 +256,20 @@ namespace SharpCash
         }
         private global::System.Data.Objects.ObjectQuery<prices> _prices;
         /// <summary>
-        /// There are no comments for recurrences in the schema.
+        /// There are no comments for Recurrences in the schema.
         /// </summary>
-        public global::System.Data.Objects.ObjectQuery<recurrences> recurrences
+        public global::System.Data.Objects.ObjectQuery<Recurrence> Recurrences
         {
             get
             {
-                if ((this._recurrences == null))
+                if ((this._Recurrences == null))
                 {
-                    this._recurrences = base.CreateQuery<recurrences>("[recurrences]");
+                    this._Recurrences = base.CreateQuery<Recurrence>("[Recurrences]");
                 }
-                return this._recurrences;
+                return this._Recurrences;
             }
         }
-        private global::System.Data.Objects.ObjectQuery<recurrences> _recurrences;
+        private global::System.Data.Objects.ObjectQuery<Recurrence> _Recurrences;
         /// <summary>
         /// There are no comments for ScheduledTransactions in the schema.
         /// </summary>
@@ -489,11 +489,11 @@ namespace SharpCash
             base.AddObject("prices", prices);
         }
         /// <summary>
-        /// There are no comments for recurrences in the schema.
+        /// There are no comments for Recurrences in the schema.
         /// </summary>
-        public void AddTorecurrences(recurrences recurrences)
+        public void AddToRecurrences(Recurrence recurrence)
         {
-            base.AddObject("recurrences", recurrences);
+            base.AddObject("Recurrences", recurrence);
         }
         /// <summary>
         /// There are no comments for ScheduledTransactions in the schema.
@@ -4951,149 +4951,149 @@ namespace SharpCash
         partial void Onvalue_denomChanged();
     }
     /// <summary>
-    /// There are no comments for SharpCash.recurrences in the schema.
+    /// There are no comments for SharpCash.Recurrence in the schema.
     /// </summary>
     /// <KeyProperties>
-    /// id
+    /// Id
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="recurrences")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="Recurrence")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class recurrences : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class Recurrence : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new recurrences object.
+        /// Create a new Recurrence object.
         /// </summary>
-        /// <param name="id">Initial value of id.</param>
-        /// <param name="obj_guid">Initial value of obj_guid.</param>
-        /// <param name="recurrence_mult">Initial value of recurrence_mult.</param>
-        /// <param name="recurrence_period_type">Initial value of recurrence_period_type.</param>
-        /// <param name="recurrence_period_start">Initial value of recurrence_period_start.</param>
-        public static recurrences Createrecurrences(long id, string obj_guid, long recurrence_mult, string recurrence_period_type, string recurrence_period_start)
+        /// <param name="id">Initial value of Id.</param>
+        /// <param name="guid">Initial value of Guid.</param>
+        /// <param name="multiplier">Initial value of Multiplier.</param>
+        /// <param name="periodType">Initial value of PeriodType.</param>
+        /// <param name="periodStart">Initial value of PeriodStart.</param>
+        public static Recurrence CreateRecurrence(long id, string guid, long multiplier, string periodType, string periodStart)
         {
-            recurrences recurrences = new recurrences();
-            recurrences.id = id;
-            recurrences.obj_guid = obj_guid;
-            recurrences.recurrence_mult = recurrence_mult;
-            recurrences.recurrence_period_type = recurrence_period_type;
-            recurrences.recurrence_period_start = recurrence_period_start;
-            return recurrences;
+            Recurrence recurrence = new Recurrence();
+            recurrence.Id = id;
+            recurrence.Guid = guid;
+            recurrence.Multiplier = multiplier;
+            recurrence.PeriodType = periodType;
+            recurrence.PeriodStart = periodStart;
+            return recurrence;
         }
         /// <summary>
-        /// There are no comments for Property id in the schema.
+        /// There are no comments for Property Id in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long id
+        public long Id
         {
             get
             {
-                return this._id;
+                return this._Id;
             }
             set
             {
-                this.OnidChanging(value);
-                this.ReportPropertyChanging("id");
-                this._id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("id");
-                this.OnidChanged();
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
             }
         }
-        private long _id;
-        partial void OnidChanging(long value);
-        partial void OnidChanged();
+        private long _Id;
+        partial void OnIdChanging(long value);
+        partial void OnIdChanged();
         /// <summary>
-        /// There are no comments for Property obj_guid in the schema.
+        /// There are no comments for Property Guid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string obj_guid
+        public string Guid
         {
             get
             {
-                return this._obj_guid;
+                return this._Guid;
             }
             set
             {
-                this.Onobj_guidChanging(value);
-                this.ReportPropertyChanging("obj_guid");
-                this._obj_guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("obj_guid");
-                this.Onobj_guidChanged();
+                this.OnGuidChanging(value);
+                this.ReportPropertyChanging("Guid");
+                this._Guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Guid");
+                this.OnGuidChanged();
             }
         }
-        private string _obj_guid;
-        partial void Onobj_guidChanging(string value);
-        partial void Onobj_guidChanged();
+        private string _Guid;
+        partial void OnGuidChanging(string value);
+        partial void OnGuidChanged();
         /// <summary>
-        /// There are no comments for Property recurrence_mult in the schema.
+        /// There are no comments for Property Multiplier in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long recurrence_mult
+        public long Multiplier
         {
             get
             {
-                return this._recurrence_mult;
+                return this._Multiplier;
             }
             set
             {
-                this.Onrecurrence_multChanging(value);
-                this.ReportPropertyChanging("recurrence_mult");
-                this._recurrence_mult = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("recurrence_mult");
-                this.Onrecurrence_multChanged();
+                this.OnMultiplierChanging(value);
+                this.ReportPropertyChanging("Multiplier");
+                this._Multiplier = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Multiplier");
+                this.OnMultiplierChanged();
             }
         }
-        private long _recurrence_mult;
-        partial void Onrecurrence_multChanging(long value);
-        partial void Onrecurrence_multChanged();
+        private long _Multiplier;
+        partial void OnMultiplierChanging(long value);
+        partial void OnMultiplierChanged();
         /// <summary>
-        /// There are no comments for Property recurrence_period_type in the schema.
+        /// There are no comments for Property PeriodType in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string recurrence_period_type
+        public string PeriodType
         {
             get
             {
-                return this._recurrence_period_type;
+                return this._PeriodType;
             }
             set
             {
-                this.Onrecurrence_period_typeChanging(value);
-                this.ReportPropertyChanging("recurrence_period_type");
-                this._recurrence_period_type = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("recurrence_period_type");
-                this.Onrecurrence_period_typeChanged();
+                this.OnPeriodTypeChanging(value);
+                this.ReportPropertyChanging("PeriodType");
+                this._PeriodType = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("PeriodType");
+                this.OnPeriodTypeChanged();
             }
         }
-        private string _recurrence_period_type;
-        partial void Onrecurrence_period_typeChanging(string value);
-        partial void Onrecurrence_period_typeChanged();
+        private string _PeriodType;
+        partial void OnPeriodTypeChanging(string value);
+        partial void OnPeriodTypeChanged();
         /// <summary>
-        /// There are no comments for Property recurrence_period_start in the schema.
+        /// There are no comments for Property PeriodStart in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string recurrence_period_start
+        public string PeriodStart
         {
             get
             {
-                return this._recurrence_period_start;
+                return this._PeriodStart;
             }
             set
             {
-                this.Onrecurrence_period_startChanging(value);
-                this.ReportPropertyChanging("recurrence_period_start");
-                this._recurrence_period_start = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("recurrence_period_start");
-                this.Onrecurrence_period_startChanged();
+                this.OnPeriodStartChanging(value);
+                this.ReportPropertyChanging("PeriodStart");
+                this._PeriodStart = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("PeriodStart");
+                this.OnPeriodStartChanged();
             }
         }
-        private string _recurrence_period_start;
-        partial void Onrecurrence_period_startChanging(string value);
-        partial void Onrecurrence_period_startChanged();
+        private string _PeriodStart;
+        partial void OnPeriodStartChanging(string value);
+        partial void OnPeriodStartChanged();
     }
     /// <summary>
     /// There are no comments for SharpCash.ScheduledTransaction in the schema.

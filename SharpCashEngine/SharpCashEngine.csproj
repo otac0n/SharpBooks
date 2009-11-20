@@ -54,12 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EndOfMonthRecurrence.cs" />
     <Compile Include="GnuCash.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GnuCash.edmx</DependentUpon>
     </Compile>
+    <Compile Include="MonthDayRecurrence.cs" />
+    <Compile Include="MonthRecurrence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecurrenceBase.cs" />
+    <Compile Include="WeekRecurrence.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="GnuCash.edmx">

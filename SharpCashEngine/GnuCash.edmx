@@ -416,7 +416,7 @@
           <EntitySet Name="lots" EntityType="SharpCash.lots" />
           <EntitySet Name="orders" EntityType="SharpCash.orders" />
           <EntitySet Name="prices" EntityType="SharpCash.prices" />
-          <EntitySet Name="recurrences" EntityType="SharpCash.recurrences" />
+          <EntitySet Name="Recurrences" EntityType="SharpCash.Recurrence" />
           <EntitySet Name="ScheduledTransactions" EntityType="SharpCash.ScheduledTransaction" />
           <EntitySet Name="slots" EntityType="SharpCash.slots" />
           <EntitySet Name="Splits" EntityType="SharpCash.Split" />
@@ -668,15 +668,15 @@
           <Property Name="value_num" Type="Int64" Nullable="false" />
           <Property Name="value_denom" Type="Int64" Nullable="false" />
         </EntityType>
-        <EntityType Name="recurrences">
+        <EntityType Name="Recurrence">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="obj_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="recurrence_mult" Type="Int64" Nullable="false" />
-          <Property Name="recurrence_period_type" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="recurrence_period_start" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Multiplier" Type="Int64" Nullable="false" />
+          <Property Name="PeriodType" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="PeriodStart" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="ScheduledTransaction">
           <Key>
@@ -1054,14 +1054,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="recurrences">
-            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.recurrences)">
+          <EntitySetMapping Name="Recurrences">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Recurrence)">
               <MappingFragment StoreEntitySet="recurrences">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="obj_guid" ColumnName="obj_guid" />
-                <ScalarProperty Name="recurrence_mult" ColumnName="recurrence_mult" />
-                <ScalarProperty Name="recurrence_period_type" ColumnName="recurrence_period_type" />
-                <ScalarProperty Name="recurrence_period_start" ColumnName="recurrence_period_start" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="Guid" ColumnName="obj_guid" />
+                <ScalarProperty Name="Multiplier" ColumnName="recurrence_mult" />
+                <ScalarProperty Name="PeriodType" ColumnName="recurrence_period_type" />
+                <ScalarProperty Name="PeriodStart" ColumnName="recurrence_period_start" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1220,7 +1220,7 @@
         <EntityTypeShape EntityType="SharpCash.lots" Width="1.5" PointX="10.75" PointY="4.75" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.orders" Width="1.5" PointX="4.75" PointY="10.75" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.prices" Width="1.5" PointX="10.75" PointY="7.75" Height="2.5571907552083326" IsExpanded="true" />
-        <EntityTypeShape EntityType="SharpCash.recurrences" Width="1.5" PointX="10.75" PointY="11.75" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Recurrence" Width="1.5" PointX="10.75" PointY="11.75" Height="1.9802864583333317" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.ScheduledTransaction" Width="1.5" PointX="12.75" PointY="0.75" Height="3.7109993489583322" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.slots" Width="1.5" PointX="12.75" PointY="5.75" Height="3.1340950520833326" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Split" Width="1.5" PointX="12.75" PointY="9.75" Height="3.3263964843749996" IsExpanded="true" />

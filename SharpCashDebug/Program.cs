@@ -56,9 +56,9 @@ namespace SharpCash.Debug
                     Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
                 }
                 Console.WriteLine("------------------");
-                foreach (var s in db.ScheduledTransactions)
+                foreach (var s in db.Recurrences)
                 {
-                    Console.WriteLine("{0}  {1}  {2}  {3}", s.start_date, s.end_date, s.last_occur, s.num_occur);
+                    Console.WriteLine("{0}  {1}  {2}", s.PeriodStart, s.PeriodType, s.Multiplier);
                 }
             }
             finally
