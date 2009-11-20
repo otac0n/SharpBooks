@@ -23,12 +23,20 @@ namespace SharpCash.Debug
                                where a.Name.Contains("Intrust")
                                select a).FirstOrDefault();
 
-                var allSplits = (from s in db.Splits
+                var intrustSplits = from s in db.Splits
                                  where s.account_guid == intrust.Guid
-                                 select s).ToList();
+                                 select s;
 
-                var balance = (from s in allSplits
+                var intrustTransactions = from t in db.Transactions
+                                          where intrustSplits.Where(s => s.tx_guid == t.guid).Any()
+                                          select t;
+
+                var splitsList = intrustSplits.ToList();
+                var txList = intrustTransactions.ToList();
+
+                var balance = (from s in splitsList
                                where s.account_guid == intrust.Guid
+                               where txList.Where(t => t.guid == s.tx_guid).Single().PostDate.CompareTo(DateTime.Today.ToString("yyyyMMddHHmmss")) >= 1
                                select (decimal)s.quantity_num / s.quantity_denom).Sum();
                 
                 Console.WriteLine(balance);
