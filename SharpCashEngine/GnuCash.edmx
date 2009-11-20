@@ -417,7 +417,7 @@
           <EntitySet Name="orders" EntityType="SharpCash.orders" />
           <EntitySet Name="prices" EntityType="SharpCash.prices" />
           <EntitySet Name="recurrences" EntityType="SharpCash.recurrences" />
-          <EntitySet Name="schedxactions" EntityType="SharpCash.schedxactions" />
+          <EntitySet Name="ScheduledTransactions" EntityType="SharpCash.ScheduledTransaction" />
           <EntitySet Name="slots" EntityType="SharpCash.slots" />
           <EntitySet Name="Splits" EntityType="SharpCash.Split" />
           <EntitySet Name="taxtable_entries" EntityType="SharpCash.taxtable_entries" />
@@ -678,24 +678,24 @@
           <Property Name="recurrence_period_type" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="recurrence_period_start" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
         </EntityType>
-        <EntityType Name="schedxactions">
+        <EntityType Name="ScheduledTransaction">
           <Key>
-            <PropertyRef Name="guid" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="name" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="enabled" Type="Int64" Nullable="false" />
-          <Property Name="start_date" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
-          <Property Name="end_date" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
-          <Property Name="last_occur" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
-          <Property Name="num_occur" Type="Int64" Nullable="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Enabled" Type="Int64" Nullable="false" />
+          <Property Name="StartDate" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="EndDate" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="LastOccurence" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="NumOccurences" Type="Int64" Nullable="false" />
           <Property Name="rem_occur" Type="Int64" Nullable="false" />
-          <Property Name="auto_create" Type="Int64" Nullable="false" />
-          <Property Name="auto_notify" Type="Int64" Nullable="false" />
+          <Property Name="AutoCreate" Type="Int64" Nullable="false" />
+          <Property Name="AutoNotify" Type="Int64" Nullable="false" />
           <Property Name="adv_creation" Type="Int64" Nullable="false" />
           <Property Name="adv_notify" Type="Int64" Nullable="false" />
-          <Property Name="instance_count" Type="Int64" Nullable="false" />
-          <Property Name="template_act_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="InstanceCount" Type="Int64" Nullable="false" />
+          <Property Name="TemplateAccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="slots">
           <Key>
@@ -715,20 +715,20 @@
         </EntityType>
         <EntityType Name="Split">
           <Key>
-            <PropertyRef Name="guid" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="tx_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="account_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="memo" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="action" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="reconcile_state" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-          <Property Name="reconcile_date" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
-          <Property Name="value_num" Type="Int64" Nullable="false" />
-          <Property Name="value_denom" Type="Int64" Nullable="false" />
-          <Property Name="quantity_num" Type="Int64" Nullable="false" />
-          <Property Name="quantity_denom" Type="Int64" Nullable="false" />
-          <Property Name="lot_guid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="TransactionGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="AccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Memo" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="ReconcileState" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
+          <Property Name="ReconcileDate" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="ValueNumerator" Type="Int64" Nullable="false" />
+          <Property Name="ValueDenomerator" Type="Int64" Nullable="false" />
+          <Property Name="QuantityNumerator" Type="Int64" Nullable="false" />
+          <Property Name="QuantityDenominator" Type="Int64" Nullable="false" />
+          <Property Name="LotGuid" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="taxtable_entries">
           <Key>
@@ -753,14 +753,14 @@
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
-            <PropertyRef Name="guid" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="currency_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="num" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="CurrencyGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Num" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="PostDate" Type="String" Nullable="false" />
           <Property Name="EnterDate" Type="String" Nullable="false" />
-          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="vendors">
           <Key>
@@ -1065,23 +1065,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="schedxactions">
-            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.schedxactions)">
+          <EntitySetMapping Name="ScheduledTransactions">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.ScheduledTransaction)">
               <MappingFragment StoreEntitySet="schedxactions">
-                <ScalarProperty Name="guid" ColumnName="guid" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="enabled" ColumnName="enabled" />
-                <ScalarProperty Name="start_date" ColumnName="start_date" />
-                <ScalarProperty Name="end_date" ColumnName="end_date" />
-                <ScalarProperty Name="last_occur" ColumnName="last_occur" />
-                <ScalarProperty Name="num_occur" ColumnName="num_occur" />
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="Enabled" ColumnName="enabled" />
+                <ScalarProperty Name="StartDate" ColumnName="start_date" />
+                <ScalarProperty Name="EndDate" ColumnName="end_date" />
+                <ScalarProperty Name="LastOccurence" ColumnName="last_occur" />
+                <ScalarProperty Name="NumOccurences" ColumnName="num_occur" />
                 <ScalarProperty Name="rem_occur" ColumnName="rem_occur" />
-                <ScalarProperty Name="auto_create" ColumnName="auto_create" />
-                <ScalarProperty Name="auto_notify" ColumnName="auto_notify" />
+                <ScalarProperty Name="AutoCreate" ColumnName="auto_create" />
+                <ScalarProperty Name="AutoNotify" ColumnName="auto_notify" />
                 <ScalarProperty Name="adv_creation" ColumnName="adv_creation" />
                 <ScalarProperty Name="adv_notify" ColumnName="adv_notify" />
-                <ScalarProperty Name="instance_count" ColumnName="instance_count" />
-                <ScalarProperty Name="template_act_guid" ColumnName="template_act_guid" />
+                <ScalarProperty Name="InstanceCount" ColumnName="instance_count" />
+                <ScalarProperty Name="TemplateAccountGuid" ColumnName="template_act_guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1105,18 +1105,18 @@
           <EntitySetMapping Name="Splits">
             <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Split)">
               <MappingFragment StoreEntitySet="splits">
-                <ScalarProperty Name="guid" ColumnName="guid" />
-                <ScalarProperty Name="tx_guid" ColumnName="tx_guid" />
-                <ScalarProperty Name="account_guid" ColumnName="account_guid" />
-                <ScalarProperty Name="memo" ColumnName="memo" />
-                <ScalarProperty Name="action" ColumnName="action" />
-                <ScalarProperty Name="reconcile_state" ColumnName="reconcile_state" />
-                <ScalarProperty Name="reconcile_date" ColumnName="reconcile_date" />
-                <ScalarProperty Name="value_num" ColumnName="value_num" />
-                <ScalarProperty Name="value_denom" ColumnName="value_denom" />
-                <ScalarProperty Name="quantity_num" ColumnName="quantity_num" />
-                <ScalarProperty Name="quantity_denom" ColumnName="quantity_denom" />
-                <ScalarProperty Name="lot_guid" ColumnName="lot_guid" />
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="TransactionGuid" ColumnName="tx_guid" />
+                <ScalarProperty Name="AccountGuid" ColumnName="account_guid" />
+                <ScalarProperty Name="Memo" ColumnName="memo" />
+                <ScalarProperty Name="Action" ColumnName="action" />
+                <ScalarProperty Name="ReconcileState" ColumnName="reconcile_state" />
+                <ScalarProperty Name="ReconcileDate" ColumnName="reconcile_date" />
+                <ScalarProperty Name="ValueNumerator" ColumnName="value_num" />
+                <ScalarProperty Name="ValueDenomerator" ColumnName="value_denom" />
+                <ScalarProperty Name="QuantityNumerator" ColumnName="quantity_num" />
+                <ScalarProperty Name="QuantityDenominator" ColumnName="quantity_denom" />
+                <ScalarProperty Name="LotGuid" ColumnName="lot_guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1146,12 +1146,12 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Transaction)">
               <MappingFragment StoreEntitySet="transactions">
-                <ScalarProperty Name="guid" ColumnName="guid" />
-                <ScalarProperty Name="currency_guid" ColumnName="currency_guid" />
-                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="CurrencyGuid" ColumnName="currency_guid" />
+                <ScalarProperty Name="Num" ColumnName="num" />
                 <ScalarProperty Name="PostDate" ColumnName="post_date" />
                 <ScalarProperty Name="EnterDate" ColumnName="enter_date" />
-                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Description" ColumnName="description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1221,7 +1221,7 @@
         <EntityTypeShape EntityType="SharpCash.orders" Width="1.5" PointX="4.75" PointY="10.75" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.prices" Width="1.5" PointX="10.75" PointY="7.75" Height="2.5571907552083326" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.recurrences" Width="1.5" PointX="10.75" PointY="11.75" Height="1.9802864583333317" IsExpanded="true" />
-        <EntityTypeShape EntityType="SharpCash.schedxactions" Width="1.5" PointX="12.75" PointY="0.75" Height="3.7109993489583322" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.ScheduledTransaction" Width="1.5" PointX="12.75" PointY="0.75" Height="3.7109993489583322" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.slots" Width="1.5" PointX="12.75" PointY="5.75" Height="3.1340950520833326" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Split" Width="1.5" PointX="12.75" PointY="9.75" Height="3.3263964843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.taxtable_entries" Width="1.5" PointX="14.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />

@@ -11,8 +11,8 @@ namespace SharpCash.Debug
     {
         static void Main(string[] args)
         {
-            var startDate = DateTime.Today.ToString("yyyyMMdHHmmss");
-            var endDate = DateTime.Today.AddDays(90).ToString("yyyyMMdHHmmss");
+            var startDate = DateTime.Today;
+            var endDate = DateTime.Today.AddDays(20);
 
             try
             {
@@ -25,11 +25,11 @@ namespace SharpCash.Debug
                                select a).FirstOrDefault();
 
                 var intrustSplits = from s in db.Splits
-                                    where s.account_guid == intrust.Guid
+                                    where s.AccountGuid == intrust.Guid
                                     select s;
 
                 var intrustTx = from t in db.Transactions
-                                where intrustSplits.Where(s => s.tx_guid == t.guid).Any()
+                                where intrustSplits.Where(s => s.TransactionGuid == t.Guid).Any()
                                 select t;
 
                 var txList = intrustTx.ToList();
@@ -37,16 +37,29 @@ namespace SharpCash.Debug
                 var splitsList = (from s in intrustSplits.ToList()
                                   select new
                                   {
-                                      Num = (decimal)s.value_num,
-                                      Denom = (decimal)s.value_denom,
-                                      PostDate = DateTime.ParseExact(txList.Where(t => t.guid == s.tx_guid).Single().PostDate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).Date
+                                      Num = (decimal)s.QuantityNumerator,
+                                      Denom = (decimal)s.QuantityDenominator,
+                                      PostDate = DateTime.ParseExact(txList.Where(t => t.Guid == s.TransactionGuid).Single().PostDate, "yyyyMMddHHmmss", CultureInfo.InvariantCulture).Date
                                   }).ToList();
 
                 var balance = (from s in splitsList
-                               where s.PostDate <= DateTime.Today
+                               where s.PostDate < startDate
                                select s.Num / s.Denom).Sum();
 
                 Console.WriteLine(balance);
+                Console.WriteLine("------------------");
+                for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
+                {
+                    balance += (from s in splitsList
+                                where s.PostDate == d
+                                select s.Num / s.Denom).Sum();
+                    Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
+                }
+                Console.WriteLine("------------------");
+                foreach (var s in db.ScheduledTransactions)
+                {
+                    Console.WriteLine("{0}  {1}  {2}  {3}", s.start_date, s.end_date, s.last_occur, s.num_occur);
+                }
             }
             finally
             {
