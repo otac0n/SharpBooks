@@ -21,7 +21,7 @@ namespace SharpCash
 
         public override DateTime GetNextOccurence()
         {
-            return this.startDate.AddMonths(this.occurence++);
+            return this.startDate.AddMonths(this.multiplier * (this.occurence++));
         }
     }
 }

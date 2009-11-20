@@ -56,18 +56,34 @@ namespace SharpCash.Debug
                     Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
                 }
                 Console.WriteLine("------------------");
-                foreach (var s in db.Recurrences)
+                foreach (var s in db.ScheduledTransactions)
                 {
-                    RecurrenceBase r = null;
-                    switch (s.PeriodType)
+                    foreach (var rec in db.Recurrences)
                     {
-                        case "month":
-                            r = new MonthRecurrence(
-                                ParseDate(s.PeriodStart),
-                                s.Multiplier);
-                    }
+                        RecurrenceBase r = null;
+                        switch (rec.PeriodType)
+                        {
+                            case "month":
+                                r = new MonthRecurrence(
+                                    ParseDate(rec.PeriodStart),
+                                    (int)rec.Multiplier);
+                                break;
+                            case "end of month":
+                                r = new MonthRecurrence(
+                                    ParseDate(rec.PeriodStart),
+                                    (int)rec.Multiplier);
+                                break;
+                            case "week":
+                                r = new WeekRecurrence(
+                                    ParseDate(rec.PeriodStart),
+                                    (int)rec.Multiplier);
+                                break;
+                            default:
+                                throw new Exception();
+                        }
 
-                    Console.WriteLine("{0}  {1}  {2}", s.PeriodStart, s.PeriodType, s.Multiplier);
+                        Console.WriteLine("{0}  {1}  {2}", rec.PeriodStart, rec.PeriodType, rec.Multiplier);
+                    }
                 }
             }
             finally
@@ -76,14 +92,16 @@ namespace SharpCash.Debug
             }
         }
 
-        public DateTime ParseDate(string s)
+        private static string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };
+
+        public static DateTime ParseDate(string s)
         {
-            return DateTime.ParseExact(s, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None);
         }
 
-        public bool TryParseDate(string s, out DateTime result)
+        public static bool TryParseDate(string s, out DateTime result)
         {
-            return DateTime.TryParseExact(s, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
+            return DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
         }
     }
 }
