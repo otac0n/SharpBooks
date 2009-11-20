@@ -12,7 +12,7 @@ namespace SharpCash.Debug
         static void Main(string[] args)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(20);
+            var endDate = DateTime.Today.AddDays(90);
 
             try
             {
@@ -58,31 +58,14 @@ namespace SharpCash.Debug
                 Console.WriteLine("------------------");
                 foreach (var s in db.ScheduledTransactions)
                 {
-                    foreach (var rec in db.Recurrences)
+                    Console.WriteLine("------");
+                    foreach (var rec in from r in db.Recurrences.ToList()
+                                        where r.ScheduledTransactionGuid == s.Guid
+                                        select GetRecurrenceBase(r))
                     {
-                        RecurrenceBase r = null;
-                        switch (rec.PeriodType)
-                        {
-                            case "month":
-                                r = new MonthRecurrence(
-                                    ParseDate(rec.PeriodStart),
-                                    (int)rec.Multiplier);
-                                break;
-                            case "end of month":
-                                r = new MonthRecurrence(
-                                    ParseDate(rec.PeriodStart),
-                                    (int)rec.Multiplier);
-                                break;
-                            case "week":
-                                r = new WeekRecurrence(
-                                    ParseDate(rec.PeriodStart),
-                                    (int)rec.Multiplier);
-                                break;
-                            default:
-                                throw new Exception();
-                        }
 
-                        Console.WriteLine("{0}  {1}  {2}", rec.PeriodStart, rec.PeriodType, rec.Multiplier);
+
+                        Console.WriteLine(rec.GetNextOccurence());
                     }
                 }
             }
@@ -90,6 +73,33 @@ namespace SharpCash.Debug
             {
                 Console.ReadKey(true);
             }
+        }
+
+        private static RecurrenceBase GetRecurrenceBase(Recurrence r)
+        {
+            RecurrenceBase b = null;
+            switch (r.PeriodType)
+            {
+                case "month":
+                    b = new MonthRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+                case "end of month":
+                    b = new MonthRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+                case "week":
+                    b = new WeekRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+                default:
+                    throw new Exception();
+            }
+
+            return b;
         }
 
         private static string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };

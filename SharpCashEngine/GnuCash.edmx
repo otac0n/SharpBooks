@@ -673,7 +673,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" />
-          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="ScheduledTransactionGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
           <Property Name="Multiplier" Type="Int64" Nullable="false" />
           <Property Name="PeriodType" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="PeriodStart" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
@@ -1058,7 +1058,7 @@
             <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Recurrence)">
               <MappingFragment StoreEntitySet="recurrences">
                 <ScalarProperty Name="Id" ColumnName="id" />
-                <ScalarProperty Name="Guid" ColumnName="obj_guid" />
+                <ScalarProperty Name="ScheduledTransactionGuid" ColumnName="obj_guid" />
                 <ScalarProperty Name="Multiplier" ColumnName="recurrence_mult" />
                 <ScalarProperty Name="PeriodType" ColumnName="recurrence_period_type" />
                 <ScalarProperty Name="PeriodStart" ColumnName="recurrence_period_start" />

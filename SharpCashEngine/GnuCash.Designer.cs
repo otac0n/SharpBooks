@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 11/20/2009 11:14:49 AM
+// Generation date: 11/20/2009 3:23:16 PM
 namespace SharpCash
 {
     
@@ -4965,15 +4965,15 @@ namespace SharpCash
         /// Create a new Recurrence object.
         /// </summary>
         /// <param name="id">Initial value of Id.</param>
-        /// <param name="guid">Initial value of Guid.</param>
+        /// <param name="scheduledTransactionGuid">Initial value of ScheduledTransactionGuid.</param>
         /// <param name="multiplier">Initial value of Multiplier.</param>
         /// <param name="periodType">Initial value of PeriodType.</param>
         /// <param name="periodStart">Initial value of PeriodStart.</param>
-        public static Recurrence CreateRecurrence(long id, string guid, long multiplier, string periodType, string periodStart)
+        public static Recurrence CreateRecurrence(long id, string scheduledTransactionGuid, long multiplier, string periodType, string periodStart)
         {
             Recurrence recurrence = new Recurrence();
             recurrence.Id = id;
-            recurrence.Guid = guid;
+            recurrence.ScheduledTransactionGuid = scheduledTransactionGuid;
             recurrence.Multiplier = multiplier;
             recurrence.PeriodType = periodType;
             recurrence.PeriodStart = periodStart;
@@ -5003,28 +5003,28 @@ namespace SharpCash
         partial void OnIdChanging(long value);
         partial void OnIdChanged();
         /// <summary>
-        /// There are no comments for Property Guid in the schema.
+        /// There are no comments for Property ScheduledTransactionGuid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Guid
+        public string ScheduledTransactionGuid
         {
             get
             {
-                return this._Guid;
+                return this._ScheduledTransactionGuid;
             }
             set
             {
-                this.OnGuidChanging(value);
-                this.ReportPropertyChanging("Guid");
-                this._Guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("Guid");
-                this.OnGuidChanged();
+                this.OnScheduledTransactionGuidChanging(value);
+                this.ReportPropertyChanging("ScheduledTransactionGuid");
+                this._ScheduledTransactionGuid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("ScheduledTransactionGuid");
+                this.OnScheduledTransactionGuidChanged();
             }
         }
-        private string _Guid;
-        partial void OnGuidChanging(string value);
-        partial void OnGuidChanged();
+        private string _ScheduledTransactionGuid;
+        partial void OnScheduledTransactionGuidChanging(string value);
+        partial void OnScheduledTransactionGuidChanged();
         /// <summary>
         /// There are no comments for Property Multiplier in the schema.
         /// </summary>
