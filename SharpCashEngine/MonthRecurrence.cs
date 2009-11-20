@@ -5,18 +5,23 @@ using System.Text;
 
 namespace SharpCash
 {
-    public class MonthRecurrence : MonthRecurrence
+    public class MonthRecurrence : RecurrenceBase
     {
+        private int occurence = 0;
+
         public MonthRecurrence(DateTime startDate, int multiplier)
             : base(startDate, multiplier)
         {
         }
 
-        public override DateTime? GetOccurenceInMonth(DateTime monthOf)
+        public override void Reset()
         {
-            var day = Math.Min(DateTime.DaysInMonth(monthOf.Year, monthOf.Month), this.startDate.Day);
+            this.occurence = 0;
+        }
 
-            return new DateTime(monthOf.Year, monthOf.Month, day);
+        public override DateTime GetNextOccurence()
+        {
+            return this.startDate.AddMonths(this.occurence++);
         }
     }
 }

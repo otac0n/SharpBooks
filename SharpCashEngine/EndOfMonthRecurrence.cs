@@ -7,16 +7,31 @@ namespace SharpCash
 {
     public class EndOfMonthRecurrence : MonthRecurrence
     {
-        public EndOfMonthRecurrence(DateTime startDate, DateTime endDate, int multiplier, DateTime? lastOccurence)
-            : base(startDate, endDate, multiplier, lastOccurence)
+        private int occurence = 0;
+
+        private DateTime startMonth
         {
+            get;
+            set;
         }
 
-        public override DateTime? GetOccurenceInMonth(DateTime monthOf)
+        public EndOfMonthRecurrence(DateTime startDate, int multiplier)
+            : base(startDate, multiplier)
         {
-            var day = DateTime.DaysInMonth(monthOf.Year, monthOf.Month);
+            this.startMonth = new DateTime(this.startDate.Year, this.startDate.Month, 1);
+        }
 
-            return new DateTime(monthOf.Year, monthOf.Month, day);
+        public override void Reset()
+        {
+            this.occurence = 0;
+        }
+
+        public override DateTime GetNextOccurence()
+        {
+            var month = this.startMonth.AddMonths(this.occurence++);
+            var day = DateTime.DaysInMonth(month.Year, month.Month);
+
+            return new DateTime(month.Year, month.Month, day);
         }
     }
 }
