@@ -10,6 +10,9 @@ namespace SharpCash.Debug
     {
         static void Main(string[] args)
         {
+            var startDate = DateTime.Today.ToString("yyyyMMdHHmmss");
+            var endDate = DateTime.Today.AddDays(90).ToString("yyyyMMdHHmmss");
+
             try
             {
                 var db = new GnuCashDatabase();
@@ -20,13 +23,15 @@ namespace SharpCash.Debug
                                where a.Name.Contains("Intrust")
                                select a).FirstOrDefault();
 
-                foreach (var s in from s in db.Splits
-                                  select new { Split = s, Value = (double)s.quantity_num / s.quantity_denom })
-                {
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}", s.Split.quantity_num, s.Split.quantity_denom, (decimal)s.Split.quantity_num / s.Split.quantity_denom, s.Value);
-                }
+                var denom = (double)(from s in db.Splits
+                                        where s.account_guid == intrust.Guid
+                                        select s.quantity_denom).Max();
 
-                //Console.WriteLine(balance);
+                var balance = (from s in db.Splits
+                               where s.account_guid == intrust.Guid
+                               select s.quantity_num * (denom / s.quantity_denom)).Sum();
+                
+                Console.WriteLine(balance / denom);
             }
             finally
             {
