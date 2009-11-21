@@ -15,5 +15,17 @@ namespace SharpCash.Debug
         {
             InitializeComponent();
         }
+
+        public void RunApplication(Dictionary<int, decimal> data)
+        {
+            this.UseData(data);
+
+            Application.Run(this);
+        }
+
+        private void UseData(Dictionary<int, decimal> data)
+        {
+            //
+        }
     }
 }
