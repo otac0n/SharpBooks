@@ -85,7 +85,7 @@ namespace SharpCash.Debug
 
                     foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                     {
-                        Console.Write("{0:yyyy-MM-dd}\t", d);
+                        Console.Write("{0}:{1:yyyy-MM-dd}\t", d.Key, d.Value);
                     }
                     Console.WriteLine();
 
@@ -102,7 +102,7 @@ namespace SharpCash.Debug
                                             Debit = debit == null ? null : debit.StringVal
                                        })
                     {
-                        //Console.WriteLine("---");
+                        Console.WriteLine("---");
                         object credit = null;
                         object debit = null;
                         if (!string.IsNullOrEmpty(sp.Credit))

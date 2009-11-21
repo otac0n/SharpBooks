@@ -28,19 +28,34 @@ namespace SharpCash
             this.recurrences = new List<RecurrenceBase>(recurrences);
         }
 
-        public IEnumerable<DateTime> GetDatesInRange(DateTime startDate, DateTime endDate)
+        public IEnumerable<KeyValuePair<int, DateTime>> GetDatesInRange(DateTime startDate, DateTime endDate)
         {
+            endDate = this.EndDate.HasValue ? (this.EndDate.Value < endDate ? this.EndDate.Value : endDate) : endDate;
+
             List<DateTime> dates = new List<DateTime>();
             foreach (var r in this.recurrences)
             {
                 dates.AddRange(GetDatesInRange(r, this.StartDate, endDate));
             }
 
-            foreach (var d in dates.Distinct())
+            startDate = this.StartDate > startDate ? this.StartDate : startDate;
+            startDate = this.LastOccurence.HasValue ? (this.LastOccurence.Value > startDate ? this.LastOccurence.Value : startDate) : startDate;
+
+            dates = dates.Distinct().ToList();
+            
+            int i = 1;
+            foreach (var d in dates)
             {
-                if (d >= startDate && d <= endDate)
+                if (d >= startDate && d <= endDate && (!this.LastOccurence.HasValue || d > this.LastOccurence.Value))
                 {
-                    yield return d;
+                    yield return new KeyValuePair<int, DateTime>(i, d);
+                }
+
+                i++;
+
+                if (this.TotalOccurences.HasValue && this.TotalOccurences < i)
+                {
+                    break;
                 }
             }
 
