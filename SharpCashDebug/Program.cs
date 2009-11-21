@@ -12,7 +12,9 @@ namespace SharpCash.Debug
         static void Main(string[] args)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(360);
+            var endDate = DateTime.Today.AddDays(90);
+
+            Dictionary<DateTime, decimal> balances = new Dictionary<DateTime, decimal>();
 
             try
             {
@@ -47,21 +49,17 @@ namespace SharpCash.Debug
                                       PostDate = ParseDate(txList.Where(t => t.Guid == s.TransactionGuid).Single().PostDate).Date
                                   }).ToList();
 
-                var balance = (from s in splitsList
+                var startingBalance = (from s in splitsList
                                where s.PostDate < startDate
                                select s.Num / s.Denom).Sum();
 
-                Console.WriteLine(balance);
-                Console.WriteLine("------------------");
-
+                var balance = startingBalance;
                 for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
                 {
-                    balance += (from s in splitsList
+                    balances[d.Date] = (from s in splitsList
                                 where s.PostDate == d
                                 select s.Num / s.Denom).Sum();
-                    Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
                 }
-                Console.WriteLine("------------");
 
 
                 Evaluator eval = new Evaluator();
@@ -83,9 +81,6 @@ namespace SharpCash.Debug
 
                     foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                     {
-                        Console.Write("{0}:{1:yyyy-MM-dd}\t", d.Key, d.Value);
-                        Console.WriteLine();
-
                         Dictionary<string, object> parameters = new Dictionary<string, object>();
                         parameters["i"] = d.Key;
 
@@ -129,14 +124,29 @@ namespace SharpCash.Debug
                                            select a).SingleOrDefault();
                             }
 
+                            if (account.Guid != intrust.Guid)
+                            {
+                                continue;
+                            }
+
                             amount = -(credit + debit);
 
-                            Console.WriteLine("      {0}\t{1}\t{2}", sp.Split.Memo, amount, account.Name);
+                            if (!balances.ContainsKey(d.Value.Date))
+                            {
+                                balances[d.Value.Date] += 0;
+                            }
+
+                            balances[d.Value.Date] += amount;
                         }
                     }
-                    Console.WriteLine("------");
                 }
-                Console.WriteLine("------------------");
+
+                var runningBalance = balance;
+                foreach (var d in balances)
+                {
+                    runningBalance += d.Value;
+                    Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d.Key, runningBalance);
+                }
 
             }
             finally
