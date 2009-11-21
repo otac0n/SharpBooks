@@ -26,7 +26,3 @@ def ppmt(i, num, l, p, a, b):
         if (p < 0):
             return 0
         n = n + 1
-
-print pmt(0.05 / 12, 360, 82478, 0, 0)
-print ipmt(0.05 / 12, 200, 360, 82478, 0, 0)
-print ppmt(0.05 / 12, 200, 360, 82478, 0, 0)
