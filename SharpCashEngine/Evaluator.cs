@@ -13,14 +13,16 @@ namespace SharpCash
     public class Evaluator
     {
         private ScriptEngine engine;
+        private ScriptSource functions;
+
         public Evaluator()
         {
             this.engine = Python.CreateEngine();
-            using(var r = Assembly.GetExecutingAssembly().GetManifestResourceStream("SharpCashEngine.pmt.py"))
+            using(var r = Assembly.GetExecutingAssembly().GetManifestResourceStream("SharpCash.financial.py"))
             {
                 using(var s = new StreamReader(r))
                 {
-                    this.engine.Execute(s.ReadToEnd());
+                    this.functions = this.engine.CreateScriptSourceFromString(s.ReadToEnd(), SourceCodeKind.Statements);
                 }
             }
         }
@@ -33,6 +35,9 @@ namespace SharpCash
         public object Evaluate(string expression, Dictionary<string, object> parameters)
         {
             var scope = engine.CreateScope();
+
+            this.functions.Execute(scope);
+
             if (parameters != null)
             {
                 foreach (var param in parameters)

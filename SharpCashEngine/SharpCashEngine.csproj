@@ -92,6 +92,7 @@
     <Compile Include="MonthRecurrence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecurrenceBase.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="WeekRecurrence.cs" />
   </ItemGroup>
   <ItemGroup>

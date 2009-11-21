@@ -17,18 +17,23 @@ namespace SharpCash.Debug
             try
             {
                 var db = new GnuCashDatabase();
-
                 var book = db.Books.FirstOrDefault();
-
-                var intrust = (from a in db.Accounts
+                var allAccounts = db.Accounts.ToList();
+                var allTransactions = db.Transactions.ToList();
+                var allSplits = db.Splits.ToList();
+                var allScheduledTransactions = db.ScheduledTransactions.ToList();
+                var allRecurrences = db.Recurrences.ToList();
+                var allSlots = db.Slots.ToList();
+                
+                var intrust = (from a in allAccounts
                                where a.Name.Contains("Intrust")
-                               select a).FirstOrDefault();
+                               select a).Single();
 
-                var intrustSplits = from s in db.Splits
+                var intrustSplits = from s in allSplits
                                     where s.AccountGuid == intrust.Guid
                                     select s;
 
-                var intrustTx = from t in db.Transactions
+                var intrustTx = from t in allTransactions
                                 where intrustSplits.Where(s => s.TransactionGuid == t.Guid).Any()
                                 select t;
 
@@ -48,6 +53,7 @@ namespace SharpCash.Debug
 
                 Console.WriteLine(balance);
                 Console.WriteLine("------------------");
+
                 for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
                 {
                     balance += (from s in splitsList
@@ -56,18 +62,66 @@ namespace SharpCash.Debug
                     Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
                 }
                 Console.WriteLine("------------------");
-                foreach (var s in db.ScheduledTransactions)
+
+
+                Evaluator eval = new Evaluator();
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                parameters["i"] = 1;
+
+                foreach (var s in allScheduledTransactions)
                 {
-                    Console.WriteLine("------");
-                    foreach (var rec in from r in db.Recurrences.ToList()
-                                        where r.ScheduledTransactionGuid == s.Guid
-                                        select GetRecurrenceBase(r))
+                    DateTime temp;
+
+                    var schedule = new Schedule(
+                         s.Name,
+                         ParseDate(s.StartDate),
+                         TryParseDate(s.EndDate, out temp) ? (DateTime?)temp : null,
+                         TryParseDate(s.LastOccurence, out temp) ? (DateTime?)temp : null,
+                         (int)s.NumOccurences,
+                         (int)s.RemainingOccurences,
+                         from r in allRecurrences.ToList()
+                         where r.ScheduledTransactionGuid == s.Guid
+                         select GetRecurrenceBase(r));
+
+                    foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                     {
-
-
-                        Console.WriteLine(rec.GetNextOccurence());
+                        Console.Write("{0:yyyy-MM-dd}\t", d);
                     }
+                    Console.WriteLine();
+
+                    foreach (var sp in from sp in allSplits
+                                       where sp.AccountGuid == s.TemplateAccountGuid
+                                       let slots = from sl in allSlots
+                                                   where sl.ObjGuid == sp.Guid
+                                                   select sl
+                                       let credit = slots.Where(sl => sl.Name == "sched-xaction/credit-formula").FirstOrDefault()
+                                       let debit = slots.Where(sl => sl.Name == "sched-xaction/debit-formula").FirstOrDefault()
+                                       select new {
+                                            Split = sp,
+                                            Credit = credit == null ? null : credit.StringVal,
+                                            Debit = debit == null ? null : debit.StringVal
+                                       })
+                    {
+                        //Console.WriteLine("---");
+                        object credit = null;
+                        object debit = null;
+                        if (!string.IsNullOrEmpty(sp.Credit))
+                        {
+                            var expr = sp.Credit.Replace(",", "").Replace(':', ',').Trim();
+                            credit = eval.Evaluate(expr, parameters);
+                        }
+                        if (!string.IsNullOrEmpty(sp.Debit))
+                        {
+                            var expr = sp.Debit.Replace(",", "").Replace(':', ',').Trim();
+                            debit = eval.Evaluate(expr, parameters);
+                        }
+
+                        Console.WriteLine("{0}\t{1}\t{2}", sp.Split.Memo, credit, debit);
+                    }
+
                 }
+                Console.WriteLine("------------------");
+
             }
             finally
             {

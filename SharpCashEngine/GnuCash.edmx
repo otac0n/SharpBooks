@@ -418,7 +418,7 @@
           <EntitySet Name="prices" EntityType="SharpCash.prices" />
           <EntitySet Name="Recurrences" EntityType="SharpCash.Recurrence" />
           <EntitySet Name="ScheduledTransactions" EntityType="SharpCash.ScheduledTransaction" />
-          <EntitySet Name="slots" EntityType="SharpCash.slots" />
+          <EntitySet Name="Slots" EntityType="SharpCash.Slot" />
           <EntitySet Name="Splits" EntityType="SharpCash.Split" />
           <EntitySet Name="taxtable_entries" EntityType="SharpCash.taxtable_entries" />
           <EntitySet Name="taxtables" EntityType="SharpCash.taxtables" />
@@ -689,7 +689,7 @@
           <Property Name="EndDate" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
           <Property Name="LastOccurence" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
           <Property Name="NumOccurences" Type="Int64" Nullable="false" />
-          <Property Name="rem_occur" Type="Int64" Nullable="false" />
+          <Property Name="RemainingOccurences" Type="Int64" Nullable="false" />
           <Property Name="AutoCreate" Type="Int64" Nullable="false" />
           <Property Name="AutoNotify" Type="Int64" Nullable="false" />
           <Property Name="adv_creation" Type="Int64" Nullable="false" />
@@ -697,21 +697,21 @@
           <Property Name="InstanceCount" Type="Int64" Nullable="false" />
           <Property Name="TemplateAccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
         </EntityType>
-        <EntityType Name="slots">
+        <EntityType Name="Slot">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="obj_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="4096" Unicode="true" FixedLength="false" />
-          <Property Name="slot_type" Type="Int64" Nullable="false" />
-          <Property Name="int64_val" Type="Int64" />
-          <Property Name="string_val" Type="String" MaxLength="4096" Unicode="true" FixedLength="false" />
-          <Property Name="double_val" Type="Double" />
-          <Property Name="timespec_val" Type="String" MaxLength="14" Unicode="true" FixedLength="false" />
-          <Property Name="guid_val" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="numeric_val_num" Type="Int64" />
-          <Property Name="numeric_val_denom" Type="Int64" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="ObjGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="4096" Unicode="true" FixedLength="false" />
+          <Property Name="SlotType" Type="Int64" Nullable="false" />
+          <Property Name="Int64Val" Type="Int64" />
+          <Property Name="StringVal" Type="String" MaxLength="4096" Unicode="true" FixedLength="false" />
+          <Property Name="DoubleVal" Type="Double" />
+          <Property Name="TimespecVal" Type="String" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="GuidVal" Type="String" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="NumericValNumerator" Type="Int64" />
+          <Property Name="NumericValDenominator" Type="Int64" />
         </EntityType>
         <EntityType Name="Split">
           <Key>
@@ -1075,7 +1075,7 @@
                 <ScalarProperty Name="EndDate" ColumnName="end_date" />
                 <ScalarProperty Name="LastOccurence" ColumnName="last_occur" />
                 <ScalarProperty Name="NumOccurences" ColumnName="num_occur" />
-                <ScalarProperty Name="rem_occur" ColumnName="rem_occur" />
+                <ScalarProperty Name="RemainingOccurences" ColumnName="rem_occur" />
                 <ScalarProperty Name="AutoCreate" ColumnName="auto_create" />
                 <ScalarProperty Name="AutoNotify" ColumnName="auto_notify" />
                 <ScalarProperty Name="adv_creation" ColumnName="adv_creation" />
@@ -1085,20 +1085,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="slots">
-            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.slots)">
+          <EntitySetMapping Name="Slots">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Slot)">
               <MappingFragment StoreEntitySet="slots">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="obj_guid" ColumnName="obj_guid" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="slot_type" ColumnName="slot_type" />
-                <ScalarProperty Name="int64_val" ColumnName="int64_val" />
-                <ScalarProperty Name="string_val" ColumnName="string_val" />
-                <ScalarProperty Name="double_val" ColumnName="double_val" />
-                <ScalarProperty Name="timespec_val" ColumnName="timespec_val" />
-                <ScalarProperty Name="guid_val" ColumnName="guid_val" />
-                <ScalarProperty Name="numeric_val_num" ColumnName="numeric_val_num" />
-                <ScalarProperty Name="numeric_val_denom" ColumnName="numeric_val_denom" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="ObjGuid" ColumnName="obj_guid" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="SlotType" ColumnName="slot_type" />
+                <ScalarProperty Name="Int64Val" ColumnName="int64_val" />
+                <ScalarProperty Name="StringVal" ColumnName="string_val" />
+                <ScalarProperty Name="DoubleVal" ColumnName="double_val" />
+                <ScalarProperty Name="TimespecVal" ColumnName="timespec_val" />
+                <ScalarProperty Name="GuidVal" ColumnName="guid_val" />
+                <ScalarProperty Name="NumericValNumerator" ColumnName="numeric_val_num" />
+                <ScalarProperty Name="NumericValDenominator" ColumnName="numeric_val_denom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1222,7 +1222,7 @@
         <EntityTypeShape EntityType="SharpCash.prices" Width="1.5" PointX="10.75" PointY="7.75" Height="2.5571907552083326" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Recurrence" Width="1.5" PointX="10.75" PointY="11.75" Height="1.9802864583333317" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.ScheduledTransaction" Width="1.5" PointX="12.75" PointY="0.75" Height="3.7109993489583322" IsExpanded="true" />
-        <EntityTypeShape EntityType="SharpCash.slots" Width="1.5" PointX="12.75" PointY="5.75" Height="3.1340950520833326" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Slot" Width="1.5" PointX="12.75" PointY="5.75" Height="3.1340950520833326" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Split" Width="1.5" PointX="12.75" PointY="9.75" Height="3.3263964843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.taxtable_entries" Width="1.5" PointX="14.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.taxtables" Width="1.5" PointX="0.75" PointY="14.75" Height="1.9802864583333317" IsExpanded="true" />
