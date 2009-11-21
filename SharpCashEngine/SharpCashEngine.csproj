@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EmbeddedResource Include="pmt.py" />
+    <EmbeddedResource Include="financial.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
