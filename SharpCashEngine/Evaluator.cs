@@ -13,8 +13,6 @@ namespace SharpCash
     public class Evaluator
     {
         private ScriptEngine engine;
-        private ScriptScope scope;
-
         public Evaluator()
         {
             this.engine = Python.CreateEngine();
@@ -25,13 +23,26 @@ namespace SharpCash
                     this.engine.Execute(s.ReadToEnd());
                 }
             }
-            this.scope = engine.CreateScope();
         }
 
         public object Evaluate(string expression)
         {
+            return this.Evaluate(expression, null);
+        }
+
+        public object Evaluate(string expression, Dictionary<string, object> parameters)
+        {
+            var scope = engine.CreateScope();
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    scope.SetVariable(param.Key, param.Value);
+                }
+            }
+
             ScriptSource source = this.engine.CreateScriptSourceFromString(expression, SourceCodeKind.Expression);
-            return source.Execute(this.scope);
+            return source.Execute(scope);
         }
     }
 }
