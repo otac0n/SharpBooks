@@ -61,12 +61,10 @@ namespace SharpCash.Debug
                                 select s.Num / s.Denom).Sum();
                     Console.WriteLine("{0:yyyy-MM-dd}\t{1}", d, balance);
                 }
-                Console.WriteLine("------------------");
+                Console.WriteLine("------------");
 
 
                 Evaluator eval = new Evaluator();
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                parameters["i"] = 1;
 
                 foreach (var s in allScheduledTransactions)
                 {
@@ -86,39 +84,42 @@ namespace SharpCash.Debug
                     foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                     {
                         Console.Write("{0}:{1:yyyy-MM-dd}\t", d.Key, d.Value);
-                    }
-                    Console.WriteLine();
+                        Console.WriteLine();
 
-                    foreach (var sp in from sp in allSplits
-                                       where sp.AccountGuid == s.TemplateAccountGuid
-                                       let slots = from sl in allSlots
-                                                   where sl.ObjGuid == sp.Guid
-                                                   select sl
-                                       let credit = slots.Where(sl => sl.Name == "sched-xaction/credit-formula").FirstOrDefault()
-                                       let debit = slots.Where(sl => sl.Name == "sched-xaction/debit-formula").FirstOrDefault()
-                                       select new {
-                                            Split = sp,
-                                            Credit = credit == null ? null : credit.StringVal,
-                                            Debit = debit == null ? null : debit.StringVal
-                                       })
-                    {
-                        Console.WriteLine("---");
-                        object credit = null;
-                        object debit = null;
-                        if (!string.IsNullOrEmpty(sp.Credit))
+                        Dictionary<string, object> parameters = new Dictionary<string, object>();
+                        parameters["i"] = d.Key;
+
+                        foreach (var sp in from sp in allSplits
+                                           where sp.AccountGuid == s.TemplateAccountGuid
+                                           let slots = from sl in allSlots
+                                                       where sl.ObjGuid == sp.Guid
+                                                       select sl
+                                           let credit = slots.Where(sl => sl.Name == "sched-xaction/credit-formula").FirstOrDefault()
+                                           let debit = slots.Where(sl => sl.Name == "sched-xaction/debit-formula").FirstOrDefault()
+                                           select new
+                                           {
+                                               Split = sp,
+                                               Credit = credit == null ? null : credit.StringVal,
+                                               Debit = debit == null ? null : debit.StringVal
+                                           })
                         {
-                            var expr = sp.Credit.Replace(",", "").Replace(':', ',').Trim();
-                            credit = eval.Evaluate(expr, parameters);
-                        }
-                        if (!string.IsNullOrEmpty(sp.Debit))
-                        {
-                            var expr = sp.Debit.Replace(",", "").Replace(':', ',').Trim();
-                            debit = eval.Evaluate(expr, parameters);
-                        }
+                            object credit = null;
+                            object debit = null;
+                            if (!string.IsNullOrEmpty(sp.Credit))
+                            {
+                                var expr = sp.Credit.Replace(",", "").Replace(':', ',').Trim();
+                                credit = decimal.Parse(eval.Evaluate(expr, parameters).ToString());
+                            }
+                            if (!string.IsNullOrEmpty(sp.Debit))
+                            {
+                                var expr = sp.Debit.Replace(",", "").Replace(':', ',').Trim();
+                                debit = -decimal.Parse(eval.Evaluate(expr, parameters).ToString());
+                            }
 
-                        Console.WriteLine("{0}\t{1}\t{2}", sp.Split.Memo, credit, debit);
+                            Console.WriteLine("      {0}\t{1}\t{2}", sp.Split.Memo, credit, debit);
+                        }
                     }
-
+                    Console.WriteLine("------");
                 }
                 Console.WriteLine("------------------");
 
