@@ -12,7 +12,7 @@ namespace SharpCash.Debug
         static void Main(string[] args)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(90);
+            var endDate = DateTime.Today.AddDays(360);
 
             try
             {
@@ -96,27 +96,42 @@ namespace SharpCash.Debug
                                                        select sl
                                            let credit = slots.Where(sl => sl.Name == "sched-xaction/credit-formula").FirstOrDefault()
                                            let debit = slots.Where(sl => sl.Name == "sched-xaction/debit-formula").FirstOrDefault()
+                                           let account = slots.Where(sl => sl.Name == "sched-xaction/account").FirstOrDefault()
                                            select new
                                            {
                                                Split = sp,
                                                Credit = credit == null ? null : credit.StringVal,
-                                               Debit = debit == null ? null : debit.StringVal
+                                               Debit = debit == null ? null : debit.StringVal,
+                                               Account = account == null ? null : account.GuidVal,
                                            })
                         {
-                            object credit = null;
-                            object debit = null;
+                            decimal credit = 0;
+                            decimal debit = 0;
+                            decimal amount = 0;
+                            Account account = null;
+                            
                             if (!string.IsNullOrEmpty(sp.Credit))
                             {
                                 var expr = sp.Credit.Replace(",", "").Replace(':', ',').Trim();
                                 credit = decimal.Parse(eval.Evaluate(expr, parameters).ToString());
                             }
+                            
                             if (!string.IsNullOrEmpty(sp.Debit))
                             {
                                 var expr = sp.Debit.Replace(",", "").Replace(':', ',').Trim();
                                 debit = -decimal.Parse(eval.Evaluate(expr, parameters).ToString());
                             }
 
-                            Console.WriteLine("      {0}\t{1}\t{2}", sp.Split.Memo, credit, debit);
+                            if (!string.IsNullOrEmpty(sp.Account))
+                            {
+                                account = (from a in allAccounts
+                                           where a.Guid == sp.Account
+                                           select a).SingleOrDefault();
+                            }
+
+                            amount = -(credit + debit);
+
+                            Console.WriteLine("      {0}\t{1}\t{2}", sp.Split.Memo, amount, account.Name);
                         }
                     }
                     Console.WriteLine("------");

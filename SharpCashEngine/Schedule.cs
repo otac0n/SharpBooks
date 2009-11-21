@@ -22,7 +22,7 @@ namespace SharpCash
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.LastOccurence = lastOccurence;
-            this.TotalOccurences = totalOccurences;
+            this.TotalOccurences = (totalOccurences.HasValue && totalOccurences.Value == 0) ? (int?)null : totalOccurences;
             this.RemainingOccurences = remainingOccurences;
 
             this.recurrences = new List<RecurrenceBase>(recurrences);
