@@ -29,31 +29,31 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.Chart = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
-            // zedGraphControl1
+            // Chart
             // 
-            this.zedGraphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.zedGraphControl1.IsAntiAlias = true;
-            this.zedGraphControl1.Location = new System.Drawing.Point(0, 0);
-            this.zedGraphControl1.Name = "zedGraphControl1";
-            this.zedGraphControl1.ScrollGrace = 0;
-            this.zedGraphControl1.ScrollMaxX = 0;
-            this.zedGraphControl1.ScrollMaxY = 0;
-            this.zedGraphControl1.ScrollMaxY2 = 0;
-            this.zedGraphControl1.ScrollMinX = 0;
-            this.zedGraphControl1.ScrollMinY = 0;
-            this.zedGraphControl1.ScrollMinY2 = 0;
-            this.zedGraphControl1.Size = new System.Drawing.Size(838, 493);
-            this.zedGraphControl1.TabIndex = 0;
+            this.Chart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Chart.IsAntiAlias = true;
+            this.Chart.Location = new System.Drawing.Point(0, 0);
+            this.Chart.Name = "Chart";
+            this.Chart.ScrollGrace = 0;
+            this.Chart.ScrollMaxX = 0;
+            this.Chart.ScrollMaxY = 0;
+            this.Chart.ScrollMaxY2 = 0;
+            this.Chart.ScrollMinX = 0;
+            this.Chart.ScrollMinY = 0;
+            this.Chart.ScrollMinY2 = 0;
+            this.Chart.Size = new System.Drawing.Size(838, 493);
+            this.Chart.TabIndex = 0;
             // 
             // ChartView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 493);
-            this.Controls.Add(this.zedGraphControl1);
+            this.Controls.Add(this.Chart);
             this.Name = "ChartView";
             this.Text = "ChartView";
             this.ResumeLayout(false);
@@ -62,6 +62,6 @@
 
         #endregion
 
-        private ZedGraph.ZedGraphControl zedGraphControl1;
+        private ZedGraph.ZedGraphControl Chart;
     }
 }

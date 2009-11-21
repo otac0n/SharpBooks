@@ -144,7 +144,7 @@ namespace SharpCash.Debug
             foreach (var d in balances)
             {
                 runningBalance += d.Value;
-                result[(int)(startDate - d.Key).TotalDays] = runningBalance;
+                result[(int)(d.Key - startDate).TotalDays] = runningBalance;
             }
 
             return result;
