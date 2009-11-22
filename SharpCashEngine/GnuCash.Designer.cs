@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 11/20/2009 9:14:21 PM
+// Generation date: 11/21/2009 6:32:49 PM
 namespace SharpCash
 {
     
@@ -91,35 +91,35 @@ namespace SharpCash
         }
         private global::System.Data.Objects.ObjectQuery<Book> _Books;
         /// <summary>
-        /// There are no comments for budget_amounts in the schema.
+        /// There are no comments for BudgetAmounts in the schema.
         /// </summary>
-        public global::System.Data.Objects.ObjectQuery<budget_amounts> budget_amounts
+        public global::System.Data.Objects.ObjectQuery<BudgetAmount> BudgetAmounts
         {
             get
             {
-                if ((this._budget_amounts == null))
+                if ((this._BudgetAmounts == null))
                 {
-                    this._budget_amounts = base.CreateQuery<budget_amounts>("[budget_amounts]");
+                    this._BudgetAmounts = base.CreateQuery<BudgetAmount>("[BudgetAmounts]");
                 }
-                return this._budget_amounts;
+                return this._BudgetAmounts;
             }
         }
-        private global::System.Data.Objects.ObjectQuery<budget_amounts> _budget_amounts;
+        private global::System.Data.Objects.ObjectQuery<BudgetAmount> _BudgetAmounts;
         /// <summary>
-        /// There are no comments for budgets in the schema.
+        /// There are no comments for Budgets in the schema.
         /// </summary>
-        public global::System.Data.Objects.ObjectQuery<budgets> budgets
+        public global::System.Data.Objects.ObjectQuery<Budget> Budgets
         {
             get
             {
-                if ((this._budgets == null))
+                if ((this._Budgets == null))
                 {
-                    this._budgets = base.CreateQuery<budgets>("[budgets]");
+                    this._Budgets = base.CreateQuery<Budget>("[Budgets]");
                 }
-                return this._budgets;
+                return this._Budgets;
             }
         }
-        private global::System.Data.Objects.ObjectQuery<budgets> _budgets;
+        private global::System.Data.Objects.ObjectQuery<Budget> _Budgets;
         /// <summary>
         /// There are no comments for Commodities in the schema.
         /// </summary>
@@ -412,18 +412,18 @@ namespace SharpCash
             base.AddObject("Books", book);
         }
         /// <summary>
-        /// There are no comments for budget_amounts in the schema.
+        /// There are no comments for BudgetAmounts in the schema.
         /// </summary>
-        public void AddTobudget_amounts(budget_amounts budget_amounts)
+        public void AddToBudgetAmounts(BudgetAmount budgetAmount)
         {
-            base.AddObject("budget_amounts", budget_amounts);
+            base.AddObject("BudgetAmounts", budgetAmount);
         }
         /// <summary>
-        /// There are no comments for budgets in the schema.
+        /// There are no comments for Budgets in the schema.
         /// </summary>
-        public void AddTobudgets(budgets budgets)
+        public void AddToBudgets(Budget budget)
         {
-            base.AddObject("budgets", budgets);
+            base.AddObject("Budgets", budget);
         }
         /// <summary>
         /// There are no comments for Commodities in the schema.
@@ -1262,292 +1262,292 @@ namespace SharpCash
         partial void OnRootTemplateGuidChanged();
     }
     /// <summary>
-    /// There are no comments for SharpCash.budget_amounts in the schema.
+    /// There are no comments for SharpCash.BudgetAmount in the schema.
     /// </summary>
     /// <KeyProperties>
-    /// id
+    /// Id
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="budget_amounts")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="BudgetAmount")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class budget_amounts : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class BudgetAmount : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new budget_amounts object.
+        /// Create a new BudgetAmount object.
         /// </summary>
-        /// <param name="id">Initial value of id.</param>
-        /// <param name="budget_guid">Initial value of budget_guid.</param>
-        /// <param name="account_guid">Initial value of account_guid.</param>
-        /// <param name="period_num">Initial value of period_num.</param>
-        /// <param name="amount_num">Initial value of amount_num.</param>
-        /// <param name="amount_denom">Initial value of amount_denom.</param>
-        public static budget_amounts Createbudget_amounts(long id, string budget_guid, string account_guid, long period_num, long amount_num, long amount_denom)
+        /// <param name="id">Initial value of Id.</param>
+        /// <param name="budgetGuid">Initial value of BudgetGuid.</param>
+        /// <param name="accountGuid">Initial value of AccountGuid.</param>
+        /// <param name="periodNum">Initial value of PeriodNum.</param>
+        /// <param name="amountNumerator">Initial value of AmountNumerator.</param>
+        /// <param name="amountDenominator">Initial value of AmountDenominator.</param>
+        public static BudgetAmount CreateBudgetAmount(long id, string budgetGuid, string accountGuid, long periodNum, long amountNumerator, long amountDenominator)
         {
-            budget_amounts budget_amounts = new budget_amounts();
-            budget_amounts.id = id;
-            budget_amounts.budget_guid = budget_guid;
-            budget_amounts.account_guid = account_guid;
-            budget_amounts.period_num = period_num;
-            budget_amounts.amount_num = amount_num;
-            budget_amounts.amount_denom = amount_denom;
-            return budget_amounts;
+            BudgetAmount budgetAmount = new BudgetAmount();
+            budgetAmount.Id = id;
+            budgetAmount.BudgetGuid = budgetGuid;
+            budgetAmount.AccountGuid = accountGuid;
+            budgetAmount.PeriodNum = periodNum;
+            budgetAmount.AmountNumerator = amountNumerator;
+            budgetAmount.AmountDenominator = amountDenominator;
+            return budgetAmount;
         }
         /// <summary>
-        /// There are no comments for Property id in the schema.
+        /// There are no comments for Property Id in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long id
+        public long Id
         {
             get
             {
-                return this._id;
+                return this._Id;
             }
             set
             {
-                this.OnidChanging(value);
-                this.ReportPropertyChanging("id");
-                this._id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("id");
-                this.OnidChanged();
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
             }
         }
-        private long _id;
-        partial void OnidChanging(long value);
-        partial void OnidChanged();
+        private long _Id;
+        partial void OnIdChanging(long value);
+        partial void OnIdChanged();
         /// <summary>
-        /// There are no comments for Property budget_guid in the schema.
+        /// There are no comments for Property BudgetGuid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string budget_guid
+        public string BudgetGuid
         {
             get
             {
-                return this._budget_guid;
+                return this._BudgetGuid;
             }
             set
             {
-                this.Onbudget_guidChanging(value);
-                this.ReportPropertyChanging("budget_guid");
-                this._budget_guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("budget_guid");
-                this.Onbudget_guidChanged();
+                this.OnBudgetGuidChanging(value);
+                this.ReportPropertyChanging("BudgetGuid");
+                this._BudgetGuid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("BudgetGuid");
+                this.OnBudgetGuidChanged();
             }
         }
-        private string _budget_guid;
-        partial void Onbudget_guidChanging(string value);
-        partial void Onbudget_guidChanged();
+        private string _BudgetGuid;
+        partial void OnBudgetGuidChanging(string value);
+        partial void OnBudgetGuidChanged();
         /// <summary>
-        /// There are no comments for Property account_guid in the schema.
+        /// There are no comments for Property AccountGuid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string account_guid
+        public string AccountGuid
         {
             get
             {
-                return this._account_guid;
+                return this._AccountGuid;
             }
             set
             {
-                this.Onaccount_guidChanging(value);
-                this.ReportPropertyChanging("account_guid");
-                this._account_guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("account_guid");
-                this.Onaccount_guidChanged();
+                this.OnAccountGuidChanging(value);
+                this.ReportPropertyChanging("AccountGuid");
+                this._AccountGuid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("AccountGuid");
+                this.OnAccountGuidChanged();
             }
         }
-        private string _account_guid;
-        partial void Onaccount_guidChanging(string value);
-        partial void Onaccount_guidChanged();
+        private string _AccountGuid;
+        partial void OnAccountGuidChanging(string value);
+        partial void OnAccountGuidChanged();
         /// <summary>
-        /// There are no comments for Property period_num in the schema.
+        /// There are no comments for Property PeriodNum in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long period_num
+        public long PeriodNum
         {
             get
             {
-                return this._period_num;
+                return this._PeriodNum;
             }
             set
             {
-                this.Onperiod_numChanging(value);
-                this.ReportPropertyChanging("period_num");
-                this._period_num = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("period_num");
-                this.Onperiod_numChanged();
+                this.OnPeriodNumChanging(value);
+                this.ReportPropertyChanging("PeriodNum");
+                this._PeriodNum = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("PeriodNum");
+                this.OnPeriodNumChanged();
             }
         }
-        private long _period_num;
-        partial void Onperiod_numChanging(long value);
-        partial void Onperiod_numChanged();
+        private long _PeriodNum;
+        partial void OnPeriodNumChanging(long value);
+        partial void OnPeriodNumChanged();
         /// <summary>
-        /// There are no comments for Property amount_num in the schema.
+        /// There are no comments for Property AmountNumerator in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long amount_num
+        public long AmountNumerator
         {
             get
             {
-                return this._amount_num;
+                return this._AmountNumerator;
             }
             set
             {
-                this.Onamount_numChanging(value);
-                this.ReportPropertyChanging("amount_num");
-                this._amount_num = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("amount_num");
-                this.Onamount_numChanged();
+                this.OnAmountNumeratorChanging(value);
+                this.ReportPropertyChanging("AmountNumerator");
+                this._AmountNumerator = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("AmountNumerator");
+                this.OnAmountNumeratorChanged();
             }
         }
-        private long _amount_num;
-        partial void Onamount_numChanging(long value);
-        partial void Onamount_numChanged();
+        private long _AmountNumerator;
+        partial void OnAmountNumeratorChanging(long value);
+        partial void OnAmountNumeratorChanged();
         /// <summary>
-        /// There are no comments for Property amount_denom in the schema.
+        /// There are no comments for Property AmountDenominator in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long amount_denom
+        public long AmountDenominator
         {
             get
             {
-                return this._amount_denom;
+                return this._AmountDenominator;
             }
             set
             {
-                this.Onamount_denomChanging(value);
-                this.ReportPropertyChanging("amount_denom");
-                this._amount_denom = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("amount_denom");
-                this.Onamount_denomChanged();
+                this.OnAmountDenominatorChanging(value);
+                this.ReportPropertyChanging("AmountDenominator");
+                this._AmountDenominator = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("AmountDenominator");
+                this.OnAmountDenominatorChanged();
             }
         }
-        private long _amount_denom;
-        partial void Onamount_denomChanging(long value);
-        partial void Onamount_denomChanged();
+        private long _AmountDenominator;
+        partial void OnAmountDenominatorChanging(long value);
+        partial void OnAmountDenominatorChanged();
     }
     /// <summary>
-    /// There are no comments for SharpCash.budgets in the schema.
+    /// There are no comments for SharpCash.Budget in the schema.
     /// </summary>
     /// <KeyProperties>
-    /// guid
+    /// Guid
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="budgets")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="Budget")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class budgets : global::System.Data.Objects.DataClasses.EntityObject
+    public partial class Budget : global::System.Data.Objects.DataClasses.EntityObject
     {
         /// <summary>
-        /// Create a new budgets object.
+        /// Create a new Budget object.
         /// </summary>
-        /// <param name="guid">Initial value of guid.</param>
-        /// <param name="name">Initial value of name.</param>
-        /// <param name="num_periods">Initial value of num_periods.</param>
-        public static budgets Createbudgets(string guid, string name, long num_periods)
+        /// <param name="guid">Initial value of Guid.</param>
+        /// <param name="name">Initial value of Name.</param>
+        /// <param name="numPeriods">Initial value of NumPeriods.</param>
+        public static Budget CreateBudget(string guid, string name, long numPeriods)
         {
-            budgets budgets = new budgets();
-            budgets.guid = guid;
-            budgets.name = name;
-            budgets.num_periods = num_periods;
-            return budgets;
+            Budget budget = new Budget();
+            budget.Guid = guid;
+            budget.Name = name;
+            budget.NumPeriods = numPeriods;
+            return budget;
         }
         /// <summary>
-        /// There are no comments for Property guid in the schema.
+        /// There are no comments for Property Guid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string guid
+        public string Guid
         {
             get
             {
-                return this._guid;
+                return this._Guid;
             }
             set
             {
-                this.OnguidChanging(value);
-                this.ReportPropertyChanging("guid");
-                this._guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("guid");
-                this.OnguidChanged();
+                this.OnGuidChanging(value);
+                this.ReportPropertyChanging("Guid");
+                this._Guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Guid");
+                this.OnGuidChanged();
             }
         }
-        private string _guid;
-        partial void OnguidChanging(string value);
-        partial void OnguidChanged();
+        private string _Guid;
+        partial void OnGuidChanging(string value);
+        partial void OnGuidChanged();
         /// <summary>
-        /// There are no comments for Property name in the schema.
+        /// There are no comments for Property Name in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string name
+        public string Name
         {
             get
             {
-                return this._name;
+                return this._Name;
             }
             set
             {
-                this.OnnameChanging(value);
-                this.ReportPropertyChanging("name");
-                this._name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("name");
-                this.OnnameChanged();
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
             }
         }
-        private string _name;
-        partial void OnnameChanging(string value);
-        partial void OnnameChanged();
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
         /// <summary>
-        /// There are no comments for Property description in the schema.
+        /// There are no comments for Property Description in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string description
+        public string Description
         {
             get
             {
-                return this._description;
+                return this._Description;
             }
             set
             {
-                this.OndescriptionChanging(value);
-                this.ReportPropertyChanging("description");
-                this._description = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("description");
-                this.OndescriptionChanged();
+                this.OnDescriptionChanging(value);
+                this.ReportPropertyChanging("Description");
+                this._Description = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Description");
+                this.OnDescriptionChanged();
             }
         }
-        private string _description;
-        partial void OndescriptionChanging(string value);
-        partial void OndescriptionChanged();
+        private string _Description;
+        partial void OnDescriptionChanging(string value);
+        partial void OnDescriptionChanged();
         /// <summary>
-        /// There are no comments for Property num_periods in the schema.
+        /// There are no comments for Property NumPeriods in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public long num_periods
+        public long NumPeriods
         {
             get
             {
-                return this._num_periods;
+                return this._NumPeriods;
             }
             set
             {
-                this.Onnum_periodsChanging(value);
-                this.ReportPropertyChanging("num_periods");
-                this._num_periods = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("num_periods");
-                this.Onnum_periodsChanged();
+                this.OnNumPeriodsChanging(value);
+                this.ReportPropertyChanging("NumPeriods");
+                this._NumPeriods = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("NumPeriods");
+                this.OnNumPeriodsChanged();
             }
         }
-        private long _num_periods;
-        partial void Onnum_periodsChanging(long value);
-        partial void Onnum_periodsChanged();
+        private long _NumPeriods;
+        partial void OnNumPeriodsChanging(long value);
+        partial void OnNumPeriodsChanged();
     }
     /// <summary>
     /// There are no comments for SharpCash.Commodity in the schema.
@@ -1790,7 +1790,7 @@ namespace SharpCash
     /// There are no comments for SharpCash.customers in the schema.
     /// </summary>
     /// <KeyProperties>
-    /// guid
+    /// Guid
     /// </KeyProperties>
     [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="SharpCash", Name="customers")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
@@ -1800,7 +1800,7 @@ namespace SharpCash
         /// <summary>
         /// Create a new customers object.
         /// </summary>
-        /// <param name="guid">Initial value of guid.</param>
+        /// <param name="guid">Initial value of Guid.</param>
         /// <param name="name">Initial value of name.</param>
         /// <param name="id">Initial value of id.</param>
         /// <param name="notes">Initial value of notes.</param>
@@ -1814,7 +1814,7 @@ namespace SharpCash
         public static customers Createcustomers(string guid, string name, string id, string notes, long active, long discount_num, long discount_denom, long credit_num, long credit_denom, string currency, long tax_override)
         {
             customers customers = new customers();
-            customers.guid = guid;
+            customers.Guid = guid;
             customers.name = name;
             customers.id = id;
             customers.notes = notes;
@@ -1828,28 +1828,28 @@ namespace SharpCash
             return customers;
         }
         /// <summary>
-        /// There are no comments for Property guid in the schema.
+        /// There are no comments for Property Guid in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string guid
+        public string Guid
         {
             get
             {
-                return this._guid;
+                return this._Guid;
             }
             set
             {
-                this.OnguidChanging(value);
-                this.ReportPropertyChanging("guid");
-                this._guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("guid");
-                this.OnguidChanged();
+                this.OnGuidChanging(value);
+                this.ReportPropertyChanging("Guid");
+                this._Guid = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Guid");
+                this.OnGuidChanged();
             }
         }
-        private string _guid;
-        partial void OnguidChanging(string value);
-        partial void OnguidChanged();
+        private string _Guid;
+        partial void OnGuidChanging(string value);
+        partial void OnGuidChanged();
         /// <summary>
         /// There are no comments for Property name in the schema.
         /// </summary>

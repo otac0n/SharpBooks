@@ -405,8 +405,8 @@
           <EntitySet Name="Accounts" EntityType="SharpCash.Account" />
           <EntitySet Name="billterms" EntityType="SharpCash.billterms" />
           <EntitySet Name="Books" EntityType="SharpCash.Book" />
-          <EntitySet Name="budget_amounts" EntityType="SharpCash.budget_amounts" />
-          <EntitySet Name="budgets" EntityType="SharpCash.budgets" />
+          <EntitySet Name="BudgetAmounts" EntityType="SharpCash.BudgetAmount" />
+          <EntitySet Name="Budgets" EntityType="SharpCash.Budget" />
           <EntitySet Name="Commodities" EntityType="SharpCash.Commodity" />
           <EntitySet Name="customers" EntityType="SharpCash.customers" />
           <EntitySet Name="employees" EntityType="SharpCash.employees" />
@@ -468,25 +468,25 @@
           <Property Name="RootAccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
           <Property Name="RootTemplateGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
           </EntityType>
-        <EntityType Name="budget_amounts">
+        <EntityType Name="BudgetAmount">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="budget_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="account_guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="period_num" Type="Int64" Nullable="false" />
-          <Property Name="amount_num" Type="Int64" Nullable="false" />
-          <Property Name="amount_denom" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="BudgetGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="AccountGuid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="PeriodNum" Type="Int64" Nullable="false" />
+          <Property Name="AmountNumerator" Type="Int64" Nullable="false" />
+          <Property Name="AmountDenominator" Type="Int64" Nullable="false" />
         </EntityType>
-        <EntityType Name="budgets">
+        <EntityType Name="Budget">
           <Key>
-            <PropertyRef Name="guid" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
-          <Property Name="num_periods" Type="Int64" Nullable="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="2048" Unicode="true" FixedLength="false" />
+          <Property Name="NumPeriods" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="Commodity">
           <Key>
@@ -504,9 +504,9 @@
         </EntityType>
         <EntityType Name="customers">
           <Key>
-            <PropertyRef Name="guid" />
+            <PropertyRef Name="Guid" />
           </Key>
-          <Property Name="guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="Guid" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="id" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="notes" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
@@ -843,25 +843,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="budget_amounts">
-            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.budget_amounts)">
+          <EntitySetMapping Name="BudgetAmounts">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.BudgetAmount)">
               <MappingFragment StoreEntitySet="budget_amounts">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="budget_guid" ColumnName="budget_guid" />
-                <ScalarProperty Name="account_guid" ColumnName="account_guid" />
-                <ScalarProperty Name="period_num" ColumnName="period_num" />
-                <ScalarProperty Name="amount_num" ColumnName="amount_num" />
-                <ScalarProperty Name="amount_denom" ColumnName="amount_denom" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+                <ScalarProperty Name="BudgetGuid" ColumnName="budget_guid" />
+                <ScalarProperty Name="AccountGuid" ColumnName="account_guid" />
+                <ScalarProperty Name="PeriodNum" ColumnName="period_num" />
+                <ScalarProperty Name="AmountNumerator" ColumnName="amount_num" />
+                <ScalarProperty Name="AmountDenominator" ColumnName="amount_denom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="budgets">
-            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.budgets)">
+          <EntitySetMapping Name="Budgets">
+            <EntityTypeMapping TypeName="IsTypeOf(SharpCash.Budget)">
               <MappingFragment StoreEntitySet="budgets">
-                <ScalarProperty Name="guid" ColumnName="guid" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="num_periods" ColumnName="num_periods" />
+                <ScalarProperty Name="Guid" ColumnName="guid" />
+                <ScalarProperty Name="Name" ColumnName="name" />
+                <ScalarProperty Name="Description" ColumnName="description" />
+                <ScalarProperty Name="NumPeriods" ColumnName="num_periods" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -883,7 +883,7 @@
           <EntitySetMapping Name="customers">
             <EntityTypeMapping TypeName="IsTypeOf(SharpCash.customers)">
               <MappingFragment StoreEntitySet="customers">
-                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="Guid" ColumnName="guid" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
@@ -1209,8 +1209,8 @@
         <EntityTypeShape EntityType="SharpCash.Account" Width="1.5" PointX="0.75" PointY="0.75" Height="3.1340950520833335" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.billterms" Width="1.5" PointX="2.75" PointY="0.75" Height="3.5186979166666665" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Book" Width="1.5" PointX="4.75" PointY="0.75" Height="1.5956835937499998" IsExpanded="true" />
-        <EntityTypeShape EntityType="SharpCash.budget_amounts" Width="1.5" PointX="4.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SharpCash.budgets" Width="1.5" PointX="0.75" PointY="5.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.BudgetAmount" Width="1.5" PointX="4.75" PointY="3.75" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="SharpCash.Budget" Width="1.5" PointX="0.75" PointY="5.75" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.Commodity" Width="1.5" PointX="6.75" PointY="0.75" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.customers" Width="1.5" PointX="2.75" PointY="6.75" Height="6.787822265625" IsExpanded="true" />
         <EntityTypeShape EntityType="SharpCash.employees" Width="1.5" PointX="6.75" PointY="4.75" Height="4.8648079427083317" IsExpanded="true" />
