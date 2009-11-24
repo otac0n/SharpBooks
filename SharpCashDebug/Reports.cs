@@ -11,7 +11,7 @@ namespace SharpCash.Debug
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(90);
+            var endDate = DateTime.Today.AddDays(300);
 
             Dictionary<DateTime, decimal> balances = new Dictionary<DateTime, decimal>();
 
@@ -130,7 +130,7 @@ namespace SharpCash.Debug
 
                         if (!balances.ContainsKey(d.Value.Date))
                         {
-                            balances[d.Value.Date] += 0;
+                            balances[d.Value.Date] = 0;
                         }
 
                         balances[d.Value.Date] += amount;
