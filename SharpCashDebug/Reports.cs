@@ -54,7 +54,7 @@ namespace SharpCash.Debug
             {
                 balances[d.Date] = (from s in splitsList
                                     where s.PostDate == d
-                                    select s.Num / s.Denom).Sum();
+                                    select s.Num / s.Denom).Sum() - 10;
             }
 
 
