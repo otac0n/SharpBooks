@@ -105,6 +105,15 @@
     <None Include="App.Config" />
     <EmbeddedResource Include="financial.py" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="IronPython.dll" />
+    <Content Include="IronPython.Modules.dll" />
+    <Content Include="Microsoft.Dynamic.dll" />
+    <Content Include="Microsoft.Scripting.Core.dll" />
+    <Content Include="Microsoft.Scripting.Debugging.dll" />
+    <Content Include="Microsoft.Scripting.dll" />
+    <Content Include="Microsoft.Scripting.ExtensionAttribute.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,7 +15,6 @@ namespace SharpCash.Debug
 
             Dictionary<DateTime, decimal> balances = new Dictionary<DateTime, decimal>();
 
-
             var book = db.Books.FirstOrDefault();
             var allAccounts = db.Accounts.ToList();
             var allTransactions = db.Transactions.ToList();
