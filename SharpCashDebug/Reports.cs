@@ -11,7 +11,7 @@ namespace SharpCash.Debug
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(300);
+            var endDate = DateTime.Today.AddDays(900);
 
             Dictionary<DateTime, decimal> balances = new Dictionary<DateTime, decimal>();
 
@@ -54,7 +54,7 @@ namespace SharpCash.Debug
             {
                 balances[d.Date] = (from s in splitsList
                                     where s.PostDate == d
-                                    select s.Num / s.Denom).Sum() - 10;
+                                    select s.Num / s.Denom).Sum() - 22;
             }
 
 
