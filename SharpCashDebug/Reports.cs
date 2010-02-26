@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Globalization;
-
-namespace SharpCash.Debug
+﻿namespace SharpCash.Debug
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+
     public static class Reports
     {
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(100);
+            var endDate = DateTime.Today.AddDays(365 * 1.5).Date;
 
-            Dictionary<DateTime, decimal> balances = new Dictionary<DateTime, decimal>();
+            var balances = new Dictionary<DateTime, decimal>();
 
-            var book = db.Books.FirstOrDefault();
             var allAccounts = db.Accounts.ToList();
             var allTransactions = db.Transactions.ToList();
             var allSplits = db.Splits.ToList();
@@ -77,7 +75,7 @@ namespace SharpCash.Debug
 
                 foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                 {
-                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    var parameters = new Dictionary<string, object>();
                     parameters["i"] = d.Key;
 
                     foreach (var sp in from sp in allSplits
@@ -98,18 +96,17 @@ namespace SharpCash.Debug
                     {
                         decimal credit = 0;
                         decimal debit = 0;
-                        decimal amount = 0;
                         Account account = null;
 
                         if (!string.IsNullOrEmpty(sp.Credit))
                         {
-                            var expr = sp.Credit.Replace(",", "").Replace(':', ',').Trim();
+                            var expr = sp.Credit.Replace(",", string.Empty).Replace(':', ',').Trim();
                             credit = decimal.Parse(eval.Evaluate(expr, parameters).ToString());
                         }
 
                         if (!string.IsNullOrEmpty(sp.Debit))
                         {
-                            var expr = sp.Debit.Replace(",", "").Replace(':', ',').Trim();
+                            var expr = sp.Debit.Replace(",", string.Empty).Replace(':', ',').Trim();
                             debit = -decimal.Parse(eval.Evaluate(expr, parameters).ToString());
                         }
 
@@ -125,7 +122,7 @@ namespace SharpCash.Debug
                             continue;
                         }
 
-                        amount = -(credit + debit);
+                        var amount = -(credit + debit);
 
                         if (!balances.ContainsKey(d.Value.Date))
                         {
