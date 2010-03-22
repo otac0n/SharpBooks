@@ -1,0 +1,155 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="Transaction.cs" company="(none)">
+//  Copyright (c) 2010 John Gietzen
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+
+    public class Transaction
+    {
+        private readonly object lockMutex = new object();
+
+        private readonly List<Split> splits = new List<Split>();
+
+        private TransactionLock currentLock;
+
+        public Transaction(Guid transactionId, Commodity baseCommodity)
+        {
+            if (baseCommodity == null)
+            {
+                throw new ArgumentNullException("baseCommodity");
+            }
+
+            if (transactionId == Guid.Empty)
+            {
+                throw new ArgumentOutOfRangeException("transactionId");
+            }
+
+            this.BaseCommodity = baseCommodity;
+            this.TransactionId = transactionId;
+        }
+
+        public Guid TransactionId
+        {
+            get;
+            private set;
+        }
+
+        public Commodity BaseCommodity
+        {
+            get;
+            private set;
+        }
+
+        public DateTime Date
+        {
+            get;
+            private set;
+        }
+
+        public TransactionLock Lock()
+        {
+            lock (this.lockMutex)
+            {
+                if (this.currentLock != null)
+                {
+                    throw new InvalidOperationException("Could not lock the transaction, because it is already locked.");
+                }
+
+                this.currentLock = new TransactionLock(this);
+                return this.currentLock;
+            }
+        }
+
+        public void SetDate(DateTime date, TransactionLock transactionLock)
+        {
+            lock (this.lockMutex)
+            {
+                this.ValidateLock(transactionLock);
+
+                this.Date = date;
+            }
+        }
+
+        public Split AddSplit(TransactionLock transactionLock)
+        {
+            lock (this.lockMutex)
+            {
+                this.ValidateLock(transactionLock);
+
+                var split = new Split(this, Guid.NewGuid())
+                {
+                    Commodity = this.BaseCommodity,
+                    Ammount = 0m,
+                    TransactionAmmount = 0m,
+                };
+
+                this.splits.Add(split);
+                return split;
+            }
+        }
+
+        public void RemoveSplit(Split split, TransactionLock transactionLock)
+        {
+            if (split == null)
+            {
+                throw new ArgumentNullException("split");
+            }
+
+            lock (this.lockMutex)
+            {
+                this.ValidateLock(transactionLock);
+
+                if (!this.splits.Contains(split))
+                {
+                    throw new InvalidOperationException("Could not remove the split from the transaction, because the split is not a member of the transaction.");
+                }
+
+                this.splits.Remove(split);
+                split.Transaction = null;
+            }
+        }
+
+        internal void Unlock(TransactionLock transactionLock)
+        {
+            lock (this.lockMutex)
+            {
+                if (this.currentLock == null)
+                {
+                    throw new InvalidOperationException("Could not unlock the transaction, because it is not currently locked.");
+                }
+
+                this.currentLock = null;
+            }
+        }
+
+        internal void EnterCriticalSection()
+        {
+            Monitor.Enter(this.lockMutex);
+        }
+
+        internal void ExitCriticalSection()
+        {
+            Monitor.Exit(this.lockMutex);
+        }
+
+        internal void ValidateLock(TransactionLock transactionLock)
+        {
+            if (this.currentLock == null)
+            {
+                throw new InvalidOperationException("Could modify the transaction, because it is not currently locked for editing.");
+            }
+
+            if (this.currentLock != transactionLock)
+            {
+                throw new InvalidOperationException("Could modify the transaction, because the lock provided was not valid.");
+            }
+        }
+    }
+}
