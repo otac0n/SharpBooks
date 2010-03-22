@@ -73,81 +73,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void SetCommodity_WhenLockIsValid_Succeeds()
-        {
-            // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
-            Split split;
-
-            // Lock the transaction for editing.
-            using (var transactionLock = transaction.Lock())
-            {
-                // Add a split to the transaction.
-                split = transaction.AddSplit(transactionLock);
-
-                // Set the commodity of the split.
-                split.SetCommodity(this.noCurrency, transactionLock);
-
-                // Assert that the Commodity property reflects the new value.
-                Assert.That(split.Commodity, Is.EqualTo(this.noCurrency));
-            }
-        }
-
-        [Test]
-        public void SetCommodity_WithEmptyLock_ThrowsException()
-        {
-            // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
-            Split split;
-
-            // Lock the transaction for editing.
-            using (var transactionLock = transaction.Lock())
-            {
-                // Add a split to the transaction.
-                split = transaction.AddSplit(transactionLock);
-            }
-
-            // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetCommodity(this.noCurrency, null), Throws.InstanceOf<InvalidOperationException>());
-        }
-
-        [Test]
-        public void SetCommodity_WithInvalidLock_ThrowsException()
-        {
-            // Create two new, valid transactions.
-            var transaction1 = this.CreateValidTransaction();
-            var transaction2 = this.CreateValidTransaction();
-
-            // Lock the transaction for editing.
-            using (var lock1 = transaction1.Lock())
-            {
-                // Add a split to the transaction.
-                var split = transaction1.AddSplit(lock1);
-
-                using (var lock2 = transaction2.Lock())
-                {
-                    // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetCommodity(this.noCurrency, lock2), Throws.InstanceOf<InvalidOperationException>());
-                }
-            }
-        }
-
-        [Test]
-        public void SetCommodity_WithDisposedLock_ThrowsException()
-        {
-            // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
-
-            // Lock the transaction, add a split, and immediately unlock the transaction.
-            var transactionLock = transaction.Lock();
-            var split = transaction.AddSplit(transactionLock);
-            transactionLock.Dispose();
-
-            // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetCommodity(this.noCurrency, transactionLock), Throws.InstanceOf<InvalidOperationException>());
-        }
-
-        [Test]
         public void SetAmmount_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
@@ -223,7 +148,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void SetTransactionAmmount_WhenLockIsValid_Succeeds()
+        public void SetCommodity_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
             var transaction = this.CreateValidTransaction();
@@ -235,16 +160,16 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
 
-                // Set the transaction ammount of the split.
-                split.SetTransactionAmmount(1m, transactionLock);
+                // Set the commodity of the split.
+                split.SetCommodity(this.noCurrency, transactionLock);
 
-                // Assert that the TransactionAmmount property reflects the new value.
-                Assert.That(split.TransactionAmmount, Is.EqualTo(1m));
+                // Assert that the Commodity property reflects the new value.
+                Assert.That(split.Commodity, Is.EqualTo(this.noCurrency));
             }
         }
 
         [Test]
-        public void SetTransactionAmmount_WithEmptyLock_ThrowsException()
+        public void SetCommodity_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
             var transaction = this.CreateValidTransaction();
@@ -258,11 +183,11 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetTransactionAmmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetCommodity(this.noCurrency, null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
-        public void SetTransactionAmmount_WithInvalidLock_ThrowsException()
+        public void SetCommodity_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
             var transaction1 = this.CreateValidTransaction();
@@ -277,13 +202,13 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetTransactionAmmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetCommodity(this.noCurrency, lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
 
         [Test]
-        public void SetTransactionAmmount_WithDisposedLock_ThrowsException()
+        public void SetCommodity_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
             var transaction = this.CreateValidTransaction();
@@ -294,7 +219,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetTransactionAmmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetCommodity(this.noCurrency, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -445,6 +370,81 @@ namespace SharpBooks.Tests
 
             // Assert that the split will not allow modification with a disposed lock.
             Assert.That(() => split.SetIsReconciled(true, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void SetTransactionAmmount_WhenLockIsValid_Succeeds()
+        {
+            // Create a new, valid transaction.
+            var transaction = this.CreateValidTransaction();
+            Split split;
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                split = transaction.AddSplit(transactionLock);
+
+                // Set the transaction ammount of the split.
+                split.SetTransactionAmmount(1m, transactionLock);
+
+                // Assert that the TransactionAmmount property reflects the new value.
+                Assert.That(split.TransactionAmmount, Is.EqualTo(1m));
+            }
+        }
+
+        [Test]
+        public void SetTransactionAmmount_WithEmptyLock_ThrowsException()
+        {
+            // Create a new, valid transaction.
+            var transaction = this.CreateValidTransaction();
+            Split split;
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                split = transaction.AddSplit(transactionLock);
+            }
+
+            // Assert that the split will not allow modification without a lock.
+            Assert.That(() => split.SetTransactionAmmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void SetTransactionAmmount_WithInvalidLock_ThrowsException()
+        {
+            // Create two new, valid transactions.
+            var transaction1 = this.CreateValidTransaction();
+            var transaction2 = this.CreateValidTransaction();
+
+            // Lock the transaction for editing.
+            using (var lock1 = transaction1.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction1.AddSplit(lock1);
+
+                using (var lock2 = transaction2.Lock())
+                {
+                    // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
+                    Assert.That(() => split.SetTransactionAmmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                }
+            }
+        }
+
+        [Test]
+        public void SetTransactionAmmount_WithDisposedLock_ThrowsException()
+        {
+            // Create a new, valid transaction.
+            var transaction = this.CreateValidTransaction();
+
+            // Lock the transaction, add a split, and immediately unlock the transaction.
+            var transactionLock = transaction.Lock();
+            var split = transaction.AddSplit(transactionLock);
+            transactionLock.Dispose();
+
+            // Assert that the split will not allow modification with a disposed lock.
+            Assert.That(() => split.SetTransactionAmmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         private Transaction CreateValidTransaction()
