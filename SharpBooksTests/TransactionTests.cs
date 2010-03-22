@@ -59,6 +59,55 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void GetIsValid_WhenEmpty_ReturnsTrue()
+        {
+            // Construct a new transaction with known good values.
+            var transaction = new Transaction(
+                Guid.NewGuid(), // OK
+                this.validCommodity); // OK
+
+            // Assert that the transaction without any splits is valid.
+            Assert.That(transaction.IsValid, Is.True);
+        }
+
+        [Test]
+        public void GetIsValid_WithSingleZeroSplit_ReturnsTrue()
+        {
+            // Create a new, valid transaction.
+            var transaction = this.CreateValidTransaction();
+
+            // Add an empty split to the transaction.
+            using (var transactionLock = transaction.Lock())
+            {
+                transaction.AddSplit(transactionLock);
+            }
+
+            // Assert that the transaction with a single, zero split is valid.
+            Assert.That(transaction.IsValid, Is.True);
+        }
+
+        [Test]
+        public void GetIsValid_WithSingleNonZeroSplit_ReturnsFalse()
+        {
+            // Create a new, valid transaction.
+            var transaction = this.CreateValidTransaction();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+
+                // Set the ammount of the split to be non-zero.
+                split.SetAmmount(1m, transactionLock);
+                split.SetTransactionAmmount(1m, transactionLock);
+            }
+
+            // Assert that the transaction with a single, non-zero split is invalid.
+            Assert.That(transaction.IsValid, Is.False);
+        }
+
+        [Test]
         public void Lock_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid transaction.

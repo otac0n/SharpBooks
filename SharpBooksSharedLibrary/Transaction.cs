@@ -9,6 +9,7 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
 
     public class Transaction
@@ -51,6 +52,35 @@ namespace SharpBooks
         {
             get;
             private set;
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return this.GetRuleViolations().Count() == 0;
+            }
+        }
+
+        public IEnumerable<RuleViolation> GetRuleViolations()
+        {
+            lock (this.lockMutex)
+            {
+                foreach (var split in this.splits)
+                {
+                    foreach (var violation in split.GetRuleViolations())
+                    {
+                        yield return violation;
+                    }
+                }
+
+                if (this.splits.Sum(s => s.TransactionAmmount) != 0m)
+                {
+                    yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                }
+            }
+
+            yield break;
         }
 
         public TransactionLock Lock()
