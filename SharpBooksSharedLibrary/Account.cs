@@ -7,8 +7,23 @@
 
 namespace SharpBooks
 {
+    using System;
+
     public class Account
     {
+        public Account(Guid accountId, Commodity commodity, Account parentAccount)
+        {
+            this.AccountId = accountId;
+            this.Commodity = commodity;
+            this.ParentAccount = parentAccount;
+        }
+
+        public Guid AccountId
+        {
+            get;
+            private set;
+        }
+
         public Commodity Commodity
         {
             get;

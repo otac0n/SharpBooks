@@ -31,12 +31,6 @@ namespace SharpBooks
             internal set;
         }
 
-        public Commodity Commodity
-        {
-            get;
-            internal set;
-        }
-
         public DateTime? DateCleared
         {
             get;
@@ -47,6 +41,12 @@ namespace SharpBooks
         {
             get;
             private set;
+        }
+
+        public Account Account
+        {
+            get;
+            internal set;
         }
 
         public decimal Ammount
@@ -66,6 +66,22 @@ namespace SharpBooks
             get
             {
                 return this.GetRuleViolations().Count() == 0;
+            }
+        }
+
+        public void SetAccount(Account account, TransactionLock transactionLock)
+        {
+            this.Transaction.EnterCriticalSection();
+
+            try
+            {
+                this.Transaction.ValidateLock(transactionLock);
+
+                this.Account = account;
+            }
+            finally
+            {
+                this.Transaction.ExitCriticalSection();
             }
         }
 
@@ -94,22 +110,6 @@ namespace SharpBooks
                 this.Transaction.ValidateLock(transactionLock);
 
                 this.TransactionAmmount = transactionAmmount;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
-        }
-
-        public void SetCommodity(Commodity commodity, TransactionLock transactionLock)
-        {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.Commodity = commodity;
             }
             finally
             {
@@ -156,7 +156,12 @@ namespace SharpBooks
                 yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same sign.");
             }
 
-            if (this.Ammount != this.TransactionAmmount && this.Commodity == this.Transaction.BaseCommodity)
+            if (this.Account == null)
+            {
+                yield return new RuleViolation("Ammount", "The split must be assigned to an account.");
+            }
+
+            if (this.Ammount != this.TransactionAmmount && this.Account != null && this.Account.Commodity == this.Transaction.BaseCommodity)
             {
                 yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same value, if they are of the same commodity.");
             }

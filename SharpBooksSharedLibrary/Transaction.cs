@@ -115,7 +115,6 @@ namespace SharpBooks
 
                 var split = new Split(this, Guid.NewGuid())
                 {
-                    Commodity = this.BaseCommodity,
                     Ammount = 0m,
                     TransactionAmmount = 0m,
                 };
