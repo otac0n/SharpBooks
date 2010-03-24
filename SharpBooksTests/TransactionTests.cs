@@ -121,6 +121,20 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void Unlock_DuplicateAttempts_ThrowsException()
+        {
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction();
+
+            // Lock and immediately unlock the transaction.
+            var transactionLock = transaction.Lock();
+            transactionLock.Dispose();
+
+            // Assert that a second unlock attempt throws an InvalidOperationException exception.
+            Assert.That(() => transaction.Unlock(transactionLock), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void SetDate_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
