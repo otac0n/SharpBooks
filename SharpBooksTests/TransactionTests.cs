@@ -13,25 +13,28 @@ namespace SharpBooks.Tests
     [TestFixture]
     public class TransactionTests
     {
-        /// <summary>
-        /// Holds a valid commodity, based on the ISO 4217 testing currency, XTS.
-        /// </summary>
-        private readonly Commodity testCurrency = new Commodity(
-            CommodityType.Currency,
-            "Test Currency",
-            "XTS",
-            "{0}");
-
         [Test]
         public void Constructor_WithValidParameters_Succeeds()
         {
             // Construct a new transaction with known good values.
             new Transaction(
                 Guid.NewGuid(), // OK
-                this.testCurrency); // OK
+                TestUtils.TestCurrency); // OK
 
             // The test passes, because the constructor has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void Constructor_WhenTransactionIdIsEmpty_ThrowsException()
+        {
+            // Build a delegate to construct a new transaction.
+            TestDelegate constructTransaction = () => new Transaction(
+                Guid.Empty,
+                TestUtils.TestCurrency); // OK
+
+            // Assert that calling the delegate throws an ArgumentOutOfRangeException.
+            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -47,24 +50,12 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void Constructor_WhenTransactionIdIsEmpty_ThrowsException()
-        {
-            // Build a delegate to construct a new transaction.
-            TestDelegate constructTransaction = () => new Transaction(
-                Guid.Empty,
-                this.testCurrency); // OK
-
-            // Assert that calling the delegate throws an ArgumentNullException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
-        }
-
-        [Test]
         public void GetIsValid_WhenEmpty_ReturnsTrue()
         {
             // Construct a new transaction with known good values.
             var transaction = new Transaction(
                 Guid.NewGuid(), // OK
-                this.testCurrency); // OK
+                TestUtils.TestCurrency); // OK
 
             // Assert that the transaction without any splits is valid.
             Assert.That(transaction.IsValid, Is.True);
@@ -74,10 +65,10 @@ namespace SharpBooks.Tests
         public void GetIsValid_WithSingleZeroSplit_ReturnsTrue()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             // Add an empty split to the transaction.
             using (var transactionLock = transaction.Lock())
@@ -94,10 +85,10 @@ namespace SharpBooks.Tests
         public void GetIsValid_WithSingleNonZeroSplit_ReturnsFalse()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
@@ -119,7 +110,7 @@ namespace SharpBooks.Tests
         public void Lock_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Lock the transaction for editing.
             using (transaction.Lock())
@@ -133,7 +124,7 @@ namespace SharpBooks.Tests
         public void SetDate_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
@@ -150,7 +141,7 @@ namespace SharpBooks.Tests
         public void SetDate_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Assert that the transaction will not allow modification without a lock.
             Assert.That(() => transaction.SetDate(DateTime.MaxValue, null), Throws.InstanceOf<InvalidOperationException>());
@@ -160,8 +151,8 @@ namespace SharpBooks.Tests
         public void SetDate_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = this.CreateValidTransaction();
-            var transaction2 = this.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateValidTransaction();
+            var transaction2 = TestUtils.CreateValidTransaction();
 
             // Lock the transaction for editing.
             using (transaction1.Lock())
@@ -178,7 +169,7 @@ namespace SharpBooks.Tests
         public void SetDate_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Lock and immediately unlock the transaction.
             var transactionLock = transaction.Lock();
@@ -192,10 +183,10 @@ namespace SharpBooks.Tests
         public void AddSplit_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             Split split;
 
@@ -214,7 +205,7 @@ namespace SharpBooks.Tests
         public void AddSplit_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Assert that the transaction will not allow a split to be added without a lock.
             Assert.That(() => transaction.AddSplit(null), Throws.InstanceOf<InvalidOperationException>());
@@ -224,8 +215,8 @@ namespace SharpBooks.Tests
         public void AddSplit_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = this.CreateValidTransaction();
-            var transaction2 = this.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateValidTransaction();
+            var transaction2 = TestUtils.CreateValidTransaction();
 
             // Lock the first transaction for editing.
             using (var lock1 = transaction1.Lock())
@@ -242,7 +233,7 @@ namespace SharpBooks.Tests
         public void AddSplit_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Lock and immediately unlock the transaction.
             var transactionLock = transaction.Lock();
@@ -256,10 +247,10 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             Split split;
 
@@ -284,10 +275,10 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             Split split;
 
@@ -306,11 +297,11 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = this.CreateValidTransaction();
-            var transaction2 = this.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateValidTransaction();
+            var transaction2 = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             // Lock the first transaction for editing.
             using (var lock1 = transaction1.Lock())
@@ -332,10 +323,10 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             // Lock the transaction, add a split, and immediately unlock the transaction.
             var transactionLock = transaction.Lock();
@@ -351,7 +342,7 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WithNullSplit_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
@@ -365,10 +356,10 @@ namespace SharpBooks.Tests
         public void RemoveSplit_WithUnassociatedSplit_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = this.CreateValidTransaction();
+            var transaction = TestUtils.CreateValidTransaction();
 
             // Create a new, valid account.
-            var account = this.CreateValidAccount();
+            var account = TestUtils.CreateValidAccount();
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
@@ -381,20 +372,6 @@ namespace SharpBooks.Tests
                 // Assert that attempting to remove the split again throws an exception.
                 Assert.That(() => transaction.RemoveSplit(split, transactionLock), Throws.InstanceOf<InvalidOperationException>());
             }
-        }
-
-        private Transaction CreateValidTransaction()
-        {
-            // Create a new transaction that is valid.
-            // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new Transaction(Guid.NewGuid(), this.testCurrency);
-        }
-
-        private Account CreateValidAccount()
-        {
-            // Create a new account that is valid.
-            // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new Account(Guid.NewGuid(), this.testCurrency, null);
         }
     }
 }

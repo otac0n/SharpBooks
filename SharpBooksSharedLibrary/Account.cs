@@ -13,6 +13,16 @@ namespace SharpBooks
     {
         public Account(Guid accountId, Commodity commodity, Account parentAccount)
         {
+            if (accountId == Guid.Empty)
+            {
+                throw new ArgumentOutOfRangeException("accountId");
+            }
+
+            if (commodity == null)
+            {
+                throw new ArgumentNullException("commodity");
+            }
+
             this.AccountId = accountId;
             this.Commodity = commodity;
             this.ParentAccount = parentAccount;
@@ -28,6 +38,12 @@ namespace SharpBooks
         {
             get;
             private set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
         }
 
         public Account ParentAccount
