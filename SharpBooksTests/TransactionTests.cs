@@ -107,6 +107,23 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void GetIsValid_WithInvalidSplit_ReturnsFalse()
+        {
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction, but do not set the account.
+                transaction.AddSplit(transactionLock);
+            }
+
+            // Assert that the transaction is invalid with an invalid split.
+            Assert.That(transaction.IsValid, Is.False);
+        }
+
+        [Test]
         public void Lock_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid transaction.
@@ -118,6 +135,23 @@ namespace SharpBooks.Tests
                 // Assert that a second edit-lock may not be obtained.
                 Assert.That(() => transaction.Lock(), Throws.InstanceOf<InvalidOperationException>());
             }
+        }
+
+        [Test]
+        public void Lock_MultipleDisposeAttempts_Succeeds()
+        {
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction();
+
+            // Lock and immediately unlock the transaction.
+            var transactionLock = transaction.Lock();
+            transactionLock.Dispose();
+
+            // Attempt to dispose the transaction lock again.
+            transactionLock.Dispose();
+
+            // The test passes, because the second Dispose() call has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
         }
 
         [Test]

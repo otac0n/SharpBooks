@@ -17,6 +17,19 @@ namespace SharpBooks.Tests
     public class AccountTests
     {
         [Test]
+        public void Constructor_WithKnownGoodParameters_Succeeds()
+        {
+            // Create a new account with known good values.
+            new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                null); // OK
+
+            // The test passes, because the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
         public void Constructor_WhenCommodityIsNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
