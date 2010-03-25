@@ -11,16 +11,16 @@ namespace SharpBooks
 
     public class Account
     {
-        public Account(Guid accountId, Commodity commodity, Account parentAccount)
+        public Account(Guid accountId, Security security, Account parentAccount)
         {
             if (accountId == Guid.Empty)
             {
                 throw new ArgumentOutOfRangeException("accountId");
             }
 
-            if (commodity == null)
+            if (security == null)
             {
-                throw new ArgumentNullException("commodity");
+                throw new ArgumentNullException("");
             }
 
             var parent = parentAccount;
@@ -35,7 +35,7 @@ namespace SharpBooks
             }
 
             this.AccountId = accountId;
-            this.Commodity = commodity;
+            this.Security = security;
             this.ParentAccount = parentAccount;
         }
 
@@ -45,7 +45,7 @@ namespace SharpBooks
             private set;
         }
 
-        public Commodity Commodity
+        public Security Security
         {
             get;
             private set;

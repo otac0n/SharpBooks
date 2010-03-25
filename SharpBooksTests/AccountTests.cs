@@ -27,7 +27,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void Constructor_WhenCommodityIsNull_ThrowsException()
+        public void Constructor_WhenSecurityIsNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
             TestDelegate constructTransaction = () => new Account(

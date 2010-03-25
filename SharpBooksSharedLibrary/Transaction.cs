@@ -21,11 +21,11 @@ namespace SharpBooks
 
         private TransactionLock currentLock;
 
-        public Transaction(Guid transactionId, Commodity baseCommodity)
+        public Transaction(Guid transactionId, Security baseSecurity)
         {
-            if (baseCommodity == null)
+            if (baseSecurity == null)
             {
-                throw new ArgumentNullException("baseCommodity");
+                throw new ArgumentNullException("baseSecurity");
             }
 
             if (transactionId == Guid.Empty)
@@ -33,7 +33,7 @@ namespace SharpBooks
                 throw new ArgumentOutOfRangeException("transactionId");
             }
 
-            this.BaseCommodity = baseCommodity;
+            this.BaseSecurity = baseSecurity;
             this.TransactionId = transactionId;
         }
 
@@ -43,7 +43,7 @@ namespace SharpBooks
             private set;
         }
 
-        public Commodity BaseCommodity
+        public Security BaseSecurity
         {
             get;
             private set;

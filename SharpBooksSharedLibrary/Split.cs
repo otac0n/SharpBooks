@@ -154,9 +154,9 @@ namespace SharpBooks
                 yield return new RuleViolation("Account", "The split must be assigned to an account.");
             }
 
-            if (this.Ammount != this.TransactionAmmount && this.Account != null && this.Account.Commodity == this.Transaction.BaseCommodity)
+            if (this.Ammount != this.TransactionAmmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
             {
-                yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same value, if they are of the same commodity.");
+                yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same value, if they are of the same .");
             }
 
             yield break;

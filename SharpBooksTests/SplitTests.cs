@@ -14,16 +14,16 @@ namespace SharpBooks.Tests
     public class SplitTests
     {
         /// <summary>
-        /// Holds a valid commodity, based on the ISO 4217 testing currency, XTS.
+        /// Holds a valid security, based on the ISO 4217 testing currency, XTS.
         /// </summary>
-        private readonly Commodity noCurrency = new Commodity(
-            CommodityType.Currency,
+        private readonly Security noCurrency = new Security(
+            SecurityType.Currency,
             "No Currency",
             "XXX",
             "{0}");
 
         [Test]
-        public void GetIsValid_WhenAmmountAndTransactionAmmountDifferButCommodityIsTheSameAsTheTransactionBaseCommodity_ReturnsFalse()
+        public void GetIsValid_WhenAmmountAndTransactionAmmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();

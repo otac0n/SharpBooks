@@ -47,8 +47,8 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Book.cs" />
-    <Compile Include="Commodity.cs" />
-    <Compile Include="CommodityType.cs" />
+    <Compile Include="Security.cs" />
+    <Compile Include="SecurityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleViolation.cs" />
     <Compile Include="Split.cs" />

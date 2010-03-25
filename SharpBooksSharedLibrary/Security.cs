@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Commodity.cs" company="(none)">
+// <copyright file="Security.cs" company="(none)">
 //  Copyright (c) 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
@@ -9,9 +9,9 @@ namespace SharpBooks
 {
     using System;
 
-    public class Commodity
+    public class Security
     {
-        public Commodity(CommodityType commodityType, string name, string symbol, string signFormat)
+        public Security(SecurityType securityType, string name, string symbol, string signFormat)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -33,13 +33,13 @@ namespace SharpBooks
                 throw new ArgumentException("signFormat");
             }
 
-            this.CommodityType = commodityType;
+            this.SecurityType = securityType;
             this.Name = name;
             this.Symbol = symbol;
             this.SignFormat = signFormat;
         }
 
-        public CommodityType CommodityType
+        public SecurityType SecurityType
         {
             get;
             private set;

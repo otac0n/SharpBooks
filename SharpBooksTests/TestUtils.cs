@@ -12,10 +12,10 @@ namespace SharpBooks.Tests
     internal static class TestUtils
     {
         /// <summary>
-        /// Holds a valid commodity, based on the ISO 4217 testing currency, XTS.
+        /// Holds a valid security, based on the ISO 4217 testing currency, XTS.
         /// </summary>
-        public static readonly Commodity TestCurrency = new Commodity(
-            CommodityType.Currency,
+        public static readonly Security TestCurrency = new Security(
+            SecurityType.Currency,
             "Test Currency",
             "XTS",
             "{0}");
