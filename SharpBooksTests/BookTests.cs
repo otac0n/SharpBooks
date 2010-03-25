@@ -151,7 +151,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void RemoveAccount_WhenAccountHasAlreadyBeenRemovedAdded_ThrowsException()
+        public void RemoveAccount_WhenAccountHasAlreadyBeenRemoved_ThrowsException()
         {
             // Create a new, valid book.
             var book = new Book();
@@ -196,12 +196,39 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void RemoveAccount_WhenAccountIsInvolvedInSplits_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account
+            var account = TestUtils.CreateValidAccount();
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Add the transaction to the book.
+            book.AddTransaction(transaction);
+
+            // Assert that trying to remove the account while a transaction that depends on it is in the book throws an InvalidOperationException.
+            Assert.That(() => book.RemoveAccount(account), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void AddTransaction_WhenTransactionIsNull_ThrowsException()
         {
             // Create a new, valid book.
             var book = new Book();
 
-            // Assert that trying to add a null account throws an ArgumentNullException.
+            // Assert that trying to add a null transaction throws an ArgumentNullException.
             Assert.That(() => book.AddTransaction(null), Throws.InstanceOf<ArgumentNullException>());
         }
 
@@ -287,6 +314,145 @@ namespace SharpBooks.Tests
 
             // Assert that trying to add a transaction that has already been added throws an InvalidOperationException.
             Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void RemoveTransaction_WhenTransactionIsNull_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Assert that trying to remove a null transaction throws an ArgumentNullException.
+            Assert.That(() => book.RemoveTransaction(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void RemoveTransaction_WhenValid_Succeeds()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Add and immediately remove the transaction from the book.
+            book.AddTransaction(transaction);
+            book.RemoveTransaction(transaction);
+
+            // The test passes, because the call to RemoveTransaction() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void RemoveTransaction_WhenTransactionHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Assert that trying to remove a transaction that has not been added throws an InvalidOperationException.
+            Assert.That(() => book.RemoveTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void RemoveTransaction_WhenTransactionHasAlreadyBeenRemoved_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Add and immediately remove the transaction from the book.
+            book.AddTransaction(transaction);
+            book.RemoveTransaction(transaction);
+
+            // Assert that trying to remove a transaction that has already been removed throws an InvalidOperationException.
+            Assert.That(() => book.RemoveTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [TestFixture]
+        public class TransactionTests
+        {
+            [Test]
+            public void GetIsLocked_WhenAddedToABook_ReturnsTrue()
+            {
+                // Create a new, valid book.
+                var book = new Book();
+
+                // Create a new, valid account and add it to the book.
+                var account = TestUtils.CreateValidAccount();
+                book.AddAccount(account);
+
+                // Create a new transaction and add a single, zero split.
+                var transaction = TestUtils.CreateEmptyTransaction();
+                using (var transactionLock = transaction.Lock())
+                {
+                    var split = transaction.AddSplit(transactionLock);
+                    split.SetAccount(account, transactionLock);
+                }
+
+                // Add the transaction to the book.
+                book.AddTransaction(transaction);
+
+                // Assert that the book locks the transaction.
+                Assert.That(transaction.IsLocked, Is.True);
+            }
+
+            [Test]
+            public void GetIsLocked_WhenRemovedFromABook_ReturnsFalse()
+            {
+                // Create a new, valid book.
+                var book = new Book();
+
+                // Create a new, valid account and add it to the book.
+                var account = TestUtils.CreateValidAccount();
+                book.AddAccount(account);
+
+                // Create a new transaction and add a single, zero split.
+                var transaction = TestUtils.CreateEmptyTransaction();
+                using (var transactionLock = transaction.Lock())
+                {
+                    var split = transaction.AddSplit(transactionLock);
+                    split.SetAccount(account, transactionLock);
+                }
+
+                // Add and immediately remove transaction from the book.
+                book.AddTransaction(transaction);
+                book.RemoveTransaction(transaction);
+
+                // Assert that the book unlocks the transaction once it is removed.
+                Assert.That(transaction.IsLocked, Is.False);
+            }
         }
     }
 }

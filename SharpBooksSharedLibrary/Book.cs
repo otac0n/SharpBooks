@@ -57,6 +57,17 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
             }
 
+            var involvedTransactions = from t in this.transactions.Keys
+                                       where (from s in t.GetSplits(this.transactions[t])
+                                              where s.Account == account
+                                              select s).Any()
+                                       select t;
+
+            if (involvedTransactions.Any())
+            {
+                throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
+            }
+
             this.accounts.Remove(account);
         }
 
@@ -102,6 +113,22 @@ namespace SharpBooks
                     transactionLock.Dispose();
                 }
             }
+        }
+
+        public void RemoveTransaction(Transaction transaction)
+        {
+            if (transaction == null)
+            {
+                throw new ArgumentNullException("transaction");
+            }
+
+            if (!this.transactions.ContainsKey(transaction))
+            {
+                throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
+            }
+
+            this.transactions[transaction].Dispose();
+            this.transactions.Remove(transaction);
         }
     }
 }
