@@ -206,6 +206,65 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddTransaction_WhenTransactionIsInvalid_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, empty (and therefore, invalid) transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Assert that trying to add an invalid transaction throws an InvalidOperationException.
+            Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddTransaction_WhenTransactionIsLocked_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Lock the transaction for editing.
+            using (transaction.Lock())
+            {
+                // Assert that trying to add a transaction while it is locked throws an InvalidOperationException.
+                Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+            }
+        }
+
+        [Test]
+        public void AddTransaction_WhenAnySplitAccountHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Assert that trying to add a transaction without adding the account throws an InvalidOperationException.
+            Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void AddTransaction_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid book.
@@ -226,7 +285,7 @@ namespace SharpBooks.Tests
             // Add the transaction to the book.
             book.AddTransaction(transaction);
 
-            // Assert that trying to add a transaction that has already been added throws an ArgumentNullException.
+            // Assert that trying to add a transaction that has already been added throws an InvalidOperationException.
             Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
         }
     }

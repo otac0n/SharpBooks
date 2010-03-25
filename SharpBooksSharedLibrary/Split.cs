@@ -158,7 +158,7 @@ namespace SharpBooks
 
             if (this.Account == null)
             {
-                yield return new RuleViolation("Ammount", "The split must be assigned to an account.");
+                yield return new RuleViolation("Account", "The split must be assigned to an account.");
             }
 
             if (this.Ammount != this.TransactionAmmount && this.Account != null && this.Account.Commodity == this.Transaction.BaseCommodity)

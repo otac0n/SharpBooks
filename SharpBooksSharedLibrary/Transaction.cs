@@ -9,6 +9,7 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading;
 
@@ -52,6 +53,17 @@ namespace SharpBooks
         {
             get;
             private set;
+        }
+
+        public bool IsLocked
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return this.currentLock != null;
+                }
+            }
         }
 
         public bool IsValid
@@ -149,6 +161,16 @@ namespace SharpBooks
 
                 this.splits.Remove(split);
                 split.Transaction = null;
+            }
+        }
+
+        public ReadOnlyCollection<Split> GetSplits(TransactionLock transactionLock)
+        {
+            lock (this.lockMutex)
+            {
+                this.ValidateLock(transactionLock);
+
+                return this.splits.AsReadOnly();
             }
         }
 
