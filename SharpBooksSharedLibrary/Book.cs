@@ -33,6 +33,15 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not add the account to the book, becaues the account's parent has not been added.");
             }
 
+            var duplicateIds = from a in this.accounts
+                               where a.AccountId == account.AccountId
+                               select a;
+
+            if (duplicateIds.Any())
+            {
+                throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same AccountId.");
+            }
+
             this.accounts.Add(account);
         }
 
@@ -86,6 +95,15 @@ namespace SharpBooks
             if (!transaction.IsValid)
             {
                 throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
+            }
+
+            var duplicateIds = from t in this.transactions.Keys
+                               where t.TransactionId == transaction.TransactionId
+                               select t;
+
+            if (duplicateIds.Any())
+            {
+                throw new InvalidOperationException("Could not add the transaction to the book, because another transaction has already been added with the same TransactionId.");
             }
 
             TransactionLock transactionLock = null;

@@ -44,8 +44,28 @@ namespace SharpBooks.Tests
                 TestUtils.TestCurrency, // OK
                 parent);
 
-            // Assert that trying to add the child account throws a ParentMissingException.
+            // Assert that trying to add the child account throws an InvalidOperationException.
             Assert.That(() => book.AddAccount(child), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddAccount_WhenAnotherAccountHasTheSameAccountId_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account1 = TestUtils.CreateValidAccount();
+            book.AddAccount(account1);
+
+            // Construct the offending account with the same AccountId as the above account.
+            var account2 = new Account(
+                account1.AccountId,
+                TestUtils.TestCurrency, // OK
+                null); // OK
+
+            // Assert that trying to add the child account throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -207,13 +227,8 @@ namespace SharpBooks.Tests
             // Add the account to the book.
             book.AddAccount(account);
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction that depends on the account.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Add the transaction to the book.
             book.AddTransaction(transaction);
@@ -254,13 +269,8 @@ namespace SharpBooks.Tests
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Lock the transaction for editing.
             using (transaction.Lock())
@@ -279,16 +289,39 @@ namespace SharpBooks.Tests
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction that depends on the account.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Assert that trying to add a transaction without adding the account throws an InvalidOperationException.
             Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddTransaction_WhenAnotherTransactionHasTheSameTransactionId_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new, valid transaction and add it to the book.
+            var transaction1 = TestUtils.CreateValidTransaction(account);
+            book.AddTransaction(transaction1);
+
+            // Construct a new, valid transaction that shares its TransactionId with transaction1.
+            var transaction2 = new Transaction(
+                transaction1.TransactionId,
+                TestUtils.TestCurrency); // OK
+            using (var transactionLock = transaction2.Lock())
+            {
+                var split = transaction2.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Assert that trying to add the transaction throws an InvalidOperationException.
+            Assert.That(() => book.AddTransaction(transaction2), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -301,13 +334,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
             book.AddAccount(account);
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Add the transaction to the book.
             book.AddTransaction(transaction);
@@ -336,13 +364,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
             book.AddAccount(account);
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Add and immediately remove the transaction from the book.
             book.AddTransaction(transaction);
@@ -362,13 +385,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
             book.AddAccount(account);
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Assert that trying to remove a transaction that has not been added throws an InvalidOperationException.
             Assert.That(() => book.RemoveTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
@@ -384,13 +402,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
             book.AddAccount(account);
 
-            // Create a new transaction and add a single, zero split.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
+            // Create a new, valid transaction.
+            var transaction = TestUtils.CreateValidTransaction(account);
 
             // Add and immediately remove the transaction from the book.
             book.AddTransaction(transaction);
@@ -413,13 +426,8 @@ namespace SharpBooks.Tests
                 var account = TestUtils.CreateValidAccount();
                 book.AddAccount(account);
 
-                // Create a new transaction and add a single, zero split.
-                var transaction = TestUtils.CreateEmptyTransaction();
-                using (var transactionLock = transaction.Lock())
-                {
-                    var split = transaction.AddSplit(transactionLock);
-                    split.SetAccount(account, transactionLock);
-                }
+                // Create a new, valid transaction.
+                var transaction = TestUtils.CreateValidTransaction(account);
 
                 // Add the transaction to the book.
                 book.AddTransaction(transaction);
@@ -438,13 +446,8 @@ namespace SharpBooks.Tests
                 var account = TestUtils.CreateValidAccount();
                 book.AddAccount(account);
 
-                // Create a new transaction and add a single, zero split.
-                var transaction = TestUtils.CreateEmptyTransaction();
-                using (var transactionLock = transaction.Lock())
-                {
-                    var split = transaction.AddSplit(transactionLock);
-                    split.SetAccount(account, transactionLock);
-                }
+                // Create a new, valid transaction.
+                var transaction = TestUtils.CreateValidTransaction(account);
 
                 // Add and immediately remove transaction from the book.
                 book.AddTransaction(transaction);

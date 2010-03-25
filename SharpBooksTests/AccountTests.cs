@@ -53,6 +53,37 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void Constructor_WhenAncestorHasTheSameAccountId_ThrowsException(int generations)
+        {
+            // Build a new, valid account.
+            var ancestor = TestUtils.CreateValidAccount();
+
+            // Build the ancestory of the child account.
+            var parent = ancestor;
+            for (var i = 1; i < generations; i++)
+            {
+                parent = new Account(
+                    Guid.NewGuid(), // OK
+                    TestUtils.TestCurrency, // OK
+                    parent);
+            }
+
+            // Build a delegate to construct a new account with the same AccountId as its ancestor.
+            TestDelegate constructTransaction = () => new Account(
+                ancestor.AccountId,
+                TestUtils.TestCurrency, // OK
+                ancestor);
+
+            // Assert that calling the delegate throws an InvalidOperationException.
+            Assert.That(constructTransaction, Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void GetParentAccount_WhenConstructorIsCalledWithParent_ReturnsParent()
         {
             // Build a parent account.

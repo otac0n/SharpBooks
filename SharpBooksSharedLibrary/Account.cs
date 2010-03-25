@@ -23,6 +23,17 @@ namespace SharpBooks
                 throw new ArgumentNullException("commodity");
             }
 
+            var parent = parentAccount;
+            while (parent != null)
+            {
+                if (parent.AccountId == accountId)
+                {
+                    throw new InvalidOperationException("An account may not share an its AccountId with any of its ancestors.");
+                }
+
+                parent = parent.ParentAccount;
+            }
+
             this.AccountId = accountId;
             this.Commodity = commodity;
             this.ParentAccount = parentAccount;
@@ -40,16 +51,10 @@ namespace SharpBooks
             private set;
         }
 
-        public string Name
-        {
-            get;
-            set;
-        }
-
         public Account ParentAccount
         {
             get;
-            set;
+            private set;
         }
     }
 }

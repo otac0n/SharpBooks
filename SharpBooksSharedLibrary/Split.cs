@@ -13,16 +13,9 @@ namespace SharpBooks
 
     public class Split
     {
-        internal Split(Transaction transaction, Guid splitId)
+        internal Split(Transaction transaction)
         {
-            this.SplitId = splitId;
             this.Transaction = transaction;
-        }
-
-        public Guid SplitId
-        {
-            get;
-            private set;
         }
 
         public Transaction Transaction

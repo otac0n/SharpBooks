@@ -132,7 +132,7 @@ namespace SharpBooks
             {
                 this.ValidateLock(transactionLock);
 
-                var split = new Split(this, Guid.NewGuid())
+                var split = new Split(this)
                 {
                     Ammount = 0m,
                     TransactionAmmount = 0m,

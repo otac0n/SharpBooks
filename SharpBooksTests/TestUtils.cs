@@ -27,6 +27,19 @@ namespace SharpBooks.Tests
             return new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
         }
 
+        public static Transaction CreateValidTransaction(Account splitAccouunt)
+        {
+            // Create a new transaction with a single, zero split assigned to splitAccount.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(splitAccouunt, transactionLock);
+            }
+
+            return transaction;
+        }
+
         public static Account CreateValidAccount()
         {
             // Create a new account that is valid.
