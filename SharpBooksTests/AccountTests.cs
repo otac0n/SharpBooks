@@ -54,5 +54,24 @@ namespace SharpBooks.Tests
             // Assert that calling the delegate throws an ArgumentOutOfRangeException.
             Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        [Test]
+        public void GetParentAccount_WhenConstructorIsCalledWithParent_ReturnsParent()
+        {
+            // Build a parent account.
+            var parent = new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                null); // OK
+
+            // Construct the child account, passing the above account as the parent.
+            var child = new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                parent);
+
+            // Assert that the child returns the above account as its parent.
+            Assert.That(child.ParentAccount, Is.EqualTo(parent));
+        }
     }
 }

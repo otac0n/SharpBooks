@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="Book.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CommodityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

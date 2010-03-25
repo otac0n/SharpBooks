@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
+    <Compile Include="BookTests.cs" />
     <Compile Include="CommodityTests.cs" />
     <Compile Include="SplitTests.cs" />
     <Compile Include="TestUtils.cs" />
