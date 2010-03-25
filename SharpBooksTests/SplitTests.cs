@@ -26,7 +26,7 @@ namespace SharpBooks.Tests
         public void GetIsValid_WhenAmmountAndTransactionAmmountDifferButCommodityIsTheSameAsTheTransactionBaseCommodity_ReturnsFalse()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -50,7 +50,7 @@ namespace SharpBooks.Tests
         public void GetIsValid_WhenAmmountAndTransactionAmmountSignsDiffer_ReturnsFalse()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -74,7 +74,7 @@ namespace SharpBooks.Tests
         public void GetIsValid_WhenAccountIsNull_ReturnsFalse()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
@@ -91,7 +91,7 @@ namespace SharpBooks.Tests
         public void SetAccount_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -116,7 +116,7 @@ namespace SharpBooks.Tests
         public void SetAccount_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -138,8 +138,8 @@ namespace SharpBooks.Tests
         public void SetAccount_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = TestUtils.CreateValidTransaction();
-            var transaction2 = TestUtils.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateEmptyTransaction();
+            var transaction2 = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -162,7 +162,7 @@ namespace SharpBooks.Tests
         public void SetAccount_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -180,7 +180,7 @@ namespace SharpBooks.Tests
         public void SetAmmount_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -206,7 +206,7 @@ namespace SharpBooks.Tests
         public void SetAmmount_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -229,8 +229,8 @@ namespace SharpBooks.Tests
         public void SetAmmount_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = TestUtils.CreateValidTransaction();
-            var transaction2 = TestUtils.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateEmptyTransaction();
+            var transaction2 = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -254,7 +254,7 @@ namespace SharpBooks.Tests
         public void SetAmmount_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -273,7 +273,7 @@ namespace SharpBooks.Tests
         public void SetDateCleared_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -299,7 +299,7 @@ namespace SharpBooks.Tests
         public void SetDateCleared_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -322,8 +322,8 @@ namespace SharpBooks.Tests
         public void SetDateCleared_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = TestUtils.CreateValidTransaction();
-            var transaction2 = TestUtils.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateEmptyTransaction();
+            var transaction2 = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -347,7 +347,7 @@ namespace SharpBooks.Tests
         public void SetDateCleared_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -366,7 +366,7 @@ namespace SharpBooks.Tests
         public void SetIsReconciled_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -392,7 +392,7 @@ namespace SharpBooks.Tests
         public void SetIsReconciled_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -415,8 +415,8 @@ namespace SharpBooks.Tests
         public void SetIsReconciled_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = TestUtils.CreateValidTransaction();
-            var transaction2 = TestUtils.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateEmptyTransaction();
+            var transaction2 = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -440,7 +440,7 @@ namespace SharpBooks.Tests
         public void SetIsReconciled_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -459,7 +459,7 @@ namespace SharpBooks.Tests
         public void SetTransactionAmmount_WhenLockIsValid_Succeeds()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -485,7 +485,7 @@ namespace SharpBooks.Tests
         public void SetTransactionAmmount_WithEmptyLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -508,8 +508,8 @@ namespace SharpBooks.Tests
         public void SetTransactionAmmount_WithInvalidLock_ThrowsException()
         {
             // Create two new, valid transactions.
-            var transaction1 = TestUtils.CreateValidTransaction();
-            var transaction2 = TestUtils.CreateValidTransaction();
+            var transaction1 = TestUtils.CreateEmptyTransaction();
+            var transaction2 = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -533,7 +533,7 @@ namespace SharpBooks.Tests
         public void SetTransactionAmmount_WithDisposedLock_ThrowsException()
         {
             // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction();
+            var transaction = TestUtils.CreateEmptyTransaction();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();

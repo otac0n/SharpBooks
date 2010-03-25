@@ -20,9 +20,9 @@ namespace SharpBooks.Tests
             "XTS",
             "{0}");
 
-        public static Transaction CreateValidTransaction()
+        public static Transaction CreateEmptyTransaction()
         {
-            // Create a new transaction that is valid.
+            // Create a new transaction that is empty, but otherwise valid.
             // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
             return new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
         }

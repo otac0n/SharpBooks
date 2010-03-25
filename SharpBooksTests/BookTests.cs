@@ -49,6 +49,22 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddAccount_DuplicateAttempts_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Assert that trying to add the account again throws a ParentMissingException.
+            Assert.That(() => book.AddAccount(account), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void AddAccount_WhenAccountIsValidAndHasNoParent_Succeeds()
         {
             // Create a new, valid book.
@@ -177,6 +193,41 @@ namespace SharpBooks.Tests
 
             // Assert that trying to remove the parent account throws an InvalidOperationException.
             Assert.That(() => book.RemoveAccount(parent), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddTransaction_WhenTransactionIsNull_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Assert that trying to add a null account throws an ArgumentNullException.
+            Assert.That(() => book.AddTransaction(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void AddTransaction_DuplicateAttempts_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new transaction and add a single, zero split.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            using (var transactionLock = transaction.Lock())
+            {
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+            }
+
+            // Add the transaction to the book.
+            book.AddTransaction(transaction);
+
+            // Assert that trying to add a transaction that has already been added throws an ArgumentNullException.
+            Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
         }
     }
 }

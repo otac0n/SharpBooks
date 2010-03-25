@@ -66,17 +66,24 @@ namespace SharpBooks
         {
             lock (this.lockMutex)
             {
-                foreach (var split in this.splits)
+                if (this.splits.Count == 0)
                 {
-                    foreach (var violation in split.GetRuleViolations())
-                    {
-                        yield return violation;
-                    }
+                    yield return new RuleViolation("Splits", "The transaction must have at least one split.");
                 }
-
-                if (this.splits.Sum(s => s.TransactionAmmount) != 0m)
+                else
                 {
-                    yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                    foreach (var split in this.splits)
+                    {
+                        foreach (var violation in split.GetRuleViolations())
+                        {
+                            yield return violation;
+                        }
+                    }
+
+                    if (this.splits.Sum(s => s.TransactionAmmount) != 0m)
+                    {
+                        yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                    }
                 }
             }
 

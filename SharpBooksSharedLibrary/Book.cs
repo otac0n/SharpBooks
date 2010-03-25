@@ -14,6 +14,7 @@ namespace SharpBooks
     public class Book
     {
         private readonly List<Account> accounts = new List<Account>();
+        private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
 
         public void AddAccount(Account account)
         {
@@ -22,9 +23,14 @@ namespace SharpBooks
                 throw new ArgumentNullException("account");
             }
 
+            if (this.accounts.Contains(account))
+            {
+                throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
+            }
+
             if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))
             {
-                throw new InvalidOperationException("You cannot add an account to a book until the account's parent has been added.");
+                throw new InvalidOperationException("Could not add the account to the book, becaues the account's parent has not been added.");
             }
 
             this.accounts.Add(account);
@@ -52,6 +58,21 @@ namespace SharpBooks
             }
 
             this.accounts.Remove(account);
+        }
+
+        public void AddTransaction(Transaction transaction)
+        {
+            if (transaction == null)
+            {
+                throw new ArgumentNullException("transaction");
+            }
+
+            if (this.transactions.ContainsKey(transaction))
+            {
+                throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
+            }
+
+            this.transactions.Add(transaction, transaction.Lock());
         }
     }
 }
