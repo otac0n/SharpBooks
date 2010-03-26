@@ -92,7 +92,7 @@ namespace SharpBooks
                         }
                     }
 
-                    if (this.splits.Sum(s => s.TransactionAmmount) != 0m)
+                    if (this.splits.Sum(s => s.TransactionAmount) != 0m)
                     {
                         yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
                     }
@@ -143,8 +143,8 @@ namespace SharpBooks
 
                 var split = new Split(this)
                 {
-                    Ammount = 0m,
-                    TransactionAmmount = 0m,
+                    Amount = 0m,
+                    TransactionAmount = 0m,
                 };
 
                 this.splits.Add(split);

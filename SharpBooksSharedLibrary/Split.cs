@@ -42,13 +42,13 @@ namespace SharpBooks
             internal set;
         }
 
-        public decimal Ammount
+        public decimal Amount
         {
             get;
             internal set;
         }
 
-        public decimal TransactionAmmount
+        public decimal TransactionAmount
         {
             get;
             internal set;
@@ -78,7 +78,7 @@ namespace SharpBooks
             }
         }
 
-        public void SetAmmount(decimal ammount, TransactionLock transactionLock)
+        public void SetAmount(decimal amount, TransactionLock transactionLock)
         {
             this.Transaction.EnterCriticalSection();
 
@@ -86,7 +86,7 @@ namespace SharpBooks
             {
                 this.Transaction.ValidateLock(transactionLock);
 
-                this.Ammount = ammount;
+                this.Amount = amount;
             }
             finally
             {
@@ -94,7 +94,7 @@ namespace SharpBooks
             }
         }
 
-        public void SetTransactionAmmount(decimal transactionAmmount, TransactionLock transactionLock)
+        public void SetTransactionAmount(decimal transactionAmount, TransactionLock transactionLock)
         {
             this.Transaction.EnterCriticalSection();
 
@@ -102,7 +102,7 @@ namespace SharpBooks
             {
                 this.Transaction.ValidateLock(transactionLock);
 
-                this.TransactionAmmount = transactionAmmount;
+                this.TransactionAmount = transactionAmount;
             }
             finally
             {
@@ -144,9 +144,9 @@ namespace SharpBooks
 
         public IEnumerable<RuleViolation> GetRuleViolations()
         {
-            if (Math.Sign(this.Ammount) != Math.Sign(this.TransactionAmmount))
+            if (Math.Sign(this.Amount) != Math.Sign(this.TransactionAmount))
             {
-                yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same sign.");
+                yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same sign.");
             }
 
             if (this.Account == null)
@@ -154,9 +154,9 @@ namespace SharpBooks
                 yield return new RuleViolation("Account", "The split must be assigned to an account.");
             }
 
-            if (this.Ammount != this.TransactionAmmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
+            if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
             {
-                yield return new RuleViolation("Ammount", "The ammount and the transaction ammount of a split must have the same value, if they are of the same .");
+                yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
             }
 
             yield break;

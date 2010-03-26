@@ -163,9 +163,9 @@ namespace SharpBooks.Tests
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
 
-                // Set the ammount of the split to be non-zero.
-                split.SetAmmount(1m, transactionLock);
-                split.SetTransactionAmmount(1m, transactionLock);
+                // Set the amount of the split to be non-zero.
+                split.SetAmount(1m, transactionLock);
+                split.SetTransactionAmount(1m, transactionLock);
             }
 
             // Assert that the transaction with a single, non-zero split is invalid.

@@ -18,6 +18,8 @@ namespace SharpBooks
         {
             this.AccountId = account.AccountId;
             this.ParentAccountId = account.ParentAccount == null ? (Guid?)null : account.ParentAccount.AccountId;
+            this.SecurityType = account.Security.SecurityType;
+            this.SecuritySymbol = account.Security.Symbol;
         }
 
         public Guid AccountId
@@ -32,7 +34,13 @@ namespace SharpBooks
             private set;
         }
 
-        public Guid SecurityId
+        public SecurityType SecurityType
+        {
+            get;
+            private set;
+        }
+
+        public string SecuritySymbol
         {
             get;
             private set;

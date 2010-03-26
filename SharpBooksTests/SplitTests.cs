@@ -23,7 +23,7 @@ namespace SharpBooks.Tests
             "{0}");
 
         [Test]
-        public void GetIsValid_WhenAmmountAndTransactionAmmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()
+        public void GetIsValid_WhenAmountAndTransactionAmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -38,16 +38,16 @@ namespace SharpBooks.Tests
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
 
-                // Set the ammount and transaction ammount to be different.
-                split.SetAmmount(1, transactionLock);
-                split.SetTransactionAmmount(2, transactionLock);
+                // Set the amount and transaction amount to be different.
+                split.SetAmount(1, transactionLock);
+                split.SetTransactionAmount(2, transactionLock);
 
                 Assert.False(split.IsValid);
             }
         }
 
         [Test]
-        public void GetIsValid_WhenAmmountAndTransactionAmmountSignsDiffer_ReturnsFalse()
+        public void GetIsValid_WhenAmountAndTransactionAmountSignsDiffer_ReturnsFalse()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -62,9 +62,9 @@ namespace SharpBooks.Tests
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
 
-                // Set the ammount and transaction ammount to have different signs.
-                split.SetAmmount(-1, transactionLock);
-                split.SetTransactionAmmount(1, transactionLock);
+                // Set the amount and transaction amount to have different signs.
+                split.SetAmount(-1, transactionLock);
+                split.SetTransactionAmount(1, transactionLock);
 
                 Assert.False(split.IsValid);
             }
@@ -177,7 +177,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void SetAmmount_WhenLockIsValid_Succeeds()
+        public void SetAmount_WhenLockIsValid_Succeeds()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -194,16 +194,16 @@ namespace SharpBooks.Tests
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
 
-                // Set the ammount of the split.
-                split.SetAmmount(1m, transactionLock);
+                // Set the amount of the split.
+                split.SetAmount(1m, transactionLock);
 
-                // Assert that the Ammount property reflects the new value.
-                Assert.That(split.Ammount, Is.EqualTo(1m));
+                // Assert that the Amount property reflects the new value.
+                Assert.That(split.Amount, Is.EqualTo(1m));
             }
         }
 
         [Test]
-        public void SetAmmount_WithEmptyLock_ThrowsException()
+        public void SetAmount_WithEmptyLock_ThrowsException()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -222,11 +222,11 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetAmmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetAmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
-        public void SetAmmount_WithInvalidLock_ThrowsException()
+        public void SetAmount_WithInvalidLock_ThrowsException()
         {
             // Create two new, empty transactions.
             var transaction1 = TestUtils.CreateEmptyTransaction();
@@ -245,13 +245,13 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetAmmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetAmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
 
         [Test]
-        public void SetAmmount_WithDisposedLock_ThrowsException()
+        public void SetAmount_WithDisposedLock_ThrowsException()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -266,7 +266,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetAmmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetAmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -456,7 +456,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void SetTransactionAmmount_WhenLockIsValid_Succeeds()
+        public void SetTransactionAmount_WhenLockIsValid_Succeeds()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -473,16 +473,16 @@ namespace SharpBooks.Tests
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
 
-                // Set the transaction ammount of the split.
-                split.SetTransactionAmmount(1m, transactionLock);
+                // Set the transaction amount of the split.
+                split.SetTransactionAmount(1m, transactionLock);
 
-                // Assert that the TransactionAmmount property reflects the new value.
-                Assert.That(split.TransactionAmmount, Is.EqualTo(1m));
+                // Assert that the TransactionAmount property reflects the new value.
+                Assert.That(split.TransactionAmount, Is.EqualTo(1m));
             }
         }
 
         [Test]
-        public void SetTransactionAmmount_WithEmptyLock_ThrowsException()
+        public void SetTransactionAmount_WithEmptyLock_ThrowsException()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -501,11 +501,11 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetTransactionAmmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetTransactionAmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
-        public void SetTransactionAmmount_WithInvalidLock_ThrowsException()
+        public void SetTransactionAmount_WithInvalidLock_ThrowsException()
         {
             // Create two new, empty transactions.
             var transaction1 = TestUtils.CreateEmptyTransaction();
@@ -524,13 +524,13 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetTransactionAmmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetTransactionAmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
 
         [Test]
-        public void SetTransactionAmmount_WithDisposedLock_ThrowsException()
+        public void SetTransactionAmount_WithDisposedLock_ThrowsException()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -545,7 +545,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetTransactionAmmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetTransactionAmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
     }
 }
