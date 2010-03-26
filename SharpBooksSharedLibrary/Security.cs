@@ -8,6 +8,7 @@
 namespace SharpBooks
 {
     using System;
+    using System.Globalization;
 
     public sealed class Security
     {
@@ -30,7 +31,7 @@ namespace SharpBooks
 
             if (!ValidateSignFormat(signFormat))
             {
-                throw new ArgumentException("signFormat");
+                throw new ArgumentException("The sign format of a security must include the dollar amount (i.e. '{0}')  as part of the format string.", "signFormat");
             }
 
             this.SecurityType = securityType;
@@ -74,7 +75,7 @@ namespace SharpBooks
 
             try
             {
-                string.Format(signFormat, (decimal)1);
+                string.Format(CultureInfo.InvariantCulture, signFormat, (decimal)1);
             }
             catch (FormatException)
             {
