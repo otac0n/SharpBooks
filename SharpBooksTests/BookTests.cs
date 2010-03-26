@@ -17,78 +17,56 @@ namespace SharpBooks.Tests
     public class BookTests
     {
         [Test]
-        public void AddAccount_WhenAccountIsNull_ThrowsException()
+        public void AddSecurity_WhenSecurityIsValid_Succeeds()
         {
             // Create a new, valid book.
             var book = new Book();
 
-            // Assert that trying to add a null account throws an ArgumentNullException.
-            Assert.That(() => book.AddAccount(null), Throws.InstanceOf<ArgumentNullException>());
+            // Add the test security to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // The test passes, because the call to AddSecurity() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
         }
 
         [Test]
-        public void AddAccount_WhenAccountsParentHasNotBeenAdded_ThrowsException()
+        public void AddSecurity_WhenSecurityIsNull_ThrowsException()
         {
             // Create a new, valid book.
             var book = new Book();
 
-            // Build a parent account.
-            var parent = new Account(
-                Guid.NewGuid(), // OK
-                TestUtils.TestCurrency, // OK
-                null); // OK
-
-            // Construct the child account, passing the above account as the parent.
-            var child = new Account(
-                Guid.NewGuid(), // OK
-                TestUtils.TestCurrency, // OK
-                parent);
-
-            // Assert that trying to add the child account throws an InvalidOperationException.
-            Assert.That(() => book.AddAccount(child), Throws.InstanceOf<InvalidOperationException>());
+            // Assert that trying to add a null security throws an ArgumentNullException.
+            Assert.That(() => book.AddSecurity(null), Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
-        public void AddAccount_WhenAnotherAccountHasTheSameAccountId_ThrowsException()
+        public void AddSecurity_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid book.
             var book = new Book();
 
-            // Create a new, valid account and add it to the book.
-            var account1 = TestUtils.CreateValidAccount();
-            book.AddAccount(account1);
+            // Add the test security to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
 
-            // Construct the offending account with the same AccountId as the above account.
-            var account2 = new Account(
-                account1.AccountId,
-                TestUtils.TestCurrency, // OK
-                null); // OK
-
-            // Assert that trying to add the child account throws an InvalidOperationException.
-            Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
+            // Assert that trying to add the security again throws an InvalidOperationException.
+            Assert.That(() => book.AddSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
-        public void AddAccount_DuplicateAttempts_ThrowsException()
+        public void RemoveSecurity_WhenSecurityIsNull_ThrowsException()
         {
             // Create a new, valid book.
             var book = new Book();
 
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Add the account to the book.
-            book.AddAccount(account);
-
-            // Assert that trying to add the account again throws a ParentMissingException.
-            Assert.That(() => book.AddAccount(account), Throws.InstanceOf<InvalidOperationException>());
+            // Assert that trying to add a null security throws an ArgumentNullException.
+            Assert.That(() => book.RemoveSecurity(null), Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void AddAccount_WhenAccountIsValidAndHasNoParent_Succeeds()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -104,7 +82,7 @@ namespace SharpBooks.Tests
         public void AddAccount_WhenAccountsParentHasBeenAdded_Succeeds()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Build a parent account.
             var parent = new Account(
@@ -129,10 +107,91 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddAccount_WhenAccountIsNull_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Assert that trying to add a null account throws an ArgumentNullException.
+            Assert.That(() => book.AddAccount(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void AddAccount_DuplicateAttempts_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Assert that trying to add the account again throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(account), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddAccount_WhenAccountsSecurityHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Build a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Assert that trying to add the account without first adding the security throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(account), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddAccount_WhenAccountsParentHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Build a parent account.
+            var parent = new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                null); // OK
+
+            // Construct the child account, passing the above account as the parent.
+            var child = new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                parent);
+
+            // Assert that trying to add the child account throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(child), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddAccount_WhenAnotherAccountHasTheSameAccountId_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account and add it to the book.
+            var account1 = TestUtils.CreateValidAccount();
+            book.AddAccount(account1);
+
+            // Construct the offending account with the same AccountId as the above account.
+            var account2 = new Account(
+                account1.AccountId,
+                TestUtils.TestCurrency, // OK
+                null); // OK
+
+            // Assert that trying to add the child account throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void RemoveAccount_WhenAccountIsNull_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Assert that trying to remove a null account throws an ArgumentNullException.
             Assert.That(() => book.RemoveAccount(null), Throws.InstanceOf<ArgumentNullException>());
@@ -142,7 +201,7 @@ namespace SharpBooks.Tests
         public void RemoveAccount_WhenAccountHasNotBeenAdded_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -155,7 +214,7 @@ namespace SharpBooks.Tests
         public void RemoveAccount_WhenAccountHasBeenAddedHasNoChildrenAndIsNotInvolvedInAnySplits_Succeeds()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -174,7 +233,7 @@ namespace SharpBooks.Tests
         public void RemoveAccount_WhenAccountHasAlreadyBeenRemoved_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -191,7 +250,7 @@ namespace SharpBooks.Tests
         public void RemoveAccount_WhenAccountHasChildren_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Build a parent account.
             var parent = new Account(
@@ -219,7 +278,7 @@ namespace SharpBooks.Tests
         public void RemoveAccount_WhenAccountIsInvolvedInSplits_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account
             var account = TestUtils.CreateValidAccount();
@@ -241,7 +300,7 @@ namespace SharpBooks.Tests
         public void AddTransaction_WhenTransactionIsNull_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Assert that trying to add a null transaction throws an ArgumentNullException.
             Assert.That(() => book.AddTransaction(null), Throws.InstanceOf<ArgumentNullException>());
@@ -251,7 +310,7 @@ namespace SharpBooks.Tests
         public void AddTransaction_WhenTransactionIsInvalid_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, empty (and therefore, invalid) transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
@@ -264,10 +323,11 @@ namespace SharpBooks.Tests
         public void AddTransaction_WhenTransactionIsLocked_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
-            // Create a new, valid account.
+            // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
 
             // Create a new, valid transaction.
             var transaction = TestUtils.CreateValidTransaction(account);
@@ -284,7 +344,7 @@ namespace SharpBooks.Tests
         public void AddTransaction_WhenAnySplitAccountHasNotBeenAdded_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -300,7 +360,7 @@ namespace SharpBooks.Tests
         public void AddTransaction_WhenAnotherTransactionHasTheSameTransactionId_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
@@ -328,7 +388,7 @@ namespace SharpBooks.Tests
         public void AddTransaction_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
@@ -348,7 +408,7 @@ namespace SharpBooks.Tests
         public void RemoveTransaction_WhenTransactionIsNull_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Assert that trying to remove a null transaction throws an ArgumentNullException.
             Assert.That(() => book.RemoveTransaction(null), Throws.InstanceOf<ArgumentNullException>());
@@ -358,7 +418,7 @@ namespace SharpBooks.Tests
         public void RemoveTransaction_WhenValid_Succeeds()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
@@ -379,7 +439,7 @@ namespace SharpBooks.Tests
         public void RemoveTransaction_WhenTransactionHasNotBeenAdded_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
@@ -396,7 +456,7 @@ namespace SharpBooks.Tests
         public void RemoveTransaction_WhenTransactionHasAlreadyBeenRemoved_ThrowsException()
         {
             // Create a new, valid book.
-            var book = new Book();
+            var book = TestUtils.CreateValidBook();
 
             // Create a new, valid account and add it to the book.
             var account = TestUtils.CreateValidAccount();
@@ -420,7 +480,7 @@ namespace SharpBooks.Tests
             public void GetIsLocked_WhenAddedToABook_ReturnsTrue()
             {
                 // Create a new, valid book.
-                var book = new Book();
+                var book = TestUtils.CreateValidBook();
 
                 // Create a new, valid account and add it to the book.
                 var account = TestUtils.CreateValidAccount();
@@ -440,7 +500,7 @@ namespace SharpBooks.Tests
             public void GetIsLocked_WhenRemovedFromABook_ReturnsFalse()
             {
                 // Create a new, valid book.
-                var book = new Book();
+                var book = TestUtils.CreateValidBook();
 
                 // Create a new, valid account and add it to the book.
                 var account = TestUtils.CreateValidAccount();
@@ -461,7 +521,7 @@ namespace SharpBooks.Tests
             public void CreateSavePoint_WhenCalled_Succeeds()
             {
                 // Create a new, valid book.
-                var book = new Book();
+                var book = TestUtils.CreateValidBook();
 
                 // Request a save point from the book.
                 using (var savePoint = book.CreateSavePoint())
@@ -475,7 +535,7 @@ namespace SharpBooks.Tests
             public void Replay_WhenSavePointIsNull_ReplaysFromTheBegining()
             {
                 // Create a new, valid book.
-                var book = new Book();
+                var book = TestUtils.CreateValidBook();
 
                 // Create a new, valid account.
                 var account = TestUtils.CreateValidAccount();
@@ -504,7 +564,7 @@ namespace SharpBooks.Tests
             public void Replay_WhenSavePointIsValid_ReplaysFromTheSavedPoint()
             {
                 // Create a new, valid book.
-                var book = new Book();
+                var book = TestUtils.CreateValidBook();
 
                 // Create a new, valid account.
                 var account = TestUtils.CreateValidAccount();

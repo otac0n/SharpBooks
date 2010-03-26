@@ -13,10 +13,40 @@ namespace SharpBooks
 
     public class Book
     {
+        private readonly List<Security> securities = new List<Security>();
         private readonly List<Account> accounts = new List<Account>();
         private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
+
+        public Book()
+        {
+        }
+
+        public void AddSecurity(Security security)
+        {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
+            if (this.securities.Contains(security))
+            {
+                throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
+            }
+
+            this.securities.Add(security);
+        }
+
+        public void RemoveSecurity(Security security)
+        {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
+            this.securities.Remove(security);
+        }
 
         public void AddAccount(Account account)
         {
@@ -28,6 +58,11 @@ namespace SharpBooks
             if (this.accounts.Contains(account))
             {
                 throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
+            }
+
+            if (!this.securities.Contains(account.Security))
+            {
+                throw new InvalidOperationException("Could not add the account to the book, becaues the account's security has not been added.");
             }
 
             if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))

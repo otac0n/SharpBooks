@@ -46,5 +46,13 @@ namespace SharpBooks.Tests
             // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
             return new Account(Guid.NewGuid(), TestUtils.TestCurrency, null);
         }
+
+        public static Book CreateValidBook()
+        {
+            // Create a new book that empty, except for the test currency.
+            var book = new Book();
+            book.AddSecurity(TestCurrency);
+            return book;
+        }
     }
 }
