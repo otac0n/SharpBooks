@@ -192,6 +192,11 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not unlock the transaction, because it is not currently locked.");
                 }
 
+                if (this.currentLock != transactionLock)
+                {
+                    throw new InvalidOperationException("Could not unlock the transaction, because the lock provided was not valid.");
+                }
+
                 this.currentLock = null;
             }
         }
@@ -210,12 +215,12 @@ namespace SharpBooks
         {
             if (this.currentLock == null)
             {
-                throw new InvalidOperationException("Could modify the transaction, because it is not currently locked for editing.");
+                throw new InvalidOperationException("Could not modify the transaction, because it is not currently locked for editing.");
             }
 
             if (this.currentLock != transactionLock)
             {
-                throw new InvalidOperationException("Could modify the transaction, because the lock provided was not valid.");
+                throw new InvalidOperationException("Could not modify the transaction, because the lock provided was not valid.");
             }
         }
     }

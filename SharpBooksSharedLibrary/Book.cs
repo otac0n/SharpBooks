@@ -232,11 +232,21 @@ namespace SharpBooks
 
         public SavePoint CreateSavePoint()
         {
-            var savePoint = new SavePoint();
+            var savePoint = new SavePoint(this);
 
             this.saveTracks.Add(savePoint, new SaveTrack());
             
             return savePoint;
+        }
+
+        internal void RemoveSavePoint(SavePoint savePoint)
+        {
+            if (!this.saveTracks.ContainsKey(savePoint))
+            {
+                throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
+            }
+
+            this.saveTracks.Remove(savePoint);
         }
 
         public void Replay(IDataAdapter dataAdapter, SavePoint savePoint)

@@ -16,7 +16,8 @@ namespace SharpBooks
     {
         public TransactionData(Transaction transaction)
         {
-            
+            this.TransactionId = transaction.TransactionId;
+            this.Date = transaction.Date;
         }
 
         public Guid TransactionId

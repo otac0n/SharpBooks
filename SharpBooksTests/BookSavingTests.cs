@@ -110,5 +110,22 @@ namespace SharpBooks.Tests
                 Assert.That(() => book2.Replay(destination, sp1), Throws.InstanceOf<InvalidOperationException>());
             }
         }
+
+        [Test]
+        public void Replay_WithDisposedSavePoint_ThrowsException()
+        {
+            // Create a new, valid books.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a stub data adapter as a destination.
+            var destination = new StubDataAdapter();
+
+            // Create a save point in the first book and dispose it.
+            var savePoint = book.CreateSavePoint();
+            savePoint.Dispose();
+
+            // Assert that trying to use the disposed save point throws an InvalidOperationException.
+            Assert.That(() => book.Replay(destination, savePoint), Throws.InstanceOf<InvalidOperationException>());
+        }
     }
 }

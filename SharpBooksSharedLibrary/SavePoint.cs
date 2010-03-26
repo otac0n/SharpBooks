@@ -12,14 +12,28 @@ namespace SharpBooks
     using System.Linq;
     using System.Text;
 
-    public class SavePoint : IDisposable
+    public sealed class SavePoint : IDisposable
     {
-        internal SavePoint()
+        internal SavePoint(Book book)
         {
+            this.Book = book;
+        }
+
+        public Book Book
+        {
+            get;
+            private set;
         }
 
         public void Dispose()
         {
+            if (this.Book == null)
+            {
+                return;
+            }
+
+            this.Book.RemoveSavePoint(this);
+            this.Book = null;
         }
     }
 }
