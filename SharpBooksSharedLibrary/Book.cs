@@ -235,9 +235,10 @@ namespace SharpBooks
 
             if (savePoint != null)
             {
-                //if (!this.saveTracks.ContainsKey(savePoint))
-                //{
-                //}
+                if (!this.saveTracks.ContainsKey(savePoint))
+                {
+                    throw new InvalidOperationException("Could replay the book's modifications, because the save point could not be found.");
+                }
 
                 track = this.saveTracks[savePoint];
             }

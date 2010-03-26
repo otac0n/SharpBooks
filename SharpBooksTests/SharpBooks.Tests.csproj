@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
+    <Compile Include="BookSavingTests.cs" />
     <Compile Include="BookTests.cs" />
     <Compile Include="CommodityTests.cs" />
     <Compile Include="MockDataAdapter.cs" />
     <Compile Include="SplitTests.cs" />
+    <Compile Include="StubDataAdapter.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="TransactionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
