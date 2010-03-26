@@ -18,6 +18,8 @@ namespace SharpBooks
         {
             this.TransactionId = transaction.TransactionId;
             this.Date = transaction.Date;
+            this.BaseSecurityType = transaction.BaseSecurity.SecurityType;
+            this.BaseSecuritySymbol = transaction.BaseSecurity.Symbol;
         }
 
         public Guid TransactionId
@@ -32,7 +34,13 @@ namespace SharpBooks
             private set;
         }
 
-        public Guid BaseSecurityId
+        public SecurityType BaseSecurityType
+        {
+            get;
+            private set;
+        }
+
+        public string BaseSecuritySymbol
         {
             get;
             private set;

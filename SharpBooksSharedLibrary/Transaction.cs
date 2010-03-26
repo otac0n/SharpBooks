@@ -70,45 +70,48 @@ namespace SharpBooks
         {
             get
             {
-                return this.GetRuleViolations().Count() == 0;
+                return this.RuleViolations.Count() == 0;
             }
         }
 
-        public IEnumerable<RuleViolation> GetRuleViolations()
+        public IEnumerable<RuleViolation> RuleViolations
         {
-            lock (this.lockMutex)
+            get
             {
-                if (this.splits.Count == 0)
+                lock (this.lockMutex)
                 {
-                    yield return new RuleViolation("Splits", "The transaction must have at least one split.");
-                }
-                else
-                {
-                    foreach (var split in this.splits)
+                    if (this.splits.Count == 0)
                     {
-                        foreach (var violation in split.GetRuleViolations())
+                        yield return new RuleViolation("Splits", "The transaction must have at least one split.");
+                    }
+                    else
+                    {
+                        foreach (var split in this.splits)
                         {
-                            yield return violation;
+                            foreach (var violation in split.RuleViolations)
+                            {
+                                yield return violation;
+                            }
+                        }
+
+                        if (this.splits.Sum(s => s.TransactionAmount) != 0m)
+                        {
+                            yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                        }
+
+                        var sameSecurity = from s in this.splits
+                                           where s.Account != null && s.Account.Security == this.BaseSecurity
+                                           select s;
+
+                        if (!sameSecurity.Any())
+                        {
+                            yield return new RuleViolation("BaseSecurity", "The transaction must share the same security as at least one of its splits.");
                         }
                     }
-
-                    if (this.splits.Sum(s => s.TransactionAmount) != 0m)
-                    {
-                        yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
-                    }
-
-                    var sameSecurity = from s in this.splits
-                                       where s.Account != null && s.Account.Security == this.BaseSecurity
-                                       select s;
-
-                    if (!sameSecurity.Any())
-                    {
-                        yield return new RuleViolation("BaseSecurity", "The transaction must share the same security as at least one of its splits.");
-                    }
                 }
-            }
 
-            yield break;
+                yield break;
+            }
         }
 
         public TransactionLock Lock()

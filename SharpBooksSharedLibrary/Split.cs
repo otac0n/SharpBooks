@@ -58,7 +58,7 @@ namespace SharpBooks
         {
             get
             {
-                return this.GetRuleViolations().Count() == 0;
+                return this.RuleViolations.Count() == 0;
             }
         }
 
@@ -142,24 +142,27 @@ namespace SharpBooks
             }
         }
 
-        public IEnumerable<RuleViolation> GetRuleViolations()
+        public IEnumerable<RuleViolation> RuleViolations
         {
-            if (Math.Sign(this.Amount) != Math.Sign(this.TransactionAmount))
+            get
             {
-                yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same sign.");
-            }
+                if (Math.Sign(this.Amount) != Math.Sign(this.TransactionAmount))
+                {
+                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same sign.");
+                }
 
-            if (this.Account == null)
-            {
-                yield return new RuleViolation("Account", "The split must be assigned to an account.");
-            }
+                if (this.Account == null)
+                {
+                    yield return new RuleViolation("Account", "The split must be assigned to an account.");
+                }
 
-            if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
-            {
-                yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
-            }
+                if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
+                {
+                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
+                }
 
-            yield break;
+                yield break;
+            }
         }
     }
 }
