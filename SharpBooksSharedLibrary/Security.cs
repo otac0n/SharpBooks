@@ -9,7 +9,7 @@ namespace SharpBooks
 {
     using System;
 
-    public class Security
+    public sealed class Security
     {
         public Security(SecurityType securityType, string name, string symbol, string signFormat)
         {

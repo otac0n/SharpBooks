@@ -9,7 +9,7 @@ namespace SharpBooks
 {
     using System;
 
-    public class TransactionLock : IDisposable
+    public sealed class TransactionLock : IDisposable
     {
         internal TransactionLock(Transaction transaction)
         {

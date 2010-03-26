@@ -13,7 +13,7 @@ namespace SharpBooks
     using System.Linq;
     using System.Threading;
 
-    public class Transaction
+    public sealed class Transaction
     {
         private readonly object lockMutex = new object();
 
@@ -95,6 +95,15 @@ namespace SharpBooks
                     if (this.splits.Sum(s => s.TransactionAmmount) != 0m)
                     {
                         yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                    }
+
+                    var sameSecurity = from s in this.splits
+                                       where s.Account != null && s.Account.Security == this.BaseSecurity
+                                       select s;
+
+                    if (!sameSecurity.Any())
+                    {
+                        yield return new RuleViolation("BaseSecurity", "The transaction must share the same security as at least one of its splits.");
                     }
                 }
             }

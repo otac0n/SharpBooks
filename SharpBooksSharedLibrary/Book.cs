@@ -15,6 +15,8 @@ namespace SharpBooks
     {
         private readonly List<Account> accounts = new List<Account>();
         private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
+        private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
+        private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
         public void AddAccount(Account account)
         {
@@ -43,6 +45,7 @@ namespace SharpBooks
             }
 
             this.accounts.Add(account);
+            this.baseSaveTrack.AddAccount(account);
         }
 
         public void RemoveAccount(Account account)
@@ -78,6 +81,7 @@ namespace SharpBooks
             }
 
             this.accounts.Remove(account);
+            this.baseSaveTrack.RemoveAccount(account);
         }
 
         public void AddTransaction(Transaction transaction)
@@ -123,6 +127,7 @@ namespace SharpBooks
 
                 this.transactions.Add(transaction, transactionLock);
                 transactionLock = null;
+                this.baseSaveTrack.AddTransaction(transaction);
             }
             finally
             {
@@ -147,6 +152,105 @@ namespace SharpBooks
 
             this.transactions[transaction].Dispose();
             this.transactions.Remove(transaction);
+            this.baseSaveTrack.RemoveTransaction(transaction);
+        }
+
+        public SavePoint CreateSavePoint()
+        {
+            return new SavePoint();
+        }
+
+        public void Replay(IDataAdapter dataAdapter, SavePoint savePoint)
+        {
+            var track = this.baseSaveTrack;
+
+            track.Replay(dataAdapter);
+        }
+
+        private class SaveTrack
+        {
+            private enum ActionType
+            {
+                AddAccount,
+                RemoveAccount,
+                AddTransaction,
+                RemoveTransaction
+            }
+
+            private List<Action> actions = new List<Action>();
+
+            public void Replay(IDataAdapter dataAdapter)
+            {
+                foreach (var action in actions)
+                {
+                    switch (action.ActionType)
+                    {
+                        case ActionType.AddAccount:
+                            dataAdapter.AddAccount((AccountData)action.Item);
+                            break;
+                        case ActionType.RemoveAccount:
+                            dataAdapter.RemoveAccount((Guid)action.Item);
+                            break;
+                        case ActionType.AddTransaction:
+                            dataAdapter.AddTransaction((TransactionData)action.Item);
+                            break;
+                        case ActionType.RemoveTransaction:
+                            dataAdapter.RemoveTransaction((Guid)action.Item);
+                            break;
+                    }
+                }
+            }
+
+            public void AddAccount(Account account)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.AddAccount,
+                    Item = new AccountData(account),
+                });
+            }
+
+            public void RemoveAccount(Account account)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.RemoveAccount,
+                    Item = account.AccountId,
+                });
+            }
+
+            public void AddTransaction(Transaction transaction)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.AddTransaction,
+                    Item = new TransactionData(transaction),
+                });
+            }
+
+            public void RemoveTransaction(Transaction transaction)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.RemoveTransaction,
+                    Item = transaction.TransactionId,
+                });
+            }
+
+            private class Action
+            {
+                public ActionType ActionType
+                {
+                    get;
+                    set;
+                }
+
+                public object Item
+                {
+                    get;
+                    set;
+                }
+            }
         }
     }
 }

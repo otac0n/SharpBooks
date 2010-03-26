@@ -11,7 +11,7 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Split
+    public sealed class Split
     {
         internal Split(Transaction transaction)
         {
