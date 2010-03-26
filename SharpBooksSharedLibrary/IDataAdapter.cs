@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="IDataAdapter.cs" company="Microsoft">
-//  Copyright (c) 2010 Microsoft
+// <copyright file="IDataAdapter.cs" company="(none)">
+//  Copyright (c) 2010 John Gietzen
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks
