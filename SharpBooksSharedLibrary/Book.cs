@@ -46,6 +46,10 @@ namespace SharpBooks
 
             this.accounts.Add(account);
             this.baseSaveTrack.AddAccount(account);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.AddAccount(account);
+            }
         }
 
         public void RemoveAccount(Account account)
@@ -82,6 +86,10 @@ namespace SharpBooks
 
             this.accounts.Remove(account);
             this.baseSaveTrack.RemoveAccount(account);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.RemoveAccount(account);
+            }
         }
 
         public void AddTransaction(Transaction transaction)
@@ -128,6 +136,10 @@ namespace SharpBooks
                 this.transactions.Add(transaction, transactionLock);
                 transactionLock = null;
                 this.baseSaveTrack.AddTransaction(transaction);
+                foreach (var track in this.saveTracks)
+                {
+                    track.Value.AddTransaction(transaction);
+                }
             }
             finally
             {
@@ -153,16 +165,37 @@ namespace SharpBooks
             this.transactions[transaction].Dispose();
             this.transactions.Remove(transaction);
             this.baseSaveTrack.RemoveTransaction(transaction);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.RemoveTransaction(transaction);
+            }
         }
 
         public SavePoint CreateSavePoint()
         {
-            return new SavePoint();
+            var savePoint = new SavePoint();
+
+            this.saveTracks.Add(savePoint, new SaveTrack());
+            
+            return savePoint;
         }
 
         public void Replay(IDataAdapter dataAdapter, SavePoint savePoint)
         {
-            var track = this.baseSaveTrack;
+            SaveTrack track;
+
+            if (savePoint != null)
+            {
+                //if (!this.saveTracks.ContainsKey(savePoint))
+                //{
+                //}
+
+                track = this.saveTracks[savePoint];
+            }
+            else
+            {
+                track = this.baseSaveTrack;
+            }
 
             track.Replay(dataAdapter);
         }

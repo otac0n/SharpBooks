@@ -499,6 +499,36 @@ namespace SharpBooks.Tests
                 Assert.That(destination.TransactionAdditions.Count, Is.EqualTo(1));
                 Assert.That(destination.TransactionRemovals.Count, Is.EqualTo(1));
             }
+
+            [Test]
+            public void Replay_WhenSavePointIsValid_ReplaysFromTheSavedPoint()
+            {
+                // Create a new, valid book.
+                var book = new Book();
+
+                // Create a new, valid account.
+                var account = TestUtils.CreateValidAccount();
+
+                // Create a new, valid transaction.
+                var transaction = TestUtils.CreateValidTransaction(account);
+
+                // Add and immediately remove the account and transaction from the book.
+                book.AddAccount(account);
+                book.AddTransaction(transaction);
+                var savePoint = book.CreateSavePoint();
+                book.RemoveTransaction(transaction);
+                book.RemoveAccount(account);
+
+                // Create a new mock data adapter and replay the book changes into the mock.
+                var destination = new MockDataAdapter();
+                book.Replay(destination, savePoint);
+
+                // Assert that the mock recieved one addition and one removal of each an account and a transaciton.
+                Assert.That(destination.AccountAdditions.Count, Is.EqualTo(0));
+                Assert.That(destination.AccountRemovals.Count, Is.EqualTo(1));
+                Assert.That(destination.TransactionAdditions.Count, Is.EqualTo(0));
+                Assert.That(destination.TransactionRemovals.Count, Is.EqualTo(1));
+            }
         }
     }
 }
