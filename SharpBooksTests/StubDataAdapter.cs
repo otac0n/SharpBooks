@@ -11,6 +11,14 @@ namespace SharpBooks.Tests
 
     class StubDataAdapter : IDataAdapter
     {
+        public void AddSecurity(SecurityData security)
+        {
+        }
+
+        public void RemoveSecurity(SecurityType securityType, string symbol)
+        {
+        }
+
         public void AddAccount(AccountData account)
         {
         }

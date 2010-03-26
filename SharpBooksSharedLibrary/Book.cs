@@ -36,6 +36,11 @@ namespace SharpBooks
             }
 
             this.securities.Add(security);
+            this.baseSaveTrack.AddSecurity(security);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.AddSecurity(security);
+            }
         }
 
         public void RemoveSecurity(Security security)
@@ -60,6 +65,11 @@ namespace SharpBooks
             }
 
             this.securities.Remove(security);
+            this.baseSaveTrack.RemoveSecurity(security);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.RemoveSecurity(security);
+            }
         }
 
         public void AddAccount(Account account)
@@ -254,10 +264,27 @@ namespace SharpBooks
         {
             private enum ActionType
             {
+                AddSecurity,
+                RemoveSecurity,
                 AddAccount,
                 RemoveAccount,
                 AddTransaction,
                 RemoveTransaction
+            }
+
+            private class SecurityId
+            {
+                public SecurityType SecurityType
+                {
+                    get;
+                    set;
+                }
+
+                public string Symbol
+                {
+                    get;
+                    set;
+                }
             }
 
             private List<Action> actions = new List<Action>();
@@ -268,6 +295,13 @@ namespace SharpBooks
                 {
                     switch (action.ActionType)
                     {
+                        case ActionType.AddSecurity:
+                            dataAdapter.AddSecurity((SecurityData)action.Item);
+                            break;
+                        case ActionType.RemoveSecurity:
+                            var item = (SecurityId)action.Item;
+                            dataAdapter.RemoveSecurity(item.SecurityType, item.Symbol);
+                            break;
                         case ActionType.AddAccount:
                             dataAdapter.AddAccount((AccountData)action.Item);
                             break;
@@ -282,6 +316,28 @@ namespace SharpBooks
                             break;
                     }
                 }
+            }
+
+            public void AddSecurity(Security security)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.AddSecurity,
+                    Item = new SecurityData(security),
+                });
+            }
+
+            public void RemoveSecurity(Security security)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.RemoveSecurity,
+                    Item = new SecurityId
+                    {
+                        SecurityType = security.SecurityType,
+                        Symbol = security.Symbol,
+                    }
+                });
             }
 
             public void AddAccount(Account account)

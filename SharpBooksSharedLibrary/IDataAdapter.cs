@@ -14,6 +14,10 @@ namespace SharpBooks
 
     public interface IDataAdapter
     {
+        void AddSecurity(SecurityData security);
+
+        void RemoveSecurity(SecurityType securityType, string symbol);
+
         void AddAccount(AccountData account);
 
         void RemoveAccount(Guid accountId);

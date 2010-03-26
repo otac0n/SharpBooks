@@ -14,6 +14,10 @@ namespace SharpBooks.Tests
 
     internal class MockDataAdapter : IDataAdapter
     {
+        private readonly List<OrderedSecurityId> securityAdditions = new List<OrderedSecurityId>();
+
+        private readonly List<OrderedSecurityId> securityRemovals = new List<OrderedSecurityId>();
+
         private readonly List<OrderedGuid> accountAdditions = new List<OrderedGuid>();
 
         private readonly List<OrderedGuid> accountRemovals = new List<OrderedGuid>();
@@ -23,6 +27,22 @@ namespace SharpBooks.Tests
         private readonly List<OrderedGuid> transactionRemovals = new List<OrderedGuid>();
 
         private long orderIndex;
+
+        public ReadOnlyCollection<OrderedSecurityId> SecurityAdditions
+        {
+            get
+            {
+                return this.securityAdditions.AsReadOnly();
+            }
+        }
+
+        public ReadOnlyCollection<OrderedSecurityId> SecurityRemovals
+        {
+            get
+            {
+                return this.securityRemovals.AsReadOnly();
+            }
+        }
 
         public ReadOnlyCollection<OrderedGuid> AccountAdditions
         {
@@ -55,6 +75,27 @@ namespace SharpBooks.Tests
                 return this.transactionRemovals.AsReadOnly();
             }
         }
+
+        public void AddSecurity(SecurityData security)
+        {
+            this.securityAdditions.Add(new OrderedSecurityId
+            {
+                Symbol = security.Symbol,
+                SecurityType = security.SecurityType,
+                Order = this.orderIndex++,
+            });
+        }
+
+        public void RemoveSecurity(SecurityType securityType, string symbol)
+        {
+            this.securityRemovals.Add(new OrderedSecurityId
+            {
+                Symbol = symbol,
+                SecurityType = securityType,
+                Order = this.orderIndex++,
+            });
+        }
+
 
         public void AddAccount(AccountData account)
         {
@@ -101,6 +142,27 @@ namespace SharpBooks.Tests
             }
 
             public Guid Guid
+            {
+                get;
+                set;
+            }
+        }
+
+        public class OrderedSecurityId
+        {
+            public long Order
+            {
+                get;
+                set;
+            }
+
+            public SecurityType SecurityType
+            {
+                get;
+                set;
+            }
+
+            public string Symbol
             {
                 get;
                 set;

@@ -51,6 +51,7 @@
     <Compile Include="IDataAdapter.cs" />
     <Compile Include="SavePoint.cs" />
     <Compile Include="Security.cs" />
+    <Compile Include="SecurityData.cs" />
     <Compile Include="SecurityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleViolation.cs" />

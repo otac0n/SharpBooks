@@ -34,7 +34,7 @@ namespace SharpBooks.Tests
         public void Replay_WhenSavePointIsNull_ReplaysFromTheBegining()
         {
             // Create a new, valid book.
-            var book = TestUtils.CreateValidBook();
+            var book = new Book();
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
@@ -42,17 +42,21 @@ namespace SharpBooks.Tests
             // Create a new, valid transaction.
             var transaction = TestUtils.CreateValidTransaction(account);
 
-            // Add and immediately remove the account and transaction from the book.
+            // Add and immediately remove the security, account, and transaction from the book.
+            book.AddSecurity(TestUtils.TestCurrency);
             book.AddAccount(account);
             book.AddTransaction(transaction);
             book.RemoveTransaction(transaction);
             book.RemoveAccount(account);
+            book.RemoveSecurity(TestUtils.TestCurrency);
 
             // Create a new mock data adapter and replay the book changes into the mock.
             var destination = new MockDataAdapter();
             book.Replay(destination, null);
 
-            // Assert that the mock recieved one addition and one removal of each an account and a transaciton.
+            // Assert that the mock recieved one addition and one removal of each: a security, an account, and a transaciton.
+            Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(1));
+            Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(1));
             Assert.That(destination.AccountAdditions.Count, Is.EqualTo(1));
             Assert.That(destination.AccountRemovals.Count, Is.EqualTo(1));
             Assert.That(destination.TransactionAdditions.Count, Is.EqualTo(1));
