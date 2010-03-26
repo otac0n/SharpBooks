@@ -20,7 +20,7 @@ namespace SharpBooks
 
             if (security == null)
             {
-                throw new ArgumentNullException("");
+                throw new ArgumentNullException("security");
             }
 
             var parent = parentAccount;

@@ -19,7 +19,7 @@ namespace SharpBooks.Tests
         [Test]
         public void AddSecurity_WhenSecurityIsValid_Succeeds()
         {
-            // Create a new, valid book.
+            // Create a new, empty book.
             var book = new Book();
 
             // Add the test security to the book.
@@ -32,7 +32,7 @@ namespace SharpBooks.Tests
         [Test]
         public void AddSecurity_WhenSecurityIsNull_ThrowsException()
         {
-            // Create a new, valid book.
+            // Create a new, empty book.
             var book = new Book();
 
             // Assert that trying to add a null security throws an ArgumentNullException.
@@ -42,7 +42,7 @@ namespace SharpBooks.Tests
         [Test]
         public void AddSecurity_DuplicateAttempts_ThrowsException()
         {
-            // Create a new, valid book.
+            // Create a new, empty book.
             var book = new Book();
 
             // Add the test security to the book.
@@ -53,13 +53,66 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void RemoveSecurity_WhenValid_Succeeds()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add the test security to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Remove the security from the book.
+            book.RemoveSecurity(TestUtils.TestCurrency);
+
+            // The test passes, because the call to RemoveSecurity() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
         public void RemoveSecurity_WhenSecurityIsNull_ThrowsException()
         {
-            // Create a new, valid book.
+            // Create a new, empty book.
             var book = new Book();
 
             // Assert that trying to add a null security throws an ArgumentNullException.
             Assert.That(() => book.RemoveSecurity(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void RemoveSecurity_WhenSecurityHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Assert that trying to remove the security without being added throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void RemoveSecurity_WhenSecurityHasAlreadyBeenRemoved_ThrowsException()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add and immediately remove the test security from the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.RemoveSecurity(TestUtils.TestCurrency);
+
+            // Assert that trying to remove the security again throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void RemoveSecurity_WhenSecurityIsUsedByAccounts_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account and add it to the book.
+            book.AddAccount(TestUtils.CreateValidAccount());
+
+            // Assert that trying to remove the security while the account depends on it throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]

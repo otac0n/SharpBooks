@@ -45,6 +45,20 @@ namespace SharpBooks
                 throw new ArgumentNullException("security");
             }
 
+            if (!this.securities.Contains(security))
+            {
+                throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
+            }
+
+            var dependantAccounts = from a in this.accounts
+                                    where a.Security == security
+                                    select a;
+
+            if (dependantAccounts.Any())
+            {
+                throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
+            }
+
             this.securities.Remove(security);
         }
 
