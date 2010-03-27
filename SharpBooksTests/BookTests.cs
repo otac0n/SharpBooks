@@ -8,9 +8,6 @@
 namespace SharpBooks.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NUnit.Framework;
 
     [TestFixture]
@@ -37,6 +34,27 @@ namespace SharpBooks.Tests
 
             // Assert that trying to add a null security throws an ArgumentNullException.
             Assert.That(() => book.AddSecurity(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void AddSecurity_WhenAnotherSecurityHasTheSameTypeAndSymbol_ThrowsException()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add a test currency to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Construct a new security that has the same type and symbol as the above currency.
+            var security = new Security(
+                TestUtils.TestCurrency.SecurityType,
+                "Duplicate",
+                TestUtils.TestCurrency.Symbol,
+                "{0}",
+                1);
+
+            // Assert that trying to add a security that has the same type and symbol of another security throws an InvalidOperationException.
+            Assert.That(() => book.AddSecurity(security), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]

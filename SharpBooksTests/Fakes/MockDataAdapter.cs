@@ -5,12 +5,11 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
-
 namespace SharpBooks.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     internal class MockDataAdapter : IDataAdapter
     {
@@ -95,7 +94,6 @@ namespace SharpBooks.Tests
                 Order = this.orderIndex++,
             });
         }
-
 
         public void AddAccount(AccountData account)
         {

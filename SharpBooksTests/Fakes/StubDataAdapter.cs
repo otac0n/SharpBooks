@@ -9,7 +9,7 @@ namespace SharpBooks.Tests
 {
     using System;
 
-    class StubDataAdapter : IDataAdapter
+    public class StubDataAdapter : IDataAdapter
     {
         public void AddSecurity(SecurityData security)
         {

@@ -8,9 +8,6 @@
 namespace SharpBooks.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NUnit.Framework;
 
     [TestFixture]
@@ -106,7 +103,7 @@ namespace SharpBooks.Tests
             var destination = new StubDataAdapter();
 
             // Create a save point in the first book.
-            using(var sp1 = book1.CreateSavePoint())
+            using (var sp1 = book1.CreateSavePoint())
             {
                 // Assert that trying to use the save point from the first book on the second book throws an InvalidOperationException.
                 Assert.That(() => book2.Replay(destination, sp1), Throws.InstanceOf<InvalidOperationException>());

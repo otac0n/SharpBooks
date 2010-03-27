@@ -64,6 +64,16 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
             }
 
+            var duplicateIds = from s in this.securities
+                               where s.SecurityType == security.SecurityType
+                               where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
+                               select s;
+
+            if (duplicateIds.Any())
+            {
+                throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityType and Symbol.");
+            }
+
             this.securities.Remove(security);
             this.baseSaveTrack.RemoveSecurity(security);
             foreach (var track in this.saveTracks)
