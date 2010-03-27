@@ -16,6 +16,8 @@ namespace SharpBooks
         internal Split(Transaction transaction)
         {
             this.Transaction = transaction;
+            this.Amount = 0m;
+            this.TransactionAmount = 0m;
         }
 
         public Transaction Transaction
@@ -39,19 +41,19 @@ namespace SharpBooks
         public Account Account
         {
             get;
-            internal set;
+            private set;
         }
 
         public decimal Amount
         {
             get;
-            internal set;
+            private set;
         }
 
         public decimal TransactionAmount
         {
             get;
-            internal set;
+            private set;
         }
 
         public bool IsValid

@@ -144,11 +144,7 @@ namespace SharpBooks
             {
                 this.ValidateLock(transactionLock);
 
-                var split = new Split(this)
-                {
-                    Amount = 0m,
-                    TransactionAmount = 0m,
-                };
+                var split = new Split(this);
 
                 this.splits.Add(split);
                 return split;
