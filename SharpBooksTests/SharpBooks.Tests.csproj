@@ -51,7 +51,7 @@
     <Compile Include="AccountTests.cs" />
     <Compile Include="BookSavingTests.cs" />
     <Compile Include="BookTests.cs" />
-    <Compile Include="CommodityTests.cs" />
+    <Compile Include="SecurityTests.cs" />
     <Compile Include="Fakes\MockDataAdapter.cs" />
     <Compile Include="SplitTests.cs" />
     <Compile Include="Fakes\StubDataAdapter.cs" />
