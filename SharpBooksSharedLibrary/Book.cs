@@ -239,16 +239,6 @@ namespace SharpBooks
             return savePoint;
         }
 
-        internal void RemoveSavePoint(SavePoint savePoint)
-        {
-            if (!this.saveTracks.ContainsKey(savePoint))
-            {
-                throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
-            }
-
-            this.saveTracks.Remove(savePoint);
-        }
-
         public void Replay(IDataAdapter dataAdapter, SavePoint savePoint)
         {
             SaveTrack track;
@@ -270,8 +260,20 @@ namespace SharpBooks
             track.Replay(dataAdapter);
         }
 
+        internal void RemoveSavePoint(SavePoint savePoint)
+        {
+            if (!this.saveTracks.ContainsKey(savePoint))
+            {
+                throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
+            }
+
+            this.saveTracks.Remove(savePoint);
+        }
+
         private class SaveTrack
         {
+            private List<Action> actions = new List<Action>();
+
             private enum ActionType
             {
                 AddSecurity,
@@ -282,26 +284,9 @@ namespace SharpBooks
                 RemoveTransaction
             }
 
-            private class SecurityId
-            {
-                public SecurityType SecurityType
-                {
-                    get;
-                    set;
-                }
-
-                public string Symbol
-                {
-                    get;
-                    set;
-                }
-            }
-
-            private List<Action> actions = new List<Action>();
-
             public void Replay(IDataAdapter dataAdapter)
             {
-                foreach (var action in actions)
+                foreach (var action in this.actions)
                 {
                     switch (action.ActionType)
                     {
@@ -384,6 +369,21 @@ namespace SharpBooks
                     ActionType = ActionType.RemoveTransaction,
                     Item = transaction.TransactionId,
                 });
+            }
+
+            private class SecurityId
+            {
+                public SecurityType SecurityType
+                {
+                    get;
+                    set;
+                }
+
+                public string Symbol
+                {
+                    get;
+                    set;
+                }
             }
 
             private class Action

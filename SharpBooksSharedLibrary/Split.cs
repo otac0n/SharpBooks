@@ -62,6 +62,29 @@ namespace SharpBooks
             }
         }
 
+        public IEnumerable<RuleViolation> RuleViolations
+        {
+            get
+            {
+                if (Math.Sign(this.Amount) != Math.Sign(this.TransactionAmount))
+                {
+                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same sign.");
+                }
+
+                if (this.Account == null)
+                {
+                    yield return new RuleViolation("Account", "The split must be assigned to an account.");
+                }
+
+                if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
+                {
+                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
+                }
+
+                yield break;
+            }
+        }
+
         public void SetAccount(Account account, TransactionLock transactionLock)
         {
             this.Transaction.EnterCriticalSection();
@@ -139,29 +162,6 @@ namespace SharpBooks
             finally
             {
                 this.Transaction.ExitCriticalSection();
-            }
-        }
-
-        public IEnumerable<RuleViolation> RuleViolations
-        {
-            get
-            {
-                if (Math.Sign(this.Amount) != Math.Sign(this.TransactionAmount))
-                {
-                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same sign.");
-                }
-
-                if (this.Account == null)
-                {
-                    yield return new RuleViolation("Account", "The split must be assigned to an account.");
-                }
-
-                if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
-                {
-                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
-                }
-
-                yield break;
             }
         }
     }
