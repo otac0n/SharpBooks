@@ -87,6 +87,8 @@ namespace SharpBooks.Tests
             book.Replay(destination, savePoint);
 
             // Assert that the mock recieved one addition and one removal of each an account and a transaciton.
+            Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(0));
+            Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(0));
             Assert.That(destination.AccountAdditions.Count, Is.EqualTo(0));
             Assert.That(destination.AccountRemovals.Count, Is.EqualTo(1));
             Assert.That(destination.TransactionAdditions.Count, Is.EqualTo(0));
