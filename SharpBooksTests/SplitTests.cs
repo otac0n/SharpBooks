@@ -20,7 +20,8 @@ namespace SharpBooks.Tests
             SecurityType.Currency,
             "No Currency",
             "XXX",
-            "{0}");
+            "{0}",
+            1);
 
         [Test]
         public void GetIsValid_WhenAmountAndTransactionAmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()

@@ -12,7 +12,7 @@ namespace SharpBooks
 
     public sealed class Security
     {
-        public Security(SecurityType securityType, string name, string symbol, string signFormat)
+        public Security(SecurityType securityType, string name, string symbol, string signFormat, int fractionTraded)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -34,10 +34,16 @@ namespace SharpBooks
                 throw new ArgumentException("The sign format of a security must include the dollar amount (i.e. '{0}')  as part of the format string.", "signFormat");
             }
 
+            if (fractionTraded <= 0)
+            {
+                throw new ArgumentOutOfRangeException("fractionTraded", "The fraction traded must be greateder than or equal to one.");
+            }
+
             this.SecurityType = securityType;
             this.Name = name;
             this.Symbol = symbol;
             this.SignFormat = signFormat;
+            this.FractionTraded = fractionTraded;
         }
 
         public SecurityType SecurityType
@@ -59,6 +65,12 @@ namespace SharpBooks
         }
 
         public string SignFormat
+        {
+            get;
+            private set;
+        }
+
+        public int FractionTraded
         {
             get;
             private set;

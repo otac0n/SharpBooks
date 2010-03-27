@@ -18,7 +18,8 @@ namespace SharpBooks.Tests
             SecurityType.Currency,
             "Test Currency",
             "XTS",
-            "{0}");
+            "{0}",
+            1);
 
         public static Transaction CreateEmptyTransaction()
         {

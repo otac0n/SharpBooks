@@ -126,7 +126,8 @@ namespace SharpBooks.Tests
                 SecurityType.Currency, // OK
                 "No Currency", // OK
                 "XXX", // OK
-                "{0}"); // OK
+                "{0}", // OK
+                1); // OK
 
             // Create a new, empty transaction.
             var transaction = new Transaction(

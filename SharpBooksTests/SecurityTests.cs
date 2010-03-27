@@ -14,20 +14,21 @@ namespace SharpBooks.Tests
     public class SecurityTests
     {
         [Test]
-        [TestCase(SecurityType.Currency, "United States dollar", "USD", "${0}")]
-        [TestCase(SecurityType.Currency, "Pound Sterling", "GBP", "£{0}")]
-        [TestCase(SecurityType.Currency, "Euro", "EUR", "€{0}")]
-        [TestCase(SecurityType.Currency, "Japanese yen", "JPY", "¥{0}")]
-        [TestCase(SecurityType.Currency, "No Currency", "XXX", "{0}")]
-        [TestCase(SecurityType.Currency, "Test Currency", "XTS", "{0}")]
-        public void Constructor_WithRealWorldParameters_Succeeds(SecurityType securityType, string name, string symbol, string signFormat)
+        [TestCase(SecurityType.Currency, "United States dollar", "USD", "${0}", 100)]
+        [TestCase(SecurityType.Currency, "Pound Sterling", "GBP", "£{0}", 100)]
+        [TestCase(SecurityType.Currency, "Euro", "EUR", "€{0}", 100)]
+        [TestCase(SecurityType.Currency, "Japanese yen", "JPY", "¥{0}", 100)]
+        [TestCase(SecurityType.Currency, "No Currency", "XXX", "{0}", 1)]
+        [TestCase(SecurityType.Currency, "Test Currency", "XTS", "{0}", 1)]
+        public void Constructor_WithRealWorldParameters_Succeeds(SecurityType securityType, string name, string symbol, string signFormat, int fractionTraded)
         {
             // Construct a new security with known good values.
             new Security(
                 securityType,
                 name,
                 symbol,
-                signFormat);
+                signFormat,
+                fractionTraded);
 
             // The test passes, because the constructor has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
@@ -47,10 +48,26 @@ namespace SharpBooks.Tests
                 securityType,
                 name,
                 symbol,
-                signFormat);
+                signFormat,
+                1); // OK
 
             // Assert that calling the delegate throws an ArgumentNullException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Constructor_WithFractionTradedLessThanOne_ThrowsException()
+        {
+            // Build a delegate to construct a new security.
+            TestDelegate constructSecurity = () => new Security(
+                SecurityType.Currency,
+                "OK_NAME",
+                "OK_SYMBOL",
+                "OK_FORMAT{0}",
+                0);
+
+            // Assert that calling the delegate throws an ArgumentException.
+            Assert.That(constructSecurity, Throws.InstanceOf<ArgumentException>());
         }
 
         [Test]
@@ -66,7 +83,8 @@ namespace SharpBooks.Tests
                 SecurityType.Currency,
                 "OK_NAME",
                 "OK_SYMBOL",
-                invalidFormat);
+                invalidFormat,
+                1); // OK
 
             // Assert that calling the delegate throws an ArgumentException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentException>());
