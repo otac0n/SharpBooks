@@ -16,8 +16,8 @@ namespace SharpBooks
         internal Split(Transaction transaction)
         {
             this.Transaction = transaction;
-            this.Amount = 0m;
-            this.TransactionAmount = 0m;
+            this.Amount = 0;
+            this.TransactionAmount = 0;
         }
 
         public Transaction Transaction
@@ -44,13 +44,13 @@ namespace SharpBooks
             private set;
         }
 
-        public decimal Amount
+        public long Amount
         {
             get;
             private set;
         }
 
-        public decimal TransactionAmount
+        public long TransactionAmount
         {
             get;
             private set;
@@ -103,7 +103,7 @@ namespace SharpBooks
             }
         }
 
-        public void SetAmount(decimal amount, TransactionLock transactionLock)
+        public void SetAmount(long amount, TransactionLock transactionLock)
         {
             this.Transaction.EnterCriticalSection();
 
@@ -119,7 +119,7 @@ namespace SharpBooks
             }
         }
 
-        public void SetTransactionAmount(decimal transactionAmount, TransactionLock transactionLock)
+        public void SetTransactionAmount(long transactionAmount, TransactionLock transactionLock)
         {
             this.Transaction.EnterCriticalSection();
 

@@ -196,10 +196,10 @@ namespace SharpBooks.Tests
                 split.SetAccount(account, transactionLock);
 
                 // Set the amount of the split.
-                split.SetAmount(1m, transactionLock);
+                split.SetAmount(1, transactionLock);
 
                 // Assert that the Amount property reflects the new value.
-                Assert.That(split.Amount, Is.EqualTo(1m));
+                Assert.That(split.Amount, Is.EqualTo(1));
             }
         }
 
@@ -223,7 +223,7 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetAmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetAmount(1, null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetAmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetAmount(1, lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
@@ -267,7 +267,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetAmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetAmount(1, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -475,7 +475,7 @@ namespace SharpBooks.Tests
                 split.SetAccount(account, transactionLock);
 
                 // Set the transaction amount of the split.
-                split.SetTransactionAmount(1m, transactionLock);
+                split.SetTransactionAmount(1, transactionLock);
 
                 // Assert that the TransactionAmount property reflects the new value.
                 Assert.That(split.TransactionAmount, Is.EqualTo(1m));
@@ -502,7 +502,7 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetTransactionAmount(1m, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetTransactionAmount(1, null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -525,7 +525,7 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetTransactionAmount(1m, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetTransactionAmount(1, lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
@@ -546,7 +546,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetTransactionAmount(1m, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetTransactionAmount(1, transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
     }
 }
