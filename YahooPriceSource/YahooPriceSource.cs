@@ -1,14 +1,11 @@
 ﻿namespace YahooPriceSource
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using SharpBooks;
-    using System.Net;
-    using SharpBooks.Plugins;
-    using System.Text.RegularExpressions;
     using System.Diagnostics;
+    using System.Net;
+    using System.Text.RegularExpressions;
+    using SharpBooks;
+    using SharpBooks.Plugins;
 
     public class YahooPriceSource : IPriceQuoteSource
     {
@@ -18,7 +15,7 @@
         {
             get
             {
-                return "Yahoo!® Finance Stock Quote Source";
+                return "Yahoo!® Finance Stock Quotes";
             }
         }
 
