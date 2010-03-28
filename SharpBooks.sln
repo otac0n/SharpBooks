@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceSource", "YahooPriceSource\YahooPriceSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FredPriceSource", "FredPriceSource\FredPriceSource.csproj", "{A1B8939F-1B72-401B-9274-350035FEB3CC}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -35,6 +37,10 @@ Global
 		{773124A5-7D80-487F-986F-B8FFCD6F17CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{773124A5-7D80-487F-986F-B8FFCD6F17CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{773124A5-7D80-487F-986F-B8FFCD6F17CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B8939F-1B72-401B-9274-350035FEB3CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B8939F-1B72-401B-9274-350035FEB3CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B8939F-1B72-401B-9274-350035FEB3CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B8939F-1B72-401B-9274-350035FEB3CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
