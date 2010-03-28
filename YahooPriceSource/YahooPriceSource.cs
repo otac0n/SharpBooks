@@ -18,7 +18,7 @@
         {
             get
             {
-                return "Yahoo!® Finance Price Source";
+                return "Yahoo!® Finance Stock Quote Source";
             }
         }
 
