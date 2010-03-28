@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="TestUtils.cs" company="(none)">
-//  Copyright (c) 2010 John Gietzen
+//  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------

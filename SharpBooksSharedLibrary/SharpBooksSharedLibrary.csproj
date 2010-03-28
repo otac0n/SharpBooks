@@ -51,6 +51,14 @@
     <Compile Include="AccountData.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="IDataAdapter.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginEnumerator.cs" />
+    <Compile Include="Plugins\IPluginFactory.cs" />
+    <Compile Include="Plugins\IPriceQuoteSource.cs" />
+    <Compile Include="Plugins\LoadPluginsFailureException.cs" />
+    <Compile Include="Plugins\PluginLoader.cs" />
+    <Compile Include="PriceQuote.cs" />
+    <Compile Include="Plugins\PriceRetrievalFailureException.cs" />
     <Compile Include="SavePoint.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SecurityData.cs" />
