@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SharpBooks Shared Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("John Gietzen")]
 [assembly: AssemblyProduct("SharpBooks")]
 [assembly: AssemblyCopyright("Copyright © John Gietzen 2010")]
 [assembly: AssemblyTrademark("")]

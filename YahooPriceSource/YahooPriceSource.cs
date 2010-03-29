@@ -1,4 +1,11 @@
-﻿namespace YahooPriceSource
+﻿//-----------------------------------------------------------------------
+// <copyright file="YahooPriceSource.cs" company="(none)">
+//  Copyright © 2010 John Gietzen
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace YahooPriceSource
 {
     using System;
     using System.Diagnostics;
