@@ -31,6 +31,20 @@ namespace SharpBooks.Tests.IntegrationTests
                 "{0} GOOG",
                 100);
 
+            var yahoo = new Security(
+                SecurityType.Stock,
+                "Yahoo, Inc.",
+                "YHOO",
+                "{0} YHOO",
+                100);
+
+            var microsoft = new Security(
+                SecurityType.Stock,
+                "Microsoft, Inc.",
+                "MSFT",
+                "{0} MSFT",
+                100);
+
             var usd = new Security(
                 SecurityType.Currency,
                 "United States dollar",
@@ -45,51 +59,63 @@ namespace SharpBooks.Tests.IntegrationTests
                 "{0:€0.00;(€0.00);-€0-}",
                 100);
 
+            var aud = new Security(
+                SecurityType.Currency,
+                "Australian dollar",
+                "AUD",
+                "{0:$0.00;($0.00);-$0-}",
+                100);
+
+            var nzd = new Security(
+                SecurityType.Currency,
+                "New Zealand dollar",
+                "NZD",
+                "{0:$0.00;($0.00);-$0-}",
+                100);
+
+            var pound = new Security(
+                SecurityType.Currency,
+                "Pound sterling",
+                "GBP",
+                "{0:£0.00;(£0.00);-£0-}",
+                100);
+
             securities.Add(google.Symbol, google);
-            securities.Add(usd.Symbol, usd);
+            securities.Add(yahoo.Symbol, yahoo);
+            securities.Add(microsoft.Symbol, microsoft);
             securities.Add(euro.Symbol, euro);
+            securities.Add(usd.Symbol, usd);
+            securities.Add(aud.Symbol, aud);
+            securities.Add(nzd.Symbol, nzd);
+            securities.Add(pound.Symbol, pound);
         }
 
         [Test]
-        public void GetPriceQuote_WhenCalledWithRealWorldValues_Succeeds()
+        [TestCase("USD", "EUR")]
+        [TestCase("GBP", "EUR")]
+        [TestCase("USD", "GBP")]
+        [TestCase("USD", "NZD")]
+        [TestCase("NZD", "AUD")]
+        [TestCase("GOOG", "USD")]
+        [TestCase("YHOO", "USD")]
+        [TestCase("MSFT", "USD")]
+        public void GetPriceQuote_WhenCalledWithRealWorldSecurities_Succeeds(string securitySymbol, string currencySymbol)
         {
-            // Create a new Yahoo Price Source
+            // Create a new Yahoo Price Source.
             var source = new YahooPriceSource();
 
-            // Retrieve a real-world stock for testing.
-            var google = securities["GOOG"];
+            // Retrieve the real-world security and currency.
+            var security = securities[securitySymbol];
+            var usd = securities[currencySymbol];
 
-            // Since the stock is based on US Dollars, retrieve the USD currency.
-            var usd = securities["USD"];
-
-            // Retrieve the quote.
-            var quote = source.GetPriceQuote(google, usd);
-
-            // Assert that the returned quote is valid.
-            Assert.That(quote, Is.Not.Null);
-
-            DisplayQuote(quote);
-        }
-
-        [Test]
-        public void GetPriceQuote_WhenCalledWithCurrencies_Succeeds()
-        {
-            // Create a new Yahoo Price Source
-            var source = new YahooPriceSource();
-
-            // Test converting from Euros...
-            var euro = securities["EUR"];
-
-            // ...into United States dollars.
-            var usd = securities["USD"];
+            Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
 
             // Retrieve the quote.
-            var quote = source.GetPriceQuote(euro, usd);
+            var currency = source.GetPriceQuote(security, usd);
 
-            // Assert that the returned quote is valid.
-            Assert.That(quote, Is.Not.Null);
-            
-            DisplayQuote(quote);
+            // Assert that the returned quote is valid, then display the quote for the test-runner.
+            Assert.That(currency, Is.Not.Null);
+            DisplayQuote(currency);
         }
 
         private static void DisplayQuote(PriceQuote quote)
