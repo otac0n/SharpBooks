@@ -16,20 +16,8 @@ namespace SharpBooks.Tests
     [TestFixture]
     public class PriceQuoteTests
     {
-        [Datapoint]
-        long zero = 0;
-
-        [Datapoint]
-        long one = 1;
-
-        [Datapoint]
-        long negOne = -1;
-
-        [Datapoint]
-        long max = long.MaxValue;
-
-        [Datapoint]
-        long min = long.MinValue;
+        [Datapoints]
+        long[] longPoints = new [] { 0, 1, -1, 100, -100, 1000, -1000, long.MaxValue, long.MinValue };
 
         [Test]
         public void Constructor_WhenSecurityIsNull_ThrowsException()
@@ -52,9 +40,9 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Constructor_WhenQuantityIsLessThanOrEqualToZero_ThrowsException(long quantity)
+        public void Constructor_WhenQuantityOrPriceIsLessThanOrEqualToZero_ThrowsException(long quantity, long price)
         {
-            Assume.That(quantity <= 0);
+            Assume.That(quantity <= 0 || price <= 0);
 
             // Create a new, valid security.
             var security = new Security(
@@ -70,32 +58,7 @@ namespace SharpBooks.Tests
                 security, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
-                100); // OK
-
-            // Assert that calling the delegate with a negative or zero value throws an exception.
-            Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
-        }
-
-        [Theory]
-        public void Constructor_WhenPriceIsLessThanOrEqualToZero_ThrowsException(long price)
-        {
-            Assume.That(price <= 0);
-
-            // Create a new, valid security.
-            var security = new Security(
-                SecurityType.Fund,
-                "Test Fund",
-                "TEST",
-                "{0}",
-                100);
-
-            // Build a test delegate to construct the PriceQuote.
-            TestDelegate buildQuote = () => new PriceQuote(
-                DateTime.MinValue, // OK
-                security, // OK
-                100, // OK
-                TestUtils.TestCurrency, // OK
-                price);
+                price); // OK
 
             // Assert that calling the delegate with a negative or zero value throws an exception.
             Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
