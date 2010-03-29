@@ -76,6 +76,13 @@ namespace SharpBooks
             private set;
         }
 
+        public string FormatValue(long value)
+        {
+            decimal acutalValue = (decimal) value / (decimal) this.FractionTraded;
+
+            return string.Format(this.SignFormat, acutalValue);
+        }
+
         private static bool ValidateSignFormat(string signFormat)
         {
             if (string.IsNullOrEmpty(signFormat) ||
