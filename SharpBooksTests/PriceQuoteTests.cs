@@ -22,21 +22,68 @@ namespace SharpBooks.Tests
         [Test]
         public void Constructor_WhenSecurityIsNull_ThrowsException()
         {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                null,
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1); // OK
+
+            // Assert that the delegate throws an ArgumentNullException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void Constructor_WhenCurrnecyIsNull_ThrowsException()
         {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                null,
+                1); // OK
+
+            // Assert that the delegate throws an ArgumentNullException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void Constructor_WhenCurrencyIsNotCurrencyType_ThrowsException()
         {
+            var invalidCurrency = new Security(
+                SecurityType.Stock,
+                "OK_NAME",
+                "OK_SYMBOL",
+                "{0} OK_FORMAT",
+                1); // OK
+
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                invalidCurrency,
+                1); // OK
+
+            // Assert that the delegate throws an InvalidOperationException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
         public void Constructor_WhenCurrencyIsEqualToSecurity_ThrowsException()
         {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestCurrency,
+                1, // OK
+                TestUtils.TestCurrency,
+                1); // OK
+
+            // Assert that the delegate throws an InvalidOperationException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Theory]

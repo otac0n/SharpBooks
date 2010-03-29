@@ -19,14 +19,34 @@ namespace SharpBooks
     {
         public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price)
         {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
+            if (currency == null)
+            {
+                throw new ArgumentNullException("currency");
+            }
+
             if (quantity <= 0)
             {
                 throw new ArgumentOutOfRangeException("quantity");
             }
 
+            if (currency.SecurityType != SecurityType.Currency)
+            {
+                throw new InvalidOperationException("Could not create a price quote, because the currency parameter was not a valid currency.");
+            }
+
+            if (currency == security)
+            {
+                throw new InvalidOperationException("Could not create a price quote, because the security and currency were the same.");
+            }
+
             if (price <= 0)
             {
-                throw new ArgumentOutOfRangeException("quantity");
+                throw new ArgumentOutOfRangeException("price");
             }
 
             this.DateTime = dateTime;

@@ -21,6 +21,16 @@ namespace SharpBooks.Tests
             "{0}",
             1);
 
+        /// <summary>
+        /// Holds a valid stock, based on Google, for testing.
+        /// </summary>
+        public static readonly Security TestStock = new Security(
+            SecurityType.Currency,
+            "Test Stock",
+            "GOOG",
+            "{0} GOOG",
+            100);
+
         public static Transaction CreateEmptyTransaction()
         {
             // Create a new transaction that is empty, but otherwise valid.

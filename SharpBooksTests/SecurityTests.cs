@@ -13,6 +13,9 @@ namespace SharpBooks.Tests
     [TestFixture]
     public class SecurityTests
     {
+        [Datapoints]
+        int[] intPoints = new[] { 0, 1, -1, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
+
         [Test]
         [TestCase(SecurityType.Currency, "United States dollar", "USD", "${0}", 100)]
         [TestCase(SecurityType.Currency, "Pound Sterling", "GBP", "£{0}", 100)]
@@ -55,16 +58,18 @@ namespace SharpBooks.Tests
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentNullException>());
         }
 
-        [Test]
-        public void Constructor_WithFractionTradedLessThanOne_ThrowsException()
+        [Theory]
+        public void Constructor_WithFractionTradedLessThanOrEqualToZero_ThrowsException(int fractionTraded)
         {
+            Assume.That(fractionTraded <= 0);
+
             // Build a delegate to construct a new security.
             TestDelegate constructSecurity = () => new Security(
-                SecurityType.Currency,
+                SecurityType.Currency, // OK
                 "OK_NAME",
                 "OK_SYMBOL",
                 "OK_FORMAT{0}",
-                0);
+                fractionTraded);
 
             // Assert that calling the delegate throws an ArgumentException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentException>());
@@ -78,9 +83,9 @@ namespace SharpBooks.Tests
         [TestCase("${0}{1}")]
         public void Constructor_WithInvalidFormat_ThrowsException(string invalidFormat)
         {
-            // Build a delegate to construct a new security.
+            // Build a delegate to construct a new security with the given format.
             TestDelegate constructSecurity = () => new Security(
-                SecurityType.Currency,
+                SecurityType.Currency, // OK
                 "OK_NAME",
                 "OK_SYMBOL",
                 invalidFormat,
@@ -88,6 +93,26 @@ namespace SharpBooks.Tests
 
             // Assert that calling the delegate throws an ArgumentException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentException>());
+        }
+
+        [Test]
+        [TestCase("{0}")]
+        [TestCase("${0}")]
+        [TestCase("{0:$0.00#}")]
+        [TestCase("{0:€0.00;(€0.00);-€0-}")]
+        [TestCase("{0} GOOG")]
+        public void Constructor_WithValidFormat_Succeeds(string validFormat)
+        {
+            // Construct a new security with the given format.
+            new Security(
+                SecurityType.Currency, // OK
+                "OK_NAME",
+                "OK_SYMBOL",
+                validFormat,
+                1); // OK
+
+            // The test passes, because the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
         }
     }
 }
