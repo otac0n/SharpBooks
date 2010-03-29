@@ -5,7 +5,7 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks.Tests.Integration_Tests
+namespace SharpBooks.Tests.IntegrationTests
 {
     using System;
     using System.Collections.Generic;

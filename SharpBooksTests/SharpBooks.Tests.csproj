@@ -51,7 +51,8 @@
     <Compile Include="AccountTests.cs" />
     <Compile Include="BookSavingTests.cs" />
     <Compile Include="BookTests.cs" />
-    <Compile Include="Integration Tests\YahooPriceSourceTests.cs" />
+    <Compile Include="IntegrationTests\YahooPriceSourceTests.cs" />
+    <Compile Include="PriceQuoteTests.cs" />
     <Compile Include="SecurityTests.cs" />
     <Compile Include="Fakes\MockDataAdapter.cs" />
     <Compile Include="SplitTests.cs" />
