@@ -17,7 +17,7 @@ namespace SharpBooks.Tests
         int[] intPoints = new[] { 0, 1, -1, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
 
         [Test]
-        [TestCase(SecurityType.Currency, "United States dollar", "USD", "${0}", 100)]
+        [TestCase(SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#);-$0-}", 1000)]
         [TestCase(SecurityType.Currency, "Pound Sterling", "GBP", "£{0}", 100)]
         [TestCase(SecurityType.Currency, "Euro", "EUR", "€{0}", 100)]
         [TestCase(SecurityType.Currency, "Japanese yen", "JPY", "¥{0}", 100)]
@@ -101,6 +101,8 @@ namespace SharpBooks.Tests
         [TestCase("{0:$0.00#}")]
         [TestCase("{0:€0.00;(€0.00);-€0-}")]
         [TestCase("{0} GOOG")]
+        [TestCase("{0:$#,##0.00#;($#,##0.00#);-$0-}")]
+        [TestCase("{0:¥#,##0.###;(¥#,##0.###);-¥0-}")]
         public void Constructor_WithValidFormat_Succeeds(string validFormat)
         {
             // Construct a new security with the given format.

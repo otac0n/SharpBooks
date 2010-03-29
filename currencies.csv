@@ -1,4 +1,7 @@
 ﻿"ISO Code","ISO Number","Name","Fraction Traded","Format"
+"USD","840","United States dollar",1000,"{0:$#,##0.00#;($#,##0.00#);-$0-}"
+"JPY","392","Japanese yen",1000,"{0:¥#,##0.###;(¥#,##0.###);-¥0-}"
+
 "ALL","008","Albanian lek",100,"{0}"
 "DZD","012","Algerian dinar",100,"{0}"
 "ARS","032","Argentine peso",100,"{0}"
@@ -55,7 +58,6 @@
 "IQD","368","Iraqi dinar",1000,"{0}"
 "ILS","376","Israeli new sheqel",100,"{0}"
 "JMD","388","Jamaican dollar",100,"{0}"
-"JPY","392","Japanese yen",1,"{0}"
 "KZT","398","Kazakhstani tenge",100,"{0}"
 "JOD","400","Jordanian dinar",1000,"{0}"
 "KES","404","Kenyan shilling",100,"{0}"
@@ -123,7 +125,6 @@
 "EGP","818","Egyptian pound",100,"{0}"
 "GBP","826","Pound sterling",100,"{0}"
 "TZS","834","Tanzanian shilling",100,"{0}"
-"USD","840","United States dollar",1000,"{0:$0,000.00#;($0,000.00#);-$0-}"
 "UYU","858","Uruguayan peso",100,"{0}"
 "UZS","860","Uzbekistan som",100,"{0}"
 "WST","882","Samoan tala",100,"{0}"
