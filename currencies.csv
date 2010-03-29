@@ -1,163 +1,163 @@
-"ISO Code","ISO Number","Name","Fraction Traded"
-"ALL",8,"Lek",100
-"DZD",12,"Algerian Dinar",100
-"ARS",32,"Argentine Peso",100
-"AUD",36,"Australian Dollar",100
-"BSD",44,"Bahamian Dollar",100
-"BHD",48,"Bahraini Dinar",1000
-"BDT",50,"Taka",100
-"AMD",51,"Armenian Dram",100
-"BBD",52,"Barbados Dollar",100
-"BMD",60,"Bermudian Dollar",100
-"BTN",64,"Ngultrum",100
-"BOB",68,"Boliviano",100
-"BWP",72,"Pula",100
-"BZD",84,"Belize Dollar",100
-"SBD",90,"Solomon Islands Dollar",100
-"BND",96,"Brunei Dollar",100
-"MMK",104,"Kyat",100
-"BIF",108,"Burundi Franc",100
-"KHR",116,"Riel",100
-"CAD",124,"Canadian Dollar",100
-"CVE",132,"Cape Verde Escudo",100
-"KYD",136,"Cayman Islands Dollar",100
-"LKR",144,"Sri Lanka Rupee",100
-"CLP",152,"Chilean Peso",100
-"CNY",156,"Yuan Renminbi",100
-"COP",170,"Colombian Peso",100
-"KMF",174,"Comoro Franc",100
-"CRC",188,"Costa Rican Colon",100
-"HRK",191,"Croatian Kuna",100
-"CUP",192,"Cuban Peso",100
-"CZK",203,"Czech Koruna",100
-"DKK",208,"Danish Krone",100
-"DOP",214,"Dominican Peso",100
-"SVC",222,"El Salvador Colon",100
-"ETB",230,"Ethiopian Birr",100
-"ERN",232,"Nakfa",100
-"EEK",233,"Kroon",100
-"FKP",238,"Falkland Islands Pound",100
-"FJD",242,"Fiji Dollar",100
-"DJF",262,"Djibouti Franc",100
-"GMD",270,"Dalasi",100
-"GIP",292,"Gibraltar Pound",100
-"GTQ",320,"Quetzal",100
-"GNF",324,"Guinea Franc",100
-"GYD",328,"Guyana Dollar",100
-"HTG",332,"Gourde",100
-"HNL",340,"Lempira",100
-"HKD",344,"Hong Kong Dollar",100
-"HUF",348,"Forint",100
-"ISK",352,"Iceland Krona",100
-"INR",356,"Indian Rupee",100
-"IDR",360,"Rupiah",100
-"IRR",364,"Iranian Rial",100
-"IQD",368,"Iraqi Dinar",1000
-"ILS",376,"New Israeli Sheqel",100
-"JMD",388,"Jamaican Dollar",100
-"JPY",392,"Yen",100
-"KZT",398,"Tenge",100
-"JOD",400,"Jordanian Dinar",100
-"KES",404,"Kenyan Shilling",100
-"KPW",408,"North Korean Won",100
-"KRW",410,"Won",100
-"KWD",414,"Kuwaiti Dinar",1000
-"KGS",417,"Som",100
-"LAK",418,"Kip",100
-"LBP",422,"Lebanese Pound",100
-"LSL",426,"Loti",100
-"LVL",428,"Latvian Lats",100
-"LRD",430,"Liberian Dollar",100
-"LYD",434,"Libyan Dinar",1000
-"LTL",440,"Lithuanian Litas",100
-"MOP",446,"Pataca",100
-"MWK",454,"Kwacha",100
-"MYR",458,"Malaysian Ringgit",100
-"MVR",462,"Rufiyaa",100
-"MRO",478,"Ouguiya",5
-"MUR",480,"Mauritius Rupee",100
-"MXN",484,"Mexican Peso",100
-"MNT",496,"Tugrik",100
-"MDL",498,"Moldovan Leu",100
-"MAD",504,"Moroccan Dirham",100
-"OMR",512,"Rial Omani",1000
-"NAD",516,"Namibia Dollar",100
-"NPR",524,"Nepalese Rupee",100
-"ANG",532,"Netherlands Antillian Guilder",100
-"AWG",533,"Aruban Guilder",100
-"VUV",548,"Vatu",1
-"NZD",554,"New Zealand Dollar",100
-"NIO",558,"Cordoba Oro",100
-"NGN",566,"Naira",100
-"NOK",578,"Norwegian Krone",100
-"PKR",586,"Pakistan Rupee",100
-"PAB",590,"Balboa",100
-"PGK",598,"Kina",100
-"PYG",600,"Guarani",100
-"PEN",604,"Nuevo Sol",100
-"PHP",608,"Philippine Peso",100
-"GWP",624,"Guinea-Bissau Peso",100
-"QAR",634,"Qatari Rial",100
-"RUB",643,"Russian Ruble",100
-"RWF",646,"Rwanda Franc",100
-"SHP",654,"Saint Helena Pound",100
-"STD",678,"Dobra",100
-"SAR",682,"Saudi Riyal",100
-"SCR",690,"Seychelles Rupee",100
-"SLL",694,"Leone",100
-"SGD",702,"Singapore Dollar",100
-"VND",704,"Dong",10
-"SOS",706,"Somali Shilling",100
-"ZAR",710,"Rand",100
-"SZL",748,"Lilangeni",100
-"SEK",752,"Swedish Krona",100
-"CHF",756,"Swiss Franc",100
-"SYP",760,"Syrian Pound",100
-"THB",764,"Baht",100
-"TOP",776,"Pa'anga",100
-"TTD",780,"Trinidad and Tobago Dollar",100
-"AED",784,"UAE Dirham",100
-"TND",788,"Tunisian Dinar",1000
-"UGX",800,"Uganda Shilling",100
-"MKD",807,"Denar",100
-"EGP",818,"Egyptian Pound",100
-"GBP",826,"Pound Sterling",100
-"TZS",834,"Tanzanian Shilling",100
-"USD",840,"US Dollar",100
-"UYU",858,"Peso Uruguayo",100
-"UZS",860,"Uzbekistan Sum",100
-"WST",882,"Tala",100
-"YER",886,"Yemeni Rial",100
-"ZMK",894,"Zambian Kwacha",100
-"TWD",901,"New Taiwan Dollar",100
-"CUC",931,"Peso Convertible",100
-"ZWL",932,"Zimbabwe Dollar",100
-"TMT",934,"Manat",100
-"GHS",936,"Cedi",100
-"VEF",937,"Bolivar Fuerte",100
-"SDG",938,"Sudanese Pound",100
-"RSD",941,"Serbian Dinar",100
-"MZN",943,"Metical",100
-"AZN",944,"Azerbaijanian Manat",100
-"RON",946,"New Leu",100
-"TRY",949,"Turkish Lira",100
-"XAF",950,"CFA Franc BEAC",100
-"XCD",951,"East Caribbean Dollar",100
-"XOF",952,"CFA Franc BCEAO",100
-"XPF",953,"CFP Franc",100
-"SRD",968,"Surinam Dollar",100
-"MGA",969,"Malagasy Ariary",5
-"AFN",971,"Afghani",100
-"TJS",972,"Somoni",100
-"AOA",973,"Kwanza",100
-"BYR",974,"Belarussian Ruble",100
-"BGN",975,"Bulgarian Lev",100
-"CDF",976,"Congolese Franc",100
-"BAM",977,"Convertible Marks",100
-"EUR",978,"Euro",100
-"MXV",979,"Mexican Unidad de Inversion (UDI)",1
-"UAH",980,"Hryvnia",100
-"GEL",981,"Lari",100
-"PLN",985,"Zloty",100
-"BRL",986,"Brazilian Real",100
-"CLF",990,"Unidades de fomento",1
+﻿"ISO Code","ISO Number","Name","Fraction Traded"
+"ALL","008","Albanian lek",100
+"DZD","012","Algerian dinar",100
+"ARS","032","Argentine peso",100
+"AUD","036","Australian dollar",100
+"BSD","044","Bahamian dollar",100
+"BHD","048","Bahraini dinar",1000
+"BDT","050","Bangladeshi taka",100
+"AMD","051","Armenian dram",100
+"BBD","052","Barbados dollar",100
+"BMD","060","Bermudian dollar",100
+"BTN","064","Bhutanese ngultrum",100
+"BOB","068","Bolivian boliviano",100
+"BWP","072","Botswana pula",100
+"BZD","084","Belize dollar",100
+"SBD","090","Solomon Islands dollar",100
+"BND","096","Brunei dollar",100
+"MMK","104","Myanma kyat",100
+"BIF","108","Burundian franc",100
+"KHR","116","Cambodian riel",100
+"CAD","124","Canadian dollar",100
+"CVE","132","Cape Verde escudo",100
+"KYD","136","Cayman Islands dollar",100
+"LKR","144","Sri Lanka rupee",100
+"CLP","152","Chilean peso",100
+"CNY","156","Chinese yuan",100
+"COP","170","Colombian peso",100
+"KMF","174","Comorian franc",1
+"CRC","188","Costa Rican colon",100
+"HRK","191","Croatian kuna",100
+"CUP","192","Cuban peso",100
+"CZK","203","Czech koruna",100
+"DKK","208","Danish krone",100
+"DOP","214","Dominican peso",100
+"SVC","222","Salvadoran colón",100
+"ETB","230","Ethiopian birr",100
+"ERN","232","Eritrean nakfa",100
+"EEK","233","Estonian kroon",100
+"FKP","238","Falkland Islands pound",100
+"FJD","242","Fiji dollar",100
+"DJF","262","Djiboutian franc",100
+"GMD","270","Gambian dalasi",100
+"GIP","292","Gibraltar pound",100
+"GTQ","320","Guatemalan quetzal",100
+"GNF","324","Guinean franc",100
+"GYD","328","Guyanese dollar",100
+"HTG","332","Haitian gourde",100
+"HNL","340","Honduran lempira",100
+"HKD","344","Hong Kong dollar",100
+"HUF","348","Hungarian forint",100
+"ISK","352","Icelandic króna",100
+"INR","356","Indian rupee",100
+"IDR","360","Indonesian rupiah",100
+"IRR","364","Iranian rial",100
+"IQD","368","Iraqi dinar",1000
+"ILS","376","Israeli new sheqel",100
+"JMD","388","Jamaican dollar",100
+"JPY","392","Japanese yen",1
+"KZT","398","Kazakhstani tenge",100
+"JOD","400","Jordanian dinar",1000
+"KES","404","Kenyan shilling",100
+"KPW","408","North Korean won",100
+"KRW","410","South Korean won",1
+"KWD","414","Kuwaiti dinar",1000
+"KGS","417","Kyrgyzstani som",100
+"LAK","418","Lao kip",100
+"LBP","422","Lebanese pound",100
+"LSL","426","Lesotho loti",100
+"LVL","428","Latvian lats",100
+"LRD","430","Liberian dollar",100
+"LYD","434","Libyan dinar",1000
+"LTL","440","Lithuanian litas",100
+"MOP","446","Macanese pataca",100
+"MWK","454","Malawian kwacha",100
+"MYR","458","Malaysian ringgit",100
+"MVR","462","Maldivian rufiyaa",100
+"MRO","478","Mauritanian ouguiya",5
+"MUR","480","Mauritian rupee",100
+"MXN","484","Mexican peso",100
+"MNT","496","Mongolian tögrög",100
+"MDL","498","Moldovan leu",100
+"MAD","504","Moroccan dirham",100
+"OMR","512","Omani rial",1000
+"NAD","516","Namibian dollar",100
+"NPR","524","Nepalese rupee",100
+"ANG","532","Netherlands Antillean guilder",100
+"AWG","533","Aruban guilder",100
+"VUV","548","Vanuatu vatu",1
+"NZD","554","New Zealand dollar",100
+"NIO","558","Cordoba oro",100
+"NGN","566","Nigerian naira",100
+"NOK","578","Norwegian krone",100
+"PKR","586","Pakistani rupee",100
+"PAB","590","Panamanian balboa",100
+"PGK","598","Papua New Guinean kina",100
+"PYG","600","Paraguayan guaraní",1
+"PEN","604","Peruvian nuevo sol",100
+"PHP","608","Philippine peso",100
+"GWP","624","Guinea-Bissau peso",100
+"QAR","634","Qatari rial",100
+"RUB","643","Russian rouble",100
+"RWF","646","Rwandan franc",100
+"SHP","654","Saint Helena pound",100
+"STD","678","São Tomé and Príncipe dobra",100
+"SAR","682","Saudi riyal",100
+"SCR","690","Seychelles rupee",100
+"SLL","694","Sierra Leonean leone",100
+"SGD","702","Singapore dollar",100
+"VND","704","Vietnamese đồng",1
+"SOS","706","Somali shilling",100
+"ZAR","710","South African rand",100
+"SZL","748","Swazi lilangeni",100
+"SEK","752","Swedish krona",100
+"CHF","756","Swiss franc",100
+"SYP","760","Syrian pound",100
+"THB","764","Thai baht",100
+"TOP","776","Tongan paʻanga",100
+"TTD","780","Trinidad and Tobago dollar",100
+"AED","784","United Arab Emirates dirham",100
+"TND","788","Tunisian dinar",1000
+"UGX","800","Ugandan shilling",100
+"MKD","807","Macedonian denar",100
+"EGP","818","Egyptian pound",100
+"GBP","826","Pound sterling",100
+"TZS","834","Tanzanian shilling",100
+"USD","840","United States dollar",100
+"UYU","858","Uruguayan peso",100
+"UZS","860","Uzbekistan som",100
+"WST","882","Samoan tala",100
+"YER","886","Yemeni rial",100
+"ZMK","894","Zambian kwacha",100
+"TWD","901","New Taiwan dollar",100
+"CUC","931","Cuban convertible peso",100
+"ZWL","932","Zimbabwe dollar",100
+"TMT","934","Turkmenistani manat",100
+"GHS","936","Ghanaian cedi",100
+"VEF","937","Venezuelan bolívar fuerte",100
+"SDG","938","Sudanese pound",100
+"RSD","941","Serbian dinar",100
+"MZN","943","Mozambican metical",100
+"AZN","944","Azerbaijani manat",100
+"RON","946","Romanian new leu",100
+"TRY","949","Turkish lira",100
+"XAF","950","Central African CFA franc",100
+"XCD","951","East Caribbean dollar",100
+"XOF","952","West African CFA franc",100
+"XPF","953","CFP franc",100
+"SRD","968","Surinamese dollar",100
+"MGA","969","Malagasy ariary",5
+"AFN","971","Afghan afghani",100
+"TJS","972","Tajikistani somoni",100
+"AOA","973","Angolan kwanza",100
+"BYR","974","Belarusian ruble",100
+"BGN","975","Bulgarian lev",100
+"CDF","976","Congolese franc",100
+"BAM","977","Bosnia and Herzegovina konvertibilna marka",100
+"EUR","978","Euro",100
+"MXV","979","Mexican Unidad de Inversion",100
+"UAH","980","Ukrainian hryvnia",100
+"GEL","981","Georgian lari",100
+"PLN","985","Polish złoty",100
+"BRL","986","Brazilian real",100
+"CLF","990","Unidad de Fomento",1
