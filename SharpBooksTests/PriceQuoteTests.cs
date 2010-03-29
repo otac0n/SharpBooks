@@ -70,15 +70,35 @@ namespace SharpBooks.Tests
                 security, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
-                100);
+                100); // OK
 
             // Assert that calling the delegate with a negative or zero value throws an exception.
             Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory]
-        public void Constructor_WhenPriceIsLessThanOrEqualToZero_ThrowsException()
+        public void Constructor_WhenPriceIsLessThanOrEqualToZero_ThrowsException(long price)
         {
+            Assume.That(price <= 0);
+
+            // Create a new, valid security.
+            var security = new Security(
+                SecurityType.Fund,
+                "Test Fund",
+                "TEST",
+                "{0}",
+                100);
+
+            // Build a test delegate to construct the PriceQuote.
+            TestDelegate buildQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                security, // OK
+                100, // OK
+                TestUtils.TestCurrency, // OK
+                price);
+
+            // Assert that calling the delegate with a negative or zero value throws an exception.
+            Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
     }
 }

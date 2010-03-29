@@ -24,6 +24,11 @@ namespace SharpBooks
                 throw new ArgumentOutOfRangeException("quantity");
             }
 
+            if (price <= 0)
+            {
+                throw new ArgumentOutOfRangeException("quantity");
+            }
+
             this.DateTime = dateTime;
             this.Security = security;
             this.Quantity = quantity;
