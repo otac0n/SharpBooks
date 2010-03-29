@@ -123,7 +123,7 @@
 "EGP","818","Egyptian pound",100,"{0}"
 "GBP","826","Pound sterling",100,"{0}"
 "TZS","834","Tanzanian shilling",100,"{0}"
-"USD","840","United States dollar",1000,"{0:$0.00#;($0.00#);-$0-}"
+"USD","840","United States dollar",1000,"{0:$0,000.00#;($0,000.00#);-$0-}"
 "UYU","858","Uruguayan peso",100,"{0}"
 "UZS","860","Uzbekistan som",100,"{0}"
 "WST","882","Samoan tala",100,"{0}"

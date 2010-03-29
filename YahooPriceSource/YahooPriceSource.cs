@@ -92,7 +92,7 @@
                 longPrice = (long)Math.Floor(price);
             }
 
-            return new PriceQuote(dateTime, security, quantity, currecny, longPrice);
+            return new PriceQuote(dateTime, security, quantity, currecny, longPrice, "Yahoo!® Finance");
         }
 
         private static Exception BuildError(string symbol, string error)

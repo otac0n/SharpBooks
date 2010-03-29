@@ -28,7 +28,8 @@ namespace SharpBooks.Tests
                 null,
                 1, // OK
                 TestUtils.TestCurrency, // OK
-                1); // OK
+                1, // OK
+                "OK_SOURCE");
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -43,7 +44,8 @@ namespace SharpBooks.Tests
                 TestUtils.TestStock, // OK
                 1, // OK
                 null,
-                1); // OK
+                1, // OK
+                "OK_SOURCE");
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -65,7 +67,8 @@ namespace SharpBooks.Tests
                 TestUtils.TestStock, // OK
                 1, // OK
                 invalidCurrency,
-                1); // OK
+                1, // OK
+                "OK_SOURCE");
 
             // Assert that the delegate throws an InvalidOperationException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
@@ -80,7 +83,8 @@ namespace SharpBooks.Tests
                 TestUtils.TestCurrency,
                 1, // OK
                 TestUtils.TestCurrency,
-                1); // OK
+                1, // OK
+                "OK_SOURCE");
 
             // Assert that the delegate throws an InvalidOperationException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
@@ -105,7 +109,8 @@ namespace SharpBooks.Tests
                 security, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
-                price); // OK
+                price, // OK
+                "OK_SOURCE");
 
             // Assert that calling the delegate with a negative or zero value throws an exception.
             Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());

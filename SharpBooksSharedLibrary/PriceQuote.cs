@@ -17,7 +17,7 @@ namespace SharpBooks
     /// </summary>
     public class PriceQuote
     {
-        public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price)
+        public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price, string sourceName)
         {
             if (security == null)
             {
