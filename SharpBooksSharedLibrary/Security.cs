@@ -86,7 +86,6 @@ namespace SharpBooks
         private static bool ValidateSignFormat(string signFormat)
         {
             if (string.IsNullOrEmpty(signFormat) ||
-                !signFormat.Contains("{0}") ||
                 signFormat.Contains("{{0}}"))
             {
                 return false;

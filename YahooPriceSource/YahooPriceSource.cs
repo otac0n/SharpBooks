@@ -9,22 +9,35 @@
 
     public class YahooPriceSource : IPriceQuoteSource
     {
-        private const string UrlFormat = "http://finance.yahoo.com/d/quotes.csv?f=sd1l1&s={0}";
+        private const string UrlFormat = "http://finance.yahoo.com/d/quotes.csv?f=sd1t1l1&s={0}";
 
         public string Name
         {
             get
             {
-                return "Yahoo!® Finance Stock Quotes";
+                return "Yahoo!® Finance Price Quotes";
             }
         }
 
         public PriceQuote GetPriceQuote(Security security, Security currecny)
         {
+            if (currecny.SecurityType != SecurityType.Currency)
+            {
+                throw new ArgumentException("The argument must be a Security with a SecurityType of SecurityType.Currency", "currency");
+            }
+
             if (security.SecurityType != SecurityType.Stock &&
-                security.SecurityType != SecurityType.Fund)
+                security.SecurityType != SecurityType.Fund &&
+                security.SecurityType != SecurityType.Currency)
             {
                 throw new PriceRetrievalFailureException("The " + this.Name + " only supports Stock and Fund type securities.");
+            }
+
+            string symbol = security.Symbol;
+
+            if (security.SecurityType == SecurityType.Currency)
+            {
+                symbol = currecny.Symbol + symbol + "=X";
             }
 
             var client = new WebClient();
@@ -32,7 +45,7 @@
 
             try
             {
-                data = client.DownloadString(string.Format(UrlFormat, security.Symbol));
+                data = client.DownloadString(string.Format(UrlFormat, symbol));
             }
             catch (WebException ex)
             {
@@ -41,27 +54,22 @@
 
             var split = data.Split(',');
 
-            if (split.Length != 3)
+            if (split.Length != 4)
             {
                 throw BuildError(security.Symbol, "The data returned was not in a recognized format.");
             }
 
-            string symbol = Unquote(split[0]);
             string date = Unquote(split[1]);
-            string value = Unquote(split[2]);
+            string time = Unquote(split[2]);
+            string value = Unquote(split[3]);
 
             if (date == "N/A")
             {
                 throw BuildError(security.Symbol, "The symbol could not be found.");
             }
 
-            if (!string.Equals(symbol, security.Symbol))
-            {
-                Trace.WriteLine("Symbol '" + security.Symbol + "' != '" + symbol + "'.");
-            }
-
             DateTime dateTime;
-            if (!DateTime.TryParse(date, out dateTime))
+            if (!DateTime.TryParse(date + " " + time, out dateTime))
             {
                 throw BuildError(security.Symbol, "The data returned was not in a recognized format.");
             }
@@ -72,15 +80,19 @@
                 throw BuildError(security.Symbol, "The data returned was not in a recognized format.");
             }
 
+            var quantity = security.FractionTraded;
             price *= currecny.FractionTraded;
+
             var longPrice = (long)Math.Floor(price);
 
-            if (price != longPrice)
+            while (longPrice != price)
             {
-                throw BuildError(security.Symbol, "The price of the symbol was invalid for the currency '" + currecny.Name + "'");
+                price *= 10;
+                quantity *= 10;
+                longPrice = (long)Math.Floor(price);
             }
 
-            return new PriceQuote(dateTime, security, security.FractionTraded, currecny, longPrice);
+            return new PriceQuote(dateTime, security, quantity, currecny, longPrice);
         }
 
         private static Exception BuildError(string symbol, string error)

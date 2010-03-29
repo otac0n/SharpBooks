@@ -13,17 +13,17 @@ namespace SharpBooks.Tests.IntegrationTests
     using System.Text;
     using NUnit.Framework;
     using YahooPriceSource;
+    using System.Diagnostics;
 
     [TestFixture]
+    [Explicit]
     public class YahooPriceSourceTests
     {
-        [Test]
-        public void GetPriceQuote_WhenCalledWithRealWorldValues_Succeeds()
-        {
-            // Create a new Yahoo Price Source
-            var source = new YahooPriceSource();
+        Dictionary<string, Security> securities = new Dictionary<string, Security>();
 
-            // Create a real-world stock for testing.
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
             var google = new Security(
                 SecurityType.Stock,
                 "Google, Inc.",
@@ -31,19 +31,74 @@ namespace SharpBooks.Tests.IntegrationTests
                 "{0} GOOG",
                 100);
 
-            // Since the stock is based on US Dollars, create a USD currency.
             var usd = new Security(
                 SecurityType.Currency,
-                "US Dollars",
+                "United States dollar",
                 "USD",
-                "${0}",
+                "{0:$0.00#;($0.00#);-$0-}",
+                1000);
+
+            var euro = new Security(
+                SecurityType.Currency,
+                "Euro",
+                "EUR",
+                "{0:€0.00;(€0.00);-€0-}",
                 100);
+
+            securities.Add(google.Symbol, google);
+            securities.Add(usd.Symbol, usd);
+            securities.Add(euro.Symbol, euro);
+        }
+
+        [Test]
+        public void GetPriceQuote_WhenCalledWithRealWorldValues_Succeeds()
+        {
+            // Create a new Yahoo Price Source
+            var source = new YahooPriceSource();
+
+            // Retrieve a real-world stock for testing.
+            var google = securities["GOOG"];
+
+            // Since the stock is based on US Dollars, retrieve the USD currency.
+            var usd = securities["USD"];
 
             // Retrieve the quote.
             var quote = source.GetPriceQuote(google, usd);
 
             // Assert that the returned quote is valid.
             Assert.That(quote, Is.Not.Null);
+
+            DisplayQuote(quote);
+        }
+
+        [Test]
+        public void GetPriceQuote_WhenCalledWithCurrencies_Succeeds()
+        {
+            // Create a new Yahoo Price Source
+            var source = new YahooPriceSource();
+
+            // Test converting from Euros...
+            var euro = securities["EUR"];
+
+            // ...into United States dollars.
+            var usd = securities["USD"];
+
+            // Retrieve the quote.
+            var quote = source.GetPriceQuote(euro, usd);
+
+            // Assert that the returned quote is valid.
+            Assert.That(quote, Is.Not.Null);
+            
+            DisplayQuote(quote);
+        }
+
+        private static void DisplayQuote(PriceQuote quote)
+        {
+            Debug.Write(quote.Security.FormatValue(quote.Quantity));
+            Debug.Write(" = ");
+            Debug.Write(quote.Currency.FormatValue(quote.Price));
+            Debug.Write(" @ ");
+            Debug.WriteLine(quote.DateTime);
         }
     }
 }
