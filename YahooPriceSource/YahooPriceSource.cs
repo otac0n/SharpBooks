@@ -41,7 +41,7 @@
 
             var split = data.Split(',');
 
-            if (data.Length != 3)
+            if (split.Length != 3)
             {
                 throw BuildError(security.Symbol, "The data returned was not in a recognized format.");
             }
@@ -61,7 +61,7 @@
             }
 
             DateTime dateTime;
-            if (!DateTime.TryParse(value, out dateTime))
+            if (!DateTime.TryParse(date, out dateTime))
             {
                 throw BuildError(security.Symbol, "The data returned was not in a recognized format.");
             }
@@ -95,7 +95,7 @@
 
         private static string Unquote(string value)
         {
-            var match = Regex.Match(value, @"\A\s*""(?<value>[^""]*)""\s*\Z");
+            var match = Regex.Match(value, @"\A\s*""?(?<value>[^""]*)""?\s*\Z");
             return match.Success ? match.Groups["value"].Value : value;
         }
     }
