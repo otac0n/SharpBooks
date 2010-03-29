@@ -19,6 +19,11 @@ namespace SharpBooks
     {
         public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price)
         {
+            if (quantity <= 0)
+            {
+                throw new ArgumentOutOfRangeException("quantity");
+            }
+
             this.DateTime = dateTime;
             this.Security = security;
             this.Quantity = quantity;

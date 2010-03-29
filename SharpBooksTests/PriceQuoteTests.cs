@@ -64,13 +64,16 @@ namespace SharpBooks.Tests
                 "{0}",
                 100);
 
-            // Assert that creating the PriceQuote with a negative or zero value throws an exception.
-            Assert.That(() => new PriceQuote(
+            // Build a test delegate to construct the PriceQuote.
+            TestDelegate buildQuote = () => new PriceQuote(
                 DateTime.MinValue, // OK
                 security, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
-                100), Throws.InstanceOf<InvalidOperationException>()); // OK
+                100);
+
+            // Assert that calling the delegate with a negative or zero value throws an exception.
+            Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory]
