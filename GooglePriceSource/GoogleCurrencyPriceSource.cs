@@ -92,6 +92,11 @@ namespace GooglePriceSource
                     longPrice = (long)Math.Floor(price);
                 }
 
+                var gcd = longPrice.GCD(quantity / security.FractionTraded);
+
+                quantity /= gcd;
+                longPrice /= gcd;
+
                 return new PriceQuote(date, security, quantity, currecny, longPrice, "Google™ Calculator");
             }
         }

@@ -50,6 +50,7 @@
     <Compile Include="Account.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="IDataAdapter.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\IPluginEnumerator.cs" />
