@@ -1,6 +1,6 @@
-//-----------------------------------------------------------------------
+ï»¿//-----------------------------------------------------------------------
 // <copyright file="YahooPriceSourceTests.cs" company="(none)">
-//  Copyright © 2010 John Gietzen
+//  Copyright Â© 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -8,39 +8,18 @@
 namespace SharpBooks.Tests.IntegrationTests
 {
     using System.Collections.Generic;
+    using GooglePriceSource;
     using NUnit.Framework;
-    using YahooPriceSource;
 
     [TestFixture]
     [Explicit]
-    public class YahooPriceSourceTests
+    public class GoogleCurrencyPriceSourceTests
     {
-        Dictionary<string, Security> securities = new Dictionary<string, Security>();
+        private readonly Dictionary<string, Security> securities = new Dictionary<string, Security>();
 
         [TestFixtureSetUp]
         public void SetUp()
         {
-            var google = new Security(
-                SecurityType.Stock,
-                "Google, Inc.",
-                "GOOG",
-                "{0} GOOG",
-                100);
-
-            var yahoo = new Security(
-                SecurityType.Stock,
-                "Yahoo, Inc.",
-                "YHOO",
-                "{0} YHOO",
-                100);
-
-            var microsoft = new Security(
-                SecurityType.Stock,
-                "Microsoft, Inc.",
-                "MSFT",
-                "{0} MSFT",
-                100);
-
             var usd = new Security(
                 SecurityType.Currency,
                 "United States dollar",
@@ -52,7 +31,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Euro",
                 "EUR",
-                "{0:€#,##0.00;(€#,##0.00);-€0-}",
+                "{0:â‚¬#,##0.00;(â‚¬#,##0.00);-â‚¬0-}",
                 100);
 
             var aud = new Security(
@@ -73,12 +52,9 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Pound sterling",
                 "GBP",
-                "{0:£#,##0.00;(£#,##0.00);-£0-}",
+                "{0:Â£#,##0.00;(Â£#,##0.00);-Â£0-}",
                 100);
 
-            this.securities.Add(google.Symbol, google);
-            this.securities.Add(yahoo.Symbol, yahoo);
-            this.securities.Add(microsoft.Symbol, microsoft);
             this.securities.Add(euro.Symbol, euro);
             this.securities.Add(usd.Symbol, usd);
             this.securities.Add(aud.Symbol, aud);
@@ -92,13 +68,10 @@ namespace SharpBooks.Tests.IntegrationTests
         [TestCase("USD", "GBP")]
         [TestCase("USD", "NZD")]
         [TestCase("NZD", "AUD")]
-        [TestCase("GOOG", "USD")]
-        [TestCase("YHOO", "USD")]
-        [TestCase("MSFT", "USD")]
-        public void GetPriceQuote_WhenCalledWithRealWorldSecurities_Succeeds(string securitySymbol, string currencySymbol)
+        public void GetPriceQuote_WhenCalledWithRealWorldCurrencies_Succeeds(string securitySymbol, string currencySymbol)
         {
-            // Create a new Yahoo Price Source.
-            var source = new YahooPriceSource();
+            // Create a new Google Currency Price Source.
+            var source = new GoogleCurrencyPriceSource();
 
             // Retrieve the real-world security and currency.
             var security = this.securities[securitySymbol];

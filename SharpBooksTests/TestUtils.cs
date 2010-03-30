@@ -8,6 +8,7 @@
 namespace SharpBooks.Tests
 {
     using System;
+    using System.Diagnostics;
 
     internal static class TestUtils
     {
@@ -64,6 +65,15 @@ namespace SharpBooks.Tests
             var book = new Book();
             book.AddSecurity(TestCurrency);
             return book;
+        }
+
+        public static void DisplayQuote(PriceQuote quote)
+        {
+            Debug.Write(quote.Security.FormatValue(quote.Quantity));
+            Debug.Write(" = ");
+            Debug.Write(quote.Currency.FormatValue(quote.Price));
+            Debug.Write(" @ ");
+            Debug.WriteLine(quote.DateTime);
         }
     }
 }

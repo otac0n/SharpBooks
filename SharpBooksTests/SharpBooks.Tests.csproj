@@ -51,6 +51,8 @@
     <Compile Include="AccountTests.cs" />
     <Compile Include="BookSavingTests.cs" />
     <Compile Include="BookTests.cs" />
+    <Compile Include="IntegrationTests\BookTransactionTests.cs" />
+    <Compile Include="IntegrationTests\GoogleCurrencyPriceSourceTests.cs" />
     <Compile Include="IntegrationTests\YahooPriceSourceTests.cs" />
     <Compile Include="PriceQuoteTests.cs" />
     <Compile Include="SecurityTests.cs" />
@@ -62,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GooglePriceSource\GooglePriceSource.csproj">
+      <Project>{BFD8417E-2984-48D9-AFD8-C550550E6536}</Project>
+      <Name>GooglePriceSource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
       <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
       <Name>SharpBooksSharedLibrary</Name>
