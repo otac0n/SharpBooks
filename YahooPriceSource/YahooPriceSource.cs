@@ -129,7 +129,7 @@ namespace YahooPriceSource
                     longPrice = (long)Math.Floor(price);
                 }
 
-                var gcd = longPrice.GCD(quantity / security.FractionTraded);
+                var gcd = My.Math.GCD(longPrice, quantity / security.FractionTraded);
 
                 quantity /= gcd;
                 longPrice /= gcd;

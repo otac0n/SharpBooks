@@ -76,7 +76,7 @@ namespace GooglePriceSource
                 throw BuildError(security.Symbol + currecny.Symbol, "The data returned was not in a recognized format.");
             }
 
-            var date = DateTime.Now.AddDays(-1).Date;
+            var dateTime = DateTime.Now.AddDays(-1).Date;
 
             checked
             {
@@ -92,12 +92,12 @@ namespace GooglePriceSource
                     longPrice = (long)Math.Floor(price);
                 }
 
-                var gcd = longPrice.GCD(quantity / security.FractionTraded);
+                var gcd = My.Math.GCD(longPrice, quantity / security.FractionTraded);
 
                 quantity /= gcd;
                 longPrice /= gcd;
 
-                return new PriceQuote(date, security, quantity, currecny, longPrice, "Google™ Calculator");
+                return new PriceQuote(dateTime, security, quantity, currecny, longPrice, "Google™ Calculator");
             }
         }
 
