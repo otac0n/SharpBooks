@@ -75,5 +75,11 @@ namespace SharpBooks.Tests
             Debug.Write(" @ ");
             Debug.WriteLine(quote.DateTime);
         }
+
+        public static PriceQuote CreateValidPriceQuote()
+        {
+            // Create a new price quote that is valid.
+            return new PriceQuote(DateTime.MinValue, TestStock, 1, TestCurrency, 1, "TESTS");
+        }
     }
 }

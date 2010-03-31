@@ -17,7 +17,7 @@ namespace SharpBooks
     /// </summary>
     public class PriceQuote
     {
-        public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price, string sourceName)
+        public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price, string source)
         {
             if (security == null)
             {
@@ -54,6 +54,7 @@ namespace SharpBooks
             this.Quantity = quantity;
             this.Currency = currency;
             this.Price = price;
+            this.Source = source;
         }
 
         public DateTime DateTime
@@ -81,6 +82,12 @@ namespace SharpBooks
         }
 
         public long Price
+        {
+            get;
+            private set;
+        }
+
+        public string Source
         {
             get;
             private set;

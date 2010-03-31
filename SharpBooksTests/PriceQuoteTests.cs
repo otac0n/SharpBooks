@@ -115,5 +115,52 @@ namespace SharpBooks.Tests
             // Assert that calling the delegate with a negative or zero value throws an exception.
             Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        [Test]
+        public void Constructor_WhenSourceIsEmpty_ThrowsException()
+        {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1, // OK
+                string.Empty);
+
+            // Assert that the delegate throws an ArgumentNullException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Constructor_WhenSourceIsNull_ThrowsException()
+        {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1, // OK
+                null);
+
+            // Assert that the delegate throws an ArgumentNullException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Constructor_WithValidParameters_Succeeds()
+        {
+            new PriceQuote(
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1, // OK
+                "OK_SOURCE");
+
+            // The test passes, because the call to the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
     }
 }

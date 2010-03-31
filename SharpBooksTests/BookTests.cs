@@ -134,6 +134,46 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void RemoveSecurity_WhenSecurityIsUsedByPriceQuoteAsSecurity_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Add the price quote to the book.
+            book.AddPriceQuote(priceQuote);
+
+            // Assert that trying to remove the security while the price quote depends on it throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestStock), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void RemoveSecurity_WhenSecurityIsUsedByPriceQuoteAsCurrency_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Add the price quote to the book.
+            book.AddPriceQuote(priceQuote);
+
+            // Assert that trying to remove the security while the price quote depends on it throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void AddAccount_WhenAccountIsValidAndHasNoParent_Succeeds()
         {
             // Create a new, valid book.
@@ -542,6 +582,107 @@ namespace SharpBooks.Tests
 
             // Assert that trying to remove a transaction that has already been removed throws an InvalidOperationException.
             Assert.That(() => book.RemoveTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenPriceQuoteIsValid_Succeeds()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Attempt to add the price quote to the book.
+            book.AddPriceQuote(priceQuote);
+
+            // The test passes, because the call to AddAccount() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenPriceQuoteHasAlreadyBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities and add it to the book.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+            book.AddPriceQuote(priceQuote);
+
+            // Assert that attempting to add the price quote again throws an InvalidOperationException.
+            Assert.That(() => book.AddPriceQuote(priceQuote), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenAnotherPriceQuoteWithSameSecurityCurrencySourceAndDateHasBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities and add it to the book.
+            var priceQuote1 = TestUtils.CreateValidPriceQuote();
+            book.AddPriceQuote(priceQuote1);
+
+            // Create a new, valid price quote that is identical to the above quote.
+            var priceQuote2 = TestUtils.CreateValidPriceQuote();
+
+            // Assert that attempting to add the second price quote when the first price quote duplicates it throws an InvalidOperationException.
+            Assert.That(() => book.AddPriceQuote(priceQuote2), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenPriceQuoteIsNull_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Assert that attempting to add a price quote of null throws an ArgumentNullException.
+            Assert.That(() => book.AddPriceQuote(null), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenSecurityHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency (but not a test stock) to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Assert that attempting to add the price quote without adding the security to the book throws an InvalidOperationException.
+            Assert.That(() => book.AddPriceQuote(priceQuote), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddPriceQuote_WhenCurrencyHasNotBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test stock (but not a test currency) to the book.
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Assert that attempting to add the price quote without adding the currency to the book throws an InvalidOperationException.
+            Assert.That(() => book.AddPriceQuote(priceQuote), Throws.InstanceOf<InvalidOperationException>());
         }
     }
 }
