@@ -203,14 +203,23 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
             }
 
-            var duplicateQuotes = from q in this.priceQuotes
-                                  where q.Security == priceQuote.Security
-                                  where q.Currency == priceQuote.Currency
-                                  where q.DateTime == priceQuote.DateTime
-                                  where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
-                                  select q;
+            var duplicateIds = from q in this.priceQuotes
+                               where q.PriceQuoteId == priceQuote.PriceQuoteId
+                               select q;
 
-            if (duplicateQuotes.Any())
+            if (duplicateIds.Any())
+            {
+                throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same PriceQuoteId.");
+            }
+
+            var duplicateData = from q in this.priceQuotes
+                                where q.Security == priceQuote.Security
+                                where q.Currency == priceQuote.Currency
+                                where q.DateTime == priceQuote.DateTime
+                                where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
+                                select q;
+
+            if (duplicateData.Any())
             {
                 throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
             }
