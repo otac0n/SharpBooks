@@ -26,8 +26,8 @@ namespace SharpBooks.Plugins
 
         void RemoveTransaction(Guid transactionId);
 
-        //void AddPriceQuote(PriceQuote priceQuote);
+        void AddPriceQuote(PriceQuoteData priceQuote);
 
-        //void RemovePriceQuote();
+        void RemovePriceQuote(Guid priceQuoteId);
     }
 }

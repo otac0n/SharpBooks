@@ -19,6 +19,11 @@ namespace SharpBooks
     {
         public PriceQuote(Guid priceQuoteId, DateTime dateTime, Security security, long quantity, Security currency, long price, string source)
         {
+            if (priceQuoteId == Guid.Empty)
+            {
+                throw new ArgumentOutOfRangeException("priceQuoteId");
+            }
+
             if (security == null)
             {
                 throw new ArgumentNullException("security");

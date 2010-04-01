@@ -28,6 +28,14 @@ namespace SharpBooks.Tests
         {
         }
 
+        public void AddPriceQuote(PriceQuoteData priceQuote)
+        {
+        }
+
+        public void RemovePriceQuote(Guid priceQuoteId)
+        {
+        }
+
         public void AddAccount(AccountData account)
         {
         }

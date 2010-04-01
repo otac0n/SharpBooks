@@ -122,6 +122,24 @@ namespace SharpBooks.Tests
             });
         }
 
+        public void AddPriceQuote(PriceQuoteData priceQuote)
+        {
+            this.priceQuoteAdditions.Add(new OrderedGuid
+            {
+                Guid = priceQuote.PriceQuoteId,
+                Order = this.orderIndex++,
+            });
+        }
+
+        public void RemovePriceQuote(Guid priceQuoteId)
+        {
+            this.priceQuoteRemovals.Add(new OrderedGuid
+            {
+                Guid = priceQuoteId,
+                Order = this.orderIndex++,
+            });
+        }
+
         public void AddAccount(AccountData account)
         {
             this.accountAdditions.Add(new OrderedGuid

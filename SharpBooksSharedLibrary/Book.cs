@@ -25,6 +25,10 @@ namespace SharpBooks
         {
         }
 
+        private void UpdateSaveTracks(Action<SaveTrack> action)
+        {
+        }
+
         public void AddSecurity(Security security)
         {
             if (security == null)
@@ -225,11 +229,11 @@ namespace SharpBooks
             }
 
             this.priceQuotes.Add(priceQuote);
-            //this.baseSaveTrack.AddPriceQuote(priceQuote);
-            //foreach (var track in this.saveTracks)
-            //{
-            //    track.Value.AddPriceQuote(priceQuote);
-            //}
+            this.baseSaveTrack.AddPriceQuote(priceQuote);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.AddPriceQuote(priceQuote);
+            }
         }
 
         public void RemovePriceQuote(PriceQuote priceQuote)
@@ -245,11 +249,11 @@ namespace SharpBooks
             }
 
             this.priceQuotes.Remove(priceQuote);
-            //this.baseSaveTrack.AddPriceQuote(priceQuote);
-            //foreach (var track in this.saveTracks)
-            //{
-            //    track.Value.AddPriceQuote(priceQuote);
-            //}
+            this.baseSaveTrack.RemovePriceQuote(priceQuote);
+            foreach (var track in this.saveTracks)
+            {
+                track.Value.RemovePriceQuote(priceQuote);
+            }
         }
 
         public void AddTransaction(Transaction transaction)
@@ -379,6 +383,8 @@ namespace SharpBooks
             {
                 AddSecurity,
                 RemoveSecurity,
+                AddPriceQuote,
+                RemovePriceQuote,
                 AddAccount,
                 RemoveAccount,
                 AddTransaction,
@@ -396,6 +402,12 @@ namespace SharpBooks
                             break;
                         case ActionType.RemoveSecurity:
                             dataAdapter.RemoveSecurity((Guid)action.Item);
+                            break;
+                        case ActionType.AddPriceQuote:
+                            dataAdapter.AddPriceQuote((PriceQuoteData)action.Item);
+                            break;
+                        case ActionType.RemovePriceQuote:
+                            dataAdapter.RemovePriceQuote((Guid)action.Item);
                             break;
                         case ActionType.AddAccount:
                             dataAdapter.AddAccount((AccountData)action.Item);
@@ -428,6 +440,24 @@ namespace SharpBooks
                 {
                     ActionType = ActionType.RemoveSecurity,
                     Item = security.SecurityId,
+                });
+            }
+
+            public void AddPriceQuote(PriceQuote priceQuote)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.AddPriceQuote,
+                    Item = new PriceQuoteData(priceQuote),
+                });
+            }
+
+            public void RemovePriceQuote(PriceQuote priceQuote)
+            {
+                this.actions.Add(new Action
+                {
+                    ActionType = ActionType.RemovePriceQuote,
+                    Item = priceQuote.PriceQuoteId,
                 });
             }
 
