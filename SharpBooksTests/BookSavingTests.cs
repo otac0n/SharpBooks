@@ -39,21 +39,35 @@ namespace SharpBooks.Tests
             // Create a new, valid transaction.
             var transaction = TestUtils.CreateValidTransaction(account);
 
+            // Get two valid securities.
+            var security1 = TestUtils.TestCurrency;
+            var security2 = TestUtils.TestStock;
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+
             // Add and immediately remove the security, account, and transaction from the book.
-            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(security1);
+            book.AddSecurity(security2);
             book.AddAccount(account);
+            book.AddPriceQuote(priceQuote);
+            book.RemovePriceQuote(priceQuote);
             book.AddTransaction(transaction);
             book.RemoveTransaction(transaction);
             book.RemoveAccount(account);
-            book.RemoveSecurity(TestUtils.TestCurrency);
+            book.RemoveSecurity(security2);
+            book.RemoveSecurity(security1);
 
             // Create a new mock data adapter and replay the book changes into the mock.
             var destination = new MockDataAdapter();
             book.Replay(destination, null);
 
-            // Assert that the mock recieved one addition and one removal of each: a security, an account, and a transaciton.
-            Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(1));
-            Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(1));
+            // Assert that the mock recieved the proper additiona and removals of each component.
+            Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(2));
+            Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(2));
+            Assert.That(destination.PriceQuoteAdditions.Count, Is.EqualTo(1));
+            Assert.That(destination.PriceQuoteRemovals.Count, Is.EqualTo(1));
             Assert.That(destination.AccountAdditions.Count, Is.EqualTo(1));
             Assert.That(destination.AccountRemovals.Count, Is.EqualTo(1));
             Assert.That(destination.TransactionAdditions.Count, Is.EqualTo(1));

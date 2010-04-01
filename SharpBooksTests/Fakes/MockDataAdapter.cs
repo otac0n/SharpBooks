@@ -17,6 +17,10 @@ namespace SharpBooks.Tests
 
         private readonly List<OrderedSecurityId> securityRemovals = new List<OrderedSecurityId>();
 
+        private readonly List<OrderedPriceQuoteId> priceQuoteAdditions = new List<OrderedPriceQuoteId>();
+
+        private readonly List<OrderedPriceQuoteId> priceQuoteRemovals = new List<OrderedPriceQuoteId>();
+
         private readonly List<OrderedGuid> accountAdditions = new List<OrderedGuid>();
 
         private readonly List<OrderedGuid> accountRemovals = new List<OrderedGuid>();
@@ -40,6 +44,22 @@ namespace SharpBooks.Tests
             get
             {
                 return this.securityRemovals.AsReadOnly();
+            }
+        }
+
+        public ReadOnlyCollection<OrderedPriceQuoteId> PriceQuoteAdditions
+        {
+            get
+            {
+                return this.priceQuoteAdditions.AsReadOnly();
+            }
+        }
+
+        public ReadOnlyCollection<OrderedPriceQuoteId> PriceQuoteRemovals
+        {
+            get
+            {
+                return this.priceQuoteRemovals.AsReadOnly();
             }
         }
 
@@ -155,6 +175,27 @@ namespace SharpBooks.Tests
             }
 
             public SecurityType SecurityType
+            {
+                get;
+                set;
+            }
+
+            public string Symbol
+            {
+                get;
+                set;
+            }
+        }
+
+        public class OrderedPriceQuoteId
+        {
+            public long Order
+            {
+                get;
+                set;
+            }
+
+            public DateTime SecurityType
             {
                 get;
                 set;
