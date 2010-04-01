@@ -16,7 +16,7 @@ namespace SharpBooks.Plugins
     {
         void AddSecurity(SecurityData security);
 
-        void RemoveSecurity(SecurityType securityType, string symbol);
+        void RemoveSecurity(Guid securityId);
 
         void AddAccount(AccountData account);
 
@@ -25,5 +25,9 @@ namespace SharpBooks.Plugins
         void AddTransaction(TransactionData transaction);
 
         void RemoveTransaction(Guid transactionId);
+
+        //void AddPriceQuote(PriceQuote priceQuote);
+
+        //void RemovePriceQuote();
     }
 }

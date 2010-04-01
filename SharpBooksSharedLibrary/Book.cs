@@ -38,11 +38,20 @@ namespace SharpBooks
             }
 
             var duplicateIds = from s in this.securities
-                               where s.SecurityType == security.SecurityType
-                               where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
+                               where s.SecurityId == security.SecurityId
                                select s;
 
             if (duplicateIds.Any())
+            {
+                throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityId.");
+            }
+
+            var duplicateData = from s in this.securities
+                                where s.SecurityType == security.SecurityType
+                                where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
+                                select s;
+
+            if (duplicateData.Any())
             {
                 throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityType and Symbol.");
             }
@@ -377,8 +386,7 @@ namespace SharpBooks
                             dataAdapter.AddSecurity((SecurityData)action.Item);
                             break;
                         case ActionType.RemoveSecurity:
-                            var item = (SecurityId)action.Item;
-                            dataAdapter.RemoveSecurity(item.SecurityType, item.Symbol);
+                            dataAdapter.RemoveSecurity((Guid)action.Item);
                             break;
                         case ActionType.AddAccount:
                             dataAdapter.AddAccount((AccountData)action.Item);
@@ -410,11 +418,7 @@ namespace SharpBooks
                 this.actions.Add(new Action
                 {
                     ActionType = ActionType.RemoveSecurity,
-                    Item = new SecurityId
-                    {
-                        SecurityType = security.SecurityType,
-                        Symbol = security.Symbol,
-                    }
+                    Item = security.SecurityId,
                 });
             }
 

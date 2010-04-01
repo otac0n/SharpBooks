@@ -14,13 +14,13 @@ namespace SharpBooks.Tests
 
     internal class MockDataAdapter : IDataAdapter
     {
-        private readonly List<OrderedSecurityId> securityAdditions = new List<OrderedSecurityId>();
+        private readonly List<OrderedGuid> securityAdditions = new List<OrderedGuid>();
 
-        private readonly List<OrderedSecurityId> securityRemovals = new List<OrderedSecurityId>();
+        private readonly List<OrderedGuid> securityRemovals = new List<OrderedGuid>();
 
-        private readonly List<OrderedPriceQuoteId> priceQuoteAdditions = new List<OrderedPriceQuoteId>();
+        private readonly List<OrderedGuid> priceQuoteAdditions = new List<OrderedGuid>();
 
-        private readonly List<OrderedPriceQuoteId> priceQuoteRemovals = new List<OrderedPriceQuoteId>();
+        private readonly List<OrderedGuid> priceQuoteRemovals = new List<OrderedGuid>();
 
         private readonly List<OrderedGuid> accountAdditions = new List<OrderedGuid>();
 
@@ -40,7 +40,7 @@ namespace SharpBooks.Tests
             }
         }
 
-        public ReadOnlyCollection<OrderedSecurityId> SecurityAdditions
+        public ReadOnlyCollection<OrderedGuid> SecurityAdditions
         {
             get
             {
@@ -48,7 +48,7 @@ namespace SharpBooks.Tests
             }
         }
 
-        public ReadOnlyCollection<OrderedSecurityId> SecurityRemovals
+        public ReadOnlyCollection<OrderedGuid> SecurityRemovals
         {
             get
             {
@@ -56,7 +56,7 @@ namespace SharpBooks.Tests
             }
         }
 
-        public ReadOnlyCollection<OrderedPriceQuoteId> PriceQuoteAdditions
+        public ReadOnlyCollection<OrderedGuid> PriceQuoteAdditions
         {
             get
             {
@@ -64,7 +64,7 @@ namespace SharpBooks.Tests
             }
         }
 
-        public ReadOnlyCollection<OrderedPriceQuoteId> PriceQuoteRemovals
+        public ReadOnlyCollection<OrderedGuid> PriceQuoteRemovals
         {
             get
             {
@@ -106,20 +106,18 @@ namespace SharpBooks.Tests
 
         public void AddSecurity(SecurityData security)
         {
-            this.securityAdditions.Add(new OrderedSecurityId
+            this.securityAdditions.Add(new OrderedGuid
             {
-                Symbol = security.Symbol,
-                SecurityType = security.SecurityType,
+                Guid = security.SecurityId,
                 Order = this.orderIndex++,
             });
         }
 
-        public void RemoveSecurity(SecurityType securityType, string symbol)
+        public void RemoveSecurity(Guid securityId)
         {
-            this.securityRemovals.Add(new OrderedSecurityId
+            this.securityRemovals.Add(new OrderedGuid
             {
-                Symbol = symbol,
-                SecurityType = securityType,
+                Guid = securityId,
                 Order = this.orderIndex++,
             });
         }

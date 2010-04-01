@@ -47,6 +47,7 @@ namespace SharpBooks.Tests
 
             // Construct a new security that has the same type and symbol as the above currency.
             var security = new Security(
+                Guid.NewGuid(),
                 TestUtils.TestCurrency.SecurityType,
                 "Duplicate",
                 TestUtils.TestCurrency.Symbol,
@@ -54,6 +55,28 @@ namespace SharpBooks.Tests
                 1);
 
             // Assert that trying to add a security that has the same type and symbol of another security throws an InvalidOperationException.
+            Assert.That(() => book.AddSecurity(security), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddSecurity_WhenAnotherSecurityHasTheSameSecurityId_ThrowsException()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add a test currency to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Construct a new security that has the same type and symbol as the above currency.
+            var security = new Security(
+                TestUtils.TestCurrency.SecurityId,
+                SecurityType.Stock,
+                "Duplicate",
+                "DIFFERENT_SYMBOL",
+                "{0}",
+                1);
+
+            // Assert that trying to add a security that has the same SecurityId of another security throws an InvalidOperationException.
             Assert.That(() => book.AddSecurity(security), Throws.InstanceOf<InvalidOperationException>());
         }
 

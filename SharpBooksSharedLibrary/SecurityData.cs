@@ -8,18 +8,22 @@
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class SecurityData
     {
         public SecurityData(Security security)
         {
+            this.SecurityId = security.SecurityId;
             this.SecurityType = security.SecurityType;
             this.Symbol = security.Symbol;
             this.Name = security.Name;
             this.SignFormat = security.SignFormat;
+        }
+
+        public Guid SecurityId
+        {
+            get;
+            private set;
         }
 
         public SecurityType SecurityType

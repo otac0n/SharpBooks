@@ -55,6 +55,7 @@ namespace SharpBooks.Tests
         public void Constructor_WhenCurrencyIsNotCurrencyType_ThrowsException()
         {
             var invalidCurrency = new Security(
+                Guid.NewGuid(), // OK
                 SecurityType.Stock,
                 "OK_NAME",
                 "OK_SYMBOL",
@@ -95,18 +96,10 @@ namespace SharpBooks.Tests
         {
             Assume.That(quantity <= 0 || price <= 0);
 
-            // Create a new, valid security.
-            var security = new Security(
-                SecurityType.Fund,
-                "Test Fund",
-                "TEST",
-                "{0}",
-                100);
-
             // Build a test delegate to construct the PriceQuote.
             TestDelegate buildQuote = () => new PriceQuote(
                 DateTime.MinValue, // OK
-                security, // OK
+                TestUtils.TestStock, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
                 price, // OK

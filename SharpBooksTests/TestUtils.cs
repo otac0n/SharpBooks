@@ -16,6 +16,7 @@ namespace SharpBooks.Tests
         /// Holds a valid security, based on the ISO 4217 testing currency, XTS.
         /// </summary>
         public static readonly Security TestCurrency = new Security(
+            new Guid("a2394d50-0b8e-4374-a66b-540a0a15767e"),
             SecurityType.Currency,
             "Test Currency",
             "XTS",
@@ -26,6 +27,7 @@ namespace SharpBooks.Tests
         /// Holds a valid stock, based on Google, for testing.
         /// </summary>
         public static readonly Security TestStock = new Security(
+            new Guid("35228973-89e8-4abd-98e9-5523552c62ce"),
             SecurityType.Currency,
             "Test Stock",
             "GOOG",

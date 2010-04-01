@@ -121,8 +121,9 @@ namespace SharpBooks.Tests
         [Test]
         public void GetIsValid_WithSecurityNotMatchingAnySplit_ReturnsTrue()
         {
-            // Create a new, test security.
+            // Create a test security that is different from the default for an account.
             var baseSecurity = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency, // OK
                 "No Currency", // OK
                 "XXX", // OK

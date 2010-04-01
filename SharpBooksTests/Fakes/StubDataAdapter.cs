@@ -24,7 +24,7 @@ namespace SharpBooks.Tests
         {
         }
 
-        public void RemoveSecurity(SecurityType securityType, string symbol)
+        public void RemoveSecurity(Guid securityId)
         {
         }
 

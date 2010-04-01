@@ -7,6 +7,7 @@
 
 namespace SharpBooks.Tests.IntegrationTests
 {
+    using System;
     using System.Collections.Generic;
     using GooglePriceSource;
     using NUnit.Framework;
@@ -21,6 +22,7 @@ namespace SharpBooks.Tests.IntegrationTests
         public void SetUp()
         {
             var usd = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency,
                 "United States dollar",
                 "USD",
@@ -28,6 +30,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 1000);
 
             var euro = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency,
                 "Euro",
                 "EUR",
@@ -35,6 +38,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 100);
 
             var aud = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency,
                 "Australian dollar",
                 "AUD",
@@ -42,6 +46,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 100);
 
             var nzd = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency,
                 "New Zealand dollar",
                 "NZD",
@@ -49,6 +54,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 100);
 
             var pound = new Security(
+                Guid.NewGuid(),
                 SecurityType.Currency,
                 "Pound sterling",
                 "GBP",

@@ -27,6 +27,7 @@ namespace SharpBooks.Tests
         {
             // Construct a new security with known good values.
             new Security(
+                Guid.NewGuid(),
                 securityType,
                 name,
                 symbol,
@@ -38,16 +39,18 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        [TestCase(SecurityType.Currency, "Test Currency", "XTS", "")]
-        [TestCase(SecurityType.Currency, "Test Currency", "XTS", null)]
-        [TestCase(SecurityType.Currency, "Test Currency", "",    "{0}")]
-        [TestCase(SecurityType.Currency, "Test Currency", null,  "{0}")]
-        [TestCase(SecurityType.Currency, "",              "XTS", "{0}")]
-        [TestCase(SecurityType.Currency, null,            "XTS", "{0}")]
-        public void Constructor_WithEmptyParameters_ThrowsException(SecurityType securityType, string name, string symbol, string signFormat)
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", "XTS", "")]
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", "XTS", null)]
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", "",    "{0}")]
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", null,  "{0}")]
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "",              "XTS", "{0}")]
+        [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, null,            "XTS", "{0}")]
+        [TestCase("00000000-0000-0000-0000-000000000000", SecurityType.Currency, "Test Currency", "XTS", "")]
+        public void Constructor_WithEmptyParameters_ThrowsException(string securityId, SecurityType securityType, string name, string symbol, string signFormat)
         {
             // Build a delegate to construct a new security.
             TestDelegate constructSecurity = () => new Security(
+                new Guid(securityId),
                 securityType,
                 name,
                 symbol,
@@ -65,6 +68,7 @@ namespace SharpBooks.Tests
 
             // Build a delegate to construct a new security.
             TestDelegate constructSecurity = () => new Security(
+                Guid.NewGuid(), // OK
                 SecurityType.Currency, // OK
                 "OK_NAME",
                 "OK_SYMBOL",
@@ -85,6 +89,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new security with the given format.
             TestDelegate constructSecurity = () => new Security(
+                Guid.NewGuid(), // OK
                 SecurityType.Currency, // OK
                 "OK_NAME",
                 "OK_SYMBOL",
@@ -107,6 +112,7 @@ namespace SharpBooks.Tests
         {
             // Construct a new security with the given format.
             new Security(
+                Guid.NewGuid(), // OK
                 SecurityType.Currency, // OK
                 "OK_NAME",
                 "OK_SYMBOL",

@@ -17,6 +17,7 @@ namespace SharpBooks.Tests
         /// Holds a valid security, based on the ISO 4217 testing currency, XTS.
         /// </summary>
         private readonly Security noCurrency = new Security(
+            new Guid("729ffd07-f913-4e49-9ce6-e0852d8237b6"),
             SecurityType.Currency,
             "No Currency",
             "XXX",
