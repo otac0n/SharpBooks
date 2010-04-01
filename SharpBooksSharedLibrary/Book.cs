@@ -75,6 +75,15 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
             }
 
+            var dependantPriceQuotes = from q in this.priceQuotes
+                                       where q.Security == security || q.Currency == security
+                                       select q;
+
+            if (dependantPriceQuotes.Any())
+            {
+                throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
+            }
+
             this.securities.Remove(security);
             this.baseSaveTrack.RemoveSecurity(security);
             foreach (var track in this.saveTracks)
@@ -122,48 +131,6 @@ namespace SharpBooks
             }
         }
 
-        public void AddPriceQuote(PriceQuote priceQuote)
-        {
-            if (priceQuote == null)
-            {
-                throw new ArgumentNullException("priceQuote");
-            }
-
-            if (this.priceQuotes.Contains(priceQuote))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, because the price quote already belongs to the book.");
-            }
-
-            if (!this.securities.Contains(priceQuote.Security))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's security has not been added.");
-            }
-
-            if (!this.securities.Contains(priceQuote.Currency))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
-            }
-
-            var duplicateQuotes = from q in this.priceQuotes
-                                  where q.Security == priceQuote.Security
-                                  where q.Currency == priceQuote.Currency
-                                  where q.DateTime == priceQuote.DateTime
-                                  where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
-                                  select q;
-
-            if (duplicateQuotes.Any())
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
-            }
-
-            this.priceQuotes.Add(priceQuote);
-            //this.baseSaveTrack.AddAccount(account);
-            //foreach (var track in this.saveTracks)
-            //{
-            //    track.Value.AddAccount(account);
-            //}
-        }
-
         public void RemoveAccount(Account account)
         {
             if (account == null)
@@ -202,6 +169,68 @@ namespace SharpBooks
             {
                 track.Value.RemoveAccount(account);
             }
+        }
+
+        public void AddPriceQuote(PriceQuote priceQuote)
+        {
+            if (priceQuote == null)
+            {
+                throw new ArgumentNullException("priceQuote");
+            }
+
+            if (this.priceQuotes.Contains(priceQuote))
+            {
+                throw new InvalidOperationException("Could not add the price quote to the book, because the price quote already belongs to the book.");
+            }
+
+            if (!this.securities.Contains(priceQuote.Security))
+            {
+                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's security has not been added.");
+            }
+
+            if (!this.securities.Contains(priceQuote.Currency))
+            {
+                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
+            }
+
+            var duplicateQuotes = from q in this.priceQuotes
+                                  where q.Security == priceQuote.Security
+                                  where q.Currency == priceQuote.Currency
+                                  where q.DateTime == priceQuote.DateTime
+                                  where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
+                                  select q;
+
+            if (duplicateQuotes.Any())
+            {
+                throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
+            }
+
+            this.priceQuotes.Add(priceQuote);
+            //this.baseSaveTrack.AddPriceQuote(priceQuote);
+            //foreach (var track in this.saveTracks)
+            //{
+            //    track.Value.AddPriceQuote(priceQuote);
+            //}
+        }
+
+        public void RemovePriceQuote(PriceQuote priceQuote)
+        {
+            if (priceQuote == null)
+            {
+                throw new ArgumentNullException("priceQuote");
+            }
+
+            if (!this.priceQuotes.Contains(priceQuote))
+            {
+                throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
+            }
+
+            this.priceQuotes.Remove(priceQuote);
+            //this.baseSaveTrack.AddPriceQuote(priceQuote);
+            //foreach (var track in this.saveTracks)
+            //{
+            //    track.Value.AddPriceQuote(priceQuote);
+            //}
         }
 
         public void AddTransaction(Transaction transaction)

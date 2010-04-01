@@ -29,6 +29,11 @@ namespace SharpBooks
                 throw new ArgumentNullException("currency");
             }
 
+            if (string.IsNullOrEmpty(source))
+            {
+                throw new ArgumentNullException("source");
+            }
+
             if (quantity <= 0)
             {
                 throw new ArgumentOutOfRangeException("quantity");
