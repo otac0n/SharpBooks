@@ -134,7 +134,7 @@ namespace YahooPriceSource
                 quantity /= gcd;
                 longPrice /= gcd;
 
-                return new PriceQuote(dateTime, security, quantity, currecny, longPrice, "Yahoo!® Finance");
+                return new PriceQuote(Guid.NewGuid(), dateTime, security, quantity, currecny, longPrice, "Yahoo!® Finance");
             }
         }
 

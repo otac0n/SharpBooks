@@ -17,7 +17,7 @@ namespace SharpBooks
     /// </summary>
     public class PriceQuote
     {
-        public PriceQuote(DateTime dateTime, Security security, long quantity, Security currency, long price, string source)
+        public PriceQuote(Guid priceQuoteId, DateTime dateTime, Security security, long quantity, Security currency, long price, string source)
         {
             if (security == null)
             {
@@ -54,12 +54,19 @@ namespace SharpBooks
                 throw new ArgumentOutOfRangeException("price");
             }
 
+            this.PriceQuoteId = priceQuoteId;
             this.DateTime = dateTime;
             this.Security = security;
             this.Quantity = quantity;
             this.Currency = currency;
             this.Price = price;
             this.Source = source;
+        }
+
+        public Guid PriceQuoteId
+        {
+            get;
+            private set;
         }
 
         public DateTime DateTime

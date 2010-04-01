@@ -97,7 +97,7 @@ namespace GooglePriceSource
                 quantity /= gcd;
                 longPrice /= gcd;
 
-                return new PriceQuote(dateTime, security, quantity, currecny, longPrice, "Google™ Calculator");
+                return new PriceQuote(Guid.NewGuid(), dateTime, security, quantity, currecny, longPrice, "Google™ Calculator");
             }
         }
 

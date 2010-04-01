@@ -24,6 +24,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 null,
                 1, // OK
@@ -40,6 +41,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 1, // OK
@@ -64,6 +66,7 @@ namespace SharpBooks.Tests
 
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 1, // OK
@@ -80,6 +83,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestCurrency,
                 1, // OK
@@ -98,6 +102,7 @@ namespace SharpBooks.Tests
 
             // Build a test delegate to construct the PriceQuote.
             TestDelegate buildQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 quantity,
@@ -114,6 +119,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 1, // OK
@@ -130,6 +136,7 @@ namespace SharpBooks.Tests
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 1, // OK
@@ -145,6 +152,7 @@ namespace SharpBooks.Tests
         public void Constructor_WithValidParameters_Succeeds()
         {
             new PriceQuote(
+                Guid.NewGuid(), // OK
                 DateTime.MinValue, // OK
                 TestUtils.TestStock, // OK
                 1, // OK
@@ -154,6 +162,23 @@ namespace SharpBooks.Tests
 
             // The test passes, because the call to the constructor has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void Constructor_WhenPriceQuoteIdIsEmpty_ThrowsException()
+        {
+            // Build a delegate to construct a new price quote.
+            TestDelegate constructPriceQuote = () => new PriceQuote(
+                Guid.Empty,
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1, // OK
+                "OK_SOURCE");
+
+            // Assert that calling the delegate throws an ArgumentOutOfRangeException.
+            Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
     }
 }

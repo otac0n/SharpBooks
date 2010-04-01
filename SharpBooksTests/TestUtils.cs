@@ -81,7 +81,8 @@ namespace SharpBooks.Tests
         public static PriceQuote CreateValidPriceQuote()
         {
             // Create a new price quote that is valid.
-            return new PriceQuote(DateTime.MinValue, TestStock, 1, TestCurrency, 1, "TESTS");
+            // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
+            return new PriceQuote(Guid.NewGuid(), DateTime.MinValue, TestStock, 1, TestCurrency, 1, "TESTS");
         }
     }
 }

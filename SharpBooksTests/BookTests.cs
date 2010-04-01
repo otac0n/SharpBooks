@@ -667,6 +667,34 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddPriceQuote_WhenAnotherPriceQuoteWithSamePriceQuoteIdHasBeenAdded_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities and add it to the book.
+            var priceQuote1 = TestUtils.CreateValidPriceQuote();
+            book.AddPriceQuote(priceQuote1);
+
+            // Create a new, valid price quote that has the same price quote id as the above quote.
+            var priceQuote2 = new PriceQuote(
+                priceQuote1.PriceQuoteId,
+                DateTime.MinValue, // OK
+                TestUtils.TestStock, // OK
+                1, // OK
+                TestUtils.TestCurrency, // OK
+                1, // OK
+                "OK_SOURCE");
+
+            // Assert that attempting to add the second price quote when the first price quote duplicates it throws an InvalidOperationException.
+            Assert.That(() => book.AddPriceQuote(priceQuote2), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void AddPriceQuote_WhenPriceQuoteIsNull_ThrowsException()
         {
             // Create a new, valid book.
