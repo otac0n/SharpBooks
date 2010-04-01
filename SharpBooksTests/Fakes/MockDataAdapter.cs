@@ -10,6 +10,7 @@ namespace SharpBooks.Tests
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using SharpBooks.Plugins;
 
     internal class MockDataAdapter : IDataAdapter
     {
@@ -30,6 +31,14 @@ namespace SharpBooks.Tests
         private readonly List<OrderedGuid> transactionRemovals = new List<OrderedGuid>();
 
         private long orderIndex;
+
+        public string Name
+        {
+            get
+            {
+                return "Mock Data Adapter";
+            }
+        }
 
         public ReadOnlyCollection<OrderedSecurityId> SecurityAdditions
         {

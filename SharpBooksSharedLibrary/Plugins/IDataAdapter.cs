@@ -5,14 +5,14 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks
+namespace SharpBooks.Plugins
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public interface IDataAdapter
+    public interface IDataAdapter : IPlugin
     {
         void AddSecurity(SecurityData security);
 

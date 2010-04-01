@@ -8,9 +8,18 @@
 namespace SharpBooks.Tests
 {
     using System;
+    using SharpBooks.Plugins;
 
     public class StubDataAdapter : IDataAdapter
     {
+        public string Name
+        {
+            get
+            {
+                return "Stub Data Adapter";
+            }
+        }
+
         public void AddSecurity(SecurityData security)
         {
         }
