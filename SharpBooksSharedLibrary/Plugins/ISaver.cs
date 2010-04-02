@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="IDataAdapter.cs" company="(none)">
+// <copyright file="ISaver.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
@@ -12,7 +12,7 @@ namespace SharpBooks.Plugins
     using System.Linq;
     using System.Text;
 
-    public interface IDataAdapter : IPlugin
+    public interface ISaver
     {
         void AddSecurity(SecurityData security);
 

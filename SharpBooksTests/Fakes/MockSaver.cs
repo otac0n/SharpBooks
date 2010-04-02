@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="MockDataAdapter.cs" company="(none)">
+// <copyright file="MockSaver.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
@@ -12,7 +12,7 @@ namespace SharpBooks.Tests
     using System.Collections.ObjectModel;
     using SharpBooks.Plugins;
 
-    internal class MockDataAdapter : IDataAdapter
+    internal class MockSaver : ISaver
     {
         private readonly List<OrderedGuid> securityAdditions = new List<OrderedGuid>();
 
@@ -31,14 +31,6 @@ namespace SharpBooks.Tests
         private readonly List<OrderedGuid> transactionRemovals = new List<OrderedGuid>();
 
         private long orderIndex;
-
-        public string Name
-        {
-            get
-            {
-                return "Mock Data Adapter";
-            }
-        }
 
         public ReadOnlyCollection<OrderedGuid> SecurityAdditions
         {

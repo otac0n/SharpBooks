@@ -60,7 +60,7 @@ namespace SharpBooks.Tests.IntegrationTests
             book.RemoveSecurity(security1);
 
             // Create a new mock data adapter and replay the book changes into the mock.
-            var destination = new MockDataAdapter();
+            var destination = new MockSaver();
             book.Replay(destination, null);
 
             // Assert that the mock recieved the proper additiona and removals of each component.
@@ -94,7 +94,7 @@ namespace SharpBooks.Tests.IntegrationTests
             book.RemoveAccount(account);
 
             // Create a new mock data adapter and replay the book changes into the mock.
-            var destination = new MockDataAdapter();
+            var destination = new MockSaver();
             book.Replay(destination, savePoint);
 
             // Assert that the mock recieved one addition and one removal of each an account and a transaciton.
@@ -114,7 +114,7 @@ namespace SharpBooks.Tests.IntegrationTests
             var book2 = TestUtils.CreateValidBook();
 
             // Create a stub data adapter as a destination.
-            var destination = new StubDataAdapter();
+            var destination = new StubSaver();
 
             // Create a save point in the first book.
             using (var sp1 = book1.CreateSavePoint())
@@ -131,7 +131,7 @@ namespace SharpBooks.Tests.IntegrationTests
             var book = TestUtils.CreateValidBook();
 
             // Create a stub data adapter as a destination.
-            var destination = new StubDataAdapter();
+            var destination = new StubSaver();
 
             // Create a save point in the first book and dispose it.
             var savePoint = book.CreateSavePoint();

@@ -344,7 +344,7 @@ namespace SharpBooks
             return savePoint;
         }
 
-        public void Replay(IDataAdapter dataAdapter, SavePoint savePoint)
+        public void Replay(ISaver dataAdapter, SavePoint savePoint)
         {
             SaveTrack track;
 
@@ -391,7 +391,7 @@ namespace SharpBooks
                 RemoveTransaction
             }
 
-            public void Replay(IDataAdapter dataAdapter)
+            public void Replay(ISaver dataAdapter)
             {
                 foreach (var action in this.actions)
                 {

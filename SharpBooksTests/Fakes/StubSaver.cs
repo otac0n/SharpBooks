@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="StubDataAdapter.cs" company="(none)">
+// <copyright file="StubSaver.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
@@ -10,16 +10,8 @@ namespace SharpBooks.Tests
     using System;
     using SharpBooks.Plugins;
 
-    public class StubDataAdapter : IDataAdapter
+    public class StubSaver : ISaver
     {
-        public string Name
-        {
-            get
-            {
-                return "Stub Data Adapter";
-            }
-        }
-
         public void AddSecurity(SecurityData security)
         {
         }
