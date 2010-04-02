@@ -55,6 +55,17 @@ namespace SharpBooks
             private set;
         }
 
+        public IEnumerable<Split> Splits
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return this.splits.AsReadOnly();
+                }
+            }
+        }
+
         public bool IsLocked
         {
             get
@@ -169,16 +180,6 @@ namespace SharpBooks
 
                 this.splits.Remove(split);
                 split.Transaction = null;
-            }
-        }
-
-        public ReadOnlyCollection<Split> GetSplits(TransactionLock transactionLock)
-        {
-            lock (this.lockMutex)
-            {
-                this.ValidateLock(transactionLock);
-
-                return this.splits.AsReadOnly();
             }
         }
 

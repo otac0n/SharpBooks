@@ -167,7 +167,7 @@ namespace SharpBooks
             }
 
             var involvedTransactions = from t in this.transactions.Keys
-                                       where (from s in t.GetSplits(this.transactions[t])
+                                       where (from s in t.Splits
                                               where s.Account == account
                                               select s).Any()
                                        select t;
@@ -288,7 +288,7 @@ namespace SharpBooks
             {
                 transactionLock = transaction.Lock();
 
-                var splitsWithoutAccountsInBook = from s in transaction.GetSplits(transactionLock)
+                var splitsWithoutAccountsInBook = from s in transaction.Splits
                                                   where !this.accounts.Contains(s.Account)
                                                   select s;
 

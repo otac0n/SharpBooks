@@ -8,6 +8,8 @@
 namespace SharpBooks
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class TransactionData
     {
@@ -17,6 +19,8 @@ namespace SharpBooks
             this.Date = transaction.Date;
             this.BaseSecurityType = transaction.BaseSecurity.SecurityType;
             this.BaseSecuritySymbol = transaction.BaseSecurity.Symbol;
+            this.Splits = (from s in transaction.Splits
+                           select new SplitData(s)).ToList().AsReadOnly();
         }
 
         public Guid TransactionId
@@ -38,6 +42,12 @@ namespace SharpBooks
         }
 
         public string BaseSecuritySymbol
+        {
+            get;
+            private set;
+        }
+
+        public IEnumerable<SplitData> Splits
         {
             get;
             private set;
