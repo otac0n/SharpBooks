@@ -25,10 +25,6 @@ namespace SharpBooks
         {
         }
 
-        private void UpdateSaveTracks(Action<SaveTrack> action)
-        {
-        }
-
         public void AddSecurity(Security security)
         {
             if (security == null)
@@ -61,11 +57,7 @@ namespace SharpBooks
             }
 
             this.securities.Add(security);
-            this.baseSaveTrack.AddSecurity(security);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.AddSecurity(security);
-            }
+            this.UpdateSaveTracks(st => st.AddSecurity(security));
         }
 
         public void RemoveSecurity(Security security)
@@ -99,11 +91,7 @@ namespace SharpBooks
             }
 
             this.securities.Remove(security);
-            this.baseSaveTrack.RemoveSecurity(security);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.RemoveSecurity(security);
-            }
+            this.UpdateSaveTracks(st => st.RemoveSecurity(security));
         }
 
         public void AddAccount(Account account)
@@ -138,11 +126,7 @@ namespace SharpBooks
             }
 
             this.accounts.Add(account);
-            this.baseSaveTrack.AddAccount(account);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.AddAccount(account);
-            }
+            this.UpdateSaveTracks(st => st.AddAccount(account));
         }
 
         public void RemoveAccount(Account account)
@@ -178,11 +162,7 @@ namespace SharpBooks
             }
 
             this.accounts.Remove(account);
-            this.baseSaveTrack.RemoveAccount(account);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.RemoveAccount(account);
-            }
+            this.UpdateSaveTracks(st => st.RemoveAccount(account));
         }
 
         public void AddPriceQuote(PriceQuote priceQuote)
@@ -229,11 +209,7 @@ namespace SharpBooks
             }
 
             this.priceQuotes.Add(priceQuote);
-            this.baseSaveTrack.AddPriceQuote(priceQuote);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.AddPriceQuote(priceQuote);
-            }
+            this.UpdateSaveTracks(st => st.AddPriceQuote(priceQuote));
         }
 
         public void RemovePriceQuote(PriceQuote priceQuote)
@@ -249,11 +225,7 @@ namespace SharpBooks
             }
 
             this.priceQuotes.Remove(priceQuote);
-            this.baseSaveTrack.RemovePriceQuote(priceQuote);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.RemovePriceQuote(priceQuote);
-            }
+            this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote));
         }
 
         public void AddTransaction(Transaction transaction)
@@ -298,12 +270,8 @@ namespace SharpBooks
                 }
 
                 this.transactions.Add(transaction, transactionLock);
+                this.UpdateSaveTracks(st => st.AddTransaction(transaction));
                 transactionLock = null;
-                this.baseSaveTrack.AddTransaction(transaction);
-                foreach (var track in this.saveTracks)
-                {
-                    track.Value.AddTransaction(transaction);
-                }
             }
             finally
             {
@@ -328,11 +296,7 @@ namespace SharpBooks
 
             this.transactions[transaction].Dispose();
             this.transactions.Remove(transaction);
-            this.baseSaveTrack.RemoveTransaction(transaction);
-            foreach (var track in this.saveTracks)
-            {
-                track.Value.RemoveTransaction(transaction);
-            }
+            this.UpdateSaveTracks(st => st.RemoveTransaction(transaction));
         }
 
         public SavePoint CreateSavePoint()
@@ -373,6 +337,15 @@ namespace SharpBooks
             }
 
             this.saveTracks.Remove(savePoint);
+        }
+
+        private void UpdateSaveTracks(Action<SaveTrack> action)
+        {
+            action.Invoke(this.baseSaveTrack);
+            foreach (var track in this.saveTracks)
+            {
+                action.Invoke(track.Value);
+            }
         }
 
         private class SaveTrack
