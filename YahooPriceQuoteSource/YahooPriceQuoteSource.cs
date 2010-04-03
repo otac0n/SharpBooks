@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="YahooPriceSource.cs" company="(none)">
+// <copyright file="YahooPriceQuoteSource.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace YahooPriceSource
+namespace YahooPriceQuoteSource
 {
     using System;
     using System.Net;

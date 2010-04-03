@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PluginEunmerator.cs" />
     <Compile Include="YahooPriceQuoteSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

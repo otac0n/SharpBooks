@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GooglePriceSource.cs" company="(none)">
+// <copyright file="GooglePriceQuoteSource.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace GooglePriceSource
+namespace GooglePriceQuoteSource
 {
     using System;
     using System.Net;

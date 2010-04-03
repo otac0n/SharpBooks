@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="YahooPriceSourceTests.cs" company="(none)">
+// <copyright file="YahooPriceQuoteSourceTests.cs" company="(none)">
 //  Copyright © 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
@@ -9,12 +9,12 @@ namespace SharpBooks.Tests.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
-    using GooglePriceSource;
+    using GooglePriceQuoteSource;
     using NUnit.Framework;
 
     [TestFixture]
     [Explicit]
-    public class GoogleCurrencyPriceSourceTests
+    public class GoogleCurrencyPriceQuoteSourceTests
     {
         private readonly Dictionary<string, Security> securities = new Dictionary<string, Security>();
 

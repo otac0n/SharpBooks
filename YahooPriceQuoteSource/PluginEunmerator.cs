@@ -5,16 +5,17 @@
 // <author>otac0n</author>
 //-----------------------------------------------------------------------
 
-namespace GooglePriceQuoteSource
+namespace YahooPriceQuoteSource
 {
-    using System.Collections.Generic;
+    using System;
     using SharpBooks.Plugins;
+    using System.Collections.Generic;
 
     public class PluginEunmerator : IPluginEnumerator
     {
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
-            yield return new PriceQuoteSourceFactory<GoogleCurrencyPriceQuoteSource>();
+            yield return new PriceQuoteSourceFactory<YahooPriceQuoteSource>();
         }
     }
 }
