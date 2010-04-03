@@ -28,12 +28,17 @@ namespace SharpBooks
         {
             lock (this)
             {
-                this.destinationBook = new Book();
-                this.bookToCopy.Replay(this, null);
-                
-                var returnBook = this.destinationBook;
-                this.destinationBook = null;
-                return returnBook;
+                try
+                {
+                    this.destinationBook = new Book();
+                    this.bookToCopy.Replay(this, null);
+
+                    return this.destinationBook;
+                }
+                finally
+                {
+                    this.destinationBook = null;
+                }
             }
         }
 
