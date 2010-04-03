@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharpBooks.snk = SharpBooks.snk
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceQuoteSource", "YahooPriceSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceQuoteSource", "YahooPriceQuoteSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooglePriceQuoteSource", "GooglePriceSource\GooglePriceQuoteSource.csproj", "{BFD8417E-2984-48D9-AFD8-C550550E6536}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooglePriceQuoteSource", "GooglePriceQuoteSource\GooglePriceQuoteSource.csproj", "{BFD8417E-2984-48D9-AFD8-C550550E6536}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks", "SharpBooks\SharpBooks.csproj", "{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}"
 EndProject
