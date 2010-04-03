@@ -8,6 +8,7 @@
 namespace GooglePriceQuoteSource
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net;
     using System.Text.RegularExpressions;
     using Newtonsoft.Json;
@@ -111,24 +112,28 @@ namespace GooglePriceQuoteSource
 
         private class CalculatorResult
         {
+            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string lhs
             {
                 get;
                 set;
             }
 
+            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string rhs
             {
                 get;
                 set;
             }
 
+            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string err
             {
                 get;
                 set;
             }
 
+            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public bool icc
             {
                 get;
