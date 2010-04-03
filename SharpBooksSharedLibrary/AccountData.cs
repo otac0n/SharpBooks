@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="AccountData.cs" company="(none)">
-//  Copyright © 2010 John Gietzen
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -9,6 +9,9 @@ namespace SharpBooks
 {
     using System;
 
+    /// <summary>
+    /// Holds a read-only, persistable copy of an account.
+    /// </summary>
     public class AccountData
     {
         public AccountData(Account account)

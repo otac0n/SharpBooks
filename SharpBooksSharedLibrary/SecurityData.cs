@@ -9,7 +9,10 @@ namespace SharpBooks
 {
     using System;
 
-    public class SecurityData
+    /// <summary>
+    /// Holds a read-only, persistable copy of a security.
+    /// </summary>
+    public sealed class SecurityData
     {
         public SecurityData(Security security)
         {

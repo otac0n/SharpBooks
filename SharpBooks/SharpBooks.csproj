@@ -5,15 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpBooks</RootNamespace>
-    <AssemblyName>SharpBooksSharedLibrary</AssemblyName>
+    <AssemblyName>SharpBooks</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,41 +45,51 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="AccountData.cs" />
-    <Compile Include="Book.cs" />
-    <Compile Include="BookReader.cs" />
-    <Compile Include="MathExtensions.cs" />
-    <Compile Include="Plugins\IReader.cs" />
-    <Compile Include="Plugins\ISaver.cs" />
-    <Compile Include="Plugins\IPlugin.cs" />
-    <Compile Include="Plugins\IPluginEnumerator.cs" />
-    <Compile Include="Plugins\IPluginFactory.cs" />
-    <Compile Include="Plugins\IPriceQuoteSource.cs" />
-    <Compile Include="Plugins\LoadPluginsFailureException.cs" />
-    <Compile Include="Plugins\PluginLoader.cs" />
-    <Compile Include="PriceQuote.cs" />
-    <Compile Include="Plugins\PriceRetrievalFailureException.cs" />
-    <Compile Include="PriceQuoteData.cs" />
-    <Compile Include="SavePoint.cs" />
-    <Compile Include="SaveTrack.cs" />
-    <Compile Include="Security.cs" />
-    <Compile Include="SecurityData.cs" />
-    <Compile Include="SecurityType.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleViolation.cs" />
-    <Compile Include="Split.cs" />
-    <Compile Include="SplitData.cs" />
-    <Compile Include="Transaction.cs" />
-    <Compile Include="TransactionData.cs" />
-    <Compile Include="TransactionLock.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SharpBooks.snk">
-      <Link>SharpBooks.snk</Link>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

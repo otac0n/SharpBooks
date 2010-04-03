@@ -9,6 +9,9 @@ namespace SharpBooks
 {
     using System;
 
+    /// <summary>
+    /// Holds a read-only, persistable copy of a price quote.
+    /// </summary>
     public class PriceQuoteData
     {
         public PriceQuoteData(PriceQuote priceQuote)

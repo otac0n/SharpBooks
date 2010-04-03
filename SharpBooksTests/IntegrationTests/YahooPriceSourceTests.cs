@@ -16,7 +16,7 @@ namespace SharpBooks.Tests.IntegrationTests
     [Explicit]
     public class YahooPriceSourceTests
     {
-        Dictionary<string, Security> securities = new Dictionary<string, Security>();
+        private readonly Dictionary<string, Security> securities = new Dictionary<string, Security>();
 
         [TestFixtureSetUp]
         public void SetUp()

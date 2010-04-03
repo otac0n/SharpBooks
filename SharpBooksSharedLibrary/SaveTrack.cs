@@ -11,7 +11,7 @@ namespace SharpBooks
     using System.Collections.Generic;
     using SharpBooks.Plugins;
 
-    internal class SaveTrack
+    internal sealed class SaveTrack
     {
         private readonly List<Action> actions = new List<Action>();
 

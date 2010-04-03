@@ -12,7 +12,10 @@ namespace SharpBooks
     using System.Linq;
     using System.Text;
 
-    public class SplitData
+    /// <summary>
+    /// Holds a read-only, persistable copy of a split.
+    /// </summary>
+    public sealed class SplitData
     {
         public SplitData(Split split)
         {

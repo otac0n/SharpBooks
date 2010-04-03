@@ -1,17 +1,18 @@
 //-----------------------------------------------------------------------
-// <copyright file="IPlugin.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+// <copyright file="IReader.cs" company="(none)">
+//  Copyright (c) 2010 John Gietzen
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks.Plugins
 {
-    public interface IPlugin
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public interface IReader
     {
-        string Name
-        {
-            get;
-        }
     }
 }
