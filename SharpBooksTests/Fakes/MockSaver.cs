@@ -5,12 +5,11 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks.Tests
+namespace SharpBooks.Tests.Fakes
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using SharpBooks.Plugins;
 
     internal class MockSaver : ISaver
     {

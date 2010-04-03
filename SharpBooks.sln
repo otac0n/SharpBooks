@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooglePriceSource", "Google
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks", "SharpBooks\SharpBooks.csproj", "{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Plugins", "SharpBooks.Plugins\SharpBooks.Plugins.csproj", "{68183E1E-2038-42DD-81CC-7B757A240C1C}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -49,6 +51,10 @@ Global
 		{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68183E1E-2038-42DD-81CC-7B757A240C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68183E1E-2038-42DD-81CC-7B757A240C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68183E1E-2038-42DD-81CC-7B757A240C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68183E1E-2038-42DD-81CC-7B757A240C1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

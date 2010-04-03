@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{773124A5-7D80-487F-986F-B8FFCD6F17CB}</ProjectGuid>
+    <ProjectGuid>{68183E1E-2038-42DD-81CC-7B757A240C1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahooPriceSource</RootNamespace>
-    <AssemblyName>YahooPriceSource</AssemblyName>
+    <RootNamespace>SharpBooks.Plugins</RootNamespace>
+    <AssemblyName>SharpBooks.Plugins</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,23 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="YahooPriceSource.cs" />
+    <Compile Include="IPlugin.cs" />
+    <Compile Include="IPluginEnumerator.cs" />
+    <Compile Include="IPluginFactory.cs" />
+    <Compile Include="LoadPluginsFailureException.cs" />
+    <Compile Include="PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj">
-      <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
-      <Name>SharpBooks.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
-      <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
-      <Name>SharpBooksSharedLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\SharpBooks.snk">
-      <Link>SharpBooks.snk</Link>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

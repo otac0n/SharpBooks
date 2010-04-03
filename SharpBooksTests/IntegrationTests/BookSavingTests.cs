@@ -9,6 +9,7 @@ namespace SharpBooks.Tests.IntegrationTests
 {
     using System;
     using NUnit.Framework;
+    using SharpBooks.Tests.Fakes;
 
     [TestFixture]
     public class BookSavingTests

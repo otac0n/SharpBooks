@@ -9,7 +9,6 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
-    using SharpBooks.Plugins;
 
     internal sealed class SaveTrack : ISaver
     {

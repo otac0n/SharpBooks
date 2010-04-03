@@ -5,10 +5,9 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks.Tests
+namespace SharpBooks.Tests.Fakes
 {
     using System;
-    using SharpBooks.Plugins;
 
     public class StubSaver : ISaver
     {
