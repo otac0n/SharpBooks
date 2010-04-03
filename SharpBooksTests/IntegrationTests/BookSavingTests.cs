@@ -47,7 +47,6 @@ namespace SharpBooks.Tests.IntegrationTests
             // Create a new, valid price quote based on the above securities.
             var priceQuote = TestUtils.CreateValidPriceQuote();
 
-
             // Add and immediately remove the security, account, and transaction from the book.
             book.AddSecurity(security1);
             book.AddSecurity(security2);

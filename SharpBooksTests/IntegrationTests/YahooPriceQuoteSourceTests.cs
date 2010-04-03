@@ -7,10 +7,10 @@
 
 namespace SharpBooks.Tests.IntegrationTests
 {
+    using System;
     using System.Collections.Generic;
     using NUnit.Framework;
     using YahooPriceQuoteSource;
-    using System;
 
     [TestFixture]
     [Explicit]
