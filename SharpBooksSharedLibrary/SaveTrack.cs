@@ -11,19 +11,56 @@ namespace SharpBooks
     using System.Collections.Generic;
     using SharpBooks.Plugins;
 
-    internal sealed class SaveTrack
+    internal sealed class SaveTrack : ISaver
     {
+        /// <summary>
+        /// Holds the list of actions performed on this <see cref="SharpBooks.SaveTrack"/>.
+        /// </summary>
         private readonly List<Action> actions = new List<Action>();
 
+        /// <summary>
+        /// Describes a type of action performed.
+        /// </summary>
         private enum ActionType
         {
+            /// <summary>
+            /// Corresponds to a call to AddSecurity.
+            /// </summary>
             AddSecurity,
+
+            /// <summary>
+            /// Corresponds to a call to RemoveSecurity.
+            /// </summary>
             RemoveSecurity,
+
+            /// <summary>
+            /// Corresponds to a call to AddPriceQuote.
+            /// </summary>
             AddPriceQuote,
+
+            /// <summary>
+            /// Corresponds to a call to RemovePriceQuote.
+            /// </summary>
             RemovePriceQuote,
+
+            /// <summary>
+            /// Corresponds to a call to AddAccount.
+            /// </summary>
             AddAccount,
+
+            /// <summary>
+            /// Corresponds to a call to RemoveAccount.
+            /// </summary>
             RemoveAccount,
+
+            /// <summary>
+            /// Corresponds to a call to AddTransaction.
+            /// </summary>
             AddTransaction,
+
+            /// <summary>
+            /// Corresponds to a call to RemoveTransaction.
+            /// </summary>
             RemoveTransaction
         }
 
@@ -61,75 +98,75 @@ namespace SharpBooks
             }
         }
 
-        public void AddSecurity(Security security)
+        public void AddSecurity(SecurityData security)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.AddSecurity,
-                Item = new SecurityData(security),
+                Item = security,
             });
         }
 
-        public void RemoveSecurity(Security security)
+        public void RemoveSecurity(Guid securityId)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.RemoveSecurity,
-                Item = security.SecurityId,
+                Item = securityId,
             });
         }
 
-        public void AddPriceQuote(PriceQuote priceQuote)
+        public void AddPriceQuote(PriceQuoteData priceQuote)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.AddPriceQuote,
-                Item = new PriceQuoteData(priceQuote),
+                Item = priceQuote,
             });
         }
 
-        public void RemovePriceQuote(PriceQuote priceQuote)
+        public void RemovePriceQuote(Guid priceQuoteId)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.RemovePriceQuote,
-                Item = priceQuote.PriceQuoteId,
+                Item = priceQuoteId,
             });
         }
 
-        public void AddAccount(Account account)
+        public void AddAccount(AccountData account)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.AddAccount,
-                Item = new AccountData(account),
+                Item = account,
             });
         }
 
-        public void RemoveAccount(Account account)
+        public void RemoveAccount(Guid accountId)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.RemoveAccount,
-                Item = account.AccountId,
+                Item = accountId,
             });
         }
 
-        public void AddTransaction(Transaction transaction)
+        public void AddTransaction(TransactionData transaction)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.AddTransaction,
-                Item = new TransactionData(transaction),
+                Item = transaction,
             });
         }
 
-        public void RemoveTransaction(Transaction transaction)
+        public void RemoveTransaction(Guid transactionId)
         {
             this.actions.Add(new Action
             {
                 ActionType = ActionType.RemoveTransaction,
-                Item = transaction.TransactionId,
+                Item = transactionId,
             });
         }
 

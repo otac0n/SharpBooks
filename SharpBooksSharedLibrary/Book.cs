@@ -14,6 +14,7 @@ namespace SharpBooks
 
     public class Book
     {
+        private readonly object lockMutex = new object();
         private readonly List<Security> securities = new List<Security>();
         private readonly List<Account> accounts = new List<Account>();
         private readonly List<PriceQuote> priceQuotes = new List<PriceQuote>();
@@ -21,322 +22,358 @@ namespace SharpBooks
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
-        public Book()
-        {
-        }
-
         public void AddSecurity(Security security)
         {
-            if (security == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("security");
+                if (security == null)
+                {
+                    throw new ArgumentNullException("security");
+                }
+
+                if (this.securities.Contains(security))
+                {
+                    throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
+                }
+
+                var duplicateIds = from s in this.securities
+                                   where s.SecurityId == security.SecurityId
+                                   select s;
+
+                if (duplicateIds.Any())
+                {
+                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityId.");
+                }
+
+                var duplicateData = from s in this.securities
+                                    where s.SecurityType == security.SecurityType
+                                    where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
+                                    select s;
+
+                if (duplicateData.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the security to the book, because another security has already been added with the same SecurityType and Symbol.");
+                }
+
+                this.securities.Add(security);
+                this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
             }
-
-            if (this.securities.Contains(security))
-            {
-                throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
-            }
-
-            var duplicateIds = from s in this.securities
-                               where s.SecurityId == security.SecurityId
-                               select s;
-
-            if (duplicateIds.Any())
-            {
-                throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityId.");
-            }
-
-            var duplicateData = from s in this.securities
-                                where s.SecurityType == security.SecurityType
-                                where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
-                                select s;
-
-            if (duplicateData.Any())
-            {
-                throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityType and Symbol.");
-            }
-
-            this.securities.Add(security);
-            this.UpdateSaveTracks(st => st.AddSecurity(security));
         }
 
         public void RemoveSecurity(Security security)
         {
-            if (security == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("security");
+                if (security == null)
+                {
+                    throw new ArgumentNullException("security");
+                }
+
+                if (!this.securities.Contains(security))
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
+                }
+
+                var dependantAccounts = from a in this.accounts
+                                        where a.Security == security
+                                        select a;
+
+                if (dependantAccounts.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
+                }
+
+                var dependantPriceQuotes = from q in this.priceQuotes
+                                           where q.Security == security || q.Currency == security
+                                           select q;
+
+                if (dependantPriceQuotes.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
+                }
+
+                this.securities.Remove(security);
+                this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
             }
-
-            if (!this.securities.Contains(security))
-            {
-                throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
-            }
-
-            var dependantAccounts = from a in this.accounts
-                                    where a.Security == security
-                                    select a;
-
-            if (dependantAccounts.Any())
-            {
-                throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
-            }
-
-            var dependantPriceQuotes = from q in this.priceQuotes
-                                       where q.Security == security || q.Currency == security
-                                       select q;
-
-            if (dependantPriceQuotes.Any())
-            {
-                throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
-            }
-
-            this.securities.Remove(security);
-            this.UpdateSaveTracks(st => st.RemoveSecurity(security));
         }
 
         public void AddAccount(Account account)
         {
-            if (account == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("account");
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                if (this.accounts.Contains(account))
+                {
+                    throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
+                }
+
+                if (!this.securities.Contains(account.Security))
+                {
+                    throw new InvalidOperationException("Could not add the account to the book, becaues the account's security has not been added.");
+                }
+
+                if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))
+                {
+                    throw new InvalidOperationException("Could not add the account to the book, becaues the account's parent has not been added.");
+                }
+
+                var duplicateIds = from a in this.accounts
+                                   where a.AccountId == account.AccountId
+                                   select a;
+
+                if (duplicateIds.Any())
+                {
+                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same AccountId.");
+                }
+
+                this.accounts.Add(account);
+                this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
             }
-
-            if (this.accounts.Contains(account))
-            {
-                throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
-            }
-
-            if (!this.securities.Contains(account.Security))
-            {
-                throw new InvalidOperationException("Could not add the account to the book, becaues the account's security has not been added.");
-            }
-
-            if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))
-            {
-                throw new InvalidOperationException("Could not add the account to the book, becaues the account's parent has not been added.");
-            }
-
-            var duplicateIds = from a in this.accounts
-                               where a.AccountId == account.AccountId
-                               select a;
-
-            if (duplicateIds.Any())
-            {
-                throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same AccountId.");
-            }
-
-            this.accounts.Add(account);
-            this.UpdateSaveTracks(st => st.AddAccount(account));
         }
 
         public void RemoveAccount(Account account)
         {
-            if (account == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("account");
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                if (!this.accounts.Contains(account))
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account is not a member of the book.");
+                }
+
+                var childAccounts = from a in this.accounts
+                                    where a.ParentAccount == account
+                                    select a;
+
+                if (childAccounts.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
+                }
+
+                var involvedTransactions = from t in this.transactions.Keys
+                                           where (from s in t.Splits
+                                                  where s.Account == account
+                                                  select s).Any()
+                                           select t;
+
+                if (involvedTransactions.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
+                }
+
+                this.accounts.Remove(account);
+                this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
             }
-
-            if (!this.accounts.Contains(account))
-            {
-                throw new InvalidOperationException("Could not remove the account from the book, because the account is not a member of the book.");
-            }
-
-            var childAccounts = from a in this.accounts
-                                where a.ParentAccount == account
-                                select a;
-
-            if (childAccounts.Any())
-            {
-                throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
-            }
-
-            var involvedTransactions = from t in this.transactions.Keys
-                                       where (from s in t.Splits
-                                              where s.Account == account
-                                              select s).Any()
-                                       select t;
-
-            if (involvedTransactions.Any())
-            {
-                throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
-            }
-
-            this.accounts.Remove(account);
-            this.UpdateSaveTracks(st => st.RemoveAccount(account));
         }
 
         public void AddPriceQuote(PriceQuote priceQuote)
         {
-            if (priceQuote == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("priceQuote");
+                if (priceQuote == null)
+                {
+                    throw new ArgumentNullException("priceQuote");
+                }
+
+                if (this.priceQuotes.Contains(priceQuote))
+                {
+                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote already belongs to the book.");
+                }
+
+                if (!this.securities.Contains(priceQuote.Security))
+                {
+                    throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's security has not been added.");
+                }
+
+                if (!this.securities.Contains(priceQuote.Currency))
+                {
+                    throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
+                }
+
+                var duplicateIds = from q in this.priceQuotes
+                                   where q.PriceQuoteId == priceQuote.PriceQuoteId
+                                   select q;
+
+                if (duplicateIds.Any())
+                {
+                    throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same PriceQuoteId.");
+                }
+
+                var duplicateData = from q in this.priceQuotes
+                                    where q.Security == priceQuote.Security
+                                    where q.Currency == priceQuote.Currency
+                                    where q.DateTime == priceQuote.DateTime
+                                    where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
+                                    select q;
+
+                if (duplicateData.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
+                }
+
+                this.priceQuotes.Add(priceQuote);
+                this.UpdateSaveTracks(st => st.AddPriceQuote(new PriceQuoteData(priceQuote)));
             }
-
-            if (this.priceQuotes.Contains(priceQuote))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, because the price quote already belongs to the book.");
-            }
-
-            if (!this.securities.Contains(priceQuote.Security))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's security has not been added.");
-            }
-
-            if (!this.securities.Contains(priceQuote.Currency))
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
-            }
-
-            var duplicateIds = from q in this.priceQuotes
-                               where q.PriceQuoteId == priceQuote.PriceQuoteId
-                               select q;
-
-            if (duplicateIds.Any())
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same PriceQuoteId.");
-            }
-
-            var duplicateData = from q in this.priceQuotes
-                                where q.Security == priceQuote.Security
-                                where q.Currency == priceQuote.Currency
-                                where q.DateTime == priceQuote.DateTime
-                                where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
-                                select q;
-
-            if (duplicateData.Any())
-            {
-                throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
-            }
-
-            this.priceQuotes.Add(priceQuote);
-            this.UpdateSaveTracks(st => st.AddPriceQuote(priceQuote));
         }
 
         public void RemovePriceQuote(PriceQuote priceQuote)
         {
-            if (priceQuote == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("priceQuote");
-            }
+                if (priceQuote == null)
+                {
+                    throw new ArgumentNullException("priceQuote");
+                }
 
-            if (!this.priceQuotes.Contains(priceQuote))
-            {
-                throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
-            }
+                if (!this.priceQuotes.Contains(priceQuote))
+                {
+                    throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
+                }
 
-            this.priceQuotes.Remove(priceQuote);
-            this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote));
+                this.priceQuotes.Remove(priceQuote);
+                this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
+            }
         }
 
         public void AddTransaction(Transaction transaction)
         {
-            if (transaction == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("transaction");
-            }
-
-            if (this.transactions.ContainsKey(transaction))
-            {
-                throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
-            }
-
-            if (!transaction.IsValid)
-            {
-                throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
-            }
-
-            var duplicateIds = from t in this.transactions.Keys
-                               where t.TransactionId == transaction.TransactionId
-                               select t;
-
-            if (duplicateIds.Any())
-            {
-                throw new InvalidOperationException("Could not add the transaction to the book, because another transaction has already been added with the same TransactionId.");
-            }
-
-            TransactionLock transactionLock = null;
-
-            try
-            {
-                transactionLock = transaction.Lock();
-
-                var splitsWithoutAccountsInBook = from s in transaction.Splits
-                                                  where !this.accounts.Contains(s.Account)
-                                                  select s;
-
-                if (splitsWithoutAccountsInBook.Any())
+                if (transaction == null)
                 {
-                    throw new InvalidOperationException("Could not add the transaction to the book, becaues the transaction contains at least on split whose account has not been added.");
+                    throw new ArgumentNullException("transaction");
                 }
 
-                this.transactions.Add(transaction, transactionLock);
-                this.UpdateSaveTracks(st => st.AddTransaction(transaction));
-                transactionLock = null;
-            }
-            finally
-            {
-                if (transactionLock != null)
+                if (this.transactions.ContainsKey(transaction))
                 {
-                    transactionLock.Dispose();
+                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
+                }
+
+                if (!transaction.IsValid)
+                {
+                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
+                }
+
+                var duplicateIds = from t in this.transactions.Keys
+                                   where t.TransactionId == transaction.TransactionId
+                                   select t;
+
+                if (duplicateIds.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the transaction to the book, because another transaction has already been added with the same TransactionId.");
+                }
+
+                TransactionLock transactionLock = null;
+
+                try
+                {
+                    transactionLock = transaction.Lock();
+
+                    var splitsWithoutAccountsInBook = from s in transaction.Splits
+                                                      where !this.accounts.Contains(s.Account)
+                                                      select s;
+
+                    if (splitsWithoutAccountsInBook.Any())
+                    {
+                        throw new InvalidOperationException(
+                            "Could not add the transaction to the book, becaues the transaction contains at least on split whose account has not been added.");
+                    }
+
+                    this.transactions.Add(transaction, transactionLock);
+                    this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
+                    transactionLock = null;
+                }
+                finally
+                {
+                    if (transactionLock != null)
+                    {
+                        transactionLock.Dispose();
+                    }
                 }
             }
         }
 
         public void RemoveTransaction(Transaction transaction)
         {
-            if (transaction == null)
+            lock (this.lockMutex)
             {
-                throw new ArgumentNullException("transaction");
-            }
+                if (transaction == null)
+                {
+                    throw new ArgumentNullException("transaction");
+                }
 
-            if (!this.transactions.ContainsKey(transaction))
-            {
-                throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
-            }
+                if (!this.transactions.ContainsKey(transaction))
+                {
+                    throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
+                }
 
-            this.transactions[transaction].Dispose();
-            this.transactions.Remove(transaction);
-            this.UpdateSaveTracks(st => st.RemoveTransaction(transaction));
+                this.transactions[transaction].Dispose();
+                this.transactions.Remove(transaction);
+                this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
+            }
         }
 
         public SavePoint CreateSavePoint()
         {
-            var savePoint = new SavePoint(this);
+            lock (this.lockMutex)
+            {
+                var savePoint = new SavePoint(this);
 
-            this.saveTracks.Add(savePoint, new SaveTrack());
-            
-            return savePoint;
+                this.saveTracks.Add(savePoint, new SaveTrack());
+
+                return savePoint;
+            }
         }
 
         public void Replay(ISaver dataAdapter, SavePoint savePoint)
         {
             SaveTrack track;
 
-            if (savePoint != null)
+            lock (this.lockMutex)
             {
-                if (!this.saveTracks.ContainsKey(savePoint))
+                if (savePoint != null)
                 {
-                    throw new InvalidOperationException("Could replay the book's modifications, because the save point could not be found.");
+                    if (!this.saveTracks.ContainsKey(savePoint))
+                    {
+                        throw new InvalidOperationException("Could replay the book's modifications, because the save point could not be found.");
+                    }
+
+                    track = this.saveTracks[savePoint];
                 }
-
-                track = this.saveTracks[savePoint];
+                else
+                {
+                    track = this.baseSaveTrack;
+                }
             }
-            else
+
+            lock (track)
             {
-                track = this.baseSaveTrack;
+                track.Replay(dataAdapter);
             }
-
-            track.Replay(dataAdapter);
         }
 
         internal void RemoveSavePoint(SavePoint savePoint)
         {
-            if (!this.saveTracks.ContainsKey(savePoint))
+            lock (this.lockMutex)
             {
-                throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
-            }
+                if (!this.saveTracks.ContainsKey(savePoint))
+                {
+                    throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
+                }
 
-            this.saveTracks.Remove(savePoint);
+                this.saveTracks.Remove(savePoint);
+            }
         }
 
         private void UpdateSaveTracks(Action<SaveTrack> action)
@@ -344,7 +381,10 @@ namespace SharpBooks
             action.Invoke(this.baseSaveTrack);
             foreach (var track in this.saveTracks)
             {
-                action.Invoke(track.Value);
+                lock (track.Value)
+                {
+                    action.Invoke(track.Value);
+                }
             }
         }
     }
