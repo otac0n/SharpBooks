@@ -5,7 +5,7 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks.Plugins
+namespace SharpBooks
 {
     using System;
     using System.Runtime.Serialization;

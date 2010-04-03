@@ -8,11 +8,9 @@
 namespace YahooPriceSource
 {
     using System;
-    using System.Diagnostics;
     using System.Net;
     using System.Text.RegularExpressions;
     using SharpBooks;
-    using SharpBooks.Plugins;
 
     public class YahooPriceSource : IPriceQuoteSource
     {
@@ -27,19 +25,19 @@ namespace YahooPriceSource
             }
         }
 
-        public PriceQuote GetPriceQuote(Security security, Security currecny)
+        public PriceQuote GetPriceQuote(Security security, Security currency)
         {
             if (security == null)
             {
                 throw new ArgumentNullException("security");
             }
 
-            if (currecny == null)
+            if (currency == null)
             {
-                throw new ArgumentNullException("currecny");
+                throw new ArgumentNullException("currency");
             }
 
-            if (currecny.SecurityType != SecurityType.Currency)
+            if (currency.SecurityType != SecurityType.Currency)
             {
                 throw new ArgumentException("The argument must be a Security with a SecurityType of Currency", "currency");
             }
@@ -51,11 +49,11 @@ namespace YahooPriceSource
                 throw BuildError(security.Symbol, "Only stocks, funds, and currencies are supported.");
             }
 
-            string symbol = security.Symbol;
+            var symbol = security.Symbol;
 
             if (security.SecurityType == SecurityType.Currency)
             {
-                symbol = symbol + currecny.Symbol + "=X";
+                symbol = symbol + currency.Symbol + "=X";
             }
 
             var client = new WebClient();
@@ -77,9 +75,9 @@ namespace YahooPriceSource
                 throw BuildError(symbol, "The data returned was not in a recognized format.");
             }
 
-            string date = Unquote(split[1]);
-            string time = Unquote(split[2]);
-            string value = Unquote(split[3]);
+            var date = Unquote(split[1]);
+            var time = Unquote(split[2]);
+            var value = Unquote(split[3]);
 
             if (date == "N/A")
             {
@@ -118,7 +116,7 @@ namespace YahooPriceSource
             checked
             {
                 var quantity = (long)security.FractionTraded;
-                price *= currecny.FractionTraded;
+                price *= currency.FractionTraded;
 
                 var longPrice = (long)Math.Floor(price);
 
@@ -134,7 +132,7 @@ namespace YahooPriceSource
                 quantity /= gcd;
                 longPrice /= gcd;
 
-                return new PriceQuote(Guid.NewGuid(), dateTime, security, quantity, currecny, longPrice, "Yahoo!® Finance");
+                return new PriceQuote(Guid.NewGuid(), dateTime, security, quantity, currency, longPrice, "Yahoo!® Finance");
             }
         }
 
