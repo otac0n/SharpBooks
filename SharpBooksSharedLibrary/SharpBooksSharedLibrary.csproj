@@ -62,6 +62,7 @@
     <Compile Include="Plugins\PriceRetrievalFailureException.cs" />
     <Compile Include="PriceQuoteData.cs" />
     <Compile Include="SavePoint.cs" />
+    <Compile Include="SaveTrack.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="SecurityType.cs" />
