@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <StyleCopSettings Version="4.3">
   <GlobalSettings>
     <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

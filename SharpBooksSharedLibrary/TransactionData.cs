@@ -1,6 +1,6 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="TransactionData.cs" company="(none)">
-//  Copyright � 2010 John Gietzen. All rights reserved.
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -17,7 +17,7 @@ namespace SharpBooks
     public sealed class TransactionData
     {
         /// <summary>
-        /// Initializes a new insance of the <see cref="SharpBooks.TransactionData"/> class.
+        /// Initializes a new instance of the <see cref="SharpBooks.TransactionData"/> class.
         /// </summary>
         /// <param name="transaction">The <see cref="SharpBooks.Transaction"/> from which to copy.</param>
         public TransactionData(Transaction transaction)
