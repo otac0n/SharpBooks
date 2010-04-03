@@ -17,7 +17,7 @@ namespace SharpBooks.Tests
     public class PriceQuoteTests
     {
         [Datapoints]
-        private long[] LongDatapoints = new[] { 0, 1, -1, 100, -100, 1000, -1000, long.MaxValue, long.MinValue };
+        private long[] longDatapoints = new[] { 0, 1, -1, 100, -100, 1000, -1000, long.MaxValue, long.MinValue };
 
         [Test]
         public void Constructor_WhenSecurityIsNull_ThrowsException()
