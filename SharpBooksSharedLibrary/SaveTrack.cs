@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="SaveTrack.cs" company="Microsoft">
-//  Copyright (c) 2010 Microsoft
+// <copyright file="SaveTrack.cs" company="(none)">
+//  Copyright © 2010 John Gietzen
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks

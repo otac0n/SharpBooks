@@ -1,16 +1,13 @@
 //-----------------------------------------------------------------------
-// <copyright file="Price.cs" company="Microsoft">
-//  Copyright © 2010 Microsoft
+// <copyright file="PriceQuote.cs" company="(none)">
+//  Copyright © 2010 John Gietzen
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Holds the exchange rate of a security for a currency.

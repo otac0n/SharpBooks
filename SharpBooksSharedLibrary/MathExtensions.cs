@@ -1,10 +1,12 @@
-﻿namespace My
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MathExtensions.cs" company="(none)">
+//  Copyright © 2010 John Gietzen
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
+namespace My
+{
     public static class Math
     {
         public static long GCD(long a, long b)

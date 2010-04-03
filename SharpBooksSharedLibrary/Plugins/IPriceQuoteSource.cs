@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="IPriceSource.cs" company="Microsoft">
-//  Copyright © 2010 Microsoft
+// <copyright file="IPriceQuoteSource.cs" company="(none)">
+//  Copyright © 2010 John Gietzen
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks.Plugins
