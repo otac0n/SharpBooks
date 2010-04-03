@@ -21,6 +21,7 @@ namespace SharpBooks
             this.Symbol = security.Symbol;
             this.Name = security.Name;
             this.SignFormat = security.SignFormat;
+            this.FractionTraded = security.FractionTraded;
         }
 
         public Guid SecurityId
@@ -48,6 +49,12 @@ namespace SharpBooks
         }
 
         public string SignFormat
+        {
+            get;
+            private set;
+        }
+
+        public int FractionTraded
         {
             get;
             private set;

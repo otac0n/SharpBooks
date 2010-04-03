@@ -50,9 +50,9 @@
     <Compile Include="Account.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="Book.cs" />
-    <Compile Include="BookReader.cs" />
+    <Compile Include="BookCopier.cs" />
     <Compile Include="MathExtensions.cs" />
-    <Compile Include="Plugins\IReader.cs" />
+    <Compile Include="Plugins\ILoader.cs" />
     <Compile Include="Plugins\ISaver.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\IPluginEnumerator.cs" />

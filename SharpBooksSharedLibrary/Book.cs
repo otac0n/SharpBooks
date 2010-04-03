@@ -22,6 +22,50 @@ namespace SharpBooks
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
+        public ICollection<Security> Securities
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return new List<Security>(this.securities).AsReadOnly();
+                }
+            }
+        }
+
+        public ICollection<Account> Accounts
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return new List<Account>(this.accounts).AsReadOnly();
+                }
+            }
+        }
+
+        public ICollection<Transaction> Transactions
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return new List<Transaction>(this.transactions.Keys).AsReadOnly();
+                }
+            }
+        }
+
+        public ICollection<PriceQuote> PriceQuotes
+        {
+            get
+            {
+                lock (this.lockMutex)
+                {
+                    return new List<PriceQuote>(this.priceQuotes).AsReadOnly();
+                }
+            }
+        }
+
         public void AddSecurity(Security security)
         {
             lock (this.lockMutex)
@@ -378,7 +422,11 @@ namespace SharpBooks
 
         private void UpdateSaveTracks(Action<SaveTrack> action)
         {
-            action.Invoke(this.baseSaveTrack);
+            lock (this.baseSaveTrack)
+            {
+                action.Invoke(this.baseSaveTrack);
+            }
+
             foreach (var track in this.saveTracks)
             {
                 lock (track.Value)
