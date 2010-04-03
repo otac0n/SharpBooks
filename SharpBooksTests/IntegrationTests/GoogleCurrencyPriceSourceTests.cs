@@ -77,7 +77,7 @@ namespace SharpBooks.Tests.IntegrationTests
         public void GetPriceQuote_WhenCalledWithRealWorldCurrencies_Succeeds(string securitySymbol, string currencySymbol)
         {
             // Create a new Google Currency Price Source.
-            var source = new GoogleCurrencyPriceSource();
+            var source = new GoogleCurrencyPriceQuoteSource();
 
             // Retrieve the real-world security and currency.
             var security = this.securities[securitySymbol];

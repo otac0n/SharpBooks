@@ -11,11 +11,11 @@ namespace GooglePriceSource
     using SharpBooks.Plugins;
     using System.Collections.Generic;
 
-    internal class PluginEunmerator : IPluginEnumerator
+    public class PluginEunmerator : IPluginEnumerator
     {
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
-            yield return new PriceQuoteSourceFactory<GoogleCurrencyPriceSource>();
+            yield return new PriceQuoteSourceFactory<GoogleCurrencyPriceQuoteSource>();
         }
     }
 }

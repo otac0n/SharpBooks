@@ -12,7 +12,7 @@ namespace YahooPriceSource
     using System.Text.RegularExpressions;
     using SharpBooks;
 
-    public class YahooPriceSource : IPriceQuoteSource
+    public class YahooPriceQuoteSource : IPriceQuoteSource
     {
         private const string UrlFormat = "http://finance.yahoo.com/d/quotes.csv?f=sd1t1l1&s={0}";
         private const string YahooTimeZoneId = "Eastern Standard Time";

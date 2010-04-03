@@ -13,7 +13,7 @@ namespace GooglePriceSource
     using Newtonsoft.Json;
     using SharpBooks;
 
-    public class GoogleCurrencyPriceSource : IPriceQuoteSource
+    public class GoogleCurrencyPriceQuoteSource : IPriceQuoteSource
     {
         private const string UrlFormat = "http://www.google.com/ig/calculator?hl=en&q=1+{0}+in+{1}";
 

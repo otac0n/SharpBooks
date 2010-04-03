@@ -107,7 +107,7 @@ namespace SharpBooks.Tests.IntegrationTests
         public void GetPriceQuote_WhenCalledWithRealWorldSecurities_Succeeds(string securitySymbol, string currencySymbol)
         {
             // Create a new Yahoo Price Source.
-            var source = new YahooPriceSource();
+            var source = new YahooPriceQuoteSource();
 
             // Retrieve the real-world security and currency.
             var security = this.securities[securitySymbol];

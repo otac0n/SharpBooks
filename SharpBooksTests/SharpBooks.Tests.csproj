@@ -64,17 +64,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GooglePriceSource\GooglePriceSource.csproj">
+    <ProjectReference Include="..\GooglePriceSource\GooglePriceQuoteSource.csproj">
       <Project>{BFD8417E-2984-48D9-AFD8-C550550E6536}</Project>
-      <Name>GooglePriceSource</Name>
+      <Name>GooglePriceQuoteSource</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
       <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
       <Name>SharpBooksSharedLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YahooPriceSource\YahooPriceSource.csproj">
+    <ProjectReference Include="..\YahooPriceSource\YahooPriceQuoteSource.csproj">
       <Project>{773124A5-7D80-487F-986F-B8FFCD6F17CB}</Project>
-      <Name>YahooPriceSource</Name>
+      <Name>YahooPriceQuoteSource</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
