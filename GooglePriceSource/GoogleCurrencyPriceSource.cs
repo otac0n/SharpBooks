@@ -17,13 +17,13 @@ namespace GooglePriceSource
     {
         private const string UrlFormat = "http://www.google.com/ig/calculator?hl=en&q=1+{0}+in+{1}";
 
-        ////public string Name
-        ////{
-        ////    get
-        ////    {
-        ////        return "Google™ Calculator Price Quotes";
-        ////    }
-        ////}
+        public string Name
+        {
+            get
+            {
+                return "Google™ Calculator Price Quotes";
+            }
+        }
 
         public PriceQuote GetPriceQuote(Security security, Security currency)
         {

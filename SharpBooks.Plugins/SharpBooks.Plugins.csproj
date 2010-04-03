@@ -12,6 +12,8 @@
     <AssemblyName>SharpBooks.Plugins</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +50,23 @@
     <Compile Include="IPlugin.cs" />
     <Compile Include="IPluginEnumerator.cs" />
     <Compile Include="IPluginFactory.cs" />
+    <Compile Include="IPriceQuoteSourceFactory.cs" />
+    <Compile Include="IReport.cs" />
     <Compile Include="LoadPluginsFailureException.cs" />
     <Compile Include="PluginLoader.cs" />
+    <Compile Include="PriceQuoteSourceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SharpBooks.snk">
+      <Link>SharpBooks.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
+      <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
+      <Name>SharpBooksSharedLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

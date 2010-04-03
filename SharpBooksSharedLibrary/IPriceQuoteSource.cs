@@ -12,6 +12,11 @@ namespace SharpBooks
     /// </summary>
     public interface IPriceQuoteSource
     {
+        string Name
+        {
+            get;
+        }
+
         PriceQuote GetPriceQuote(Security security, Security currency);
     }
 }
