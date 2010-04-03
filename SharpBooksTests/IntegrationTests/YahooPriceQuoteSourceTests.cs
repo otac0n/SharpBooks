@@ -107,20 +107,21 @@ namespace SharpBooks.Tests.IntegrationTests
         public void GetPriceQuote_WhenCalledWithRealWorldSecurities_Succeeds(string securitySymbol, string currencySymbol)
         {
             // Create a new Yahoo Price Source.
-            var source = new YahooPriceQuoteSource();
+            using (var source = new YahooPriceQuoteSource())
+            {
+                // Retrieve the real-world security and currency.
+                var security = this.securities[securitySymbol];
+                var usd = this.securities[currencySymbol];
 
-            // Retrieve the real-world security and currency.
-            var security = this.securities[securitySymbol];
-            var usd = this.securities[currencySymbol];
+                Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
 
-            Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
+                // Retrieve the quote.
+                var currency = source.GetPriceQuote(security, usd);
 
-            // Retrieve the quote.
-            var currency = source.GetPriceQuote(security, usd);
-
-            // Assert that the returned quote is valid, then display the quote for the test-runner.
-            Assert.That(currency, Is.Not.Null);
-            TestUtils.DisplayQuote(currency);
+                // Assert that the returned quote is valid, then display the quote for the test-runner.
+                Assert.That(currency, Is.Not.Null);
+                TestUtils.DisplayQuote(currency);
+            }
         }
     }
 }

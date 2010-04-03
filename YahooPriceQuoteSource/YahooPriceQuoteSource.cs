@@ -136,6 +136,10 @@ namespace YahooPriceQuoteSource
             }
         }
 
+        public void Dispose()
+        {
+        }
+
         private static Exception BuildError(string symbol, string error)
         {
             return BuildError(symbol, error, null);

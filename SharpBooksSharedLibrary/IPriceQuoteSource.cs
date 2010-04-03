@@ -7,10 +7,12 @@
 
 namespace SharpBooks
 {
+    using System;
+
     /// <summary>
     /// Describes the interface for retrieving external price quotes for securities.
     /// </summary>
-    public interface IPriceQuoteSource
+    public interface IPriceQuoteSource : IDisposable
     {
         string Name
         {

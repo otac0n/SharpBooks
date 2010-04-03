@@ -12,7 +12,7 @@ namespace SharpBooks.Plugins
     using System.Linq;
     using System.Text;
 
-    public interface IReport
+    public interface IReport : IDisposable
     {
     }
 }

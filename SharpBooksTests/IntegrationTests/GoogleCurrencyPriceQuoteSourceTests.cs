@@ -77,20 +77,21 @@ namespace SharpBooks.Tests.IntegrationTests
         public void GetPriceQuote_WhenCalledWithRealWorldCurrencies_Succeeds(string securitySymbol, string currencySymbol)
         {
             // Create a new Google Currency Price Source.
-            var source = new GoogleCurrencyPriceQuoteSource();
+            using (var source = new GoogleCurrencyPriceQuoteSource())
+            {
+                // Retrieve the real-world security and currency.
+                var security = this.securities[securitySymbol];
+                var usd = this.securities[currencySymbol];
 
-            // Retrieve the real-world security and currency.
-            var security = this.securities[securitySymbol];
-            var usd = this.securities[currencySymbol];
+                Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
 
-            Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
+                // Retrieve the quote.
+                var currency = source.GetPriceQuote(security, usd);
 
-            // Retrieve the quote.
-            var currency = source.GetPriceQuote(security, usd);
-
-            // Assert that the returned quote is valid, then display the quote for the test-runner.
-            Assert.That(currency, Is.Not.Null);
-            TestUtils.DisplayQuote(currency);
+                // Assert that the returned quote is valid, then display the quote for the test-runner.
+                Assert.That(currency, Is.Not.Null);
+                TestUtils.DisplayQuote(currency);
+            }
         }
     }
 }
