@@ -1,14 +1,12 @@
-//-----------------------------------------------------------------------
-// <copyright file="PriceQuoteSourceFactory.cs" company="Microsoft">
-//  Copyright (c) 2010 Microsoft
+﻿//-----------------------------------------------------------------------
+// <copyright file="PriceQuoteSourceFactory.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks.Plugins
 {
-    using System;
-
     public class PriceQuoteSourceFactory<T> : IPriceQuoteSourceFactory where T : IPriceQuoteSource, new()
     {
         public PriceQuoteSourceFactory()

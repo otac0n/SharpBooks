@@ -8,8 +8,8 @@
     <ProjectGuid>{773124A5-7D80-487F-986F-B8FFCD6F17CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahooPriceSource</RootNamespace>
-    <AssemblyName>YahooPriceSource</AssemblyName>
+    <RootNamespace>YahooPriceQuoteSource</RootNamespace>
+    <AssemblyName>YahooPriceQuoteSource</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>

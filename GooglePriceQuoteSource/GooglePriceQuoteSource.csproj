@@ -8,8 +8,8 @@
     <ProjectGuid>{BFD8417E-2984-48D9-AFD8-C550550E6536}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GooglePriceSource</RootNamespace>
-    <AssemblyName>GooglePriceSource</AssemblyName>
+    <RootNamespace>GooglePriceQuoteSource</RootNamespace>
+    <AssemblyName>GooglePriceQuoteSource</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>

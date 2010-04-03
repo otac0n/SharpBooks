@@ -1,6 +1,6 @@
-//-----------------------------------------------------------------------
+ï»¿//-----------------------------------------------------------------------
 // <copyright file="YahooPriceQuoteSourceTests.cs" company="(none)">
-//  Copyright © 2010 John Gietzen
+//  Copyright Â© 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -58,7 +58,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Euro",
                 "EUR",
-                "{0:€#,##0.00;(€#,##0.00);-€0-}",
+                "{0:â‚¬#,##0.00;(â‚¬#,##0.00);-â‚¬0-}",
                 100);
 
             var aud = new Security(
@@ -82,7 +82,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Pound sterling",
                 "GBP",
-                "{0:£#,##0.00;(£#,##0.00);-£0-}",
+                "{0:Â£#,##0.00;(Â£#,##0.00);-Â£0-}",
                 100);
 
             this.securities.Add(google.Symbol, google);

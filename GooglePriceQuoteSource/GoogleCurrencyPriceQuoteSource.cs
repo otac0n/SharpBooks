@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GooglePriceQuoteSource.cs" company="(none)">
-//  Copyright © 2010 John Gietzen
+// <copyright file="GoogleCurrencyPriceQuoteSource.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------

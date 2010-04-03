@@ -1,8 +1,8 @@
-//-----------------------------------------------------------------------
-// <copyright file="IReport.cs" company="Microsoft">
-//  Copyright (c) 2010 Microsoft
+﻿//-----------------------------------------------------------------------
+// <copyright file="IReport.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks.Plugins
@@ -12,10 +12,7 @@ namespace SharpBooks.Plugins
     using System.Linq;
     using System.Text;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    internal interface IReport
+    public interface IReport
     {
     }
 }

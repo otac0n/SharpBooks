@@ -1,8 +1,8 @@
-//-----------------------------------------------------------------------
-// <copyright file="PluginEunmerator.cs" company="Microsoft">
-//  Copyright (c) 2010 Microsoft
+﻿//-----------------------------------------------------------------------
+// <copyright file="PluginEunmerator.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace GooglePriceQuoteSource
