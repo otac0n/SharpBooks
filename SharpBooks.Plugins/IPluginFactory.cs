@@ -13,7 +13,7 @@ namespace SharpBooks.Plugins
     /// <remarks>
     /// Each plugin factory must have a name, but may have creation
     /// methods with varing signatures.  Because of this, only the
-    /// name can be read from a generic plugin factory.
+    /// name can be read from a base plugin factory.
     /// </remarks>
     public interface IPluginFactory
     {
