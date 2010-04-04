@@ -65,15 +65,35 @@ namespace SharpBooks
         {
             foreach (var account in book.Accounts)
             {
-                var text = new TextBlock
+                var nameLabel = new Label
                 {
-                    Text = account.Name,
-                    Tag = account.AccountId,
+                    Content = account.Name,
                 };
 
-                text.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
+                var amountLabel = new Label
+                {
+                    Content = "$0.00",
+                };
 
-                this.control.Children.Add(text);
+                var grid = new Grid
+                {
+                    Tag = account.AccountId,
+                };
+                grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(50, GridUnitType.Star),
+                });
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(25, GridUnitType.Star),
+                });
+                Grid.SetColumn(nameLabel, 0);
+                grid.Children.Add(nameLabel);
+                Grid.SetColumn(amountLabel, 1);
+                grid.Children.Add(amountLabel);
+
+                this.control.Children.Add(grid);
             }
         }
 
@@ -83,7 +103,7 @@ namespace SharpBooks
             {
                 var args = new AccountSelectedEventArgs
                 {
-                    AccountId = (Guid)((TextBlock)sender).Tag,
+                    AccountId = (Guid)((Grid)sender).Tag,
                 };
 
                 this.events.RaiseAccountSelected(sender, args);
