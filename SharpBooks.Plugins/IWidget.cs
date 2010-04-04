@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IReport.cs" company="(none)">
+// <copyright file="IWidget.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
@@ -8,10 +8,12 @@
 namespace SharpBooks.Plugins
 {
     using System;
-    using System.Drawing;
+    using System.Windows;
 
-    public interface IReport : IDisposable
+    public interface IWidget : IDisposable
     {
-        void Render(ReadOnlyBook book, Graphics g);
+        FrameworkElement Create(ReadOnlyBook book, object events);
+
+        void Refresh(ReadOnlyBook book);
     }
 }

@@ -367,6 +367,11 @@ namespace SharpBooks
             }
         }
 
+        public ReadOnlyBook AsReadOnly()
+        {
+            return new ReadOnlyBook(this);
+        }
+
         public SavePoint CreateSavePoint()
         {
             lock (this.lockMutex)

@@ -8,17 +8,12 @@
         </Menu>
         <TabControl Margin="10,10,10,10">
             <TabItem Header="Overview" Name="OverviewTabItem">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Vertical" Width="200">
-                        <Expander Margin="5,5,5,5" Header="Favorite Accounts" Content="Test"></Expander>
-                        <Expander Margin="5,5,5,5" Header="Expenses, Last 30 Days" Content="Test"></Expander>
-                        <Expander Margin="5,5,5,5" Header="Upcoming Payments" Content="Test"></Expander>
+                <ScrollViewer>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical" Width="200" Name="StackPanel1">
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical" Width="200">
-                        <Expander Margin="5,5,5,5" Header="Favorite Investments" Content="Test"></Expander>
-                        <Expander Margin="5,5,5,5" Header="Budget" Content="Test"></Expander>
-                    </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Accounts / Expenses" Name="AccountsTabItem">
                 <Grid>

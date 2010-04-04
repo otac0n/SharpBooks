@@ -58,6 +58,7 @@
     <Compile Include="PriceQuote.cs" />
     <Compile Include="PriceRetrievalFailureException.cs" />
     <Compile Include="PriceQuoteData.cs" />
+    <Compile Include="ReadOnlyBook.cs" />
     <Compile Include="SavePoint.cs" />
     <Compile Include="SaveTrack.cs" />
     <Compile Include="Security.cs" />

@@ -68,6 +68,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FavoriteAccountsWidget.cs" />
+    <Compile Include="FavoriteAccountsWidgetFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,6 +92,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj">
+      <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
+      <Name>SharpBooks.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
+      <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
+      <Name>SharpBooksSharedLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
