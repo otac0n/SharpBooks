@@ -83,11 +83,11 @@ namespace SharpBooks.Tests
 
             // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
             var account = new Account(
-                Guid.NewGuid(),
-                TestUtils.TestCurrency,
-                null,
-                "OK_NAME",
-                TestUtils.TestCurrency.FractionTraded / 10);
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                null, // OK
+                "OK_NAME", // OK
+                TestUtils.TestCurrency.FractionTraded / 10); // OK
 
             // Lock the transaction for editing.
             using (var transactionLock = transaction.Lock())
