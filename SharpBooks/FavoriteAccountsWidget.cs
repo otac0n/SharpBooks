@@ -9,20 +9,29 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
     using SharpBooks.Plugins;
+    using System.Threading;
 
     internal class FavoriteAccountsWidget : IWidget
     {
         private StackPanel control;
         private EventProxy events;
-        private string settings;
+
+        private readonly char pathSeperator;
+        private readonly List<string> accountPaths;
 
         public FavoriteAccountsWidget(string settings)
         {
-            this.settings = settings;
+            this.pathSeperator = '\\';
+            this.accountPaths = new List<string>();
+
+            this.accountPaths.Add(@"Assets");
+            this.accountPaths.Add(@"Assets\My Bank Account");
+            this.accountPaths.Add(@"Assets\My Other Bank");
         }
 
         public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
@@ -63,7 +72,11 @@ namespace SharpBooks
 
         private void PopulateControl(ReadOnlyBook book)
         {
-            foreach (var account in book.Accounts)
+            var accounts = from a in book.Accounts
+                           where this.accountPaths.Contains(Account.GetAccountPath(a, this.pathSeperator))
+                           select a;
+
+            foreach (var account in accounts)
             {
                 var nameLabel = new Label
                 {
@@ -112,6 +125,12 @@ namespace SharpBooks
 
         private class Settings
         {
+            public char PathSeperator
+            {
+                get;
+                set;
+            }
+
             public List<string> Accounts
             {
                 get;

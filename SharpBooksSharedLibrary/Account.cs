@@ -85,5 +85,15 @@ namespace SharpBooks
             get;
             private set;
         }
+
+        public static string GetAccountPath(Account account, char seperator)
+        {
+            if (account.ParentAccount == null)
+            {
+                return account.Name;
+            }
+
+            return GetAccountPath(account.ParentAccount, seperator) + seperator + account.Name; 
+        }
     }
 }

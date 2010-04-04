@@ -31,21 +31,20 @@
                 (sender, args) => MessageBox.Show(b.Accounts.Where(a => a.AccountId == args.AccountId).Single().Name + " Selected!"));
 
             var factory = new FavoriteAccountsWidgetFactory();
-            for (var i = 0; i < 3; i++)
-            {
-                var widget = factory.CreateInstance(rob, null);
-                var expander = new Expander
-                {
-                    IsExpanded = true,
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                    Padding = new Thickness(2.0d),
-                    Margin = new Thickness(5.0d),
-                    Header = factory.Name,
-                    Content = widget.Create(rob, events)
-                };
+            string settings = factory.Configure(rob, null);
 
-                StackPanel1.Children.Add(expander);
-            }
+            var widget = factory.CreateInstance(rob, settings);
+            var expander = new Expander
+            {
+                IsExpanded = true,
+                BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                Padding = new Thickness(2.0d),
+                Margin = new Thickness(5.0d),
+                Header = factory.Name,
+                Content = widget.Create(rob, events)
+            };
+
+            StackPanel1.Children.Add(expander);
         }
 
         private static Book BuildFakeBook()
