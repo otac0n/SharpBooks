@@ -222,7 +222,8 @@ namespace SharpBooks.Tests
             var parent = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                null); // OK
+                null, // OK
+                "OK_NAME");
 
             // Add the parent account to the book.
             book.AddAccount(parent);
@@ -231,7 +232,8 @@ namespace SharpBooks.Tests
             var child = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                parent);
+                parent, // OK
+                "OK_NAME");
 
             // Add the child account to the book.
             book.AddAccount(child);
@@ -289,13 +291,15 @@ namespace SharpBooks.Tests
             var parent = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                null); // OK
+                null, // OK
+                "OK_NAME");
 
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                parent);
+                parent,
+                "OK_NAME");
 
             // Assert that trying to add the child account throws an InvalidOperationException.
             Assert.That(() => book.AddAccount(child), Throws.InstanceOf<InvalidOperationException>());
@@ -315,7 +319,25 @@ namespace SharpBooks.Tests
             var account2 = new Account(
                 account1.AccountId,
                 TestUtils.TestCurrency, // OK
-                null); // OK
+                null, // OK
+                "OK_NAME_DIFFERENT");
+
+            // Assert that trying to add the child account throws an InvalidOperationException.
+            Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void AddAccount_WhenAnotherAccountHasTheSameNameAndParent_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account and add it to the book.
+            var account1 = TestUtils.CreateValidAccount();
+            book.AddAccount(account1);
+
+            // Construct the offending account with the same name and parent as the above account.
+            var account2 = TestUtils.CreateValidAccount();
 
             // Assert that trying to add the child account throws an InvalidOperationException.
             Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
@@ -390,7 +412,8 @@ namespace SharpBooks.Tests
             var parent = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                null); // OK
+                null, // OK
+                "OK_NAME");
 
             // Add the parent account to the book.
             book.AddAccount(parent);
@@ -399,7 +422,8 @@ namespace SharpBooks.Tests
             var child = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
-                parent);
+                parent,
+                "OK_NAME");
 
             // Add the child account to the book.
             book.AddAccount(child);

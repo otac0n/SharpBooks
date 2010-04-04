@@ -11,7 +11,7 @@ namespace SharpBooks
 
     public class Account
     {
-        public Account(Guid accountId, Security security, Account parentAccount)
+        public Account(Guid accountId, Security security, Account parentAccount, string name)
         {
             if (accountId == Guid.Empty)
             {
@@ -21,6 +21,11 @@ namespace SharpBooks
             if (security == null)
             {
                 throw new ArgumentNullException("security");
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException("name");
             }
 
             var parent = parentAccount;
@@ -37,6 +42,7 @@ namespace SharpBooks
             this.AccountId = accountId;
             this.Security = security;
             this.ParentAccount = parentAccount;
+            this.Name = name;
         }
 
         public Guid AccountId
@@ -52,6 +58,12 @@ namespace SharpBooks
         }
 
         public Account ParentAccount
+        {
+            get;
+            private set;
+        }
+
+        public string Name
         {
             get;
             private set;

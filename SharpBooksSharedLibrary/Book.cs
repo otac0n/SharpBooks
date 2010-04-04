@@ -174,6 +174,16 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same AccountId.");
                 }
 
+                var duplicateNames = from a in this.accounts
+                                   where a.Name == account.Name
+                                   where a.ParentAccount == account.ParentAccount
+                                   select a;
+
+                if (duplicateNames.Any())
+                {
+                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Name and Parent.");
+                }
+
                 this.accounts.Add(account);
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
             }

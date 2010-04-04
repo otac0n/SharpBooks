@@ -81,7 +81,8 @@ namespace SharpBooks
                 var newAccount = new Account(
                     account.AccountId,
                     security,
-                    parent);
+                    parent,
+                    account.Name);
 
                 this.destinationBook.AddAccount(
                     newAccount);

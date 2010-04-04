@@ -57,6 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountSelectedEventArgs.cs" />
+    <Compile Include="EventProxy.cs" />
     <Compile Include="IPluginEnumerator.cs" />
     <Compile Include="IPluginFactory.cs" />
     <Compile Include="IPriceQuoteSourceFactory.cs" />

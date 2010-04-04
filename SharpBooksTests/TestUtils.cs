@@ -58,7 +58,7 @@ namespace SharpBooks.Tests
         {
             // Create a new account that is valid.
             // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new Account(Guid.NewGuid(), TestUtils.TestCurrency, null);
+            return new Account(Guid.NewGuid(), TestUtils.TestCurrency, null, "OK_NAME");
         }
 
         public static Book CreateValidBook()
