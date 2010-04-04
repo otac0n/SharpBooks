@@ -1,18 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpBooks.Plugins;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Input;
+﻿//-----------------------------------------------------------------------
+// <copyright file="FavoriteAccountsWidget.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using SharpBooks.Plugins;
+using System.Collections.Generic;
+
     internal class FavoriteAccountsWidget : IWidget
     {
         private StackPanel control;
         private EventProxy events;
+        private string settings;
+
+        public FavoriteAccountsWidget(string settings)
+        {
+            this.settings = settings;
+        }
 
         public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
         {
@@ -68,12 +79,24 @@ namespace SharpBooks
 
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var args = new AccountSelectedEventArgs
+            if (e.ClickCount == 2)
             {
-                AccountId = (Guid)((TextBlock)sender).Tag,
-            };
+                var args = new AccountSelectedEventArgs
+                {
+                    AccountId = (Guid)((TextBlock)sender).Tag,
+                };
 
-            this.events.RaiseAccountSelected(sender, args);
+                this.events.RaiseAccountSelected(sender, args);
+            }
+        }
+
+        private class Settings
+        {
+            public List<string> Accounts
+            {
+                get;
+                set;
+            }
         }
     }
 }

@@ -80,7 +80,12 @@ namespace SharpBooks
 
                 if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
                 {
-                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same .");
+                    yield return new RuleViolation("Amount", "The amount and the transaction amount of a split must have the same value, if they are of the same security.");
+                }
+
+                if (this.Account != null && this.Amount % this.Account.SmallestFraction != 0)
+                {
+                    yield return new RuleViolation("Amount", "The amount of a split must be evenly divisible by its account's smallest fraction.");
                 }
 
                 yield break;

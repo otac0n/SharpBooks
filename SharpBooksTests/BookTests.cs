@@ -223,7 +223,8 @@ namespace SharpBooks.Tests
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Add the parent account to the book.
             book.AddAccount(parent);
@@ -233,7 +234,8 @@ namespace SharpBooks.Tests
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 parent, // OK
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Add the child account to the book.
             book.AddAccount(child);
@@ -292,14 +294,16 @@ namespace SharpBooks.Tests
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 parent,
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that trying to add the child account throws an InvalidOperationException.
             Assert.That(() => book.AddAccount(child), Throws.InstanceOf<InvalidOperationException>());
@@ -320,7 +324,8 @@ namespace SharpBooks.Tests
                 account1.AccountId,
                 TestUtils.TestCurrency, // OK
                 null, // OK
-                "OK_NAME_DIFFERENT");
+                "OK_NAME_DIFFERENT",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that trying to add the child account throws an InvalidOperationException.
             Assert.That(() => book.AddAccount(account2), Throws.InstanceOf<InvalidOperationException>());
@@ -413,7 +418,8 @@ namespace SharpBooks.Tests
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Add the parent account to the book.
             book.AddAccount(parent);
@@ -423,7 +429,8 @@ namespace SharpBooks.Tests
                 Guid.NewGuid(), // OK
                 TestUtils.TestCurrency, // OK
                 parent,
-                "OK_NAME");
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
 
             // Add the child account to the book.
             book.AddAccount(child);

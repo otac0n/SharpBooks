@@ -1,16 +1,13 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FavoriteAccountsWidgetFactory.cs" company="Microsoft">
-//  Copyright © 2010 Microsoft
+// <copyright file="FavoriteAccountsWidgetFactory.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
-// <author>otac0n</author>
+// <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using SharpBooks.Plugins;
 
     internal class FavoriteAccountsWidgetFactory : IWidgetFactory
@@ -25,7 +22,7 @@ namespace SharpBooks
 
         public IWidget CreateInstance(ReadOnlyBook book, string settings)
         {
-            return new FavoriteAccountsWidget();
+            return new FavoriteAccountsWidget(settings);
         }
 
         public string Configure(ReadOnlyBook book, string currentSettings)

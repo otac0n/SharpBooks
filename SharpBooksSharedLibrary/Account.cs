@@ -11,7 +11,7 @@ namespace SharpBooks
 
     public class Account
     {
-        public Account(Guid accountId, Security security, Account parentAccount, string name)
+        public Account(Guid accountId, Security security, Account parentAccount, string name, int smallestFraction)
         {
             if (accountId == Guid.Empty)
             {
@@ -26,6 +26,16 @@ namespace SharpBooks
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
+            }
+
+            if (smallestFraction <= 0)
+            {
+                throw new ArgumentOutOfRangeException("smallestFraction");
+            }
+
+            if (security.FractionTraded % smallestFraction != 0)
+            {
+                throw new InvalidOperationException("An account's smallest fraction must represent a whole number multiple of the units used by its security");
             }
 
             var parent = parentAccount;
@@ -43,6 +53,7 @@ namespace SharpBooks
             this.Security = security;
             this.ParentAccount = parentAccount;
             this.Name = name;
+            this.SmallestFraction = smallestFraction;
         }
 
         public Guid AccountId
@@ -64,6 +75,12 @@ namespace SharpBooks
         }
 
         public string Name
+        {
+            get;
+            private set;
+        }
+
+        public int SmallestFraction
         {
             get;
             private set;

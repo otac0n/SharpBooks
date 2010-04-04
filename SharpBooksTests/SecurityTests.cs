@@ -14,7 +14,7 @@ namespace SharpBooks.Tests
     public class SecurityTests
     {
         [Datapoints]
-        private int[] integerDatapoints = new[] { 0, 1, -1, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
+        private int[] integerDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
 
         [Test]
         [TestCase(SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#);-$0-}", 1000)]

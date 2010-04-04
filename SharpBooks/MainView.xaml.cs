@@ -51,15 +51,19 @@
         private static Book BuildFakeBook()
         {
             var usd = new Security(Guid.NewGuid(), SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#);-$0-}", 1000);
-            var account1 = new Account(Guid.NewGuid(), usd, null, "Bank Accounts");
-            var account2 = new Account(Guid.NewGuid(), usd, account1, "My Bank Account");
-            var account3 = new Account(Guid.NewGuid(), usd, account1, "My Other Bank");
+            var account1 = new Account(Guid.NewGuid(), usd, null, "Assets", 100);
+            var account2 = new Account(Guid.NewGuid(), usd, account1, "My Bank Account", 100);
+            var account3 = new Account(Guid.NewGuid(), usd, account1, "My Other Bank", 100);
+            var account4 = new Account(Guid.NewGuid(), usd, null, "Liabilities", 100);
+            var account5 = new Account(Guid.NewGuid(), usd, account4, "My Home Loan", 100);
 
             var book = new Book();
             book.AddSecurity(usd);
             book.AddAccount(account1);
             book.AddAccount(account2);
             book.AddAccount(account3);
+            book.AddAccount(account4);
+            book.AddAccount(account5);
             return book;
         }
     }

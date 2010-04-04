@@ -82,7 +82,8 @@ namespace SharpBooks
                     account.AccountId,
                     security,
                     parent,
-                    account.Name);
+                    account.Name,
+                    account.SmallestFraction);
 
                 this.destinationBook.AddAccount(
                     newAccount);

@@ -20,6 +20,7 @@ namespace SharpBooks
             this.ParentAccountId = account.ParentAccount == null ? (Guid?)null : account.ParentAccount.AccountId;
             this.SecurityId = account.Security.SecurityId;
             this.Name = account.Name;
+            this.SmallestFraction = account.SmallestFraction;
         }
 
         public Guid AccountId
@@ -41,6 +42,12 @@ namespace SharpBooks
         }
 
         public string Name
+        {
+            get;
+            private set;
+        }
+
+        public int SmallestFraction
         {
             get;
             private set;
