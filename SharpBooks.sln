@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Newtonsoft.Json.Net20.dll = Newtonsoft.Json.Net20.dll
 		Settings.StyleCop = Settings.StyleCop
 		SharpBooks.snk = SharpBooks.snk
+		WPFToolkit.dll = WPFToolkit.dll
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceQuoteSource", "YahooPriceQuoteSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
