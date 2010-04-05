@@ -9,9 +9,11 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
 
+    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The 'currentLock' field of the transaction, may fall out of scope safely if the transaction itself is falling out of scope.")]
     public sealed class Transaction
     {
         private readonly object lockMutex = new object();

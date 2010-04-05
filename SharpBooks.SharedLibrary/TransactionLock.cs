@@ -24,14 +24,6 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="SharpBooks.TransactionLock"/> class.
-        /// </summary>
-        ~TransactionLock()
-        {
-            this.Dispose(false);
-        }
-
-        /// <summary>
         /// Gets the <see cref="SharpBooks.Transaction"/> to which the lock belongs.
         /// </summary>
         public Transaction Transaction

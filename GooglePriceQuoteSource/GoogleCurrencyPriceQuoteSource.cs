@@ -91,7 +91,7 @@ namespace GooglePriceQuoteSource
                     longPrice = (long)Math.Floor(price);
                 }
 
-                var gcd = My.Math.GCD(longPrice, quantity / security.FractionTraded);
+                var gcd = FinancialMath.GCD(longPrice, quantity / security.FractionTraded);
 
                 quantity /= gcd;
                 longPrice /= gcd;
