@@ -1,22 +1,19 @@
 ﻿<Window x:Class="SharpBooks.FavoriteAccountConfiguration"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    Title="FavoriteAccountConfiguration" Height="300" Width="300">
-    <Window.Resources>
-        <DataTemplate x:Key="FirstCell">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="1" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
-    <ListView ItemsSource="{Binding Accounts}">
-        <ListView.View>
-            <GridView>
-                <GridViewColumn CellTemplate="{StaticResource FirstCell}" />
-                <GridViewColumn Header="Account" DisplayMemberBinding="{Binding Name}"  />
-                <GridViewColumn Header="Favorite" DisplayMemberBinding="{Binding Favorite}" />
-            </GridView>
-        </ListView.View>
-    </ListView>
+    xmlns:tk="http://schemas.microsoft.com/wpf/2008/toolkit"
+    Title="Configure Favorite Accounts"
+    Name="This"
+    Height="300" Width="300"
+    WindowStyle="ToolWindow">
+    <tk:DataGrid
+        ItemsSource="{Binding ElementName=This, Path=Accounts}"
+        CanUserAddRows="False"
+        CanUserDeleteRows="False"
+        AutoGenerateColumns="False">
+        <tk:DataGrid.Columns>
+            <tk:DataGridTextColumn Header="Account Name" Binding="{Binding Name}" IsReadOnly="True" SortDirection="Ascending" />
+            <tk:DataGridCheckBoxColumn Header="Favorite" Binding="{Binding Favorite}" CanUserSort="False" />
+        </tk:DataGrid.Columns>
+    </tk:DataGrid>
 </Window>
