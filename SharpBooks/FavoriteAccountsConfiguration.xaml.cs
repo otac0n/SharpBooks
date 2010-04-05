@@ -34,7 +34,12 @@ namespace SharpBooks
             }
         }
 
-        private ObservableCollection<AccountView> accounts = new ObservableCollection<AccountView>();
+        private readonly ObservableCollection<AccountView> accounts = new ObservableCollection<AccountView>();
+
+        public FavoriteAccountsConfiguration()
+        {
+            InitializeComponent();
+        }
 
         public ObservableCollection<AccountView> Accounts
         {
@@ -44,7 +49,7 @@ namespace SharpBooks
             }
         }
 
-        public FavoriteAccountsConfiguration(ReadOnlyBook book, string settings)
+        public string GetSettings(ReadOnlyBook book, string settings)
         {
             foreach (var a in book.Accounts)
             {
@@ -55,18 +60,35 @@ namespace SharpBooks
                 });
             }
 
-            InitializeComponent();
-        }
+            var result = this.ShowDialog();
 
-        public string GetSettings()
-        {
-            this.ShowDialog();
+            if (!result.HasValue || !result.Value)
+            {
+                return settings;
+            }
 
             var favorites = from a in this.accounts
                             where a.Favorite
                             select a.Name;
 
             return string.Join(",", favorites.ToArray());
+        }
+
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            this.Hide();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+            this.Hide();
+        }
+
+        private void This_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = null;
         }
     }
 }

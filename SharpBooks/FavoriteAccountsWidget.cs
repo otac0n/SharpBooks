@@ -29,7 +29,10 @@ namespace SharpBooks
             this.pathSeperator = '\\';
             this.accountPaths = new List<string>();
 
-            this.accountPaths.AddRange(settings.Split(','));
+            if (!string.IsNullOrEmpty(settings))
+            {
+                this.accountPaths.AddRange(settings.Split(','));
+            }
         }
 
         public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
