@@ -64,7 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="FavoriteAccountConfiguration.xaml">
+    <Page Include="FavoriteAccountsConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,8 +82,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FavoriteAccountConfiguration.xaml.cs">
-      <DependentUpon>FavoriteAccountConfiguration.xaml</DependentUpon>
+    <Compile Include="FavoriteAccountsConfiguration.xaml.cs">
+      <DependentUpon>FavoriteAccountsConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="FavoriteAccountsWidget.cs" />
     <Compile Include="FavoriteAccountsWidgetFactory.cs" />

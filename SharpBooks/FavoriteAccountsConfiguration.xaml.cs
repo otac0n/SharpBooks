@@ -15,9 +15,9 @@ using System.Collections.ObjectModel;
 namespace SharpBooks
 {
     /// <summary>
-    /// Interaction logic for FavoriteAccountConfiguration.xaml
+    /// Interaction logic for FavoriteAccountsConfiguration.xaml
     /// </summary>
-    public partial class FavoriteAccountConfiguration : Window
+    public partial class FavoriteAccountsConfiguration : Window
     {
         public class AccountView
         {
@@ -44,7 +44,7 @@ namespace SharpBooks
             }
         }
 
-        public FavoriteAccountConfiguration(ReadOnlyBook book, string settings)
+        public FavoriteAccountsConfiguration(ReadOnlyBook book, string settings)
         {
             foreach (var a in book.Accounts)
             {
