@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.SharedLibrary", "SharpBooksSharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.SharedLibrary", "SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Tests", "SharpBooksTests\SharpBooks.Tests.csproj", "{B3EC2AB3-AE07-4124-AE3F-1CFDA80BFE70}"
 EndProject

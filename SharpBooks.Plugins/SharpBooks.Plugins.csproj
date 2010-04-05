@@ -77,7 +77,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooks.SharedLibrary.csproj">
+    <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj">
       <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
       <Name>SharpBooks.SharedLibrary</Name>
     </ProjectReference>
