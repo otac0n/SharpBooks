@@ -60,9 +60,9 @@
       <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
       <Name>SharpBooks.Plugins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooksSharedLibrary.csproj">
+    <ProjectReference Include="..\SharpBooksSharedLibrary\SharpBooks.SharedLibrary.csproj">
       <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
-      <Name>SharpBooksSharedLibrary</Name>
+      <Name>SharpBooks.SharedLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
