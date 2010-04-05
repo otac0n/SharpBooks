@@ -1,12 +1,21 @@
 ﻿<Window x:Class="SharpBooks.FavoriteAccountConfiguration"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Title="FavoriteAccountConfiguration" Height="300" Width="300">
-    <ListView>
+    <Window.Resources>
+        <DataTemplate x:Key="FirstCell">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Margin="1" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <ListView ItemsSource="{Binding Accounts}">
         <ListView.View>
             <GridView>
-                <GridViewColumn Width="110" Header="Account" />
-                <GridViewColumn Width="50" Header="Favorite" />
+                <GridViewColumn CellTemplate="{StaticResource FirstCell}" />
+                <GridViewColumn Header="Account" DisplayMemberBinding="{Binding Name}"  />
+                <GridViewColumn Header="Favorite" DisplayMemberBinding="{Binding Favorite}" />
             </GridView>
         </ListView.View>
     </ListView>

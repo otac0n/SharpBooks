@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace SharpBooks
 {
@@ -18,9 +19,45 @@ namespace SharpBooks
     /// </summary>
     public partial class FavoriteAccountConfiguration : Window
     {
-        public FavoriteAccountConfiguration()
+        public class AccountView
         {
+            public string Name
+            {
+                get;
+                set;
+            }
+
+            public bool Favorite
+            {
+                get;
+                set;
+            }
+        }
+
+        private ObservableCollection<AccountView> accounts = new ObservableCollection<AccountView>();
+
+        public ObservableCollection<AccountView> Accounts
+        {
+            get
+            {
+                return this.accounts;
+            }
+        }
+
+        public FavoriteAccountConfiguration(ReadOnlyBook book, string settings)
+        {
+            foreach (var a in book.Accounts)
+            {
+                this.accounts.Add(new AccountView
+                {
+                    Name = Account.GetAccountPath(a, '\\'),
+                    Favorite = false,
+                });
+            }
+
             InitializeComponent();
         }
+
+        
     }
 }
