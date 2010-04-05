@@ -101,16 +101,18 @@ namespace SharpBooks
                 return false;
             }
 
+            string result;
+
             try
             {
-                string.Format(CultureInfo.InvariantCulture, signFormat, (decimal)1);
+                result = string.Format(CultureInfo.InvariantCulture, signFormat, (decimal)1);
             }
             catch (FormatException)
             {
                 return false;
             }
 
-            return true;
+            return !string.IsNullOrEmpty(result);
         }
     }
 }
