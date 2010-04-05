@@ -24,6 +24,14 @@ namespace SharpBooks
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="SharpBooks.TransactionLock"/> class.
+        /// </summary>
+        ~TransactionLock()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
         /// Gets the <see cref="SharpBooks.Transaction"/> to which the lock belongs.
         /// </summary>
         public Transaction Transaction
@@ -40,13 +48,24 @@ namespace SharpBooks
         /// </remarks>
         public void Dispose()
         {
-            if (this.Transaction == null)
-            {
-                return;
-            }
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            this.Transaction.Unlock(this);
-            this.Transaction = null;
+        /// <summary>
+        /// Releases the lock on the associated <see cref="SharpBooks.Transaction" />.
+        /// </summary>
+        /// <param name="disposing">Indicates whether or not to dispose of managed resources.  Pass true to dispose managed and unmanaged resources, or false to just dispose unmanaged ones.</param>
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.Transaction != null)
+                {
+                    this.Transaction.Unlock(this);
+                    this.Transaction = null;
+                }
+            }
         }
     }
 }
