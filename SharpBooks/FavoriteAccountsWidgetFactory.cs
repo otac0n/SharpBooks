@@ -28,7 +28,7 @@ namespace SharpBooks
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
             var view = new FavoriteAccountsConfiguration(book, currentSettings);
-            view.ShowDialog();
+            currentSettings = view.GetSettings();
 
             return currentSettings;
         }

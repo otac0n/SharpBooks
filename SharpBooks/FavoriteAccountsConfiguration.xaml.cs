@@ -58,6 +58,15 @@ namespace SharpBooks
             InitializeComponent();
         }
 
-        
+        public string GetSettings()
+        {
+            this.ShowDialog();
+
+            var favorites = from a in this.accounts
+                            where a.Favorite
+                            select a.Name;
+
+            return string.Join(",", favorites.ToArray());
+        }
     }
 }

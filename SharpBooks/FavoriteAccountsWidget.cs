@@ -29,9 +29,7 @@ namespace SharpBooks
             this.pathSeperator = '\\';
             this.accountPaths = new List<string>();
 
-            this.accountPaths.Add(@"Assets");
-            this.accountPaths.Add(@"Assets\My Bank Account");
-            this.accountPaths.Add(@"Assets\My Other Bank");
+            this.accountPaths.AddRange(settings.Split(','));
         }
 
         public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
