@@ -90,7 +90,7 @@ namespace SharpBooks
 
                 var duplicateData = from s in this.securities
                                     where s.SecurityType == security.SecurityType
-                                    where string.Equals(s.Symbol, security.Symbol, StringComparison.InvariantCultureIgnoreCase)
+                                    where string.Equals(s.Symbol, security.Symbol, StringComparison.OrdinalIgnoreCase)
                                     select s;
 
                 if (duplicateData.Any())
@@ -265,7 +265,7 @@ namespace SharpBooks
                                     where q.Security == priceQuote.Security
                                     where q.Currency == priceQuote.Currency
                                     where q.DateTime == priceQuote.DateTime
-                                    where string.Equals(q.Source, priceQuote.Source, StringComparison.InvariantCultureIgnoreCase)
+                                    where string.Equals(q.Source, priceQuote.Source, StringComparison.OrdinalIgnoreCase)
                                     select q;
 
                 if (duplicateData.Any())
