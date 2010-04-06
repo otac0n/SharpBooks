@@ -14,6 +14,10 @@ namespace SharpBooks
     /// </summary>
     public class AccountData
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharpBooks.AccountData" /> class, copying data from a <see cref="SharpBooks.Account" />.
+        /// </summary>
+        /// <param name="account">The <see cref="SharpBooks.Account" /> from which to copy.</param>
         public AccountData(Account account)
         {
             this.AccountId = account.AccountId;

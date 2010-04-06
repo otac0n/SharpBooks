@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
 <StyleCopSettings Version="4.3">
   <GlobalSettings>
     <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -7,17 +6,12 @@
     <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
-          <Value>as</Value>
-          <Value>do</Value>
-          <Value>id</Value>
           <Value>if</Value>
           <Value>in</Value>
           <Value>is</Value>
-          <Value>my</Value>
           <Value>no</Value>
           <Value>on</Value>
           <Value>to</Value>
-          <Value>ui</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
@@ -37,6 +31,8 @@
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">(none)</StringProperty>
         <StringProperty Name="Copyright">Copyright © 2010 John Gietzen. All rights reserved.</StringProperty>
+        <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
+        <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>
       </AnalyzerSettings>
     </Analyzer>
     <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.ReadabilityRules">

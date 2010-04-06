@@ -13,6 +13,9 @@ namespace SharpBooks
     using System.Linq;
     using System.Threading;
 
+    /// <summary>
+    /// Encapsulates a financial transaction.
+    /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The 'currentLock' field of the transaction, may fall out of scope safely if the transaction itself is falling out of scope.")]
     public sealed class Transaction
     {
@@ -22,6 +25,11 @@ namespace SharpBooks
 
         private TransactionLock currentLock;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharpBooks.Transaction"/> class.
+        /// </summary>
+        /// <param name="transactionId">The unique identifier of the transaction.</param>
+        /// <param name="baseSecurity">The security in which the values of the transaction are expressed.</param>
         public Transaction(Guid transactionId, Security baseSecurity)
         {
             if (baseSecurity == null)
@@ -38,24 +46,36 @@ namespace SharpBooks
             this.TransactionId = transactionId;
         }
 
+        /// <summary>
+        /// Gets the unique identifier of the transaction.
+        /// </summary>
         public Guid TransactionId
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the security in which the values of the transaction are expressed.
+        /// </summary>
         public Security BaseSecurity
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the date and time at which the transaction took place.
+        /// </summary>
         public DateTime Date
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets an enumerable collection of the splits that make up the transaction.
+        /// </summary>
         public IEnumerable<Split> Splits
         {
             get
@@ -67,6 +87,9 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the transaction is currently locked for editing.
+        /// </summary>
         public bool IsLocked
         {
             get
@@ -78,6 +101,9 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether or not the transaction is currently considered valid.
+        /// </summary>
         public bool IsValid
         {
             get
@@ -86,6 +112,9 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Gets an enumerable collection of <see cref="SharpBooks.RuleViolation"/>s that describe features of the transaction that make it invalid.
+        /// </summary>
         public IEnumerable<RuleViolation> RuleViolations
         {
             get
@@ -126,6 +155,13 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Locks the transaction for editing.
+        /// </summary>
+        /// <returns>A <see cref="SharpBooks.TransactionLock"/> that must be used for all modifications to the transaction.</returns>
+        /// <remarks>
+        /// The transaction will be unlocked when the <see cref="SharpBooks.TransactionLock"/> is disposed.
+        /// </remarks>
         public TransactionLock Lock()
         {
             lock (this.lockMutex)
@@ -140,6 +176,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Sets the date and time at which the transaction took place.
+        /// </summary>
+        /// <param name="date">The date and time at which the transaction took place.</param>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
         public void SetDate(DateTime date, TransactionLock transactionLock)
         {
             lock (this.lockMutex)
@@ -150,6 +191,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Creates a new split and adds it to the transaction.
+        /// </summary>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
+        /// <returns>The newly created split.</returns>
         public Split AddSplit(TransactionLock transactionLock)
         {
             lock (this.lockMutex)
@@ -163,6 +209,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes a previously added split from the transaction.
+        /// </summary>
+        /// <param name="split">The previously added split.</param>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
         public void RemoveSplit(Split split, TransactionLock transactionLock)
         {
             if (split == null)
