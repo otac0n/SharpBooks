@@ -2,23 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Drawing;
     using System.Linq;
     using System.Text;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
+    using System.Windows.Forms;
     using SharpBooks.Plugins;
 
-    /// <summary>
-    /// Interaction logic for MainView.xaml
-    /// </summary>
-    public partial class MainView : Window
+    public partial class MainView : Form
     {
         public MainView()
         {
@@ -34,17 +26,17 @@
             string settings = factory.Configure(rob, null);
 
             var widget = factory.CreateInstance(rob, settings);
-            var expander = new Expander
-            {
-                IsExpanded = true,
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
-                Padding = new Thickness(2.0d),
-                Margin = new Thickness(5.0d),
-                Header = factory.Name,
-                Content = widget.Create(rob, events)
-            };
+            //var expander = new Expander
+            //{
+            //    IsExpanded = true,
+            //    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
+            //    Padding = new Thickness(2.0d),
+            //    Margin = new Thickness(5.0d),
+            //    Header = factory.Name,
+            //    Content = widget.Create(rob, events)
+            //};
 
-            StackPanel1.Children.Add(expander);
+            //StackPanel1.Children.Add(expander);
         }
 
         private static Book BuildFakeBook()
