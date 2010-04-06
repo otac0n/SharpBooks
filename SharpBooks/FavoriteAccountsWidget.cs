@@ -11,13 +11,14 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
     using SharpBooks.Plugins;
     using System.Threading;
-    using System.Windows.Forms;
 
     internal class FavoriteAccountsWidget : IWidget
     {
-        private Panel control;
+        private StackPanel control;
         private EventProxy events;
 
         private readonly char pathSeperator;
@@ -34,7 +35,7 @@ namespace SharpBooks
             }
         }
 
-        public Control Create(ReadOnlyBook book, EventProxy events)
+        public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
         {
             if (this.control != null)
             {
@@ -42,7 +43,7 @@ namespace SharpBooks
             }
 
             this.events = events;
-            this.control = new Panel();
+            this.control = new StackPanel();
 
             this.PopulateControl(book);
 
@@ -57,7 +58,7 @@ namespace SharpBooks
             }
 
             this.events = events;
-            this.control.Controls.Clear();
+            this.control.Children.Clear();
 
             this.PopulateControl(book);
         }
@@ -76,47 +77,47 @@ namespace SharpBooks
                            where this.accountPaths.Contains(Account.GetAccountPath(a, this.pathSeperator))
                            select a;
 
-            //foreach (var account in accounts)
-            //{
-            //    var nameLabel = new Label
-            //    {
-            //        Text = account.Name,
-            //    };
+            foreach (var account in accounts)
+            {
+                var nameLabel = new Label
+                {
+                    Content = account.Name,
+                };
 
-            //    var amountLabel = new Label
-            //    {
-            //        Text = "$0.00",
-            //    };
+                var amountLabel = new Label
+                {
+                    Content = "$0.00",
+                };
 
-            //    var grid = new Grid
-            //    {
-            //        Tag = account.AccountId,
-            //    };
-            //    grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
-            //    grid.ColumnDefinitions.Add(new ColumnDefinition
-            //    {
-            //        Width = new GridLength(50, GridUnitType.Star),
-            //    });
-            //    grid.ColumnDefinitions.Add(new ColumnDefinition
-            //    {
-            //        Width = new GridLength(25, GridUnitType.Star),
-            //    });
-            //    Grid.SetColumn(nameLabel, 0);
-            //    grid.Children.Add(nameLabel);
-            //    Grid.SetColumn(amountLabel, 1);
-            //    grid.Children.Add(amountLabel);
+                var grid = new Grid
+                {
+                    Tag = account.AccountId,
+                };
+                grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(50, GridUnitType.Star),
+                });
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(25, GridUnitType.Star),
+                });
+                Grid.SetColumn(nameLabel, 0);
+                grid.Children.Add(nameLabel);
+                Grid.SetColumn(amountLabel, 1);
+                grid.Children.Add(amountLabel);
 
-            //    this.control.Children.Add(grid);
-            //}
+                this.control.Children.Add(grid);
+            }
         }
 
-        private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.ClickCount == 2)
             {
                 var args = new AccountSelectedEventArgs
                 {
-                    AccountId = (Guid)((Panel)sender).Tag,
+                    AccountId = (Guid)((Grid)sender).Tag,
                 };
 
                 this.events.RaiseAccountSelected(sender, args);

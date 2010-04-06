@@ -1,0 +1,30 @@
+﻿<Window x:Class="SharpBooks.FavoriteAccountsConfiguration"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tk="http://schemas.microsoft.com/wpf/2008/toolkit"
+    Title="Configure Favorite Accounts"
+    Name="This"
+    Height="300" Width="300"
+    WindowStyle="ToolWindow" Loaded="This_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+        <tk:DataGrid
+            Margin="2"
+            ItemsSource="{Binding ElementName=This, Path=Accounts}"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            AutoGenerateColumns="False">
+            <tk:DataGrid.Columns>
+                <tk:DataGridTextColumn Header="Account Name" Binding="{Binding Name}" IsReadOnly="True" SortDirection="Ascending" />
+                <tk:DataGridCheckBoxColumn Header="Favorite" Binding="{Binding Favorite}" CanUserSort="False" />
+            </tk:DataGrid.Columns>
+        </tk:DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            <Button Margin="2" MinWidth="50" HorizontalAlignment="Left" Name="OkButton" Click="OkButton_Click">OK</Button>
+            <Button Margin="2" MinWidth="50" HorizontalAlignment="Left" Name="CancelButton" Click="CancelButton_Click">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>
