@@ -9,10 +9,14 @@
         <TabControl Margin="10,10,10,10">
             <TabItem Header="Overview" Name="OverviewTabItem">
                 <ScrollViewer>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Orientation="Vertical" Width="200" Name="StackPanel1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="182" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Name="StackPanel1">
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Accounts / Expenses" Name="AccountsTabItem">
