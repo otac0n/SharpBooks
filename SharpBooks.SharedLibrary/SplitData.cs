@@ -14,6 +14,10 @@ namespace SharpBooks
     /// </summary>
     public sealed class SplitData
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharpBooks.SplitData"/> class.
+        /// </summary>
+        /// <param name="split">The <see cref="SharpBooks.Split"/> from which to copy.</param>
         public SplitData(Split split)
         {
             this.TransactionId = split.Transaction.TransactionId;
@@ -24,36 +28,54 @@ namespace SharpBooks
             this.TransactionAmount = split.TransactionAmount;
         }
 
+        /// <summary>
+        /// Gets the Id of the transaction to which this split belongs.
+        /// </summary>
         public Guid TransactionId
         {
             get;
             internal set;
         }
 
-        public DateTime? DateCleared
-        {
-            get;
-            private set;
-        }
-
-        public bool IsReconciled
-        {
-            get;
-            private set;
-        }
-
+        /// <summary>
+        /// Gets the Id of the account to which this split belongs.
+        /// </summary>
         public Guid AccountId
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the date and time at which this split cleared its account.
+        /// </summary>
+        public DateTime? DateCleared
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the split has been reconciled against its account.
+        /// </summary>
+        public bool IsReconciled
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the amount by which this split affects its account.
+        /// </summary>
         public long Amount
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the amount by which this split affects its transaction.
+        /// </summary>
         public long TransactionAmount
         {
             get;
