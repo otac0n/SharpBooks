@@ -180,7 +180,7 @@ namespace SharpBooks
         /// Sets the date and time at which the transaction took place.
         /// </summary>
         /// <param name="date">The date and time at which the transaction took place.</param>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
         public void SetDate(DateTime date, TransactionLock transactionLock)
         {
             lock (this.lockMutex)
@@ -194,7 +194,7 @@ namespace SharpBooks
         /// <summary>
         /// Creates a new split and adds it to the transaction.
         /// </summary>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
         /// <returns>The newly created split.</returns>
         public Split AddSplit(TransactionLock transactionLock)
         {
