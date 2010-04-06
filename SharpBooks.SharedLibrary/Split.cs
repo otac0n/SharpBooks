@@ -20,42 +20,63 @@ namespace SharpBooks
             this.TransactionAmount = 0;
         }
 
+        /// <summary>
+        /// Gets the transaction to which the split belongs.
+        /// </summary>
         public Transaction Transaction
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// Gets the date and time at which the split cleared its account.
+        /// </summary>
         public DateTime? DateCleared
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the split has been reconciled against its account.
+        /// </summary>
         public bool IsReconciled
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the account to which the split belongs.
+        /// </summary>
         public Account Account
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the amount by which the split affects its account.
+        /// </summary>
         public long Amount
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the amount by which the split affects its transaction.
+        /// </summary>
         public long TransactionAmount
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether or not the split is currently considered valid.
+        /// </summary>
         public bool IsValid
         {
             get
@@ -64,6 +85,9 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Gets an enumerable collection of <see cref="SharpBooks.RuleViolation"/>s that describe features of the split that make it invalid.
+        /// </summary>
         public IEnumerable<RuleViolation> RuleViolations
         {
             get

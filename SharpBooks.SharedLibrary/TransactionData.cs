@@ -30,7 +30,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets this transaction's Transaction Id.
+        /// Gets the transaction's Transaction Id.
         /// </summary>
         public Guid TransactionId
         {
@@ -39,7 +39,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the point in time at which this transactioin took place.
+        /// Gets the point in time at which the transactioin took place.
         /// </summary>
         public DateTime Date
         {
@@ -48,7 +48,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the Security Id of this transaction's base security.
+        /// Gets the Security Id of the transaction's base security.
         /// </summary>
         public Guid BaseSecurityId
         {
@@ -57,7 +57,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets a read-only list of the splits that make up this transaction.
+        /// Gets a read-only list of the splits that make up the transaction.
         /// </summary>
         public ICollection<SplitData> Splits
         {

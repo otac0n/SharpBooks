@@ -29,7 +29,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the Id of the transaction to which this split belongs.
+        /// Gets the Id of the transaction to which the split belongs.
         /// </summary>
         public Guid TransactionId
         {
@@ -38,7 +38,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the Id of the account to which this split belongs.
+        /// Gets the Id of the account to which the split belongs.
         /// </summary>
         public Guid AccountId
         {
@@ -47,7 +47,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the date and time at which this split cleared its account.
+        /// Gets the date and time at which the split cleared its account.
         /// </summary>
         public DateTime? DateCleared
         {
@@ -65,7 +65,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the amount by which this split affects its account.
+        /// Gets the amount by which the split affects its account.
         /// </summary>
         public long Amount
         {
@@ -74,7 +74,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the amount by which this split affects its transaction.
+        /// Gets the amount by which the split affects its transaction.
         /// </summary>
         public long TransactionAmount
         {

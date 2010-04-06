@@ -13,7 +13,7 @@ namespace SharpBooks
     internal sealed class SaveTrack : ISaver
     {
         /// <summary>
-        /// Holds the list of actions performed on this <see cref="SharpBooks.SaveTrack"/>.
+        /// Holds the list of actions performed on the <see cref="SharpBooks.SaveTrack"/>.
         /// </summary>
         private readonly List<Action> actions = new List<Action>();
 
