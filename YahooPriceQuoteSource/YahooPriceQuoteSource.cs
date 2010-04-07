@@ -12,11 +12,17 @@ namespace YahooPriceQuoteSource
     using System.Text.RegularExpressions;
     using SharpBooks;
 
+    /// <summary>
+    /// Provides functionality to download price quote data from Yahoo!® Finance
+    /// </summary>
     public class YahooPriceQuoteSource : IPriceQuoteSource
     {
         private const string UrlFormat = "http://finance.yahoo.com/d/quotes.csv?f=sd1t1l1&s={0}";
         private const string YahooTimeZoneId = "Eastern Standard Time";
 
+        /// <summary>
+        /// Gets the name of the plugin.
+        /// </summary>
         public string Name
         {
             get

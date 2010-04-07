@@ -9,10 +9,10 @@ namespace SharpBooks.Plugins
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Security;
-    using System.Diagnostics;
 
     /// <summary>
     /// Provides methods to load plugins from external assemblies.
