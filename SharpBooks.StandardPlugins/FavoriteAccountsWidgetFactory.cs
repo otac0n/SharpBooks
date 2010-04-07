@@ -5,7 +5,7 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks
+namespace SharpBooks.StandardPlugins
 {
     using System;
     using SharpBooks.Plugins;

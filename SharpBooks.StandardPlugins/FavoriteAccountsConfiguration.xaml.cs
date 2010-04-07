@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
-namespace SharpBooks
+namespace SharpBooks.StandardPlugins
 {
     /// <summary>
     /// Interaction logic for FavoriteAccountsConfiguration.xaml
