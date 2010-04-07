@@ -12,12 +12,47 @@ namespace SharpBooks.Plugins
     using System.IO;
     using System.Reflection;
     using System.Security;
+    using System.Diagnostics;
 
     /// <summary>
     /// Provides methods to load plugins from external assemblies.
     /// </summary>
     public class PluginLoader
     {
+        /// <summary>
+        /// Loads all plugins that can be found in a directory.
+        /// </summary>
+        /// <param name="pluginsDirectory">The directory to search for plugins.</param>
+        /// <returns>The plugin factories contained in the directory that loaded successfully.</returns>
+        public static IEnumerable<IPluginFactory> LoadAllPlugins(string pluginsDirectory)
+        {
+            List<IPluginFactory> factories = new List<IPluginFactory>();
+
+            if (Directory.Exists(pluginsDirectory))
+            {
+                foreach (string path in Directory.GetFiles(pluginsDirectory, "*.dll"))
+                {
+                    try
+                    {
+                        var newFactories = PluginLoader.LoadPlugins(path);
+
+                        if (newFactories != null)
+                        {
+                            factories.AddRange(newFactories);
+                        }
+                    }
+                    catch (LoadPluginsFailureException ex)
+                    {
+                        Trace.WriteLine(ex);
+                        Trace.WriteLineIf(ex.InnerException != null, ex.InnerException);
+                        continue;
+                    }
+                }
+            }
+
+            return factories.AsReadOnly();
+        }
+
         /// <summary>
         /// Loads the plugins from an assembly specified by filename.
         /// </summary>

@@ -14,15 +14,14 @@ namespace SharpBooks.StandardPlugins
     using System.Windows.Controls;
     using System.Windows.Input;
     using SharpBooks.Plugins;
-    using System.Threading;
 
     internal class FavoriteAccountsWidget : IWidget
     {
-        private StackPanel control;
-        private EventProxy events;
-
         private readonly char pathSeperator;
         private readonly List<string> accountPaths;
+
+        private StackPanel control;
+        private EventProxy events;
 
         public FavoriteAccountsWidget(string settings)
         {

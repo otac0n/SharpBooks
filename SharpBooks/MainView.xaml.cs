@@ -24,27 +24,42 @@
         {
             InitializeComponent();
 
-            //var b = BuildFakeBook();
-            //var rob = b.AsReadOnly();
+            var b = BuildFakeBook();
+            var rob = b.AsReadOnly();
 
-            //var events = new EventProxy(
-            //    (sender, args) => MessageBox.Show(b.Accounts.Where(a => a.AccountId == args.AccountId).Single().Name + " Selected!"));
+            var events = new EventProxy(
+                (sender, args) => MessageBox.Show(b.Accounts.Where(a => a.AccountId == args.AccountId).Single().Name + " Selected!"));
 
-            //var factory = new FavoriteAccountsWidgetFactory();
-            //string settings = factory.Configure(rob, null);
+            var plugins = LoadAllPlugins();
 
-            //var widget = factory.CreateInstance(rob, settings);
-            //var expander = new Expander
-            //{
-            //    IsExpanded = true,
-            //    BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
-            //    Padding = new Thickness(2.0d),
-            //    Margin = new Thickness(5.0d),
-            //    Header = factory.Name,
-            //    Content = widget.Create(rob, events)
-            //};
+            var factory = (from p in plugins
+                           let w = p as IWidgetFactory
+                           where w != null
+                           where w.Name == "Favorite Accounts"
+                           select w).SingleOrDefault();
 
-            //StackPanel1.Children.Add(expander);
+            string settings = factory.Configure(rob, null);
+
+            var widget = factory.CreateInstance(rob, settings);
+            var expander = new Expander
+            {
+                IsExpanded = true,
+                BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                Padding = new Thickness(2.0d),
+                Margin = new Thickness(5.0d),
+                Header = factory.Name,
+                Content = widget.Create(rob, events)
+            };
+
+            StackPanel1.Children.Add(expander);
+        }
+
+        private static IEnumerable<IPluginFactory> LoadAllPlugins()
+        {
+            var appPath = System.IO.Path.GetDirectoryName(
+                System.Reflection.Assembly.GetEntryAssembly().Location);
+
+            return PluginLoader.LoadAllPlugins(appPath);
         }
 
         private static Book BuildFakeBook()

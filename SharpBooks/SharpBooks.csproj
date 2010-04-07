@@ -116,6 +116,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GooglePriceQuoteSource\GooglePriceQuoteSource.csproj">
+      <Project>{BFD8417E-2984-48D9-AFD8-C550550E6536}</Project>
+      <Name>GooglePriceQuoteSource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj">
       <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
       <Name>SharpBooks.Plugins</Name>
@@ -123,6 +127,14 @@
     <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj">
       <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
       <Name>SharpBooks.SharedLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpBooks.StandardPlugins\SharpBooks.StandardPlugins.csproj">
+      <Project>{C344BABA-2F2C-4DCC-AD9B-146641D148C3}</Project>
+      <Name>SharpBooks.StandardPlugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YahooPriceQuoteSource\YahooPriceQuoteSource.csproj">
+      <Project>{773124A5-7D80-487F-986F-B8FFCD6F17CB}</Project>
+      <Name>YahooPriceQuoteSource</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
