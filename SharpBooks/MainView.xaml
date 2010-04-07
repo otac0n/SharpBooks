@@ -23,6 +23,10 @@
                 <Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="Investments" Name="InvestmentsTabItem">
+                <Grid>
+                </Grid>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>
