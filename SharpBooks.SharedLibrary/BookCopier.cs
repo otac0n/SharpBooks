@@ -39,6 +39,22 @@ namespace SharpBooks
             }
         }
 
+        public void SetSetting(string key, string value)
+        {
+            lock (this)
+            {
+                this.destinationBook.SetSetting(key, value);
+            }
+        }
+
+        public void RemoveSetting(string key)
+        {
+            lock (this)
+            {
+                this.destinationBook.RemoveSetting(key);
+            }
+        }
+
         public void AddSecurity(SecurityData security)
         {
             lock (this)

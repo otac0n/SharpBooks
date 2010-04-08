@@ -32,15 +32,18 @@
 
             var plugins = LoadAllPlugins();
 
+            var factoryName = rob.GetSetting("overview-widgets-widget1-name");
+            var factoryType = rob.GetSetting("overview-widgets-widget1-type");
+            var widgetSettings = rob.GetSetting("overview-widgets-widget1-settings");
+
             var factory = (from p in plugins
                            let w = p as IWidgetFactory
                            where w != null
-                           where w.Name == "Favorite Accounts"
+                           where w.GetType().AssemblyQualifiedName == factoryType
+                           where w.Name == factoryName
                            select w).SingleOrDefault();
 
-            var settings = "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}";
-
-            var widget = factory.CreateInstance(rob, settings);
+            var widget = factory.CreateInstance(rob, widgetSettings);
             var expander = new Expander
             {
                 IsExpanded = true,
@@ -78,6 +81,11 @@
             book.AddAccount(account3);
             book.AddAccount(account4);
             book.AddAccount(account5);
+
+            book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
+            book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
+            book.SetSetting("overview-widgets-widget1-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
+
             return book;
         }
     }

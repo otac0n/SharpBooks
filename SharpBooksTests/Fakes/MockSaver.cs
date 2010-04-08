@@ -95,6 +95,14 @@ namespace SharpBooks.Tests.Fakes
             }
         }
 
+        public void SetSetting(string key, string value)
+        {
+        }
+
+        public void RemoveSetting(string key)
+        {
+        }
+
         public void AddSecurity(SecurityData security)
         {
             this.securityAdditions.Add(new OrderedGuid

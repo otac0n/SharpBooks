@@ -23,6 +23,16 @@ namespace SharpBooks
         private enum ActionType
         {
             /// <summary>
+            /// Corresponds to a call to SetSetting.
+            /// </summary>
+            SetSetting,
+
+            /// <summary>
+            /// Corresponds to a call to RemoveSetting.
+            /// </summary>
+            RemoveSetting,
+
+            /// <summary>
             /// Corresponds to a call to AddSecurity.
             /// </summary>
             AddSecurity,
@@ -69,6 +79,13 @@ namespace SharpBooks
             {
                 switch (action.ActionType)
                 {
+                    case ActionType.SetSetting:
+                        var pair = (KeyValuePair<string, string>)action.Item;
+                        dataAdapter.SetSetting(pair.Key, pair.Value);
+                        break;
+                    case ActionType.RemoveSetting:
+                        dataAdapter.RemoveSetting((string)action.Item);
+                        break;
                     case ActionType.AddSecurity:
                         dataAdapter.AddSecurity((SecurityData)action.Item);
                         break;
@@ -95,6 +112,24 @@ namespace SharpBooks
                         break;
                 }
             }
+        }
+
+        public void SetSetting(string key, string value)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.SetSetting,
+                Item = new KeyValuePair<string, string>(key, value),
+            });
+        }
+
+        public void RemoveSetting(string key)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemoveSetting,
+                Item = key,
+            });
         }
 
         public void AddSecurity(SecurityData security)

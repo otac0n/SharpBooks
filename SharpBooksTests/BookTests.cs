@@ -14,6 +14,102 @@ namespace SharpBooks.Tests
     public class BookTests
     {
         [Test]
+        [TestCase("OK_KEY", "OK_VALUE")]
+        [TestCase("OK_KEY", "")]
+        [TestCase("OK_KEY", null)]
+        public void SetSetting_WhenValid_Succeeds(string key, string value)
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Attempt to set the value of a setting.
+            book.SetSetting("OK_KEY", "OK_VALUE");
+
+            // The test passes, because the call to SetSetting() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        [TestCase("")]
+        [TestCase(null)]
+        public void SetSetting_WhenKeyIsEmpty_ThrowsException(string key)
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Assert that attempting to remove a setting with a null or empty key throws an ArgumentNullException exception.
+            Assert.That(() => book.SetSetting(key, "OK_VALUE"), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void RemoveSetting_WhenValid_Succeeds()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Attempt to set the value of a setting.
+            book.RemoveSetting("OK_KEY");
+
+            // The test passes, because the call to RemoveSetting() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        [TestCase("")]
+        [TestCase(null)]
+        public void RemoveSetting_WhenKeyIsEmpty_ThrowsException(string key)
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Assert that attempting to remove a setting with a null or empty key throws an ArgumentNullException exception.
+            Assert.That(() => book.RemoveSetting(key), Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        [TestCase("OK_VALUE")]
+        [TestCase("ABC")]
+        [TestCase("123")]
+        [TestCase("Aa~`1!@#$%^&*()_+09[]{}\\|;:'\"<>,./?")]
+        [TestCase("")]
+        [TestCase(null)]
+        public void GetSetting_WhenCalled_ReturnsPreviouslySetValue(string value)
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Attempt to set the value of a setting.
+            book.SetSetting("OK_KEY", value);
+
+            // Assert that the value is round-tripped.
+            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(value));
+        }
+
+        [Test]
+        public void GetSetting_WhenSettingHasNotBeenAdded_ReturnsNull()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Assert that the value of any setting on an empty book is null.
+            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(null));
+        }
+
+        [Test]
+        public void GetSetting_WhenSettingHasBeenRemoved_ReturnsNull()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add and immediately remove a setting from the book.
+            book.SetSetting("OK_KEY", "OK_VALUE");
+            book.RemoveSetting("OK_KEY");
+
+            // Assert that the value of any setting on an empty book is null.
+            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(null));
+        }
+
+        [Test]
         public void AddSecurity_WhenSecurityIsValid_Succeeds()
         {
             // Create a new, empty book.

@@ -11,6 +11,14 @@ namespace SharpBooks.Tests.Fakes
 
     public class StubSaver : ISaver
     {
+        public void SetSetting(string key, string value)
+        {
+        }
+
+        public void RemoveSetting(string key)
+        {
+        }
+
         public void AddSecurity(SecurityData security)
         {
         }

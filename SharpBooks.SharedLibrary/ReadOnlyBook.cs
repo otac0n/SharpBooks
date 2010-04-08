@@ -55,5 +55,10 @@ namespace SharpBooks
                 return this.book.PriceQuotes;
             }
         }
+
+        public string GetSetting(string key)
+        {
+            return this.book.GetSetting(key);
+        }
     }
 }

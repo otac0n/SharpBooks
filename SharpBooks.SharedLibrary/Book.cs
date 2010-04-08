@@ -19,6 +19,7 @@ namespace SharpBooks
         private readonly List<PriceQuote> priceQuotes = new List<PriceQuote>();
         private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
+        private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
         public ICollection<Security> Securities
@@ -62,6 +63,42 @@ namespace SharpBooks
                 {
                     return new List<PriceQuote>(this.priceQuotes).AsReadOnly();
                 }
+            }
+        }
+
+        public void SetSetting(string key, string value)
+        {
+            lock (this.lockMutex)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    throw new ArgumentNullException("key");
+                }
+
+                this.settings[key] = value;
+                this.UpdateSaveTracks(st => st.SetSetting(key, value));
+            }
+        }
+
+        public void RemoveSetting(string key)
+        {
+            lock (this.lockMutex)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    throw new ArgumentNullException("key");
+                }
+
+                this.settings.Remove(key);
+                this.UpdateSaveTracks(st => st.RemoveSetting(key));
+            }
+        }
+
+        public string GetSetting(string key)
+        {
+            lock (this.lockMutex)
+            {
+                return this.settings.ContainsKey(key) ? this.settings[key] : null;
             }
         }
 
