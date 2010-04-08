@@ -14,24 +14,36 @@ namespace SharpBooks.StandardPlugins
     using System.Windows.Controls;
     using System.Windows.Input;
     using SharpBooks.Plugins;
+    using Newtonsoft.Json;
 
     internal class FavoriteAccountsWidget : IWidget
     {
-        private readonly char pathSeperator;
-        private readonly List<string> accountPaths;
+        private readonly FavoriteAccountSettings settings;
 
         private StackPanel control;
         private EventProxy events;
 
         public FavoriteAccountsWidget(string settings)
         {
-            this.pathSeperator = '\\';
-            this.accountPaths = new List<string>();
+            this.settings = LoadSettings(settings);
+        }
+
+        public static FavoriteAccountSettings LoadSettings(string settings)
+        {
+            var config = new FavoriteAccountSettings();
 
             if (!string.IsNullOrEmpty(settings))
             {
-                this.accountPaths.AddRange(settings.Split(','));
+                try
+                {
+                    config = JsonConvert.DeserializeObject<FavoriteAccountSettings>(settings);
+                }
+                catch (JsonReaderException)
+                {
+                }
             }
+
+            return config;
         }
 
         public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
@@ -73,7 +85,11 @@ namespace SharpBooks.StandardPlugins
         private void PopulateControl(ReadOnlyBook book)
         {
             var accounts = from a in book.Accounts
-                           where this.accountPaths.Contains(Account.GetAccountPath(a, this.pathSeperator))
+                           let path = Account.GetAccountPath(a, this.settings.PathSeperator)
+                           where (from ap in this.settings.AccountPaths
+                                  where string.Equals(ap, path, StringComparison.OrdinalIgnoreCase)
+                                  select ap).Any()
+                           orderby path
                            select a;
 
             foreach (var account in accounts)

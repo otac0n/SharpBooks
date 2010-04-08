@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FavoriteAccountSettings.cs" />
     <Compile Include="PluginEnumerator.cs" />
     <Compile Include="FavoriteAccountsConfiguration.xaml.cs">
       <DependentUpon>FavoriteAccountsConfiguration.xaml</DependentUpon>

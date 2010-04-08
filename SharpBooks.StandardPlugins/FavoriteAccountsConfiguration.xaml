@@ -1,4 +1,4 @@
-﻿<Window x:Class="SharpBooks.StandardPlugins.FavoriteAccountsConfiguration"
+﻿<Window x:Class="SharpBooks.StandardPlugins.FavoriteAccountsConfiguration" x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:tk="http://schemas.microsoft.com/wpf/2008/toolkit"

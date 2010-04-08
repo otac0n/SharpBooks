@@ -38,7 +38,7 @@
                            where w.Name == "Favorite Accounts"
                            select w).SingleOrDefault();
 
-            string settings = factory.Configure(rob, null);
+            var settings = "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}";
 
             var widget = factory.CreateInstance(rob, settings);
             var expander = new Expander
