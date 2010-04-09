@@ -92,8 +92,12 @@ namespace SharpBooks.StandardPlugins
                            orderby path
                            select a;
 
+            var empty = true;
+
             foreach (var account in accounts)
             {
+                empty = false;
+
                 var nameLabel = new Label
                 {
                     Content = account.Name,
@@ -123,6 +127,17 @@ namespace SharpBooks.StandardPlugins
                 grid.Children.Add(amountLabel);
 
                 this.control.Children.Add(grid);
+            }
+
+            if (empty)
+            {
+                var emptyLabel = new TextBlock
+                {
+                    Text = "You have not selected any favorite accounts.",
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                };
+
+                this.control.Children.Add(emptyLabel);
             }
         }
 
