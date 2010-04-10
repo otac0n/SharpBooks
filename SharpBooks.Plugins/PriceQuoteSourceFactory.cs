@@ -9,9 +9,9 @@ namespace SharpBooks.Plugins
 {
     public class PriceQuoteSourceFactory<T> : IPriceQuoteSourceFactory where T : IPriceQuoteSource, new()
     {
-        public PriceQuoteSourceFactory()
+        public PriceQuoteSourceFactory(string name)
         {
-            this.Name = new T().Name;
+            this.Name = name;
         }
 
         public string Name

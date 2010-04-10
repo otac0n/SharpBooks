@@ -13,7 +13,7 @@ namespace YahooPriceQuoteSource
     using SharpBooks;
 
     /// <summary>
-    /// Provides functionality to download price quote data from Yahoo!® Finance
+    /// Provides functionality to download price quote data from Yahoo!® Finance.
     /// </summary>
     public class YahooPriceQuoteSource : IPriceQuoteSource
     {
@@ -21,16 +21,11 @@ namespace YahooPriceQuoteSource
         private const string YahooTimeZoneId = "Eastern Standard Time";
 
         /// <summary>
-        /// Gets the name of the plugin.
+        /// Retrieves a price quote from Yahoo!® Finance.
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return "Yahoo!® Finance Price Quotes";
-            }
-        }
-
+        /// <param name="security">The security for which to get the quote.</param>
+        /// <param name="currency">The currency in which to express the quote.</param>
+        /// <returns>The requested price quote.</returns>
         public PriceQuote GetPriceQuote(Security security, Security currency)
         {
             if (security == null)

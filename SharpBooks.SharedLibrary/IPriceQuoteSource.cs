@@ -14,11 +14,6 @@ namespace SharpBooks
     /// </summary>
     public interface IPriceQuoteSource : IDisposable
     {
-        string Name
-        {
-            get;
-        }
-
         PriceQuote GetPriceQuote(Security security, Security currency);
     }
 }

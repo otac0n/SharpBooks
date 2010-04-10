@@ -14,18 +14,19 @@ namespace GooglePriceQuoteSource
     using Newtonsoft.Json;
     using SharpBooks;
 
+    /// <summary>
+    /// Provides functionality to download price quote data from Google™ Calculator.
+    /// </summary>
     public class GoogleCurrencyPriceQuoteSource : IPriceQuoteSource
     {
         private const string UrlFormat = "http://www.google.com/ig/calculator?hl=en&q=1+{0}+in+{1}";
 
-        public string Name
-        {
-            get
-            {
-                return "Google™ Calculator Price Quotes";
-            }
-        }
-
+        /// <summary>
+        /// Retrieves a price quote from Google™ Calculator.
+        /// </summary>
+        /// <param name="security">The security for which to get the quote.</param>
+        /// <param name="currency">The currency in which to express the quote.</param>
+        /// <returns>The requested price quote.</returns>
         public PriceQuote GetPriceQuote(Security security, Security currency)
         {
             if (security == null)
@@ -35,7 +36,7 @@ namespace GooglePriceQuoteSource
 
             if (currency == null)
             {
-                throw new ArgumentNullException("currecny");
+                throw new ArgumentNullException("currency");
             }
 
             if (currency.SecurityType != SecurityType.Currency)
