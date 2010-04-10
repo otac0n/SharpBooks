@@ -61,6 +61,7 @@
     <Compile Include="EventProxy.cs" />
     <Compile Include="IPluginEnumerator.cs" />
     <Compile Include="IPluginFactory.cs" />
+    <Compile Include="IPriceQuoteSource.cs" />
     <Compile Include="IPriceQuoteSourceFactory.cs" />
     <Compile Include="IReport.cs" />
     <Compile Include="IReportFactory.cs" />

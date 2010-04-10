@@ -54,7 +54,6 @@
     <Compile Include="MathExtensions.cs" />
     <Compile Include="ILoader.cs" />
     <Compile Include="ISaver.cs" />
-    <Compile Include="IPriceQuoteSource.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="PriceRetrievalFailureException.cs" />
     <Compile Include="PriceQuoteData.cs" />
