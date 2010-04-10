@@ -101,6 +101,9 @@ namespace GooglePriceQuoteSource
             }
         }
 
+        /// <summary>
+        /// Performs plugin-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
         }
@@ -115,8 +118,14 @@ namespace GooglePriceQuoteSource
             return new PriceRetrievalFailureException("Could not download the Google™ price data for the symbol '" + symbol + "'.  " + error, innerException);
         }
 
+        /// <summary>
+        /// Encapsulates a result from Google™ Calculator.
+        /// </summary>
         private class CalculatorResult
         {
+            /// <summary>
+            /// Gets or sets the left-hand-side of the equation.
+            /// </summary>
             [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string lhs
             {
@@ -124,6 +133,9 @@ namespace GooglePriceQuoteSource
                 set;
             }
 
+            /// <summary>
+            /// Gets or sets the right-hand-side of the equation.
+            /// </summary>
             [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string rhs
             {
@@ -131,6 +143,9 @@ namespace GooglePriceQuoteSource
                 set;
             }
 
+            /// <summary>
+            /// Gets or sets the error result from the query.
+            /// </summary>
             [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public string err
             {
@@ -138,6 +153,9 @@ namespace GooglePriceQuoteSource
                 set;
             }
 
+            /// <summary>
+            /// This result code is unknown.
+            /// </summary>
             [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public bool icc
             {
