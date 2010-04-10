@@ -10,6 +10,9 @@ namespace SharpBooks
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Holds a list of changes made to a book from a save point.
+    /// </summary>
     internal sealed class SaveTrack : ISaver
     {
         /// <summary>
@@ -73,6 +76,10 @@ namespace SharpBooks
             RemoveTransaction
         }
 
+        /// <summary>
+        /// Replays the actions in this save track into an <see cref="ISaver"/>.
+        /// </summary>
+        /// <param name="dataAdapter">The adapter into which to replay the actions.</param>
         public void Replay(ISaver dataAdapter)
         {
             foreach (var action in this.actions)
@@ -114,6 +121,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Sets the value of a setting.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <param name="value">The new value of the setting.</param>
         public void SetSetting(string key, string value)
         {
             this.actions.Add(new Action
@@ -123,6 +135,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Removes a setting from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
         public void RemoveSetting(string key)
         {
             this.actions.Add(new Action
@@ -132,6 +148,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Adds a security to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="security">The security to add.</param>
         public void AddSecurity(SecurityData security)
         {
             this.actions.Add(new Action
@@ -141,6 +161,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Removes a security from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="securityId">The Security Id of the security to remove.</param>
         public void RemoveSecurity(Guid securityId)
         {
             this.actions.Add(new Action
@@ -150,6 +174,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Adds a price quote to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="priceQuote">The price quote to add.</param>
         public void AddPriceQuote(PriceQuoteData priceQuote)
         {
             this.actions.Add(new Action
@@ -159,6 +187,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Removes a price quote from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="priceQuoteId">The Price Quote Id of the price quote to remove.</param>
         public void RemovePriceQuote(Guid priceQuoteId)
         {
             this.actions.Add(new Action
@@ -168,6 +200,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Adds an account to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="account">The account to add.</param>
         public void AddAccount(AccountData account)
         {
             this.actions.Add(new Action
@@ -177,6 +213,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Removes an account from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="accountId">The Account Id of the account to remove.</param>
         public void RemoveAccount(Guid accountId)
         {
             this.actions.Add(new Action
@@ -186,6 +226,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Adds a transaction to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="transaction">The transaction to add.</param>
         public void AddTransaction(TransactionData transaction)
         {
             this.actions.Add(new Action
@@ -195,6 +239,10 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Removes a transaction from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="transactionId">The Transaction Id of the transaction to remove.</param>
         public void RemoveTransaction(Guid transactionId)
         {
             this.actions.Add(new Action
@@ -204,14 +252,23 @@ namespace SharpBooks
             });
         }
 
+        /// <summary>
+        /// Holds data on a singe, atom action performed against a save track.
+        /// </summary>
         private class Action
         {
+            /// <summary>
+            /// Gets or sets the type of action performed.
+            /// </summary>
             public ActionType ActionType
             {
                 get;
                 set;
             }
 
+            /// <summary>
+            /// Gets or sets the key or value of the item affected.
+            /// </summary>
             public object Item
             {
                 get;

@@ -13,8 +13,8 @@ namespace SharpBooks.StandardPlugins
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using SharpBooks.Plugins;
     using Newtonsoft.Json;
+    using SharpBooks.Plugins;
 
     internal class FavoriteAccountsWidget : IWidget
     {

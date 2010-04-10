@@ -66,6 +66,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Sets the value of a setting.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <param name="value">The new value of the setting.</param>
         public void SetSetting(string key, string value)
         {
             lock (this.lockMutex)
@@ -80,6 +85,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes a setting from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
         public void RemoveSetting(string key)
         {
             lock (this.lockMutex)
@@ -102,6 +111,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Adds a security to the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="security">The security to add.</param>
         public void AddSecurity(Security security)
         {
             lock (this.lockMutex)
@@ -141,6 +154,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes a security from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="security">The security to remove.</param>
         public void RemoveSecurity(Security security)
         {
             lock (this.lockMutex)
