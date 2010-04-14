@@ -1,10 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.SharedLibrary", "SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Tests", "SharpBooksTests\SharpBooks.Tests.csproj", "{B3EC2AB3-AE07-4124-AE3F-1CFDA80BFE70}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{864EE9C3-6DA1-4C76-AFF7-F729BEA92F3D}"
 	ProjectSection(SolutionItems) = preProject
 		currencies.csv = currencies.csv
@@ -14,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharpBooks.snk = SharpBooks.snk
 		WPFToolkit.dll = WPFToolkit.dll
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.SharedLibrary", "SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Tests", "SharpBooksTests\SharpBooks.Tests.csproj", "{B3EC2AB3-AE07-4124-AE3F-1CFDA80BFE70}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceQuoteSource", "YahooPriceQuoteSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
 EndProject
