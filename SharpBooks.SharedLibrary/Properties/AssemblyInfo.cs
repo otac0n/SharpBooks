@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 [assembly: AssemblyTitle("SharpBooks.SharedLibrary")]
 [assembly: AssemblyDescription("")]
@@ -21,3 +22,4 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 
 [assembly:InternalsVisibleTo("SharpBooks.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001000d53827ae7bf2bde4bd45d3f7890dbb1403ab3cbef53992b28c8f7060e1d8c735eed1a5fece952ed7fe1320b4fe3d9bbe9d5966a0850622d3faa9891524246220d519f32796f544135e4691ccd42a8ab71f27e34658efae4dfc8e7ec3b7ffb86a8f558c8f2274a97289b9ca65bf9842bc0e9ec03dc80151347bb5f92495957df")]
+[assembly: NeutralResourcesLanguageAttribute("en-US")]

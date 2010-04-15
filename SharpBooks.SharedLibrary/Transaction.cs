@@ -123,7 +123,7 @@ namespace SharpBooks
                 {
                     if (this.splits.Count == 0)
                     {
-                        yield return new RuleViolation("Splits", "The transaction must have at least one split.");
+                        yield return new RuleViolation("Splits", Localization.Localization.TRANSACTION_MUST_HAVE_SPLIT);
                     }
                     else
                     {
@@ -137,7 +137,7 @@ namespace SharpBooks
 
                         if (this.splits.Sum(s => s.TransactionAmount) != 0m)
                         {
-                            yield return new RuleViolation("Sum", "The sum of the splits in the transaction must be equal to zero.");
+                            yield return new RuleViolation("Sum", Localization.Localization.TRANSACTION_SUM_MUST_BE_ZERO);
                         }
 
                         var sameSecurity = from s in this.splits
@@ -146,7 +146,7 @@ namespace SharpBooks
 
                         if (!sameSecurity.Any())
                         {
-                            yield return new RuleViolation("BaseSecurity", "The transaction must share the same security as at least one of its splits.");
+                            yield return new RuleViolation("BaseSecurity", Localization.Localization.TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT);
                         }
                     }
                 }
