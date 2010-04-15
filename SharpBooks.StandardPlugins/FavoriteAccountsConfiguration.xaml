@@ -11,17 +11,18 @@
             <RowDefinition />
             <RowDefinition Height="28" />
         </Grid.RowDefinitions>
-        <tk:DataGrid
+        <DataGrid
             Margin="2"
             ItemsSource="{Binding ElementName=This, Path=Accounts}"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
             AutoGenerateColumns="False">
-            <tk:DataGrid.Columns>
-                <tk:DataGridTextColumn Header="Account Name" Binding="{Binding Name}" IsReadOnly="True" SortDirection="Ascending" />
-                <tk:DataGridCheckBoxColumn Header="Favorite" Binding="{Binding Favorite}" CanUserSort="False" />
-            </tk:DataGrid.Columns>
-        </tk:DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Account Name" Binding="{Binding Name}" IsReadOnly="True" SortDirection="Ascending" />
+                <DataGridCheckBoxColumn Header="Favorite" Binding="{Binding Favorite}" CanUserSort="False" />
+            </DataGrid.Columns>            
+        </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
             <Button Margin="2" MinWidth="50" HorizontalAlignment="Left" Name="OkButton" Click="OkButton_Click">OK</Button>
             <Button Margin="2" MinWidth="50" HorizontalAlignment="Left" Name="CancelButton" Click="CancelButton_Click">Cancel</Button>
