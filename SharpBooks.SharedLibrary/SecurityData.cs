@@ -16,6 +16,11 @@ namespace SharpBooks
     {
         public SecurityData(Security security)
         {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
             this.SecurityId = security.SecurityId;
             this.SecurityType = security.SecurityType;
             this.Symbol = security.Symbol;

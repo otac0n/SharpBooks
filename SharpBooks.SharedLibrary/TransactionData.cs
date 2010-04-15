@@ -22,6 +22,11 @@ namespace SharpBooks
         /// <param name="transaction">The <see cref="SharpBooks.Transaction"/> from which to copy.</param>
         public TransactionData(Transaction transaction)
         {
+            if (transaction == null)
+            {
+                throw new ArgumentNullException("transaction");
+            }
+
             this.TransactionId = transaction.TransactionId;
             this.Date = transaction.Date;
             this.BaseSecurityId = transaction.BaseSecurity.SecurityId;

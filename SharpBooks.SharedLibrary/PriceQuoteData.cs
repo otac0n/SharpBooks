@@ -16,6 +16,11 @@ namespace SharpBooks
     {
         public PriceQuoteData(PriceQuote priceQuote)
         {
+            if (priceQuote == null)
+            {
+                throw new ArgumentNullException("priceQuote");
+            }
+
             this.PriceQuoteId = priceQuote.PriceQuoteId;
             this.DateTime = priceQuote.DateTime;
             this.SecuritySecurityId = priceQuote.Security.SecurityId;

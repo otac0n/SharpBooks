@@ -20,6 +20,11 @@ namespace SharpBooks
         /// <param name="account">The <see cref="SharpBooks.Account" /> from which to copy.</param>
         public AccountData(Account account)
         {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
             this.AccountId = account.AccountId;
             this.ParentAccountId = account.ParentAccount == null ? (Guid?)null : account.ParentAccount.AccountId;
             this.SecurityId = account.Security.SecurityId;

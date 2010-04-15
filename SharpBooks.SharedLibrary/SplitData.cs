@@ -20,6 +20,11 @@ namespace SharpBooks
         /// <param name="split">The <see cref="SharpBooks.Split"/> from which to copy.</param>
         public SplitData(Split split)
         {
+            if (split == null)
+            {
+                throw new ArgumentNullException("split");
+            }
+
             this.TransactionId = split.Transaction.TransactionId;
             this.AccountId = split.Account.AccountId;
             this.Amount = split.Amount;

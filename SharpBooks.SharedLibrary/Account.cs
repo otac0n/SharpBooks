@@ -43,7 +43,7 @@ namespace SharpBooks
             {
                 if (parent.AccountId == accountId)
                 {
-                    throw new InvalidOperationException("An account may not share an its AccountId with any of its ancestors.");
+                    throw new InvalidOperationException("An account may not share an its Account Id with any of its ancestors.");
                 }
 
                 parent = parent.ParentAccount;
@@ -88,6 +88,11 @@ namespace SharpBooks
 
         public static string GetAccountPath(Account account, string separator)
         {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
             if (account.ParentAccount == null)
             {
                 return account.Name;

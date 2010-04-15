@@ -135,7 +135,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same SecurityId.");
+                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same Security Id.");
                 }
 
                 var duplicateData = from s in this.securities
@@ -146,7 +146,7 @@ namespace SharpBooks
                 if (duplicateData.Any())
                 {
                     throw new InvalidOperationException(
-                        "Could not add the security to the book, because another security has already been added with the same SecurityType and Symbol.");
+                        "Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.");
                 }
 
                 this.securities.Add(security);
@@ -211,12 +211,12 @@ namespace SharpBooks
 
                 if (!this.securities.Contains(account.Security))
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, becaues the account's security has not been added.");
+                    throw new InvalidOperationException("Could not add the account to the book, because the account's security has not been added.");
                 }
 
                 if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, becaues the account's parent has not been added.");
+                    throw new InvalidOperationException("Could not add the account to the book, because the account's parent has not been added.");
                 }
 
                 var duplicateIds = from a in this.accounts
@@ -225,7 +225,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same AccountId.");
+                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Account Id.");
                 }
 
                 var duplicateNames = from a in this.accounts
@@ -298,12 +298,12 @@ namespace SharpBooks
 
                 if (!this.securities.Contains(priceQuote.Security))
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's security has not been added.");
+                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote's security has not been added.");
                 }
 
                 if (!this.securities.Contains(priceQuote.Currency))
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, becaues the price quote's currency has not been added.");
+                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote's currency has not been added.");
                 }
 
                 var duplicateIds = from q in this.priceQuotes
@@ -312,7 +312,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same PriceQuoteId.");
+                    throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Price Quote Id.");
                 }
 
                 var duplicateData = from q in this.priceQuotes
@@ -325,7 +325,7 @@ namespace SharpBooks
                 if (duplicateData.Any())
                 {
                     throw new InvalidOperationException(
-                        "Could not add the price quote to the book, because another price quote has already been added with the same Secuurity, Currency, Date, and Source.");
+                        "Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source.");
                 }
 
                 this.priceQuotes.Add(priceQuote);
@@ -378,7 +378,7 @@ namespace SharpBooks
                 if (duplicateIds.Any())
                 {
                     throw new InvalidOperationException(
-                        "Could not add the transaction to the book, because another transaction has already been added with the same TransactionId.");
+                        "Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.");
                 }
 
                 TransactionLock transactionLock = null;
@@ -394,7 +394,7 @@ namespace SharpBooks
                     if (splitsWithoutAccountsInBook.Any())
                     {
                         throw new InvalidOperationException(
-                            "Could not add the transaction to the book, becaues the transaction contains at least on split whose account has not been added.");
+                            "Could not add the transaction to the book, because the transaction contains at least on split whose account has not been added.");
                     }
 
                     this.transactions.Add(transaction, transactionLock);

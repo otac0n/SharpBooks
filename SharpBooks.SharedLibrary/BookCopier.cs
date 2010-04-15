@@ -57,6 +57,11 @@ namespace SharpBooks
 
         public void AddSecurity(SecurityData security)
         {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
             lock (this)
             {
                 var newSecurity = new Security(
