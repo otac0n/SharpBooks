@@ -23,7 +23,7 @@ namespace SharpBooks.Tests
             var book = new Book();
 
             // Attempt to set the value of a setting.
-            book.SetSetting("OK_KEY", "OK_VALUE");
+            book.SetSetting(key, value);
 
             // The test passes, because the call to SetSetting() has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.

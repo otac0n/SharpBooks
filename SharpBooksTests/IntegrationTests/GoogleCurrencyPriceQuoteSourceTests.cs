@@ -19,7 +19,7 @@ namespace SharpBooks.Tests.IntegrationTests
         private readonly Dictionary<string, Security> securities = new Dictionary<string, Security>();
 
         [TestFixtureSetUp]
-        public void SetUp()
+        public void Setup()
         {
             var usd = new Security(
                 Guid.NewGuid(),

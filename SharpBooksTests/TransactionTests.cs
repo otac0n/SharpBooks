@@ -150,7 +150,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WithSingleNonZeroSplit_ReturnsFalse()
+        public void GetIsValid_WithSingleNonzeroSplit_ReturnsFalse()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();

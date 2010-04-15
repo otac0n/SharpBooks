@@ -105,6 +105,11 @@ namespace SharpBooks.Tests.Fakes
 
         public void AddSecurity(SecurityData security)
         {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
             this.securityAdditions.Add(new OrderedGuid
             {
                 Guid = security.SecurityId,
@@ -123,6 +128,11 @@ namespace SharpBooks.Tests.Fakes
 
         public void AddPriceQuote(PriceQuoteData priceQuote)
         {
+            if (priceQuote == null)
+            {
+                throw new ArgumentNullException("priceQuote");
+            }
+
             this.priceQuoteAdditions.Add(new OrderedGuid
             {
                 Guid = priceQuote.PriceQuoteId,
@@ -141,6 +151,11 @@ namespace SharpBooks.Tests.Fakes
 
         public void AddAccount(AccountData account)
         {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
             this.accountAdditions.Add(new OrderedGuid
             {
                 Guid = account.AccountId,
@@ -159,6 +174,11 @@ namespace SharpBooks.Tests.Fakes
 
         public void AddTransaction(TransactionData transaction)
         {
+            if (transaction == null)
+            {
+                throw new ArgumentNullException("transaction");
+            }
+
             this.transactionAdditions.Add(new OrderedGuid
             {
                 Guid = transaction.TransactionId,
@@ -184,48 +204,6 @@ namespace SharpBooks.Tests.Fakes
             }
 
             public Guid Guid
-            {
-                get;
-                set;
-            }
-        }
-
-        public class OrderedSecurityId
-        {
-            public long Order
-            {
-                get;
-                set;
-            }
-
-            public SecurityType SecurityType
-            {
-                get;
-                set;
-            }
-
-            public string Symbol
-            {
-                get;
-                set;
-            }
-        }
-
-        public class OrderedPriceQuoteId
-        {
-            public long Order
-            {
-                get;
-                set;
-            }
-
-            public DateTime SecurityType
-            {
-                get;
-                set;
-            }
-
-            public string Symbol
             {
                 get;
                 set;

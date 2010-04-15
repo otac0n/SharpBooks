@@ -29,7 +29,7 @@ namespace SharpBooks.Tests.IntegrationTests
         }
 
         [Test]
-        public void Replay_WhenSavePointIsNull_ReplaysFromTheBegining()
+        public void Replay_WhenSavePointIsNull_ReplaysFromTheBeginning()
         {
             // Create a new, valid book.
             var book = new Book();

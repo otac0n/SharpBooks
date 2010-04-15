@@ -37,7 +37,7 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void Constructor_WhenCurrnecyIsNull_ThrowsException()
+        public void Constructor_WhenCurrencyIsNull_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
