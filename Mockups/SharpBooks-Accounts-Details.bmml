@@ -3,6 +3,7 @@
     <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="339" y="162" w="662" h="331" measuredW="668" measuredH="158" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <rowHeight>18</rowHeight>
+        <selectedIndex>5</selectedIndex>
         <size>11</size>
         <text>Flag%2CDate%2CNumber%2CTo/From%2CAccount%2CDeposit%2CWithdrawl%2CR%2CBalance%0A%2C1/1/2045%2C%2CWal-Mart%2CExpenses%5CHousehold%2C%2C%2457.21%2Cr%2C%28%2457.21%29%0A%2C1/2/2045%2C1042%2CDillons%2CExpenses%5CGroceries%2C%2C%2433.43%2Cr%2C%28%2490.64%29%0A%2C1/3/2045%2C%2CQuikTrip%2CExpenses%5CAuto%5CGas%2C%2C%2448.90%2Cr%2C%28%24139.54%29%0A%2C1/4/2045%2C%2CQuikTrip%2CExpenses%5CDining%2C%2C%243.82%2Cr%2C%28%24143.36%29%0A%2C1/4/2045%2C%2CMy%20Employer%2C%28multiple%29%2C%241%5C%2C132.44%2C%2Cn%2C%24989.08%0A%2C1/5/2045%2C%2CKwikShop%2CExpenses%5CDining%2C%2C%243.71%2Cc%2C%24985.37%0A%2C1/9/2045%2C%2CPlutonium%20Depot%2CExpenses%5CMad%20Science%2C%2C%241%5C%2C200.95%2Cc%2C%28%24215.58%29</text>
       </controlProperties>
@@ -29,11 +30,20 @@
         <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="35" w="692" h="417" measuredW="513" measuredH="100" zOrder="1" locked="false" isInGroup="5">
           <controlProperties>
             <hrefs>SharpBooks-Overview%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%2CSharpBooks-Accounts%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%2CSharpBooks-Investments%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%2CSharpBooks-Payments%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%2C</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2220%2C35%2C89%2C64%22%20href%3D%22SharpBooks-Overview.bmml%22%20alt%3D%22SharpBooks-Overview%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%2289%2C35%2C225%2C64%22%20href%3D%22SharpBooks-Accounts.bmml%22%20alt%3D%22SharpBooks-Accounts%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22225%2C35%2C313%2C64%22%20href%3D%22SharpBooks-Investments.bmml%22%20alt%3D%22SharpBooks-Investments%22%20id%3D%221_2%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22313%2C35%2C380%2C64%22%20href%3D%22SharpBooks-Payments.bmml%22%20alt%3D%22SharpBooks-Payments%22%20id%3D%221_3%22/%3E%0A</map>
             <selectedIndex>1</selectedIndex>
             <text>Overview%2C%20Acounts%20/%20Expenses%2C%20Investments%2C%20Payments%2C%20Reports</text>
           </controlProperties>
         </control>
       </groupChildrenDescriptors>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="339" y="277" w="662" h="24" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <href>SharpBooks-Accounts-Details-Edit%26bm%3BSharpBooks-Accounts-Details-Edit.bmml%26bm%3BSharpBooks-Accounts-Details-Edit.bmml%26bm%3BSharpBooks-Accounts-Details-Edit.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2215%2C221%2C677%2C245%22%20href%3D%22SharpBooks-Accounts-Details-Edit.bmml%22%20alt%3D%22SharpBooks-Accounts-Details-Edit%22%20id%3D%227%22/%3E</map>
+      </controlProperties>
     </control>
   </controls>
 </mockup>

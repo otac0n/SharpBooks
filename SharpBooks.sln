@@ -26,6 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.StandardPlugins"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mockups", "Mockups", "{414EC0F5-B11D-41DD-A9D6-66ADFCEFDF97}"
 	ProjectSection(SolutionItems) = preProject
+		Mockups\SharpBooks-Accounts-Details-Edit.bmml = Mockups\SharpBooks-Accounts-Details-Edit.bmml
 		Mockups\SharpBooks-Accounts-Details.bmml = Mockups\SharpBooks-Accounts-Details.bmml
 		Mockups\SharpBooks-Accounts.bmml = Mockups\SharpBooks-Accounts.bmml
 		Mockups\SharpBooks-Investments.bmml = Mockups\SharpBooks-Investments.bmml
