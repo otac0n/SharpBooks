@@ -1,0 +1,30 @@
+<mockup version="1.0" skin="sketch" measuredW="1026" measuredH="518" mockupW="692" mockupH="452">
+  <controls>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="339" y="127" w="662" h="118" measuredW="408" measuredH="72" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <rowHeight>18</rowHeight>
+        <selectedIndex>0</selectedIndex>
+        <text>Investment%20Account%2C%20Cash%20In%2C%20Value%2C%20Gain%0A401%28k%29%2C%20%241%5C%2C800.32%2C%20%242%5C%2C347.50%2C%20%24547.18%0AIRA%2C%20%24600.01%2C%20%24632.57%2C%20%2432.56</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::LineChart" x="339" y="260" w="662" h="218" measuredW="187" measuredH="175" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="4" controlTypeID="__group__" x="324" y="56" w="692" h="452" measuredW="692" measuredH="452" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="692" h="452" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="4">
+          <controlProperties>
+            <text>SharpBooks</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="35" w="692" h="417" measuredW="506" measuredH="100" zOrder="1" locked="false" isInGroup="4">
+          <controlProperties>
+            <hrefs>SharpBooks-Overview%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%2CSharpBooks-Accounts%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%2CSharpBooks-Investments%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%2CSharpBooks-Payments%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%2C</hrefs>
+            <map>%3Carea%20shape%3D%22rect%22%20coords%3D%2220%2C35%2C89%2C64%22%20href%3D%22SharpBooks-Overview.bmml%22%20alt%3D%22SharpBooks-Overview%22%20id%3D%221_0%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%2289%2C35%2C219%2C64%22%20href%3D%22SharpBooks-Accounts.bmml%22%20alt%3D%22SharpBooks-Accounts%22%20id%3D%221_1%22/%3E%0A%3Carea%20shape%3D%22rect%22%20coords%3D%22219%2C35%2C307%2C64%22%20href%3D%22SharpBooks-Investments.bmml%22%20alt%3D%22SharpBooks-Investments%22%20id%3D%221_2%22/%3E%0A</map>
+            <selectedIndex>2</selectedIndex>
+            <text>Overview%2C%20Acounts%20/%20Expenses%2C%20Investments%2C%20Payments%2C%20Reports</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>

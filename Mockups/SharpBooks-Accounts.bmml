@@ -1,0 +1,33 @@
+<mockup version="1.0" skin="sketch" measuredW="1026" measuredH="518" mockupW="692" mockupH="452">
+  <controls>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::DataGrid" x="339" y="131" w="662" h="359" measuredW="250" measuredH="226" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <rowHeight>18</rowHeight>
+        <selectedIndex>1</selectedIndex>
+        <text>Account%2C%20Balance%0AAssets%0A%20%20My%20Bank%2C%20%243%5C%2C271.30%0A%20%20My%20Other%20Bank%2C%20%241%5C%2C121.77%0ALiabilities%0A%20%20My%20Home%20Loan%2C%20%28%2444%5C%2C267.12%29%0AExpenses%0A%20%20Food%0A%20%20Clothing%0A%20%20Shelter</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::HelpButton" x="961" y="180" w="-1" h="-1" measuredW="18" measuredH="18" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>SharpBooks-Accounts-Details%26bm%3BSharpBooks-Accounts-Details.bmml%26bm%3BSharpBooks-Accounts-Details.bmml%26bm%3BSharpBooks-Accounts-Details.bmml</href>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="__group__" x="324" y="56" w="692" h="452" measuredW="692" measuredH="452" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="692" h="452" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="5">
+          <controlProperties>
+            <text>SharpBooks</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TabBar" x="0" y="35" w="692" h="417" measuredW="513" measuredH="100" zOrder="1" locked="false" isInGroup="5">
+          <controlProperties>
+            <hrefs>SharpBooks-Overview%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%26bm%3BSharpBooks-Overview.bmml%2CSharpBooks-Accounts%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%26bm%3BSharpBooks-Accounts.bmml%2CSharpBooks-Investments%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%26bm%3BSharpBooks-Investments.bmml%2CSharpBooks-Payments%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%26bm%3BSharpBooks-Payments.bmml%2C</hrefs>
+            <selectedIndex>1</selectedIndex>
+            <text>Overview%2C%20Acounts%20/%20Expenses%2C%20Investments%2C%20Payments%2C%20Reports</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
