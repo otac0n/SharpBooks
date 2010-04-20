@@ -4,7 +4,7 @@
       <controlProperties>
         <rowHeight>18</rowHeight>
         <size>11</size>
-        <text>Flag%2CNumber%2CDate%2CTo/From%2CAccount%2CDeposit%2CWithdrawl%2CR%2CBalance%0A%2C%2C1/1/2045%2CWal-Mart%2CExpenses%5CHousehold%2C%2C%2457.21%2Cr%2C%28%2457.21%29%0A%2C1042%2C1/2/2045%2CDillons%2CExpenses%5CGroceries%2C%2C%2433.43%2Cr%2C%28%2490.64%29%0A%2C%2C1/3/2045%2CQuikTrip%2CExpenses%5CAuto%5CGas%2C%2C%2448.90%2Cr%2C%28%24139.54%29%0A%2C%2C1/4/2045%2CQuikTrip%2CExpenses%5CDining%2C%2C%243.82%2Cr%2C%28%24143.36%29%0A%2C%2C1/4/2045%2CMy%20Employer%2C%28multiple%29%2C%241%5C%2C132.44%2C%2Cn%2C%24989.08%0A%2C%2C1/5/2045%2CKwikShop%2CExpenses%5CDining%2C%2C%243.71%2Cc%2C%24985.37%0A%2C%2C1/9/2045%2CPlutonium%20Depot%2CExpenses%5CMad%20Science%2C%2C%241%5C%2C200.95%2Cc%2C%28%24215.58%29</text>
+        <text>Flag%2CDate%2CNumber%2CTo/From%2CAccount%2CDeposit%2CWithdrawl%2CR%2CBalance%0A%2C1/1/2045%2C%2CWal-Mart%2CExpenses%5CHousehold%2C%2C%2457.21%2Cr%2C%28%2457.21%29%0A%2C1/2/2045%2C1042%2CDillons%2CExpenses%5CGroceries%2C%2C%2433.43%2Cr%2C%28%2490.64%29%0A%2C1/3/2045%2C%2CQuikTrip%2CExpenses%5CAuto%5CGas%2C%2C%2448.90%2Cr%2C%28%24139.54%29%0A%2C1/4/2045%2C%2CQuikTrip%2CExpenses%5CDining%2C%2C%243.82%2Cr%2C%28%24143.36%29%0A%2C1/4/2045%2C%2CMy%20Employer%2C%28multiple%29%2C%241%5C%2C132.44%2C%2Cn%2C%24989.08%0A%2C1/5/2045%2C%2CKwikShop%2CExpenses%5CDining%2C%2C%243.71%2Cc%2C%24985.37%0A%2C1/9/2045%2C%2CPlutonium%20Depot%2CExpenses%5CMad%20Science%2C%2C%241%5C%2C200.95%2Cc%2C%28%24215.58%29</text>
       </controlProperties>
     </control>
     <control controlID="3" controlTypeID="com.balsamiq.mockups::SubTitle" x="339" y="130" w="-1" h="-1" measuredW="140" measuredH="29" zOrder="2" locked="false" isInGroup="-1">
