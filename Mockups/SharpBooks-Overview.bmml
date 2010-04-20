@@ -7,13 +7,13 @@
             <text>Favorite%20Accounts</text>
           </controlProperties>
         </control>
-        <control controlID="3" controlTypeID="com.balsamiq.mockups::DataGrid" x="10" y="22" w="251" h="50" measuredW="214" measuredH="50" zOrder="1" locked="false" isInGroup="14">
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::DataGrid" x="10" y="22" w="251" h="50" measuredW="235" measuredH="50" zOrder="1" locked="false" isInGroup="14">
           <controlProperties>
             <borderStyle>none</borderStyle>
             <hasHeader>false</hasHeader>
             <rowHeight>18</rowHeight>
             <selectedIndex>0</selectedIndex>
-            <text>My%20Bank%2C%20%243%5C%2C271.30%0AMy%20Home%20Loan%2C%20%28%2444%5C%2C267.12%29</text>
+            <text>My%20Bank%20Account%2C%20%243%5C%2C271.30%0AMy%20Home%20Loan%2C%20%28%2444%5C%2C267.12%29</text>
           </controlProperties>
         </control>
       </groupChildrenDescriptors>
@@ -107,6 +107,13 @@
           </controlProperties>
         </control>
       </groupChildrenDescriptors>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::Canvas" x="349" y="152" w="249" h="23" measuredW="100" measuredH="70" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0</backgroundAlpha>
+        <borderStyle>none</borderStyle>
+        <href>SharpBooks-Accounts-Details%26bm%3BSharpBooks-Accounts-Details.bmml%26bm%3BSharpBooks-Accounts-Details.bmml%26bm%3BSharpBooks-Accounts-Details.bmml</href>
+      </controlProperties>
     </control>
   </controls>
 </mockup>
