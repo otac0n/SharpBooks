@@ -31,7 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mockups", "Mockups", "{414E
 		Mockups\SharpBooks-Investments.bmml = Mockups\SharpBooks-Investments.bmml
 		Mockups\SharpBooks-Overview.bmml = Mockups\SharpBooks-Overview.bmml
 		Mockups\SharpBooks-Payments.bmml = Mockups\SharpBooks-Payments.bmml
-		Mockups\SharpBooks.bmml = Mockups\SharpBooks.bmml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{64CD152E-2A7A-4828-B9D2-CC084E636111}"
