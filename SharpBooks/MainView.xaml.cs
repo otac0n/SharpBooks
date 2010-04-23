@@ -25,6 +25,9 @@
             InitializeComponent();
 
             var b = BuildFakeBook();
+
+            UpdateAccounts(b);
+
             var rob = b.AsReadOnly();
 
             var events = new EventProxy(
@@ -55,6 +58,78 @@
             };
 
             StackPanel1.Children.Add(expander);
+        }
+
+        private void UpdateAccounts(Book book)
+        {
+            var items = this.CreateAccountItems(book, null);
+            foreach (var item in items)
+            {
+                this.AccountsList.Items.Add(item);
+            }
+        }
+
+        private IEnumerable<TreeViewItem> CreateAccountItems(Book book, Account parent)
+        {
+            var subAccounts = from a in book.Accounts
+                              where a.ParentAccount == parent
+                              orderby a.Name
+                              select a;
+
+            foreach (var a in subAccounts)
+            {
+                var item = new TreeViewItem();
+
+                var subItems = CreateAccountItems(book, a);
+                foreach (var subItem in subItems)
+                {
+                    item.Items.Add(subItem);
+                }
+
+                var panel = new StackPanel();
+                panel.Orientation = Orientation.Horizontal;
+                panel.MouseLeftButtonDown += Account_MouseLeftButtonDown;
+
+                var image = new Image();
+                image.Height = 16;
+                image.Source = LoadImage("Coinstack.png");
+
+                var label = new Label();
+                label.Content = a.Name;
+
+                panel.Children.Add(image);
+                panel.Children.Add(label);
+
+                item.Header = panel;
+
+                yield return item;
+            }
+        }
+
+        private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                var args = new AccountSelectedEventArgs
+                {
+                    AccountId = (Guid)((StackPanel)sender).Tag,
+                };
+
+                //this.events.RaiseAccountSelected(sender, args);
+            }
+        }
+
+        private ImageSource LoadImage(string p)
+        {
+            try
+            {
+                string imageUrl = String.Format(@"pack://application:,,,/SharpBooks;component/resources/{0}", p);
+                return new BitmapImage(new Uri(imageUrl));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private static IEnumerable<IPluginFactory> LoadAllPlugins()

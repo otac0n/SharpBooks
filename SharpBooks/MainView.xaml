@@ -20,8 +20,8 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Accounts / Expenses" Name="AccountsTabItem">
-                <Grid>
-                </Grid>
+                <TreeView Name="AccountsList">
+                </TreeView>
             </TabItem>
             <TabItem Header="Investments" Name="InvestmentsTabItem">
                 <Grid>
