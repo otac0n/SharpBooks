@@ -20,18 +20,20 @@
     /// </summary>
     public partial class MainView : Window
     {
+        private Book book;
+
         public MainView()
         {
             InitializeComponent();
 
-            var b = BuildFakeBook();
+            this.book = BuildFakeBook();
 
-            UpdateAccounts(b);
+            UpdateAccounts();
 
-            var rob = b.AsReadOnly();
+            var rob = this.book.AsReadOnly();
 
             var events = new EventProxy(
-                (sender, args) => MessageBox.Show(b.Accounts.Where(a => a.AccountId == args.AccountId).Single().Name + " Selected!"));
+                this.AccountSelected);
 
             var plugins = LoadAllPlugins();
 
@@ -60,9 +62,9 @@
             StackPanel1.Children.Add(expander);
         }
 
-        private void UpdateAccounts(Book book)
+        private void UpdateAccounts()
         {
-            var items = this.CreateAccountItems(book, null);
+            var items = this.CreateAccountItems(this.book, null);
             foreach (var item in items)
             {
                 this.AccountsList.Items.Add(item);
@@ -87,6 +89,7 @@
                 }
 
                 var panel = new StackPanel();
+                panel.Tag = a.AccountId;
                 panel.Orientation = Orientation.Horizontal;
                 panel.MouseLeftButtonDown += Account_MouseLeftButtonDown;
 
@@ -115,8 +118,13 @@
                     AccountId = (Guid)((StackPanel)sender).Tag,
                 };
 
-                //this.events.RaiseAccountSelected(sender, args);
+                this.AccountSelected(sender, args);
             }
+        }
+
+        private void AccountSelected(object sender, AccountSelectedEventArgs e)
+        {
+            MessageBox.Show(this.book.Accounts.Where(a => a.AccountId == e.AccountId).Single().Name + " Selected!");
         }
 
         private ImageSource LoadImage(string p)
