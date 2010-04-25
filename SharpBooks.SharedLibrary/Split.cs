@@ -107,7 +107,7 @@ namespace SharpBooks
                     yield return new RuleViolation("Amount", Localization.Localization.AMOUNT_AND_TRANSACTION_AMOUNT_MUST_BE_EQUAL);
                 }
 
-                if (this.Account != null && this.Amount % this.Account.SmallestFraction != 0)
+                if (this.Account != null && this.Amount % (this.Account.Security.FractionTraded / this.Account.SmallestFraction) != 0)
                 {
                     yield return new RuleViolation("Amount", Localization.Localization.AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE);
                 }

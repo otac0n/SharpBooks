@@ -66,6 +66,31 @@ namespace SharpBooks
             }
         }
 
+        public ICollection<Split> GetAccountSplits(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                if (!this.accounts.Contains(account))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                var splits = new List<Split>();
+
+                foreach (var t in this.transactions)
+                {
+                    splits.AddRange(t.Key.Splits.Where(s => s.Account == account));
+                }
+
+                return splits.AsReadOnly();
+            }
+        }
+
         /// <summary>
         /// Sets the value of a setting.
         /// </summary>

@@ -21,25 +21,30 @@
     public partial class MainView : Window
     {
         private Book book;
+        private IEnumerable<IPluginFactory> plugins;
 
         public MainView()
         {
             InitializeComponent();
 
+            this.plugins = LoadAllPlugins();
             this.book = BuildFakeBook();
 
-            UpdateAccounts();
+            this.UpdateAccounts();
+
+            var widget = this.LoadWidget("widget1");
+            StackPanel1.Children.Add(widget);
+        }
+
+        private Control LoadWidget(string widgetName)
+        {
+            var widgetKey = "overview-widgets-" + widgetName;
 
             var rob = this.book.AsReadOnly();
 
-            var events = new EventProxy(
-                this.AccountSelected);
-
-            var plugins = LoadAllPlugins();
-
-            var factoryName = rob.GetSetting("overview-widgets-widget1-name");
-            var factoryType = rob.GetSetting("overview-widgets-widget1-type");
-            var widgetSettings = rob.GetSetting("overview-widgets-widget1-settings");
+            var factoryName = rob.GetSetting(widgetKey + "-name");
+            var factoryType = rob.GetSetting(widgetKey + "-type");
+            var widgetSettings = rob.GetSetting(widgetKey + "-settings");
 
             var factory = (from p in plugins
                            let w = p as IWidgetFactory
@@ -47,6 +52,9 @@
                            where w.GetType().AssemblyQualifiedName == factoryType
                            where w.Name == factoryName
                            select w).SingleOrDefault();
+
+            var events = new EventProxy(
+                this.AccountSelected);
 
             var widget = factory.CreateInstance(rob, widgetSettings);
             var expander = new Expander
@@ -59,7 +67,7 @@
                 Content = widget.Create(rob, events)
             };
 
-            StackPanel1.Children.Add(expander);
+            return expander;
         }
 
         private void UpdateAccounts()
@@ -82,23 +90,29 @@
             {
                 var item = new TreeViewItem();
 
-                var subItems = CreateAccountItems(book, a);
+                var subItems = this.CreateAccountItems(book, a);
                 foreach (var subItem in subItems)
                 {
                     item.Items.Add(subItem);
                 }
 
-                var panel = new StackPanel();
-                panel.Tag = a.AccountId;
-                panel.Orientation = Orientation.Horizontal;
+                var panel = new StackPanel
+                {
+                    Tag = a.AccountId,
+                    Orientation = Orientation.Horizontal,
+                };
                 panel.MouseLeftButtonDown += Account_MouseLeftButtonDown;
 
-                var image = new Image();
-                image.Height = 16;
-                image.Source = LoadImage("Coinstack.png");
+                var image = new Image
+                {
+                    Height = 16,
+                    Source = this.LoadImage("Coinstack.png")
+                };
 
-                var label = new Label();
-                label.Content = a.Name;
+                var label = new Label
+                {
+                    Content = a.Name
+                };
 
                 panel.Children.Add(image);
                 panel.Children.Add(label);
@@ -119,25 +133,25 @@
                 };
 
                 this.AccountSelected(sender, args);
+
+                e.Handled = true;
             }
         }
 
         private void AccountSelected(object sender, AccountSelectedEventArgs e)
         {
-            MessageBox.Show(this.book.Accounts.Where(a => a.AccountId == e.AccountId).Single().Name + " Selected!");
+            AccountsTabItem.IsSelected = true;
+            AccountsList.Visibility = Visibility.Hidden;
+            SplitList.Visibility = Visibility.Visible;
+            
+            var account = this.book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
+            SplitList.DataContext = this.book.GetAccountSplits(account);
         }
 
         private ImageSource LoadImage(string p)
         {
-            try
-            {
-                string imageUrl = String.Format(@"pack://application:,,,/SharpBooks;component/resources/{0}", p);
-                return new BitmapImage(new Uri(imageUrl));
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return new BitmapImage(
+                new Uri(@"pack://application:,,,/SharpBooks;component/resources/" + p));
         }
 
         private static IEnumerable<IPluginFactory> LoadAllPlugins()
@@ -157,6 +171,20 @@
             var account4 = new Account(Guid.NewGuid(), usd, null, "Liabilities", 100);
             var account5 = new Account(Guid.NewGuid(), usd, account4, "My Home Loan", 100);
 
+            var transaction1 = new Transaction(Guid.NewGuid(), usd);
+            using (var tlock = transaction1.Lock())
+            {
+                var split1 = transaction1.AddSplit(tlock);
+                split1.SetAccount(account2, tlock);
+                split1.SetAmount(3520, tlock);
+                split1.SetTransactionAmount(3520, tlock);
+
+                var split2 = transaction1.AddSplit(tlock);
+                split2.SetAccount(account3, tlock);
+                split2.SetAmount(-3520, tlock);
+                split2.SetTransactionAmount(-3520, tlock);
+            }
+
             var book = new Book();
             book.AddSecurity(usd);
             book.AddAccount(account1);
@@ -164,6 +192,8 @@
             book.AddAccount(account3);
             book.AddAccount(account4);
             book.AddAccount(account5);
+
+            book.AddTransaction(transaction1);
 
             book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
             book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");

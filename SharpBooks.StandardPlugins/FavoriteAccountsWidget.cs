@@ -98,6 +98,8 @@ namespace SharpBooks.StandardPlugins
             {
                 empty = false;
 
+                var balance = book.GetAccountSplits(account).Sum(s => s.Amount);
+
                 var nameLabel = new Label
                 {
                     Content = account.Name,
@@ -105,7 +107,7 @@ namespace SharpBooks.StandardPlugins
 
                 var amountLabel = new Label
                 {
-                    Content = "$0.00",
+                    Content = account.Security.FormatValue(balance),
                 };
 
                 var grid = new Grid

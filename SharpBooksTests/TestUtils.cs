@@ -21,7 +21,7 @@ namespace SharpBooks.Tests
             "Test Currency",
             "XTS",
             "{0}",
-            100);
+            1000);
 
         /// <summary>
         /// Holds a valid stock, based on Google, for testing.
@@ -32,7 +32,7 @@ namespace SharpBooks.Tests
             "Test Stock",
             "GOOG",
             "{0} GOOG",
-            100);
+            1000);
 
         public static Transaction CreateEmptyTransaction()
         {

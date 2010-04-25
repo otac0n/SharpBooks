@@ -105,6 +105,46 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        [TestCase( 0010)] //  $0.01
+        [TestCase( 0100)] //  $0.10
+        [TestCase( 1000)] //  $1.00
+        [TestCase( 1230)] //  $1.23
+        [TestCase(-0010)] // -$0.01
+        [TestCase(-0100)] // -$0.10
+        [TestCase(-1000)] // -$1.00
+        [TestCase(-1230)] // -$1.23
+        public void GetIsValid_WhenAmountIsEvenMultipleOfAccountsSmallestFraction_ReturnsTrue(long amount)
+        {
+            // Assume that we are able to run the test.
+            Assume.That(TestUtils.TestCurrency.FractionTraded % 10 == 0);
+
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency, // OK
+                null, // OK
+                "OK_NAME", // OK
+                TestUtils.TestCurrency.FractionTraded / 10); // OK
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+
+                // Set the amount and transaction amount to the test value.
+                split.SetAmount(amount, transactionLock);
+                split.SetTransactionAmount(amount, transactionLock);
+
+                Assert.True(split.IsValid);
+            }
+        }
+
+        [Test]
         public void GetIsValid_WhenAccountIsNull_ReturnsFalse()
         {
             // Create a new, empty transaction.
