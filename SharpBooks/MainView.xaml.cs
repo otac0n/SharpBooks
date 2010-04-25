@@ -21,32 +21,60 @@
     public partial class MainView : Window
     {
         private Book book;
+        private ReadOnlyBook readOnlyBook;
         private IEnumerable<IPluginFactory> plugins;
+
+        internal Book Book
+        {
+            get
+            {
+                return this.book;
+            }
+
+            private set
+            {
+                this.book = value;
+
+                this.ReadOnlyBook = this.Book.AsReadOnly();
+            }
+        }
+
+        internal ReadOnlyBook ReadOnlyBook
+        {
+            get
+            {
+                return this.readOnlyBook;
+            }
+
+            private set
+            {
+                this.readOnlyBook = value;
+            }
+        }
 
         public MainView()
         {
+            this.Book = BuildFakeBook();
+
             InitializeComponent();
 
             this.plugins = LoadAllPlugins();
-            this.book = BuildFakeBook();
 
             this.UpdateAccounts();
 
             var widget = this.LoadWidget("widget1");
-            StackPanel1.Children.Add(widget);
+            StackPanel0.Children.Add(widget);
         }
 
         private Control LoadWidget(string widgetName)
         {
             var widgetKey = "overview-widgets-" + widgetName;
 
-            var rob = this.book.AsReadOnly();
+            var factoryName = this.ReadOnlyBook.GetSetting(widgetKey + "-name");
+            var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
+            var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
 
-            var factoryName = rob.GetSetting(widgetKey + "-name");
-            var factoryType = rob.GetSetting(widgetKey + "-type");
-            var widgetSettings = rob.GetSetting(widgetKey + "-settings");
-
-            var factory = (from p in plugins
+            var factory = (from p in this.plugins
                            let w = p as IWidgetFactory
                            where w != null
                            where w.GetType().AssemblyQualifiedName == factoryType
@@ -56,7 +84,7 @@
             var events = new EventProxy(
                 this.AccountSelected);
 
-            var widget = factory.CreateInstance(rob, widgetSettings);
+            var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
             var expander = new Expander
             {
                 IsExpanded = true,
@@ -65,7 +93,7 @@
                 Padding = new Thickness(2.0d),
                 Margin = new Thickness(5.0d),
                 Header = factory.Name,
-                Content = widget.Create(rob, events)
+                Content = widget.Create(this.ReadOnlyBook, events)
             };
 
             return expander;
@@ -73,7 +101,7 @@
 
         private void UpdateAccounts()
         {
-            var items = this.CreateAccountItems(this.book, null);
+            var items = this.CreateAccountItems(this.Book, null);
             foreach (var item in items)
             {
                 this.AccountsList.Items.Add(item);
@@ -102,7 +130,7 @@
                     Tag = a.AccountId,
                     Orientation = Orientation.Horizontal,
                 };
-                panel.MouseLeftButtonDown += Account_MouseLeftButtonDown;
+                panel.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
 
                 var image = new Image
                 {
@@ -145,8 +173,8 @@
             AccountsList.Visibility = Visibility.Hidden;
             SplitList.Visibility = Visibility.Visible;
             
-            var account = this.book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
-            SplitList.DataContext = this.book.GetAccountSplits(account);
+            var account = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
+            SplitList.DataContext = this.Book.GetAccountSplits(account);
         }
 
         private static IEnumerable<IPluginFactory> LoadAllPlugins()
@@ -169,10 +197,13 @@
             var transaction1 = new Transaction(Guid.NewGuid(), usd);
             using (var tlock = transaction1.Lock())
             {
+                transaction1.SetDate(DateTime.Today.AddDays(-1), tlock);
+
                 var split1 = transaction1.AddSplit(tlock);
                 split1.SetAccount(account2, tlock);
                 split1.SetAmount(3520, tlock);
                 split1.SetTransactionAmount(3520, tlock);
+                split1.SetDateCleared(DateTime.Today, tlock);
 
                 var split2 = transaction1.AddSplit(tlock);
                 split2.SetAccount(account3, tlock);

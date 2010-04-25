@@ -15,7 +15,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <GridSplitter Width="2" />
-                        <StackPanel Orientation="Vertical" Name="StackPanel1">
+                        <StackPanel Orientation="Vertical" Name="StackPanel0">
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
@@ -27,7 +27,10 @@
                     <ItemsControl x:Name="SplitList" ItemsSource="{Binding}" Visibility="Hidden">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Path=DateCleared}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Path=Transaction.Date}" />
+                                    <Label Content="{Binding Path=DateCleared}" />
+                                </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
