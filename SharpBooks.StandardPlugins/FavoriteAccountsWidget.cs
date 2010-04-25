@@ -13,6 +13,8 @@ namespace SharpBooks.StandardPlugins
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
     using Newtonsoft.Json;
     using SharpBooks.Plugins;
 
@@ -100,14 +102,26 @@ namespace SharpBooks.StandardPlugins
 
                 var balance = book.GetAccountSplits(account).Sum(s => s.Amount);
 
+                var accountImage = new Image
+                {
+                    Height = 16,
+                    Width = 16,
+                    Source = new BitmapImage(new Uri("pack://application:,,,/SharpBooks;component/resources/Coinstack.png")),
+                    Margin = new Thickness(5.0d, 0.0d, 2.0d, 0.0d),
+                };
+
                 var nameLabel = new Label
                 {
                     Content = account.Name,
+                    Margin = new Thickness(2.0d, 0.0d, 0.0d, 0.0d),
                 };
 
                 var amountLabel = new Label
                 {
                     Content = account.Security.FormatValue(balance),
+                    Margin = new Thickness(2.0d, 0.0d, 2.0d, 0.0d),
+                    HorizontalContentAlignment = HorizontalAlignment.Right,
+                    Foreground = new SolidColorBrush(balance >= 0 ? Colors.Black : Colors.Red),
                 };
 
                 var grid = new Grid
@@ -117,15 +131,21 @@ namespace SharpBooks.StandardPlugins
                 grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
                 grid.ColumnDefinitions.Add(new ColumnDefinition
                 {
-                    Width = new GridLength(50, GridUnitType.Star),
+                    Width = new GridLength(23, GridUnitType.Pixel),
                 });
                 grid.ColumnDefinitions.Add(new ColumnDefinition
                 {
-                    Width = new GridLength(25, GridUnitType.Star),
+                    Width = new GridLength(1, GridUnitType.Star),
                 });
-                Grid.SetColumn(nameLabel, 0);
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Auto),
+                });
+                Grid.SetColumn(accountImage, 0);
+                grid.Children.Add(accountImage);
+                Grid.SetColumn(nameLabel, 1);
                 grid.Children.Add(nameLabel);
-                Grid.SetColumn(amountLabel, 1);
+                Grid.SetColumn(amountLabel, 2);
                 grid.Children.Add(amountLabel);
 
                 this.control.Children.Add(grid);

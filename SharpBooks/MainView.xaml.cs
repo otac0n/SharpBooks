@@ -60,7 +60,8 @@
             var expander = new Expander
             {
                 IsExpanded = true,
-                BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)),
+                Background = new SolidColorBrush(Colors.White),
+                BorderBrush = new SolidColorBrush(Colors.Black),
                 Padding = new Thickness(2.0d),
                 Margin = new Thickness(5.0d),
                 Header = factory.Name,
@@ -106,12 +107,12 @@
                 var image = new Image
                 {
                     Height = 16,
-                    Source = this.LoadImage("Coinstack.png")
+                    Source = new BitmapImage(new Uri("pack://application:,,,/SharpBooks;component/resources/Coinstack.png")),
                 };
 
                 var label = new Label
                 {
-                    Content = a.Name
+                    Content = a.Name,
                 };
 
                 panel.Children.Add(image);
@@ -148,12 +149,6 @@
             SplitList.DataContext = this.book.GetAccountSplits(account);
         }
 
-        private ImageSource LoadImage(string p)
-        {
-            return new BitmapImage(
-                new Uri(@"pack://application:,,,/SharpBooks;component/resources/" + p));
-        }
-
         private static IEnumerable<IPluginFactory> LoadAllPlugins()
         {
             var appPath = System.IO.Path.GetDirectoryName(
@@ -164,7 +159,7 @@
 
         private static Book BuildFakeBook()
         {
-            var usd = new Security(Guid.NewGuid(), SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#);-$0-}", 1000);
+            var usd = new Security(Guid.NewGuid(), SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#)}", 1000);
             var account1 = new Account(Guid.NewGuid(), usd, null, "Assets", 100);
             var account2 = new Account(Guid.NewGuid(), usd, account1, "My Bank Account", 100);
             var account3 = new Account(Guid.NewGuid(), usd, account1, "My Other Bank", 100);
