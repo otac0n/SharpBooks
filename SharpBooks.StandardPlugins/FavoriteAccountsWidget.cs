@@ -129,7 +129,6 @@ namespace SharpBooks.StandardPlugins
                     Tag = account.AccountId,
                 };
                 grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
-                grid.MouseLeftButtonUp += this.Account_MouseLeftButtonUp;
 
                 grid.ColumnDefinitions.Add(new ColumnDefinition
                 {
@@ -165,16 +164,9 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
-        private bool doubleClick;
-
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.doubleClick = e.ClickCount == 2;
-        }
-
-        private void Account_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (this.doubleClick)
+            if (e.ClickCount == 2)
             {
                 var args = new AccountSelectedEventArgs
                 {
@@ -182,6 +174,8 @@ namespace SharpBooks.StandardPlugins
                 };
 
                 this.events.RaiseAccountSelected(sender, args);
+
+                e.Handled = true;
             }
         }
 
