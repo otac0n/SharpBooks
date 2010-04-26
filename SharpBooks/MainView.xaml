@@ -8,15 +8,8 @@
         </Menu>
         <TabControl x:Name="TabView" Margin="10,10,10,10">
             <TabItem x:Name="OverviewTabItem" Header="Overview">
-                <ScrollViewer>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="100" Width="200" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <GridSplitter Width="2" />
-                        <StackPanel Orientation="Vertical" Name="StackPanel0">
-                        </StackPanel>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Grid x:Name="OverviewGrid">
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -28,12 +21,17 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Label Content="{Binding Path=Transaction.Date}" />
-                                    <Label Content="{Binding Path=DateCleared}" />
+                                    <Label Content="{Binding Path=Date}" />
+                                    <Label Content="{Binding Path=Value}" />
+                                    <Label Content="{Binding Path=IsNegative}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Payments" Name="PaymentsTabItem">
+                <Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Investments" Name="InvestmentsTabItem">

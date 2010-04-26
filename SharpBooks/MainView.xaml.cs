@@ -14,6 +14,8 @@
     using System.Windows.Navigation;
     using System.Windows.Shapes;
     using SharpBooks.Plugins;
+    using SharpBooks.ViewModels;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Interaction logic for MainView.xaml
@@ -54,16 +56,81 @@
 
         public MainView()
         {
-            this.Book = BuildFakeBook();
-
             InitializeComponent();
 
+            this.Book = BuildFakeBook();
             this.plugins = LoadAllPlugins();
-
+            this.LoadAllWidgets();
             this.UpdateAccounts();
+        }
 
-            var widget = this.LoadWidget("widget1");
-            StackPanel0.Children.Add(widget);
+        private class OverviewColumn
+        {
+            public int ColumnWidth { get; set; }
+            public List<string> Widgets { get; set; }
+        }
+
+        private void LoadAllWidgets()
+        {
+            List<OverviewColumn> widgetsLayout = null;
+            try
+            {
+                widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumn>>(this.Book.GetSetting("overview-layout"));
+            }
+            catch (JsonReaderException)
+            {
+            }
+
+            if (widgetsLayout == null)
+            {
+                widgetsLayout = new List<OverviewColumn>();
+                widgetsLayout.Add(new OverviewColumn
+                {
+                    ColumnWidth = 200,
+                    Widgets = null,
+                });
+            }
+
+            int columnNumber = 0;
+            foreach (var widgetColumn in widgetsLayout)
+            {
+                var panel = new StackPanel
+                {
+                    Orientation = Orientation.Vertical
+                };
+
+                if (widgetColumn.Widgets != null)
+                {
+                    foreach (var widgetName in widgetColumn.Widgets)
+                    {
+                        var widget = this.LoadWidget(widgetName);
+                        panel.Children.Add(widget);
+                    }
+                }
+
+                OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
+                });
+
+                var splitter = new GridSplitter
+                {
+                    Width = 3.0d,
+                };
+
+                Grid.SetColumn(panel, columnNumber);
+                Grid.SetColumn(splitter, columnNumber);
+
+                OverviewGrid.Children.Add(panel);
+                OverviewGrid.Children.Add(splitter);
+
+                columnNumber++;
+            }
+
+            OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+            {
+                Width = new GridLength(1.0d, GridUnitType.Auto),
+            });
         }
 
         private Control LoadWidget(string widgetName)
@@ -74,17 +141,38 @@
             var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
             var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
 
-            var factory = (from p in this.plugins
-                           let w = p as IWidgetFactory
-                           where w != null
-                           where w.GetType().AssemblyQualifiedName == factoryType
-                           where w.Name == factoryName
-                           select w).SingleOrDefault();
+            FrameworkElement content;
 
-            var events = new EventProxy(
-                this.AccountSelected);
+            if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
+            {
+                var factory = (from p in this.plugins
+                               let w = p as IWidgetFactory
+                               where w != null
+                               where w.GetType().AssemblyQualifiedName == factoryType
+                               where w.Name == factoryName
+                               select w).SingleOrDefault();
 
-            var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
+                var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
+
+                var events = new EventProxy(
+                    this.AccountSelected);
+
+                content = widget.Create(this.ReadOnlyBook, events);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(factoryName))
+                {
+                    factoryName = widgetName;
+                }
+
+                content = new Label
+                {
+                    Content = "Failed to load " + widgetName,
+                };
+            }
+
+
             var expander = new Expander
             {
                 IsExpanded = true,
@@ -92,8 +180,8 @@
                 BorderBrush = new SolidColorBrush(Colors.Black),
                 Padding = new Thickness(2.0d),
                 Margin = new Thickness(5.0d),
-                Header = factory.Name,
-                Content = widget.Create(this.ReadOnlyBook, events)
+                Header = factoryName,
+                Content = content,
             };
 
             return expander;
@@ -174,7 +262,8 @@
             SplitList.Visibility = Visibility.Visible;
             
             var account = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
-            SplitList.DataContext = this.Book.GetAccountSplits(account);
+            SplitList.DataContext = from s in this.Book.GetAccountSplits(account)
+                                    select new SplitViewModel(s);
         }
 
         private static IEnumerable<IPluginFactory> LoadAllPlugins()
@@ -211,6 +300,23 @@
                 split2.SetTransactionAmount(-3520, tlock);
             }
 
+            var transaction2 = new Transaction(Guid.NewGuid(), usd);
+            using (var tlock = transaction2.Lock())
+            {
+                transaction2.SetDate(DateTime.Today.AddDays(-2), tlock);
+
+                var split3 = transaction2.AddSplit(tlock);
+                split3.SetAccount(account5, tlock);
+                split3.SetAmount(1750, tlock);
+                split3.SetTransactionAmount(1750, tlock);
+                split3.SetDateCleared(DateTime.Today.AddDays(-1), tlock);
+
+                var split4 = transaction2.AddSplit(tlock);
+                split4.SetAccount(account2, tlock);
+                split4.SetAmount(-1750, tlock);
+                split4.SetTransactionAmount(-1750, tlock);
+            }
+
             var book = new Book();
             book.AddSecurity(usd);
             book.AddAccount(account1);
@@ -220,10 +326,18 @@
             book.AddAccount(account5);
 
             book.AddTransaction(transaction1);
+            book.AddTransaction(transaction2);
 
+            book.SetSetting("overview-layout", "[{\"ColumnWidth\":200,\"Widgets\":[\"widget1\",\"widget2\"]},{\"ColumnWidth\":250,\"Widgets\":[\"widget3\"]}]");
             book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
             book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
             book.SetSetting("overview-widgets-widget1-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
+            book.SetSetting("overview-widgets-widget2-name", "Favorite Accounts");
+            //book.SetSetting("overview-widgets-widget2-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
+            //book.SetSetting("overview-widgets-widget2-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
+            book.SetSetting("overview-widgets-widget3-name", "Favorite Accounts");
+            book.SetSetting("overview-widgets-widget3-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
+            book.SetSetting("overview-widgets-widget3-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
 
             return book;
         }
