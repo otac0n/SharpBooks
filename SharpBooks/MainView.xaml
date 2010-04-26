@@ -6,7 +6,9 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File" />
         </Menu>
-        <TabControl x:Name="TabView" Margin="10,10,10,10">
+        <TextBox DockPanel.Dock="Top" Text="{Binding ElementName=TabView, Path=SelectedIndex, Mode=TwoWay}" />
+        <TextBox DockPanel.Dock="Top" />
+        <TabControl x:Name="TabView" Margin="10,10,10,10" SelectedIndex="0">
             <TabItem x:Name="OverviewTabItem" Header="Overview">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <Grid x:Name="OverviewGrid">

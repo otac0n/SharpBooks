@@ -103,13 +103,14 @@
                 {
                     foreach (var widgetName in widgetColumn.Widgets)
                     {
-                        var widget = this.LoadWidget(widgetName);
+                        var widget = this.LoadWidget(widgetName, !string.IsNullOrEmpty(widgetName));
                         panel.Children.Add(widget);
                     }
                 }
 
                 OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
                 {
+                    MinWidth = 100.0d,
                     Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
                 });
 
@@ -133,7 +134,7 @@
             });
         }
 
-        private Control LoadWidget(string widgetName)
+        private Control LoadWidget(string widgetName, bool expanded)
         {
             var widgetKey = "overview-widgets-" + widgetName;
 
@@ -141,6 +142,7 @@
             var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
             var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
 
+            FrameworkElement header;
             FrameworkElement content;
 
             if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
@@ -158,29 +160,63 @@
                     this.AccountSelected);
 
                 content = widget.Create(this.ReadOnlyBook, events);
+                header = new Label
+                {
+                    Content = factoryName,
+                };
             }
             else
             {
-                if (string.IsNullOrEmpty(factoryName))
+                BitmapSource bitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                    System.Drawing.SystemIcons.Warning.Handle,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromWidthAndHeight(16, 16));
+
+                var image = new Image
                 {
-                    factoryName = widgetName;
-                }
+                    Source = bitmap,
+                };
+
+                var label = new Label
+                {
+                    Content = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
+                };
+
+                var grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1.0d, GridUnitType.Star),
+                });
+                grid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1.0d, GridUnitType.Auto),
+                });
+
+                Grid.SetColumn(label, 0);
+                Grid.SetColumn(image, 1);
+
+                grid.Children.Add(label);
+                grid.Children.Add(image);
+
+                header = grid;
 
                 content = new Label
                 {
                     Content = "Failed to load " + widgetName,
                 };
+
+                expanded = false;
             }
 
 
             var expander = new Expander
             {
-                IsExpanded = true,
-                Background = new SolidColorBrush(Colors.White),
-                BorderBrush = new SolidColorBrush(Colors.Black),
+                IsExpanded = expanded,
+                Background = Brushes.White,
+                BorderBrush = Brushes.Black,
                 Padding = new Thickness(2.0d),
                 Margin = new Thickness(5.0d),
-                Header = factoryName,
+                Header = header,
                 Content = content,
             };
 
@@ -332,12 +368,6 @@
             book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
             book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
             book.SetSetting("overview-widgets-widget1-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
-            book.SetSetting("overview-widgets-widget2-name", "Favorite Accounts");
-            //book.SetSetting("overview-widgets-widget2-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
-            //book.SetSetting("overview-widgets-widget2-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
-            book.SetSetting("overview-widgets-widget3-name", "Favorite Accounts");
-            book.SetSetting("overview-widgets-widget3-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
-            book.SetSetting("overview-widgets-widget3-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
 
             return book;
         }

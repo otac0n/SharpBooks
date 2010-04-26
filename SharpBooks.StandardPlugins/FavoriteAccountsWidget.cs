@@ -121,7 +121,7 @@ namespace SharpBooks.StandardPlugins
                     Content = account.Security.FormatValue(balance),
                     Margin = new Thickness(2.0d, 0.0d, 2.0d, 0.0d),
                     HorizontalContentAlignment = HorizontalAlignment.Right,
-                    Foreground = new SolidColorBrush(balance >= 0 ? Colors.Black : Colors.Red),
+                    Foreground = balance >= 0 ? Brushes.Black : Brushes.Red,
                 };
 
                 var grid = new Grid
@@ -129,6 +129,8 @@ namespace SharpBooks.StandardPlugins
                     Tag = account.AccountId,
                 };
                 grid.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
+                grid.MouseLeftButtonUp += this.Account_MouseLeftButtonUp;
+
                 grid.ColumnDefinitions.Add(new ColumnDefinition
                 {
                     Width = new GridLength(23, GridUnitType.Pixel),
@@ -163,9 +165,16 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
+        private bool doubleClick;
+
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2)
+            this.doubleClick = e.ClickCount == 2;
+        }
+
+        private void Account_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.doubleClick)
             {
                 var args = new AccountSelectedEventArgs
                 {
