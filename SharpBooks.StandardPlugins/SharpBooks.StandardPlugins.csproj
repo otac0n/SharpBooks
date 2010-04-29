@@ -68,6 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RecentExpensesWidget.cs" />
+    <Compile Include="RecentExpensesSettings.cs" />
+    <Compile Include="RecentExpensesWidgetFactory.cs" />
     <Compile Include="FavoriteAccountSettings.cs" />
     <Compile Include="PluginEnumerator.cs" />
     <Compile Include="FavoriteAccountsConfiguration.xaml.cs">

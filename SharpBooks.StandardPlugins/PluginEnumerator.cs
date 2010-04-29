@@ -23,6 +23,7 @@ namespace SharpBooks.StandardPlugins
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
             yield return new FavoriteAccountsWidgetFactory();
+            yield return new RecentExpensesWidgetFactory();
         }
     }
 }

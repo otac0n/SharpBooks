@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{64CD15
 		Mockups\assets\flag.png = Mockups\assets\flag.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Charts", "SharpBooks.Charts\SharpBooks.Charts.csproj", "{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -77,6 +79,10 @@ Global
 		{C344BABA-2F2C-4DCC-AD9B-146641D148C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C344BABA-2F2C-4DCC-AD9B-146641D148C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C344BABA-2F2C-4DCC-AD9B-146641D148C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
