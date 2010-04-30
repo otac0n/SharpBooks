@@ -12,70 +12,70 @@ namespace SharpBooks.Charts
     {
         public static readonly DependencyProperty OuterRadiusProperty =
             DependencyProperty.Register(
-                "OuterRadiusProperty",
+                "OuterRadius",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty InnerRadiusProperty =
             DependencyProperty.Register(
-                "InnerRadiusProperty",
+                "InnerRadius",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty RadiusPunchProperty =
             DependencyProperty.Register(
-                "RadiusPunchProperty",
+                "RadiusPunch",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty StartAngleProperty =
             DependencyProperty.Register(
-                "StartAngleProperty",
+                "StartAngle",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty OuterAngleProperty =
             DependencyProperty.Register(
-                "OuterAngleProperty",
+                "OuterAngle",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty InnerAngleProperty =
             DependencyProperty.Register(
-                "InnerAngleProperty",
+                "InnerAngle",
                 typeof(double),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty TotalLevelsProperty =
             DependencyProperty.Register(
-                "TotalLevelsProperty",
+                "TotalLevels",
                 typeof(int),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(2, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty OuterLevelProperty =
             DependencyProperty.Register(
-                "OuterLevelProperty",
+                "OuterLevel",
                 typeof(int),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty InnerLevelProperty =
             DependencyProperty.Register(
-                "InnerLevelProperty",
+                "InnerLevel",
                 typeof(int),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty CenterProperty =
             DependencyProperty.Register(
-                "CenterProperty",
+                "Center",
                 typeof(Point),
                 typeof(PiePiece),
                 new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -221,6 +221,8 @@ namespace SharpBooks.Charts
                 {
                     DrawGeometry(context);
                 }
+
+                geometry.Freeze();
 
                 return geometry;
             }

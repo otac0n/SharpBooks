@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:SharpBooks.Charts"
-             mc:Ignorable="d" 
-             d:DesignHeight="220" d:DesignWidth="220">
+             mc:Ignorable="d"
+             d:DesignHeight="220" d:DesignWidth="220"
+             Width="100" Height="100">
     <Grid>
         <Canvas x:Name="Canvas" VerticalAlignment="Top">
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-90" OuterLevel="1" OuterAngle="110" InnerLevel="0" InnerAngle="45" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-90" OuterLevel="1" OuterAngle="45" InnerLevel="0" InnerAngle="110" Stroke="White" StrokeThickness="3" RadiusPunch="10" Canvas.ZIndex="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="Red" Offset="0.0" />
@@ -16,7 +17,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-45" OuterLevel="0" OuterAngle="40" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-45" OuterLevel="1" OuterAngle="40" InnerLevel="1" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="Yellow" Offset="0.0" />
@@ -24,7 +25,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-05" OuterLevel="0" OuterAngle="25" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="-05" OuterLevel="1" OuterAngle="25" InnerLevel="1" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="Green" Offset="0.0" />
@@ -32,7 +33,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="20" OuterLevel="1" OuterAngle="160" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="20" OuterLevel="0" OuterAngle="160" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="Purple" Offset="0.0" />
@@ -40,7 +41,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="20" OuterLevel="0" OuterAngle="130" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="20" OuterLevel="1" OuterAngle="130" InnerLevel="1" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="DodgerBlue" Offset="0.0" />
@@ -48,7 +49,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="150" OuterLevel="0" OuterAngle="30" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="150" OuterLevel="1" OuterAngle="30" InnerLevel="1" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="Orange" Offset="0.0" />
@@ -56,7 +57,7 @@
                     </LinearGradientBrush>
                 </c:PiePiece.Fill>
             </c:PiePiece>
-            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="180" OuterLevel="1" OuterAngle="90" InnerLevel="0" InnerAngle="90" Stroke="White" StrokeThickness="2">
+            <c:PiePiece Center="110,110" InnerRadius="40" OuterRadius="100" TotalLevels="2" StartAngle="180" OuterLevel="1" OuterAngle="90" InnerLevel="0" InnerAngle="90" Stroke="White" StrokeThickness="1">
                 <c:PiePiece.Fill>
                     <LinearGradientBrush>
                         <GradientStop Color="White" Offset="0.0" />
