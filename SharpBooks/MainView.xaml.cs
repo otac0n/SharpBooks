@@ -368,6 +368,8 @@
             book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
             book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
             book.SetSetting("overview-widgets-widget1-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
+            book.SetSetting("overview-widgets-widget3-name", "Recent Expenses");
+            book.SetSetting("overview-widgets-widget3-type", "SharpBooks.StandardPlugins.RecentExpensesWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
 
             return book;
         }

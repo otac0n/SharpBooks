@@ -139,6 +139,10 @@
       <Project>{BFD8417E-2984-48D9-AFD8-C550550E6536}</Project>
       <Name>GooglePriceQuoteSource</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpBooks.Charts\SharpBooks.Charts.csproj">
+      <Project>{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}</Project>
+      <Name>SharpBooks.Charts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj">
       <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
       <Name>SharpBooks.Plugins</Name>
