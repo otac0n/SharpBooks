@@ -22,213 +22,89 @@
     /// </summary>
     public partial class MainView : Window
     {
-        private Book book;
-        private ReadOnlyBook readOnlyBook;
-        private IEnumerable<IPluginFactory> plugins;
-
-        internal Book Book
-        {
-            get
-            {
-                return this.book;
-            }
-
-            private set
-            {
-                this.book = value;
-
-                this.ReadOnlyBook = this.Book.AsReadOnly();
-            }
-        }
-
-        internal ReadOnlyBook ReadOnlyBook
-        {
-            get
-            {
-                return this.readOnlyBook;
-            }
-
-            private set
-            {
-                this.readOnlyBook = value;
-            }
-        }
-
         public MainView()
         {
             InitializeComponent();
 
-            this.Book = BuildFakeBook();
-            this.plugins = LoadAllPlugins();
-            this.LoadAllWidgets();
-            this.UpdateAccounts();
+            //this.LoadAllWidgets();
         }
 
         private class OverviewColumn
         {
+            public class WidgetDescription
+            {
+                public string Name { get; set; }
+                public bool IsExpanded { get; set; }
+            }
+
             public int ColumnWidth { get; set; }
-            public List<string> Widgets { get; set; }
+            public List<WidgetDescription> Widgets { get; set; }
         }
 
-        private void LoadAllWidgets()
-        {
-            List<OverviewColumn> widgetsLayout = null;
-            try
-            {
-                widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumn>>(this.Book.GetSetting("overview-layout"));
-            }
-            catch (JsonReaderException)
-            {
-            }
+        //private void LoadAllWidgets()
+        //{
+        //    List<OverviewColumn> widgetsLayout = null;
+        //    try
+        //    {
+        //        widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumn>>(this.Book.GetSetting("overview-layout"));
+        //    }
+        //    catch (JsonReaderException)
+        //    {
+        //    }
 
-            if (widgetsLayout == null)
-            {
-                widgetsLayout = new List<OverviewColumn>();
-                widgetsLayout.Add(new OverviewColumn
-                {
-                    ColumnWidth = 200,
-                    Widgets = null,
-                });
-            }
+        //    if (widgetsLayout == null)
+        //    {
+        //        widgetsLayout = new List<OverviewColumn>();
+        //        widgetsLayout.Add(new OverviewColumn
+        //        {
+        //            ColumnWidth = 200,
+        //            Widgets = null,
+        //        });
+        //    }
 
-            int columnNumber = 0;
-            foreach (var widgetColumn in widgetsLayout)
-            {
-                var panel = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
+        //    int columnNumber = 0;
+        //    foreach (var widgetColumn in widgetsLayout)
+        //    {
+        //        var panel = new StackPanel
+        //        {
+        //            Orientation = Orientation.Vertical
+        //        };
 
-                if (widgetColumn.Widgets != null)
-                {
-                    foreach (var widgetName in widgetColumn.Widgets)
-                    {
-                        var widget = this.LoadWidget(widgetName);
-                        widget.IsExpanded = true;
-                        panel.Children.Add(widget);
-                    }
-                }
+        //        if (widgetColumn.Widgets != null)
+        //        {
+        //            foreach (var widgetDescr in widgetColumn.Widgets)
+        //            {
+        //                var widget = this.LoadWidget(widgetDescr.Name);
+        //                widget.IsExpanded = widgetDescr.IsExpanded;
+        //                panel.Children.Add(widget);
+        //            }
+        //        }
 
-                OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    MinWidth = 100.0d,
-                    Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
-                });
+        //        OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+        //        {
+        //            MinWidth = 100.0d,
+        //            Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
+        //        });
 
-                var splitter = new GridSplitter
-                {
-                    Width = 3.0d,
-                };
+        //        var splitter = new GridSplitter
+        //        {
+        //            Width = 3.0d,
+        //        };
 
-                Grid.SetColumn(panel, columnNumber);
-                Grid.SetColumn(splitter, columnNumber);
+        //        Grid.SetColumn(panel, columnNumber);
+        //        Grid.SetColumn(splitter, columnNumber);
 
-                OverviewGrid.Children.Add(panel);
-                OverviewGrid.Children.Add(splitter);
+        //        OverviewGrid.Children.Add(panel);
+        //        OverviewGrid.Children.Add(splitter);
 
-                columnNumber++;
-            }
+        //        columnNumber++;
+        //    }
 
-            OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-            {
-                Width = new GridLength(1.0d, GridUnitType.Auto),
-            });
-        }
-
-        private WidgetContainer LoadWidget(string widgetName)
-        {
-            var widgetKey = "overview-widgets-" + widgetName;
-
-            var factoryName = this.ReadOnlyBook.GetSetting(widgetKey + "-name");
-            var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
-            var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
-
-            if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
-            {
-                var factory = (from p in this.plugins
-                               let w = p as IWidgetFactory
-                               where w != null
-                               where w.GetType().AssemblyQualifiedName == factoryType
-                               where w.Name == factoryName
-                               select w).SingleOrDefault();
-
-                var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
-
-                var events = new EventProxy(
-                    this.AccountSelected);
-
-                return new WidgetContainer
-                {
-                    Widget = widget.Create(this.ReadOnlyBook, events),
-                    Title = factoryName,
-                };
-            }
-            else
-            {
-                return new WidgetContainer
-                {
-                    Widget = new Label
-                    {
-                        Content = "Failed to load " + widgetName,
-                    },
-                    Title = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
-                    HasFailed = true,
-                };
-            }
-        }
-
-        private void UpdateAccounts()
-        {
-            var items = this.CreateAccountItems(this.Book, null);
-            foreach (var item in items)
-            {
-                this.AccountsList.Items.Add(item);
-            }
-        }
-
-        private IEnumerable<TreeViewItem> CreateAccountItems(Book book, Account parent)
-        {
-            var subAccounts = from a in book.Accounts
-                              where a.ParentAccount == parent
-                              orderby a.Name
-                              select a;
-
-            foreach (var a in subAccounts)
-            {
-                var item = new TreeViewItem();
-
-                var subItems = this.CreateAccountItems(book, a);
-                foreach (var subItem in subItems)
-                {
-                    item.Items.Add(subItem);
-                }
-
-                var panel = new StackPanel
-                {
-                    Tag = a.AccountId,
-                    Orientation = Orientation.Horizontal,
-                };
-                panel.MouseLeftButtonDown += this.Account_MouseLeftButtonDown;
-
-                var image = new Image
-                {
-                    Height = 16,
-                    Source = new BitmapImage(new Uri("pack://application:,,,/SharpBooks;component/resources/Coinstack.png")),
-                };
-
-                var label = new Label
-                {
-                    Content = a.Name,
-                };
-
-                panel.Children.Add(image);
-                panel.Children.Add(label);
-
-                item.Header = panel;
-
-                yield return item;
-            }
-        }
+        //    OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+        //    {
+        //        Width = new GridLength(1.0d, GridUnitType.Auto),
+        //    });
+        //}
 
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -239,93 +115,10 @@
                     AccountId = (Guid)((StackPanel)sender).Tag,
                 };
 
-                this.AccountSelected(sender, args);
+                //this.AccountSelected(sender, args);
 
                 e.Handled = true;
             }
-        }
-
-        private void AccountSelected(object sender, AccountSelectedEventArgs e)
-        {
-            AccountsTabItem.IsSelected = true;
-            AccountsList.Visibility = Visibility.Hidden;
-            SplitList.Visibility = Visibility.Visible;
-            
-            var account = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
-            SplitList.DataContext = from s in this.Book.GetAccountSplits(account)
-                                    select new SplitViewModel(s);
-        }
-
-        private static IEnumerable<IPluginFactory> LoadAllPlugins()
-        {
-            var appPath = System.IO.Path.GetDirectoryName(
-                System.Reflection.Assembly.GetEntryAssembly().Location);
-
-            return PluginLoader.LoadAllPlugins(appPath);
-        }
-
-        private static Book BuildFakeBook()
-        {
-            var usd = new Security(Guid.NewGuid(), SecurityType.Currency, "United States dollar", "USD", "{0:$#,##0.00#;($#,##0.00#)}", 1000);
-            var account1 = new Account(Guid.NewGuid(), usd, null, "Assets", 100);
-            var account2 = new Account(Guid.NewGuid(), usd, account1, "My Bank Account", 100);
-            var account3 = new Account(Guid.NewGuid(), usd, account1, "My Other Bank", 100);
-            var account4 = new Account(Guid.NewGuid(), usd, null, "Liabilities", 100);
-            var account5 = new Account(Guid.NewGuid(), usd, account4, "My Home Loan", 100);
-
-            var transaction1 = new Transaction(Guid.NewGuid(), usd);
-            using (var tlock = transaction1.Lock())
-            {
-                transaction1.SetDate(DateTime.Today.AddDays(-1), tlock);
-
-                var split1 = transaction1.AddSplit(tlock);
-                split1.SetAccount(account2, tlock);
-                split1.SetAmount(3520, tlock);
-                split1.SetTransactionAmount(3520, tlock);
-                split1.SetDateCleared(DateTime.Today, tlock);
-
-                var split2 = transaction1.AddSplit(tlock);
-                split2.SetAccount(account3, tlock);
-                split2.SetAmount(-3520, tlock);
-                split2.SetTransactionAmount(-3520, tlock);
-            }
-
-            var transaction2 = new Transaction(Guid.NewGuid(), usd);
-            using (var tlock = transaction2.Lock())
-            {
-                transaction2.SetDate(DateTime.Today.AddDays(-2), tlock);
-
-                var split3 = transaction2.AddSplit(tlock);
-                split3.SetAccount(account5, tlock);
-                split3.SetAmount(1750, tlock);
-                split3.SetTransactionAmount(1750, tlock);
-                split3.SetDateCleared(DateTime.Today.AddDays(-1), tlock);
-
-                var split4 = transaction2.AddSplit(tlock);
-                split4.SetAccount(account2, tlock);
-                split4.SetAmount(-1750, tlock);
-                split4.SetTransactionAmount(-1750, tlock);
-            }
-
-            var book = new Book();
-            book.AddSecurity(usd);
-            book.AddAccount(account1);
-            book.AddAccount(account2);
-            book.AddAccount(account3);
-            book.AddAccount(account4);
-            book.AddAccount(account5);
-
-            book.AddTransaction(transaction1);
-            book.AddTransaction(transaction2);
-
-            book.SetSetting("overview-layout", "[{\"ColumnWidth\":200,\"Widgets\":[\"widget1\",\"widget2\"]},{\"ColumnWidth\":250,\"Widgets\":[\"widget3\"]}]");
-            book.SetSetting("overview-widgets-widget1-name", "Favorite Accounts");
-            book.SetSetting("overview-widgets-widget1-type", "SharpBooks.StandardPlugins.FavoriteAccountsWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
-            book.SetSetting("overview-widgets-widget1-settings", "{\"PathSeperator\":\"\\\\\",\"AccountPaths\":[\"Assets\\\\My Bank Account\",\"Assets\\\\My Other Bank\",\"Liabilities\\\\My Home Loan\"]}");
-            book.SetSetting("overview-widgets-widget3-name", "Recent Expenses");
-            book.SetSetting("overview-widgets-widget3-type", "SharpBooks.StandardPlugins.RecentExpensesWidgetFactory, SharpBooks.StandardPlugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6fee4057cb920410");
-
-            return book;
         }
     }
 }
