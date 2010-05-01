@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpBooks.ViewModels
 {
-    internal class SplitViewModel
+    internal class SplitViewModel : ViewModelBase
     {
         private Split split;
 

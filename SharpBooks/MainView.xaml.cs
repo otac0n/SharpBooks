@@ -103,7 +103,8 @@
                 {
                     foreach (var widgetName in widgetColumn.Widgets)
                     {
-                        var widget = this.LoadWidget(widgetName, !string.IsNullOrEmpty(widgetName));
+                        var widget = this.LoadWidget(widgetName);
+                        widget.IsExpanded = true;
                         panel.Children.Add(widget);
                     }
                 }
@@ -134,16 +135,13 @@
             });
         }
 
-        private Control LoadWidget(string widgetName, bool expanded)
+        private WidgetContainer LoadWidget(string widgetName)
         {
             var widgetKey = "overview-widgets-" + widgetName;
 
             var factoryName = this.ReadOnlyBook.GetSetting(widgetKey + "-name");
             var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
             var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
-
-            FrameworkElement header;
-            FrameworkElement content;
 
             if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
             {
@@ -159,68 +157,24 @@
                 var events = new EventProxy(
                     this.AccountSelected);
 
-                content = widget.Create(this.ReadOnlyBook, events);
-                header = new Label
+                return new WidgetContainer
                 {
-                    Content = factoryName,
+                    Widget = widget.Create(this.ReadOnlyBook, events),
+                    Title = factoryName,
                 };
             }
             else
             {
-                BitmapSource bitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
-                    System.Drawing.SystemIcons.Warning.Handle,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromWidthAndHeight(16, 16));
-
-                var image = new Image
+                return new WidgetContainer
                 {
-                    Source = bitmap,
+                    Widget = new Label
+                    {
+                        Content = "Failed to load " + widgetName,
+                    },
+                    Title = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
+                    HasFailed = true,
                 };
-
-                var label = new Label
-                {
-                    Content = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
-                };
-
-                var grid = new Grid();
-                grid.ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = new GridLength(1.0d, GridUnitType.Star),
-                });
-                grid.ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = new GridLength(1.0d, GridUnitType.Auto),
-                });
-
-                Grid.SetColumn(label, 0);
-                Grid.SetColumn(image, 1);
-
-                grid.Children.Add(label);
-                grid.Children.Add(image);
-
-                header = grid;
-
-                content = new Label
-                {
-                    Content = "Failed to load " + widgetName,
-                };
-
-                expanded = false;
             }
-
-
-            var expander = new Expander
-            {
-                IsExpanded = expanded,
-                Background = Brushes.White,
-                BorderBrush = Brushes.Black,
-                Padding = new Thickness(2.0d),
-                Margin = new Thickness(5.0d),
-                Header = header,
-                Content = content,
-            };
-
-            return expander;
         }
 
         private void UpdateAccounts()
