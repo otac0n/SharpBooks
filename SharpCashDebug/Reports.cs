@@ -10,7 +10,7 @@
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
             var startDate = DateTime.Today;
-            var endDate = DateTime.Today.AddDays(365 * 1.5).Date;
+            var endDate = DateTime.Today.AddYears(12).Date;
 
             var balances = new Dictionary<DateTime, decimal>();
 

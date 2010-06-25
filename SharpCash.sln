@@ -1,22 +1,25 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCash", "SharpCash\SharpCash.csproj", "{59A8EDD2-078B-403B-BE91-1E479B61E43D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashDebug", "SharpCashDebug\SharpCashDebug.csproj", "{A07B54BD-FF5E-42D3-9A49-18CD0F148E84}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashEngine", "SharpCashEngine\SharpCashEngine.csproj", "{C969A904-6640-4F30-AAC8-A696E68A39D4}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E7A154C1-1495-42F2-A003-18B97B2CA397}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		SharpCash.vsmdi = SharpCash.vsmdi
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCash", "SharpCash\SharpCash.csproj", "{59A8EDD2-078B-403B-BE91-1E479B61E43D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashDebug", "SharpCashDebug\SharpCashDebug.csproj", "{A07B54BD-FF5E-42D3-9A49-18CD0F148E84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCashEngine", "SharpCashEngine\SharpCashEngine.csproj", "{C969A904-6640-4F30-AAC8-A696E68A39D4}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SharpCash.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,8 +41,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SharpCash.vsmdi
 	EndGlobalSection
 EndGlobal
