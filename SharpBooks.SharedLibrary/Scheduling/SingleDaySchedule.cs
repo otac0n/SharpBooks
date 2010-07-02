@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SharpBooks.Scheduling
+﻿namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public sealed class SingleDaySchedule : ISchedule
     {
         private DateTime DateTime

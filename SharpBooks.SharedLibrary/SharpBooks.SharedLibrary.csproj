@@ -58,7 +58,10 @@
     <Compile Include="AccountData.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />
+    <Compile Include="Scheduling\DateLimitSchedule.cs" />
     <Compile Include="Scheduling\DateUnit.cs" />
+    <Compile Include="Scheduling\DistinctSchedule.cs" />
+    <Compile Include="Scheduling\InstanceLimitSchedule.cs" />
     <Compile Include="Scheduling\ISchedule.cs" />
     <Compile Include="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -74,6 +77,7 @@
     <Compile Include="ReadOnlyBook.cs" />
     <Compile Include="SavePoint.cs" />
     <Compile Include="SaveTrack.cs" />
+    <Compile Include="Scheduling\WeekdayFilter.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="SecurityType.cs" />

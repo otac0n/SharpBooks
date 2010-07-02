@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SharpBooks.Scheduling
+﻿namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class RepetitionSchedule : ISchedule
     {
         private static readonly Dictionary<DateUnit, Func<DateTime, int, DateTime>> Lookups = new Dictionary<DateUnit, Func<DateTime, int, DateTime>>()
