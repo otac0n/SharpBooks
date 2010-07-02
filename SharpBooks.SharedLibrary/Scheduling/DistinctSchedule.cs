@@ -29,11 +29,12 @@ namespace SharpBooks.Scheduling
 
             foreach (var d in this.BaseSchedule.YieldAllInstances())
             {
-                if (d != previousDate)
+                if (d == previousDate)
                 {
-                    yield return d;
+                    continue;
                 }
 
+                yield return d;
                 previousDate = d;
             }
         }

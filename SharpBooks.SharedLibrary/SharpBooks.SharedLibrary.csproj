@@ -79,6 +79,7 @@
     <Compile Include="SaveTrack.cs" />
     <Compile Include="Scheduling\ScheduleBase.cs" />
     <Compile Include="Scheduling\WeekdayFilter.cs" />
+    <Compile Include="Scheduling\WeekendAdjustSchedule.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="SecurityType.cs" />
