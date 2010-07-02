@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpBooks.Scheduling
 {
-    public sealed class WeekdayFilter : ISchedule
+    public sealed class WeekdayFilter : ScheduleBase
     {
         private ISchedule BaseSchedule
         {
@@ -38,7 +38,7 @@ namespace SharpBooks.Scheduling
             this.Weekdays = weekdays;
         }
 
-        public IEnumerable<DateTime> YieldAllInstances()
+        public override IEnumerable<DateTime> YieldAllInstances()
         {
             foreach (var d in this.BaseSchedule.YieldAllInstances())
             {
@@ -47,16 +47,6 @@ namespace SharpBooks.Scheduling
                     yield return d;
                 }
             }
-        }
-
-        public DateTime? GetInstance(int index)
-        {
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).First();
         }
     }
 }

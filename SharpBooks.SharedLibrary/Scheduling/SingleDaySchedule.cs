@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class SingleDaySchedule : ISchedule
+    public sealed class SingleDaySchedule : ScheduleBase
     {
         private DateTime DateTime
         {
@@ -17,19 +17,9 @@
             this.DateTime = dateTime;
         }
 
-        public IEnumerable<DateTime> YieldAllInstances()
+        public override IEnumerable<DateTime> YieldAllInstances()
         {
             yield return this.DateTime;
-        }
-
-        public DateTime? GetInstance(int index)
-        {
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).FirstOrDefault();
         }
     }
 }

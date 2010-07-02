@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class RepetitionSchedule : ISchedule
+    public class RepetitionSchedule : ScheduleBase
     {
         private static readonly Dictionary<DateUnit, Func<DateTime, int, DateTime>> Lookups = new Dictionary<DateUnit, Func<DateTime, int, DateTime>>()
         {
@@ -58,7 +58,7 @@
             public DateTime CurrentDate { get; set; }
         }
 
-        public IEnumerable<DateTime> YieldAllInstances()
+        public override IEnumerable<DateTime> YieldAllInstances()
         {
             var lookup = Lookups[this.Unit];
 
@@ -124,16 +124,6 @@
             {
                 enumerator.Dispose();
             }
-        }
-
-        public DateTime? GetInstance(int index)
-        {
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).First();
         }
     }
 }

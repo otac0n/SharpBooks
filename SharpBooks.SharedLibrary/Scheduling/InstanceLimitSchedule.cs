@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public sealed class InstanceLimitSchedule : ISchedule
+    public sealed class InstanceLimitSchedule : ScheduleBase
     {
         private ISchedule BaseSchedule
         {
@@ -35,19 +35,9 @@
             this.Count = count;
         }
 
-        public IEnumerable<DateTime> YieldAllInstances()
+        public override IEnumerable<DateTime> YieldAllInstances()
         {
             return this.BaseSchedule.YieldAllInstances().Take(this.Count);
-        }
-
-        public DateTime? GetInstance(int index)
-        {
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).First();
         }
     }
 }

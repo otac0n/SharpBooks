@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SharpBooks.Scheduling
 {
-    public sealed class DistinctSchedule : ISchedule
+    public sealed class DistinctSchedule : ScheduleBase
     {
         private ISchedule BaseSchedule
         {
@@ -23,7 +23,7 @@ namespace SharpBooks.Scheduling
             this.BaseSchedule = baseSchedule;
         }
 
-        public IEnumerable<DateTime> YieldAllInstances()
+        public override IEnumerable<DateTime> YieldAllInstances()
         {
             var previousDate = (DateTime?)null;
 
@@ -36,16 +36,6 @@ namespace SharpBooks.Scheduling
 
                 previousDate = d;
             }
-        }
-
-        public DateTime? GetInstance(int index)
-        {
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).First();
         }
     }
 }
