@@ -62,6 +62,7 @@
     <Compile Include="IntegrationTests\GoogleCurrencyPriceQuoteSourceTests.cs" />
     <Compile Include="IntegrationTests\YahooPriceQuoteSourceTests.cs" />
     <Compile Include="PriceQuoteTests.cs" />
+    <Compile Include="ScheduleTests.cs" />
     <Compile Include="SecurityTests.cs" />
     <Compile Include="Fakes\MockSaver.cs" />
     <Compile Include="SplitTests.cs" />
