@@ -327,7 +327,7 @@
           <Property Name="memo" Type="nvarchar" Nullable="false" MaxLength="2048" />
           <Property Name="action" Type="nvarchar" Nullable="false" MaxLength="2048" />
           <Property Name="reconcile_state" Type="nvarchar" Nullable="false" MaxLength="1" />
-          <Property Name="reconcile_date" Type="nvarchar" Nullable="false" MaxLength="14" />
+          <Property Name="reconcile_date" Type="nvarchar" Nullable="true" MaxLength="14" />
           <Property Name="value_num" Type="integer" Nullable="false" />
           <Property Name="value_denom" Type="integer" Nullable="false" />
           <Property Name="quantity_num" Type="integer" Nullable="false" />
@@ -723,7 +723,7 @@
           <Property Name="Memo" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="Action" Type="String" Nullable="false" MaxLength="2048" Unicode="true" FixedLength="false" />
           <Property Name="ReconcileState" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-          <Property Name="ReconcileDate" Type="String" Nullable="false" MaxLength="14" Unicode="true" FixedLength="false" />
+          <Property Name="ReconcileDate" Type="String" Nullable="true" MaxLength="14" Unicode="true" FixedLength="false" />
           <Property Name="ValueNumerator" Type="Int64" Nullable="false" />
           <Property Name="ValueDenomerator" Type="Int64" Nullable="false" />
           <Property Name="QuantityNumerator" Type="Int64" Nullable="false" />

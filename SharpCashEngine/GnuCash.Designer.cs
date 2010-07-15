@@ -11,7 +11,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 
 // Original file name:
-// Generation date: 4/14/2010 5:23:08 PM
+// Generation date: 7/14/2010 6:55:14 PM
 namespace SharpCash
 {
     
@@ -6652,13 +6652,12 @@ namespace SharpCash
         /// <param name="memo">Initial value of Memo.</param>
         /// <param name="action">Initial value of Action.</param>
         /// <param name="reconcileState">Initial value of ReconcileState.</param>
-        /// <param name="reconcileDate">Initial value of ReconcileDate.</param>
         /// <param name="valueNumerator">Initial value of ValueNumerator.</param>
         /// <param name="valueDenomerator">Initial value of ValueDenomerator.</param>
         /// <param name="quantityNumerator">Initial value of QuantityNumerator.</param>
         /// <param name="quantityDenominator">Initial value of QuantityDenominator.</param>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
-        public static Split CreateSplit(string guid, string transactionGuid, string accountGuid, string memo, string action, string reconcileState, string reconcileDate, long valueNumerator, long valueDenomerator, long quantityNumerator, long quantityDenominator)
+        public static Split CreateSplit(string guid, string transactionGuid, string accountGuid, string memo, string action, string reconcileState, long valueNumerator, long valueDenomerator, long quantityNumerator, long quantityDenominator)
         {
             Split split = new Split();
             split.Guid = guid;
@@ -6667,7 +6666,6 @@ namespace SharpCash
             split.Memo = memo;
             split.Action = action;
             split.ReconcileState = reconcileState;
-            split.ReconcileDate = reconcileDate;
             split.ValueNumerator = valueNumerator;
             split.ValueDenomerator = valueDenomerator;
             split.QuantityNumerator = quantityNumerator;
@@ -6839,7 +6837,7 @@ namespace SharpCash
         /// <summary>
         /// There are no comments for property ReconcileDate in the schema.
         /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         public string ReconcileDate
@@ -6852,7 +6850,7 @@ namespace SharpCash
             {
                 this.OnReconcileDateChanging(value);
                 this.ReportPropertyChanging("ReconcileDate");
-                this._ReconcileDate = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this._ReconcileDate = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
                 this.ReportPropertyChanged("ReconcileDate");
                 this.OnReconcileDateChanged();
             }
