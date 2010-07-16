@@ -10,17 +10,31 @@ namespace SharpBooks
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Collections.ObjectModel;
 
     public class Book
     {
         private readonly object lockMutex = new object();
-        private readonly List<Security> securities = new List<Security>();
-        private readonly List<Account> accounts = new List<Account>();
-        private readonly List<PriceQuote> priceQuotes = new List<PriceQuote>();
+        private readonly ObservableCollection<Security> securities = new ObservableCollection<Security>();
+        private readonly ObservableCollection<Account> accounts = new ObservableCollection<Account>();
+        private readonly ObservableCollection<PriceQuote> priceQuotes = new ObservableCollection<PriceQuote>();
         private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
+
+        private readonly ReadOnlyBook readOnlyFacade;
+        private readonly ReadOnlyObservableCollection<Security> securitiesReadOnly;
+        private readonly ReadOnlyObservableCollection<Account> accountsReadOnly;
+        private readonly ReadOnlyObservableCollection<PriceQuote> priceQuotesReadOnly;
+
+        public Book()
+        {
+            this.securitiesReadOnly = new ReadOnlyObservableCollection<Security>(this.securities);
+            this.accountsReadOnly = new ReadOnlyObservableCollection<Account>(this.accounts);
+            this.priceQuotesReadOnly = new ReadOnlyObservableCollection<PriceQuote>(this.priceQuotes);
+            this.readOnlyFacade = new ReadOnlyBook(this);
+        }
 
         public ICollection<Security> Securities
         {
@@ -28,18 +42,18 @@ namespace SharpBooks
             {
                 lock (this.lockMutex)
                 {
-                    return new List<Security>(this.securities).AsReadOnly();
+                    return this.securitiesReadOnly;
                 }
             }
         }
 
-        public ICollection<Account> Accounts
+        public ReadOnlyObservableCollection<Account> Accounts
         {
             get
             {
                 lock (this.lockMutex)
                 {
-                    return new List<Account>(this.accounts).AsReadOnly();
+                    return this.accountsReadOnly;
                 }
             }
         }
@@ -61,7 +75,7 @@ namespace SharpBooks
             {
                 lock (this.lockMutex)
                 {
-                    return new List<PriceQuote>(this.priceQuotes).AsReadOnly();
+                    return this.priceQuotesReadOnly;
                 }
             }
         }
@@ -458,7 +472,7 @@ namespace SharpBooks
 
         public ReadOnlyBook AsReadOnly()
         {
-            return new ReadOnlyBook(this);
+            return this.readOnlyFacade;
         }
 
         public SavePoint CreateSavePoint()

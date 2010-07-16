@@ -16,94 +16,43 @@
     using SharpBooks.Plugins;
     using SharpBooks.ViewModels;
     using Newtonsoft.Json;
+    using SharpBooks.Controllers;
 
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
     public partial class MainView : Window
     {
+        private MainController controller = new MainController();
+
+        public MainController Controller
+        {
+            get
+            {
+                return this.controller;
+            }
+        }
+
         public MainView()
         {
             InitializeComponent();
-
-            //this.LoadAllWidgets();
         }
 
-        private class OverviewColumn
-        {
-            public class WidgetDescription
-            {
-                public string Name { get; set; }
-                public bool IsExpanded { get; set; }
-            }
-
-            public int ColumnWidth { get; set; }
-            public List<WidgetDescription> Widgets { get; set; }
-        }
-
-        //private void LoadAllWidgets()
+        //private void RefreshOverview()
         //{
-        //    List<OverviewColumn> widgetsLayout = null;
-        //    try
+        //    foreach (var widget in this.widgets)
         //    {
-        //        widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumn>>(this.Book.GetSetting("overview-layout"));
-        //    }
-        //    catch (JsonReaderException)
-        //    {
+        //        widget.Dispose();
         //    }
 
-        //    if (widgetsLayout == null)
+        //    this.widgets.Clear();
+
+        //    var newWidgets = App.Controller.GetOverview();
+
+        //    if (newWidgets != null)
         //    {
-        //        widgetsLayout = new List<OverviewColumn>();
-        //        widgetsLayout.Add(new OverviewColumn
-        //        {
-        //            ColumnWidth = 200,
-        //            Widgets = null,
-        //        });
+
         //    }
-
-        //    int columnNumber = 0;
-        //    foreach (var widgetColumn in widgetsLayout)
-        //    {
-        //        var panel = new StackPanel
-        //        {
-        //            Orientation = Orientation.Vertical
-        //        };
-
-        //        if (widgetColumn.Widgets != null)
-        //        {
-        //            foreach (var widgetDescr in widgetColumn.Widgets)
-        //            {
-        //                var widget = this.LoadWidget(widgetDescr.Name);
-        //                widget.IsExpanded = widgetDescr.IsExpanded;
-        //                panel.Children.Add(widget);
-        //            }
-        //        }
-
-        //        OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-        //        {
-        //            MinWidth = 100.0d,
-        //            Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
-        //        });
-
-        //        var splitter = new GridSplitter
-        //        {
-        //            Width = 3.0d,
-        //        };
-
-        //        Grid.SetColumn(panel, columnNumber);
-        //        Grid.SetColumn(splitter, columnNumber);
-
-        //        OverviewGrid.Children.Add(panel);
-        //        OverviewGrid.Children.Add(splitter);
-
-        //        columnNumber++;
-        //    }
-
-        //    OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-        //    {
-        //        Width = new GridLength(1.0d, GridUnitType.Auto),
-        //    });
         //}
 
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

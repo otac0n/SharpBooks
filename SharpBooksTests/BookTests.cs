@@ -309,6 +309,26 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddAccount_WhenValid_NotifiesOfChange()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.Accounts.CollectionChanged += (sender, e) => { called = true; };
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
+        }
+
+        [Test]
         public void AddAccount_WhenAccountsParentHasBeenAdded_Succeeds()
         {
             // Create a new, valid book.
@@ -484,6 +504,29 @@ namespace SharpBooks.Tests
 
             // The test passes, because the call to RemoveAccount() has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void RemoveAccount_WhenValid_NotifiesOfChange()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.Accounts.CollectionChanged += (sender, e) => { called = true; };
+
+            // Remove the account from the book.
+            book.RemoveAccount(account);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
         }
 
         [Test]

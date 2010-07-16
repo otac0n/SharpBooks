@@ -16,7 +16,7 @@ namespace SharpBooks.Scheduling
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).First();
+            return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).FirstOrDefault();
         }
     }
 }

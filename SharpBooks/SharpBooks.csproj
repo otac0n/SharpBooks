@@ -96,7 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Overview.cs" />
+    <Compile Include="ViewModels\OverviewColumn.cs" />
     <Compile Include="ViewModels\SplitViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="WidgetContainer.xaml.cs">
