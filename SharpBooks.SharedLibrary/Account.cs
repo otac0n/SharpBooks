@@ -25,7 +25,8 @@ namespace SharpBooks
         private readonly ReadOnlyObservableCollection<Account> childrenAccountsReadOnly;
 
         private Book book;
-        private long? balance;
+        private Balance balance;
+        private CompositeBalance totalBalance;
 
         public Account(Guid accountId, Security security, Account parentAccount, string name, int smallestFraction)
         {
@@ -124,25 +125,37 @@ namespace SharpBooks
             }
         }
 
-        public long Balance
+        public Balance Balance
         {
             get
             {
-                if (!this.balance.HasValue)
+                if (this.balance == null)
                 {
-                    this.balance = (from s in this.book.GetAccountSplits(this)
-                                    select s.Amount).Sum();
+                    this.balance = new Balance(
+                        this.Security,
+                        (from s in this.book.GetAccountSplits(this)
+                         select s.Amount).Sum(),
+                        true);
                 }
                 
-                return this.balance.Value;
+                return this.balance;
             }
         }
 
-        public string BalanceFormatted
+        public CompositeBalance TotalBalance
         {
             get
             {
-                return this.Security.FormatValue(this.Balance);
+                if (this.totalBalance == null)
+                {
+                    this.totalBalance = new CompositeBalance(
+                        this.Security,
+                        this.Balance,
+                        (from c in this.ChildrenAccounts
+                         select c.TotalBalance));
+                }
+
+                return this.totalBalance;
             }
         }
 
@@ -175,10 +188,29 @@ namespace SharpBooks
                                               where a.ParentAccount == this
                                               select a)
                         {
+                            child.PropertyChanged += this.Child_PropertyChanged;
                             this.childrenAccounts.Add(child);
                         }
                     }
                 }
+            }
+        }
+
+        void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "TotalBalance")
+            {
+                this.InvalidateTotalBalance();
+            }
+        }
+
+        private void InvalidateTotalBalance()
+        {
+            this.totalBalance = null;
+
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs("TotalBalance"));
             }
         }
 
@@ -205,6 +237,7 @@ namespace SharpBooks
                                         where a.ParentAccount == this
                                         select a)
                 {
+                    removal.PropertyChanged -= this.Child_PropertyChanged;
                     this.childrenAccounts.Remove(removal);
                 }
             }
@@ -215,6 +248,7 @@ namespace SharpBooks
                                          where a.ParentAccount == this
                                          select a)
                 {
+                    addition.PropertyChanged += this.Child_PropertyChanged;
                     this.childrenAccounts.Add(addition);
                 }
             }
@@ -248,12 +282,19 @@ namespace SharpBooks
                 }
             }
 
-            if (affected && this.PropertyChanged != null)
+            this.InvalidateBalance();
+        }
+
+        private void InvalidateBalance()
+        {
+            this.balance = null;
+            
+            if (this.PropertyChanged != null)
             {
-                this.balance = null;
                 this.PropertyChanged(this, new PropertyChangedEventArgs("Balance"));
-                this.PropertyChanged(this, new PropertyChangedEventArgs("BalanceFormatted"));
             }
+
+            this.InvalidateTotalBalance();
         }
     }
 }

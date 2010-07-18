@@ -23,7 +23,8 @@
                                 <StackPanel Orientation="Horizontal" Tag="{Binding AccountId}" MouseLeftButtonDown="Account_MouseLeftButtonDown" Margin="4">
                                     <Image Source="/SharpBooks;component/Resources/Coinstack.png" Height="16" Margin="0,0,4,0" />
                                     <TextBlock Text="{Binding Name}"></TextBlock>
-                                    <TextBlock Text="{Binding BalanceFormatted}" Margin="20,0,0,0"></TextBlock>
+                                    <TextBlock Text="{Binding Balance}" Margin="20,0,0,0"></TextBlock>
+                                    <TextBlock Text="{Binding TotalBalance}" Margin="20,0,0,0"></TextBlock>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>

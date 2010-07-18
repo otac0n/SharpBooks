@@ -56,8 +56,10 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="AccountData.cs" />
+    <Compile Include="Balance.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />
+    <Compile Include="CompositeBalance.cs" />
     <Compile Include="ReadOnlyObservableCollection.cs" />
     <Compile Include="Scheduling\DateLimitSchedule.cs" />
     <Compile Include="Scheduling\DateUnit.cs" />
