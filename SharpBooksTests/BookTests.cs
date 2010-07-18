@@ -123,6 +123,23 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddSecurity_WhenSecurityIsValid_NotifiesOfChange()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.Securities.CollectionChanged += (sender, e) => { called = true; };
+
+            // Add the test security to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
+        }
+
+        [Test]
         public void AddSecurity_WhenSecurityIsNull_ThrowsException()
         {
             // Create a new, empty book.
@@ -203,6 +220,26 @@ namespace SharpBooks.Tests
 
             // The test passes, because the call to RemoveSecurity() has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void RemoveSecurity_WhenValid_NotifiesOfChange()
+        {
+            // Create a new, empty book.
+            var book = new Book();
+
+            // Add the test security to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.Securities.CollectionChanged += (sender, e) => { called = true; };
+
+            // Remove the security from the book.
+            book.RemoveSecurity(TestUtils.TestCurrency);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
         }
 
         [Test]
@@ -306,6 +343,26 @@ namespace SharpBooks.Tests
 
             // The test passes, because the call to AddAccount() has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void AddAccount_WhenAccountIsValidAndHasNoParent_NotifiesRootAccountsOfChange()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.RootAccounts.CollectionChanged += (sender, e) => { called = true; };
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
         }
 
         [Test]
@@ -521,6 +578,29 @@ namespace SharpBooks.Tests
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
             book.Accounts.CollectionChanged += (sender, e) => { called = true; };
+
+            // Remove the account from the book.
+            book.RemoveAccount(account);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
+        }
+
+        [Test]
+        public void RemoveAccount_WhenValidAndHasNoParent_NotifiesRootAccountsOfChange()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add the account to the book.
+            book.AddAccount(account);
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.RootAccounts.CollectionChanged += (sender, e) => { called = true; };
 
             // Remove the account from the book.
             book.RemoveAccount(account);
@@ -798,6 +878,30 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddPriceQuote_WhenPriceQuoteIsValid_NotifiesOfChange()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test currency and stock to the book.
+            book.AddSecurity(TestUtils.TestCurrency);
+            book.AddSecurity(TestUtils.TestStock);
+
+            // Create a new, valid price quote based on the above securities.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.PriceQuotes.CollectionChanged += (sender, e) => { called = true; };
+
+            // Attempt to add the price quote to the book.
+            book.AddPriceQuote(priceQuote);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
+        }
+
+        [Test]
         public void AddPriceQuote_WhenPriceQuoteHasAlreadyBeenAdded_ThrowsException()
         {
             // Create a new, valid book.
@@ -925,6 +1029,31 @@ namespace SharpBooks.Tests
 
             // The test passes, because the call to RemovePriceQuote() has completed successfully.
             Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void RemovePriceQuote_WhenValid_NotifiesOfChange()
+        {
+            // Create a new, valid book.
+            var book = new Book();
+
+            // Add a test stock and currency to the book.
+            book.AddSecurity(TestUtils.TestStock);
+            book.AddSecurity(TestUtils.TestCurrency);
+
+            // Create a new, valid price quote based on the above securities and add it to the book.
+            var priceQuote = TestUtils.CreateValidPriceQuote();
+            book.AddPriceQuote(priceQuote);
+
+            // Wire-up the CollectionChanged event to flag the change.
+            bool called = false;
+            book.PriceQuotes.CollectionChanged += (sender, e) => { called = true; };
+
+            // Remove the price quote from the book.
+            book.RemovePriceQuote(priceQuote);
+
+            // Assert that the collection notified us of the change.
+            Assert.That(called, Is.True);
         }
 
         [Test]

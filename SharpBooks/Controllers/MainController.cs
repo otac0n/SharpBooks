@@ -180,5 +180,15 @@ namespace SharpBooks.Controllers
 
             public List<WidgetDescriptionJson> Widgets { get; set; }
         }
+
+        public void AddAccount(Account account)
+        {
+            this.book.AddAccount(account);
+        }
+
+        internal void AddTransaction(Transaction transaction)
+        {
+            this.book.AddTransaction(transaction);
+        }
     }
 }

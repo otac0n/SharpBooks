@@ -17,8 +17,10 @@ namespace SharpBooks
         private readonly object lockMutex = new object();
         private readonly ObservableCollection<Security> securities = new ObservableCollection<Security>();
         private readonly ObservableCollection<Account> accounts = new ObservableCollection<Account>();
+        private readonly ObservableCollection<Account> rootAccounts = new ObservableCollection<Account>();
         private readonly ObservableCollection<PriceQuote> priceQuotes = new ObservableCollection<PriceQuote>();
-        private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
+        private readonly ObservableCollection<Transaction> transactions = new ObservableCollection<Transaction>();
+        private readonly Dictionary<Transaction, TransactionLock> transactionLocks = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
@@ -26,24 +28,25 @@ namespace SharpBooks
         private readonly ReadOnlyBook readOnlyFacade;
         private readonly ReadOnlyObservableCollection<Security> securitiesReadOnly;
         private readonly ReadOnlyObservableCollection<Account> accountsReadOnly;
+        private readonly ReadOnlyObservableCollection<Account> rootAccountsReadOnly;
         private readonly ReadOnlyObservableCollection<PriceQuote> priceQuotesReadOnly;
+        private readonly ReadOnlyObservableCollection<Transaction> transactionsReadOnly;
 
         public Book()
         {
             this.securitiesReadOnly = new ReadOnlyObservableCollection<Security>(this.securities);
             this.accountsReadOnly = new ReadOnlyObservableCollection<Account>(this.accounts);
+            this.rootAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.rootAccounts);
             this.priceQuotesReadOnly = new ReadOnlyObservableCollection<PriceQuote>(this.priceQuotes);
+            this.transactionsReadOnly = new ReadOnlyObservableCollection<Transaction>(this.transactions);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
-        public ICollection<Security> Securities
+        public ReadOnlyObservableCollection<Security> Securities
         {
             get
             {
-                lock (this.lockMutex)
-                {
-                    return this.securitiesReadOnly;
-                }
+                return this.securitiesReadOnly;
             }
         }
 
@@ -51,32 +54,31 @@ namespace SharpBooks
         {
             get
             {
-                lock (this.lockMutex)
-                {
-                    return this.accountsReadOnly;
-                }
+                return this.accountsReadOnly;
             }
         }
 
-        public ICollection<Transaction> Transactions
+        public ReadOnlyObservableCollection<Account> RootAccounts
         {
             get
             {
-                lock (this.lockMutex)
-                {
-                    return new List<Transaction>(this.transactions.Keys).AsReadOnly();
-                }
+                return this.rootAccountsReadOnly;
             }
         }
 
-        public ICollection<PriceQuote> PriceQuotes
+        public ReadOnlyObservableCollection<Transaction> Transactions
         {
             get
             {
-                lock (this.lockMutex)
-                {
-                    return this.priceQuotesReadOnly;
-                }
+                return this.transactionsReadOnly;
+            }
+        }
+
+        public ReadOnlyObservableCollection<PriceQuote> PriceQuotes
+        {
+            get
+            {
+                return this.priceQuotesReadOnly;
             }
         }
 
@@ -98,7 +100,7 @@ namespace SharpBooks
 
                 foreach (var t in this.transactions)
                 {
-                    splits.AddRange(t.Key.Splits.Where(s => s.Account == account));
+                    splits.AddRange(t.Splits.Where(s => s.Account == account));
                 }
 
                 return splits.AsReadOnly();
@@ -277,7 +279,12 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Name and Parent.");
                 }
 
+                account.Book = this;
                 this.accounts.Add(account);
+                if (account.ParentAccount == null)
+                {
+                    this.rootAccounts.Add(account);
+                }
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
             }
         }
@@ -305,7 +312,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
                 }
 
-                var involvedTransactions = from t in this.transactions.Keys
+                var involvedTransactions = from t in this.transactions
                                            where (from s in t.Splits
                                                   where s.Account == account
                                                   select s).Any()
@@ -316,7 +323,12 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
                 }
 
+                account.Book = null;
                 this.accounts.Remove(account);
+                if (account.ParentAccount == null)
+                {
+                    this.rootAccounts.Remove(account);
+                }
                 this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
             }
         }
@@ -400,7 +412,7 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (this.transactions.ContainsKey(transaction))
+                if (this.transactions.Contains(transaction))
                 {
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
@@ -410,7 +422,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
                 }
 
-                var duplicateIds = from t in this.transactions.Keys
+                var duplicateIds = from t in this.transactions
                                    where t.TransactionId == transaction.TransactionId
                                    select t;
 
@@ -436,7 +448,8 @@ namespace SharpBooks
                             "Could not add the transaction to the book, because the transaction contains at least on split whose account has not been added.");
                     }
 
-                    this.transactions.Add(transaction, transactionLock);
+                    this.transactionLocks.Add(transaction, transactionLock);
+                    this.transactions.Add(transaction);
                     this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
                     transactionLock = null;
                 }
@@ -459,12 +472,13 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (!this.transactions.ContainsKey(transaction))
+                if (!this.transactions.Contains(transaction))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
-                this.transactions[transaction].Dispose();
+                this.transactionLocks[transaction].Dispose();
+                this.transactionLocks.Remove(transaction);
                 this.transactions.Remove(transaction);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
             }

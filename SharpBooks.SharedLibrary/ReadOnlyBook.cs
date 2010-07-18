@@ -40,6 +40,14 @@ namespace SharpBooks
             }
         }
 
+        public ReadOnlyObservableCollection<Account> RootAccounts
+        {
+            get
+            {
+                return this.book.RootAccounts;
+            }
+        }
+
         public ICollection<Transaction> Transactions
         {
             get

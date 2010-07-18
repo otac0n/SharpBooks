@@ -61,10 +61,32 @@
             {
                 var args = new AccountSelectedEventArgs
                 {
-                    AccountId = (Guid)((StackPanel)sender).Tag,
+                    AccountId = (Guid)(((StackPanel)sender).Tag),
                 };
 
                 //this.AccountSelected(sender, args);
+
+                var account1 = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).Single();
+                var account2 = this.Controller.Book.Accounts.First();
+
+                if (account1 != account2)
+                {
+                    var transaction = new Transaction(Guid.NewGuid(), account1.Security);
+                    using (var lck = transaction.Lock())
+                    {
+                        var split1 = transaction.AddSplit(lck);
+                        split1.SetAccount(account1, lck);
+                        split1.SetAmount(100, lck);
+                        split1.SetTransactionAmount(100, lck);
+
+                        var split2 = transaction.AddSplit(lck);
+                        split2.SetAccount(account2, lck);
+                        split2.SetAmount(-100, lck);
+                        split2.SetTransactionAmount(-100, lck);
+                    }
+
+                    this.Controller.AddTransaction(transaction);
+                }
 
                 e.Handled = true;
             }

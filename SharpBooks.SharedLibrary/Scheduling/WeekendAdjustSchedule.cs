@@ -7,13 +7,6 @@ namespace SharpBooks.Scheduling
 {
     public sealed class WeekendAdjustSchedule : ScheduleBase
     {
-        public enum WeekdayAdjustmentDirection
-        {
-            NoChange,
-            NextWeekday,
-            PreviousWeekday,
-        }
-
         private ISchedule BaseSchedule
         {
             get;
@@ -42,6 +35,13 @@ namespace SharpBooks.Scheduling
             this.BaseSchedule = baseSchedule;
             this.SaturdayAdjustment = saturdayAdjustment;
             this.SundayAdjustment = sundayAdjustment;
+        }
+
+        public enum WeekdayAdjustmentDirection
+        {
+            NoChange,
+            NextWeekday,
+            PreviousWeekday,
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

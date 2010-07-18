@@ -105,10 +105,10 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        [TestCase( 0010)] //  $0.01
-        [TestCase( 0100)] //  $0.10
-        [TestCase( 1000)] //  $1.00
-        [TestCase( 1230)] //  $1.23
+        [TestCase( 0010)] // +$0.01
+        [TestCase( 0100)] // +$0.10
+        [TestCase( 1000)] // +$1.00
+        [TestCase( 1230)] // +$1.23
         [TestCase(-0010)] // -$0.01
         [TestCase(-0100)] // -$0.10
         [TestCase(-1000)] // -$1.00
