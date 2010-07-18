@@ -1,30 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="WeekendAdjustSchedule.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class WeekendAdjustSchedule : ScheduleBase
     {
-        private ISchedule BaseSchedule
-        {
-            get;
-            set;
-        }
-
-        private WeekdayAdjustmentDirection SundayAdjustment
-        {
-            get;
-            set;
-        }
-
-        private WeekdayAdjustmentDirection SaturdayAdjustment
-        {
-            get;
-            set;
-        }
-
         public WeekendAdjustSchedule(ISchedule baseSchedule, WeekdayAdjustmentDirection saturdayAdjustment, WeekdayAdjustmentDirection sundayAdjustment)
         {
             if (baseSchedule == null)
@@ -42,6 +29,24 @@ namespace SharpBooks.Scheduling
             NoChange,
             NextWeekday,
             PreviousWeekday,
+        }
+
+        private ISchedule BaseSchedule
+        {
+            get;
+            set;
+        }
+
+        private WeekdayAdjustmentDirection SundayAdjustment
+        {
+            get;
+            set;
+        }
+
+        private WeekdayAdjustmentDirection SaturdayAdjustment
+        {
+            get;
+            set;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

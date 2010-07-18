@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="WeekdayFilter.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public sealed class WeekdayFilter : ScheduleBase
     {
-        private ISchedule BaseSchedule
-        {
-            get;
-            set;
-        }
-
-        private Dictionary<DayOfWeek, bool> Weekdays
-        {
-            get;
-            set;
-        }
-
         public WeekdayFilter(ISchedule baseSchedule, IEnumerable<DayOfWeek> allowedWeekdays)
         {
             if (baseSchedule == null)
@@ -36,6 +30,18 @@ namespace SharpBooks.Scheduling
 
             this.BaseSchedule = baseSchedule;
             this.Weekdays = weekdays;
+        }
+
+        private ISchedule BaseSchedule
+        {
+            get;
+            set;
+        }
+
+        private Dictionary<DayOfWeek, bool> Weekdays
+        {
+            get;
+            set;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

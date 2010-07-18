@@ -87,7 +87,7 @@ namespace SharpBooks
 
         public string FormatValue(long value)
         {
-            decimal acutalValue = (decimal) value / (decimal) this.FractionTraded;
+            decimal acutalValue = (decimal)value / (decimal)this.FractionTraded;
 
             return string.Format(CultureInfo.InvariantCulture, this.SignFormat, acutalValue);
         }

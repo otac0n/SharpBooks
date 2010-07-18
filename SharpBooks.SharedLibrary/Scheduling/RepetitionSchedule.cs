@@ -1,8 +1,14 @@
-﻿namespace SharpBooks.Scheduling
+﻿//-----------------------------------------------------------------------
+// <copyright file="RepetitionSchedule.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks.Scheduling
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class RepetitionSchedule : ScheduleBase
     {
@@ -15,24 +21,6 @@
             { DateUnit.Months,  (dt, inc) => dt.AddMonths(inc) },
             { DateUnit.Years,   (dt, inc) => dt.AddYears(inc) },
         };
-
-        private ISchedule BaseSchedule
-        {
-            get;
-            set;
-        }
-
-        private DateUnit Unit
-        {
-            get;
-            set;
-        }
-
-        private int Increment
-        {
-            get;
-            set;
-        }
 
         public RepetitionSchedule(ISchedule baseSchedule, DateUnit unit, int increment)
         {
@@ -51,11 +39,22 @@
             this.Increment = increment;
         }
 
-        private class ScheduleIndex
+        private ISchedule BaseSchedule
         {
-            public DateTime BaseDate { get; set; }
-            public int CurrentOffset { get; set; }
-            public DateTime CurrentDate { get; set; }
+            get;
+            set;
+        }
+
+        private DateUnit Unit
+        {
+            get;
+            set;
+        }
+
+        private int Increment
+        {
+            get;
+            set;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()
@@ -81,11 +80,11 @@
                     }
                 };
 
-                var atEnd = !enumerator.MoveNext();
+                var finished = !enumerator.MoveNext();
 
                 while (true)
                 {
-                    if (!atEnd)
+                    if (!finished)
                     {
                         if (items[items.Count - 1].CurrentOffset != 0)
                         {
@@ -97,7 +96,7 @@
                                     CurrentDate = enumerator.Current,
                                 });
 
-                            atEnd = !enumerator.MoveNext();
+                            finished = !enumerator.MoveNext();
                         }
                     }
 
@@ -124,6 +123,15 @@
             {
                 enumerator.Dispose();
             }
+        }
+
+        private class ScheduleIndex
+        {
+            public DateTime BaseDate { get; set; }
+
+            public int CurrentOffset { get; set; }
+
+            public DateTime CurrentDate { get; set; }
         }
     }
 }

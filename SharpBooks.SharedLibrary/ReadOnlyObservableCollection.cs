@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Specialized;
-using System.Collections.ObjectModel;
-using System.Collections;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReadOnlyObservableCollection.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+
     public class ReadOnlyObservableCollection<T> : ICollection<T>, IEnumerable<T>, IEnumerable, INotifyCollectionChanged
     {
-        ICollection<T> collection = null;
+        private ICollection<T> collection = null;
 
         public ReadOnlyObservableCollection(INotifyCollectionChanged wrappedCollection)
         {
@@ -26,18 +30,20 @@ namespace SharpBooks
                 throw new ArgumentException("The wrapped collection must implement the ICollection<T> interface.", "wrappedCollection");
             }
 
-            wrappedCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(collection_CollectionChanged);
-        }
-
-        void collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (this.CollectionChanged != null)
-            {
-                this.CollectionChanged(sender, e);
-            }
+            wrappedCollection.CollectionChanged += this.Collection_CollectionChanged;
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        public int Count
+        {
+            get { return this.collection.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -69,16 +75,6 @@ namespace SharpBooks
             this.collection.CopyTo(array, arrayIndex);
         }
 
-        public int Count
-        {
-            get { return this.collection.Count; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
         public bool Remove(T item)
         {
             throw new InvalidOperationException();
@@ -87,6 +83,14 @@ namespace SharpBooks
         public void CopyTo(Array array, int index)
         {
             throw new NotImplementedException();
+        }
+
+        private void Collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (this.CollectionChanged != null)
+            {
+                this.CollectionChanged(sender, e);
+            }
         }
     }
 }

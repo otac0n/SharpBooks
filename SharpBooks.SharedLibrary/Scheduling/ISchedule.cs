@@ -13,6 +13,7 @@ namespace SharpBooks.Scheduling
     public interface ISchedule
     {
         IEnumerable<DateTime> YieldAllInstances();
+
         DateTime? GetInstance(int index);
     }
 }

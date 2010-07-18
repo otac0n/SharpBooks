@@ -9,8 +9,8 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
     public class Book
     {
@@ -284,6 +284,7 @@ namespace SharpBooks
                 {
                     this.rootAccounts.Add(account);
                 }
+
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
                 account.Book = this;
             }
@@ -328,6 +329,7 @@ namespace SharpBooks
                 {
                     this.rootAccounts.Remove(account);
                 }
+
                 this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
                 account.Book = null;
             }

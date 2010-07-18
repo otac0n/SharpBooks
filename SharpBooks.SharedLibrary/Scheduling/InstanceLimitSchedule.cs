@@ -1,24 +1,18 @@
-﻿namespace SharpBooks.Scheduling
+﻿//-----------------------------------------------------------------------
+// <copyright file="InstanceLimitSchedule.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks.Scheduling
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     public sealed class InstanceLimitSchedule : ScheduleBase
     {
-        private ISchedule BaseSchedule
-        {
-            get;
-            set;
-        }
-
-        private int Count
-        {
-            get;
-            set;
-        }
-
         public InstanceLimitSchedule(ISchedule baseSchedule, int count)
         {
             if (baseSchedule == null)
@@ -33,6 +27,18 @@
 
             this.BaseSchedule = baseSchedule;
             this.Count = count;
+        }
+
+        private ISchedule BaseSchedule
+        {
+            get;
+            set;
+        }
+
+        private int Count
+        {
+            get;
+            set;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

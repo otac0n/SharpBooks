@@ -66,7 +66,7 @@ namespace SharpBooks
 
         public ICollection<Split> GetAccountSplits(Account account)
         {
-            return book.GetAccountSplits(account);
+            return this.book.GetAccountSplits(account);
         }
 
         public string GetSetting(string key)

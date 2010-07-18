@@ -1,4 +1,11 @@
-﻿namespace SharpBooks
+﻿//-----------------------------------------------------------------------
+// <copyright file="CompositeBalance.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
@@ -42,6 +49,11 @@
             }
         }
 
+        public override string ToString()
+        {
+            return string.Join(", ", this.balances.Select(b => b.ToString()));
+        }
+
         private static List<Balance> CombineBalances(Balance balance, IEnumerable<CompositeBalance> balances)
         {
             if (balance == null)
@@ -67,12 +79,6 @@
                             g.Sum(c => c.Amount),
                             g.All(c => c.IsExact))).ToList();
             }
-        }
-
-        public override string ToString()
-        {
-            return string.Join(", ", from b in this.balances
-                                     select b.ToString());
         }
     }
 }

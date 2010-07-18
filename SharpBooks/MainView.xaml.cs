@@ -1,23 +1,20 @@
-﻿namespace SharpBooks
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainView.xaml.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
-    using SharpBooks.Plugins;
-    using SharpBooks.ViewModels;
-    using Newtonsoft.Json;
     using SharpBooks.Controllers;
-    using System.ComponentModel;
+    using SharpBooks.Plugins;
 
     /// <summary>
     /// Interaction logic for MainView.xaml
@@ -27,23 +24,12 @@
         private MainController controller = new MainController();
         private Account activeAccount;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public MainView()
         {
             InitializeComponent();
-
-            this.AccountSelected += MainView_AccountSelected;
         }
 
-        void MainView_AccountSelected(object sender, AccountSelectedEventArgs args)
-        {
-            this.ActiveAccount = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).SingleOrDefault();
-        }
-
-        private delegate void AccountSelectedDelegate(object sender, AccountSelectedEventArgs args);
-
-        private event AccountSelectedDelegate AccountSelected;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public MainController Controller
         {
@@ -77,21 +63,23 @@
             {
                 var args = new AccountSelectedEventArgs
                 {
-                    AccountId = (Guid)(((StackPanel)sender).Tag),
+                    AccountId = (Guid)((StackPanel)sender).Tag,
                 };
 
-                RaiseAccountSelected(args);
+                this.AccountSelected(args);
 
                 e.Handled = true;
             }
         }
 
-        private void RaiseAccountSelected(AccountSelectedEventArgs args)
+        private void AccountSelected(AccountSelectedEventArgs args)
         {
-            if (this.AccountSelected != null)
-            {
-                this.AccountSelected(this, args);
-            }
+            this.ActiveAccount = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).SingleOrDefault();
+        }
+
+        private void ReturnToAccounts_Click(object sender, RoutedEventArgs e)
+        {
+            this.ActiveAccount = null;
         }
     }
 }

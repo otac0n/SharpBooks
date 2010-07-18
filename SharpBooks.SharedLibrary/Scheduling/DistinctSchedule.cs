@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DistinctSchedule.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class DistinctSchedule : ScheduleBase
     {
-        private ISchedule BaseSchedule
-        {
-            get;
-            set;
-        }
-
         public DistinctSchedule(ISchedule baseSchedule)
         {
             if (baseSchedule == null)
@@ -21,6 +20,12 @@ namespace SharpBooks.Scheduling
             }
 
             this.BaseSchedule = baseSchedule;
+        }
+
+        private ISchedule BaseSchedule
+        {
+            get;
+            set;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

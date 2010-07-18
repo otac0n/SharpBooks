@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DateLimitSchedule.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
 
 namespace SharpBooks.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+
     public sealed class DateLimitSchedule : ScheduleBase
     {
+        public DateLimitSchedule(ISchedule baseSchedule, DateTime onOrBefore)
+        {
+            if (baseSchedule == null)
+            {
+                throw new ArgumentNullException("baseSchedule");
+            }
+
+            this.BaseSchedule = baseSchedule;
+            this.OnOrBefore = onOrBefore;
+        }
+
         private ISchedule BaseSchedule
         {
             get;
@@ -17,17 +33,6 @@ namespace SharpBooks.Scheduling
         {
             get;
             set;
-        }
-
-        public DateLimitSchedule(ISchedule baseSchedule, DateTime onOrBefore)
-        {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException("baseSchedule");
-            }
-
-            this.BaseSchedule = baseSchedule;
-            this.OnOrBefore = onOrBefore;
         }
 
         public override IEnumerable<DateTime> YieldAllInstances()

@@ -30,50 +30,59 @@
                                 <StackPanel Orientation="Horizontal" Tag="{Binding AccountId}" MouseLeftButtonDown="Account_MouseLeftButtonDown" Margin="4">
                                     <Image Source="/SharpBooks;component/Resources/Coinstack.png" Height="16" Margin="0,0,4,0" />
                                     <TextBlock Text="{Binding Name}"></TextBlock>
-                                    <TextBlock Text="{Binding Balance}" Margin="20,0,0,0"></TextBlock>
+                                    <TextBlock Text="{Binding Balance}" Margin="20,0,0,0" Foreground="{Binding Balance.Amount, Converter={StaticResource MoneyColor}}"></TextBlock>
                                     <TextBlock Text="{Binding TotalBalance}" Margin="20,0,0,0"></TextBlock>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-                    <ListView x:Name="SplitList" ItemsSource="{Binding ActiveAccount.Splits}" Visibility="{Binding ActiveAccount, Converter={StaticResource NotNull}}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Transaction Date" DisplayMemberBinding="{Binding Transaction.Date}" />
-                                <GridViewColumn Header="Cleared" DisplayMemberBinding="{Binding DateCleared}" />
-                                <GridViewColumn Header="Amount">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Foreground="{Binding Amount, Converter={StaticResource MoneyColor}}">
-                                                <Label.Content>
-                                                    <MultiBinding Converter="{StaticResource Money}">
-                                                        <Binding Path="Amount" />
-                                                        <Binding Path="Account.Security" />
-                                                    </MultiBinding>
-                                                </Label.Content>
-                                            </Label>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Reconciled" DisplayMemberBinding="{Binding IsReconciled}" />
-                                <GridViewColumn Header="Transaction Amount">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Foreground="{Binding TransactionAmount, Converter={StaticResource MoneyColor}}">
-                                                <Label.Content>
-                                                    <MultiBinding Converter="{StaticResource Money}">
-                                                        <Binding Path="TransactionAmount" />
-                                                        <Binding Path="Transaction.BaseSecurity" />
-                                                    </MultiBinding>
-                                                </Label.Content>
-                                            </Label>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Account" DisplayMemberBinding="{Binding Account.Name}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <Grid Visibility="{Binding ActiveAccount, Converter={StaticResource NotNull}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Grid.Row="0">
+                             <Button x:Name="ReturnToAccounts" Content="Back" Click="ReturnToAccounts_Click" MinWidth="50"></Button>
+                        </StackPanel>
+                        <ListView x:Name="SplitList" ItemsSource="{Binding ActiveAccount.Splits}" Grid.Row="1">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Transaction Date" DisplayMemberBinding="{Binding Transaction.Date}" />
+                                    <GridViewColumn Header="Cleared" DisplayMemberBinding="{Binding DateCleared}" />
+                                    <GridViewColumn Header="Amount">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Foreground="{Binding Amount, Converter={StaticResource MoneyColor}}">
+                                                    <Label.Content>
+                                                        <MultiBinding Converter="{StaticResource Money}">
+                                                            <Binding Path="Amount" />
+                                                            <Binding Path="Account.Security" />
+                                                        </MultiBinding>
+                                                    </Label.Content>
+                                                </Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Reconciled" DisplayMemberBinding="{Binding IsReconciled}" />
+                                    <GridViewColumn Header="Transaction Amount">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Foreground="{Binding TransactionAmount, Converter={StaticResource MoneyColor}}">
+                                                    <Label.Content>
+                                                        <MultiBinding Converter="{StaticResource Money}">
+                                                            <Binding Path="TransactionAmount" />
+                                                            <Binding Path="Transaction.BaseSecurity" />
+                                                        </MultiBinding>
+                                                    </Label.Content>
+                                                </Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Account" DisplayMemberBinding="{Binding Account.Name}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Payments" Name="PaymentsTabItem">

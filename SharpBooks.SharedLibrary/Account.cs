@@ -143,11 +143,10 @@ namespace SharpBooks
             {
                 if (this.balance == null)
                 {
-                    this.balance = new Balance(
-                        this.Security,
-                        (from s in this.book.GetAccountSplits(this)
-                         select s.Amount).Sum(),
-                        true);
+                    var sum = (from s in this.book.GetAccountSplits(this)
+                               select s.Amount).Sum();
+
+                    this.balance = new Balance(this.Security, sum, true);
                 }
                 
                 return this.balance;
@@ -160,11 +159,10 @@ namespace SharpBooks
             {
                 if (this.totalBalance == null)
                 {
-                    this.totalBalance = new CompositeBalance(
-                        this.Security,
-                        this.Balance,
-                        (from c in this.ChildrenAccounts
-                         select c.TotalBalance));
+                    var childrenBalances = from c in this.ChildrenAccounts
+                                           select c.TotalBalance;
+
+                    this.totalBalance = new CompositeBalance(this.Security, this.Balance, childrenBalances);
                 }
 
                 return this.totalBalance;
@@ -214,7 +212,22 @@ namespace SharpBooks
             }
         }
 
-        void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public static string GetAccountPath(Account account, string separator)
+        {
+            if (account == null)
+            {
+                throw new ArgumentNullException("account");
+            }
+
+            if (account.ParentAccount == null)
+            {
+                return account.Name;
+            }
+
+            return GetAccountPath(account.ParentAccount, separator) + separator + account.Name;
+        }
+
+        private void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "TotalBalance")
             {
@@ -230,21 +243,6 @@ namespace SharpBooks
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs("TotalBalance"));
             }
-        }
-
-        public static string GetAccountPath(Account account, string separator)
-        {
-            if (account == null)
-            {
-                throw new ArgumentNullException("account");
-            }
-
-            if (account.ParentAccount == null)
-            {
-                return account.Name;
-            }
-
-            return GetAccountPath(account.ParentAccount, separator) + separator + account.Name;
         }
 
         private void BookAccounts_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
