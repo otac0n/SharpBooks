@@ -279,13 +279,13 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Name and Parent.");
                 }
 
-                account.Book = this;
                 this.accounts.Add(account);
                 if (account.ParentAccount == null)
                 {
                     this.rootAccounts.Add(account);
                 }
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
+                account.Book = this;
             }
         }
 
@@ -323,13 +323,13 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
                 }
 
-                account.Book = null;
                 this.accounts.Remove(account);
                 if (account.ParentAccount == null)
                 {
                     this.rootAccounts.Remove(account);
                 }
                 this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
+                account.Book = null;
             }
         }
 

@@ -17,13 +17,33 @@
     using SharpBooks.ViewModels;
     using Newtonsoft.Json;
     using SharpBooks.Controllers;
+    using System.ComponentModel;
 
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class MainView : Window, INotifyPropertyChanged
     {
         private MainController controller = new MainController();
+        private Account activeAccount;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public MainView()
+        {
+            InitializeComponent();
+
+            this.AccountSelected += MainView_AccountSelected;
+        }
+
+        void MainView_AccountSelected(object sender, AccountSelectedEventArgs args)
+        {
+            this.ActiveAccount = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).SingleOrDefault();
+        }
+
+        private delegate void AccountSelectedDelegate(object sender, AccountSelectedEventArgs args);
+
+        private event AccountSelectedDelegate AccountSelected;
 
         public MainController Controller
         {
@@ -33,27 +53,23 @@
             }
         }
 
-        public MainView()
+        public Account ActiveAccount
         {
-            InitializeComponent();
+            get
+            {
+                return this.activeAccount;
+            }
+
+            private set
+            {
+                this.activeAccount = value;
+
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("ActiveAccount"));
+                }
+            }
         }
-
-        //private void RefreshOverview()
-        //{
-        //    foreach (var widget in this.widgets)
-        //    {
-        //        widget.Dispose();
-        //    }
-
-        //    this.widgets.Clear();
-
-        //    var newWidgets = App.Controller.GetOverview();
-
-        //    if (newWidgets != null)
-        //    {
-
-        //    }
-        //}
 
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -64,31 +80,17 @@
                     AccountId = (Guid)(((StackPanel)sender).Tag),
                 };
 
-                //this.AccountSelected(sender, args);
-
-                var account1 = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).Single();
-                var account2 = this.Controller.Book.Accounts.First();
-
-                if (account1 != account2)
-                {
-                    var transaction = new Transaction(Guid.NewGuid(), account1.Security);
-                    using (var lck = transaction.Lock())
-                    {
-                        var split1 = transaction.AddSplit(lck);
-                        split1.SetAccount(account1, lck);
-                        split1.SetAmount(100, lck);
-                        split1.SetTransactionAmount(100, lck);
-
-                        var split2 = transaction.AddSplit(lck);
-                        split2.SetAccount(account2, lck);
-                        split2.SetAmount(-100, lck);
-                        split2.SetTransactionAmount(-100, lck);
-                    }
-
-                    this.Controller.AddTransaction(transaction);
-                }
+                RaiseAccountSelected(args);
 
                 e.Handled = true;
+            }
+        }
+
+        private void RaiseAccountSelected(AccountSelectedEventArgs args)
+        {
+            if (this.AccountSelected != null)
+            {
+                this.AccountSelected(this, args);
             }
         }
     }

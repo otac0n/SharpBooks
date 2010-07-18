@@ -97,6 +97,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Converters\NotNullVisibility.cs" />
+    <Compile Include="Converters\NullVisibility.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Overview.cs" />
     <Compile Include="ViewModels\OverviewColumn.cs" />

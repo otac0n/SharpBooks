@@ -24,6 +24,9 @@ namespace SharpBooks
         private readonly ObservableCollection<Account> childrenAccounts = new ObservableCollection<Account>();
         private readonly ReadOnlyObservableCollection<Account> childrenAccountsReadOnly;
 
+        private readonly ObservableCollection<Split> splits = new ObservableCollection<Split>();
+        private readonly ReadOnlyObservableCollection<Split> splitsReadOnly;
+
         private Book book;
         private Balance balance;
         private CompositeBalance totalBalance;
@@ -73,6 +76,7 @@ namespace SharpBooks
             this.smallestFraction = smallestFraction;
 
             this.childrenAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.childrenAccounts);
+            this.splitsReadOnly = new ReadOnlyObservableCollection<Split>(this.splits);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -122,6 +126,14 @@ namespace SharpBooks
             get
             {
                 return this.childrenAccountsReadOnly;
+            }
+        }
+
+        public ReadOnlyObservableCollection<Split> Splits
+        {
+            get
+            {
+                return this.splitsReadOnly;
             }
         }
 
@@ -175,6 +187,7 @@ namespace SharpBooks
                         this.book.Accounts.CollectionChanged -= this.BookAccounts_CollectionChanged;
                         this.book.Transactions.CollectionChanged -= this.BookTransactions_CollectionChanged;
                         this.childrenAccounts.Clear();
+                        this.splits.Clear();
                     }
 
                     this.book = value;
@@ -191,6 +204,11 @@ namespace SharpBooks
                             child.PropertyChanged += this.Child_PropertyChanged;
                             this.childrenAccounts.Add(child);
                         }
+
+                        foreach (var s in this.book.GetAccountSplits(this))
+                        {
+                            this.splits.Add(s);
+                        }                                          
                     }
                 }
             }
@@ -260,29 +278,36 @@ namespace SharpBooks
 
             if (e.OldItems != null)
             {
-                if ((from Transaction t in e.OldItems
-                     where (from s in t.Splits
-                            where s.Account == this
-                            select s).Any()
-                     select t).Any())
+                var removedSplits = (from Transaction t in e.OldItems
+                                     select t).SelectMany(t => t.Splits);
+
+                foreach (var split in from s in removedSplits
+                                      where s.Account == this
+                                      select s)
                 {
+                    this.splits.Remove(split);
                     affected = true;
                 }
             }
 
-            if (e.NewItems != null && !affected)
+            if (e.NewItems != null)
             {
-                if ((from Transaction t in e.NewItems
-                     where (from s in t.Splits
-                            where s.Account == this
-                            select s).Any()
-                     select t).Any())
+                var addedSplits = (from Transaction t in e.NewItems
+                                   select t).SelectMany(t => t.Splits);
+
+                foreach (var split in from s in addedSplits
+                                      where s.Account == this
+                                      select s)
                 {
+                    this.splits.Add(split);
                     affected = true;
                 }
             }
 
-            this.InvalidateBalance();
+            if (affected)
+            {
+                this.InvalidateBalance();
+            }
         }
 
         private void InvalidateBalance()
