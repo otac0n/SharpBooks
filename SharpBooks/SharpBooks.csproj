@@ -97,6 +97,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Converters\CurrencyColorConverter.cs" />
+    <Compile Include="Converters\CurrencyConverter.cs" />
     <Compile Include="Converters\NotNullVisibility.cs" />
     <Compile Include="Converters\NullVisibility.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

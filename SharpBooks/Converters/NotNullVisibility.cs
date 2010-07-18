@@ -8,7 +8,7 @@
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (targetType != typeof(Visibility))
+            if (!targetType.IsAssignableFrom(typeof(Visibility)))
             {
                 throw new NotImplementedException();
             }
