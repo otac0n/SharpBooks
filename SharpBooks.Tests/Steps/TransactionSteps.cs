@@ -106,5 +106,45 @@ namespace SharpBooks.Tests.Steps
 
             ScenarioContext.Current.Add(transactionName, transaction);
         }
+
+        [When(@"the following splits are added to transaction '(.*)'")]
+        public void WhenTheFollowingSplitsAreAddedToTransaction(string transactionName, Table table)
+        {
+            var transaction = (Transaction)ScenarioContext.Current[transactionName];
+
+            var accounts = (from a in table.Rows
+                            group a by a["Account"] into g
+                            let acctName = g.Key
+                            let account = (Account)ScenarioContext.Current[acctName]
+                            select new
+                            {
+                                acctName,
+                                account
+                            }).ToDictionary(a => a.acctName, a => a.account);
+
+            var securityCount = (from a in accounts
+                                 group a.Value by a.Value.Security into g
+                                 select g.Key).Count();
+
+            if (securityCount > 1)
+            {
+                Assume.That(table.Header, Has.Member("Transaction Amount"));
+            }
+
+            using (var tLock = transaction.Lock())
+            {
+                foreach (var row in table.Rows)
+                {
+                    var account = accounts[row["Account"]];
+                    var amount = long.Parse(row["Amount"]);
+                    var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
+
+                    var split = transaction.AddSplit(tLock);
+                    split.SetAccount(account, tLock);
+                    split.SetAmount(amount, tLock);
+                    split.SetTransactionAmount(transactionAmount, tLock);
+                }
+            }
+        }
     }
 }

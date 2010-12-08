@@ -87,37 +87,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WithSecurityNotMatchingAnySplit_ReturnsTrue()
-        {
-            // Create a test security that is different from the default for an account.
-            var baseSecurity = new Security(
-                Guid.NewGuid(),
-                SecurityType.Currency, // OK
-                "No Currency", // OK
-                "XXX", // OK
-                "{0}", // OK
-                1); // OK
-
-            // Create a new, empty transaction.
-            var transaction = new Transaction(
-                Guid.NewGuid(), // OK
-                baseSecurity);
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Add an empty split to the transaction.
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
-
-            // Assert that the transaction with a single, zero split is valid.
-            Assert.That(transaction.IsValid, Is.False);
-        }
-
-        [Test]
         public void GetIsValid_WithInvalidSplit_ReturnsFalse()
         {
             // Create a new, empty transaction.
@@ -127,7 +96,8 @@ namespace SharpBooks.Tests
             using (var transactionLock = transaction.Lock())
             {
                 // Add a split to the transaction, but do not set the account.
-                transaction.AddSplit(transactionLock);
+                var split = transaction.AddSplit(transactionLock);
+                Assume.That(split.IsValid, Is.False);
             }
 
             // Assert that the transaction is invalid with an invalid split.

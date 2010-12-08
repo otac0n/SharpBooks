@@ -149,6 +149,36 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             testRunner.CollectScenarioErrors();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Transaction is invalid when its base currency does not match any splits")]
+        public virtual void TransactionIsInvalidWhenItsBaseCurrencyDoesNotMatchAnySplits()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Transaction is invalid when its base currency does not match any splits", ((string[])(null)));
+#line 34
+this.ScenarioSetup(scenarioInfo);
+#line 35
+    testRunner.Given("a currency \'C1\'");
+#line 36
+   testRunner.And("an account \'A\' with security \'C1\'");
+#line 37
+      testRunner.And("a currency \'C2\'");
+#line 38
+      testRunner.And("an empty transaction \'T\' with the security \'C2\'");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Account",
+                        "Amount"});
+            table4.AddRow(new string[] {
+                        "A",
+                        "0"});
+#line 39
+     testRunner.When("the following splits are added to transaction \'T\'", ((string)(null)), table4);
+#line 42
+    testRunner.Then("transaction \'T\' is invalid");
+#line hidden
+            testRunner.CollectScenarioErrors();
+        }
     }
 }
 #endregion

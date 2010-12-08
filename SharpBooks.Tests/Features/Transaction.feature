@@ -30,3 +30,13 @@ Scenario: Transaction is invalid when it has unbalanced splits
         | A       | 1      |
         | A       | -2     |
     Then transaction 'T' is invalid
+
+Scenario: Transaction is invalid when its base currency does not match any splits
+    Given a currency 'C1'
+	  And an account 'A' with security 'C1'
+      And a currency 'C2'
+      And an empty transaction 'T' with the security 'C2'
+     When the following splits are added to transaction 'T'
+        | Account | Amount |
+        | A       | 0      |
+    Then transaction 'T' is invalid
