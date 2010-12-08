@@ -10,6 +10,7 @@
         <convert:NullVisibility x:Key="Null" />
         <convert:CurrencyConverter x:Key="Money" />
         <convert:CurrencyColorConverter x:Key="MoneyColor" />
+        <convert:CoalescedDateConverter x:Key="SplitDate" />
     </Window.Resources>
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
@@ -47,9 +48,21 @@
                         <ListView x:Name="SplitList" ItemsSource="{Binding ActiveAccount.Splits}" Grid.Row="1">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Transaction Date" DisplayMemberBinding="{Binding Transaction.Date}" />
-                                    <GridViewColumn Header="Cleared" DisplayMemberBinding="{Binding DateCleared}" />
-                                    <GridViewColumn Header="Amount">
+                                    <GridViewColumn Header="  Date  ">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label>
+                                                    <Label.Content>
+                                                        <MultiBinding Converter="{StaticResource SplitDate}">
+                                                            <Binding Path="DateCleared" />
+                                                            <Binding Path="Transaction.Date" />
+                                                        </MultiBinding>
+                                                    </Label.Content>
+                                                </Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="  Amount  ">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label Foreground="{Binding Amount, Converter={StaticResource MoneyColor}}">
@@ -64,7 +77,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn Header="Reconciled" DisplayMemberBinding="{Binding IsReconciled}" />
-                                    <GridViewColumn Header="Transaction Amount">
+                                    <GridViewColumn Header="  Transaction Amount  ">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label Foreground="{Binding TransactionAmount, Converter={StaticResource MoneyColor}}">
@@ -78,7 +91,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Account" DisplayMemberBinding="{Binding Account.Name}" />
+                                    <GridViewColumn Header="  Account  " DisplayMemberBinding="{Binding Account.Name}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>

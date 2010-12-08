@@ -101,6 +101,7 @@
     <Compile Include="Converters\CurrencyConverter.cs" />
     <Compile Include="Converters\NotNullVisibility.cs" />
     <Compile Include="Converters\NullVisibility.cs" />
+    <Compile Include="Converters\CoalescedDateConverter.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Overview.cs" />
     <Compile Include="ViewModels\OverviewColumn.cs" />
