@@ -50,18 +50,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WhenEmpty_ReturnsFalse()
-        {
-            // Construct a new transaction with known good values.
-            var transaction = new Transaction(
-                Guid.NewGuid(), // OK
-                TestUtils.TestCurrency); // OK
-
-            // Assert that the transaction without any splits is invalid.
-            Assert.That(transaction.IsValid, Is.False);
-        }
-
-        [Test]
         public void GetIsLocked_WhenLocked_ReturnsTrue()
         {
             // Create a new, empty transaction.
@@ -99,26 +87,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WithSingleZeroSplit_ReturnsTrue()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Add an empty split to the transaction.
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-            }
-
-            // Assert that the transaction with a single, zero split is valid.
-            Assert.That(transaction.IsValid, Is.True);
-        }
-
-        [Test]
         public void GetIsValid_WithSecurityNotMatchingAnySplit_ReturnsTrue()
         {
             // Create a test security that is different from the default for an account.
@@ -146,31 +114,6 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the transaction with a single, zero split is valid.
-            Assert.That(transaction.IsValid, Is.False);
-        }
-
-        [Test]
-        public void GetIsValid_WithSingleNonzeroSplit_ReturnsFalse()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Lock the transaction for editing.
-            using (var transactionLock = transaction.Lock())
-            {
-                // Add a split to the transaction.
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-
-                // Set the amount of the split to be non-zero.
-                split.SetAmount(1, transactionLock);
-                split.SetTransactionAmount(1, transactionLock);
-            }
-
-            // Assert that the transaction with a single, non-zero split is invalid.
             Assert.That(transaction.IsValid, Is.False);
         }
 
