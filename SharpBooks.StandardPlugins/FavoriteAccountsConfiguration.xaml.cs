@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FavoriteAccountsConfiguration.cs" company="(none)">
+// <copyright file="FavoriteAccountsConfiguration.xaml.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>otac0n</author>

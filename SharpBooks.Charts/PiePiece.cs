@@ -232,9 +232,9 @@
             var levels = this.TotalLevels <= 0 ? 1 : this.TotalLevels;
             var levelSize = (this.OuterRadius - this.InnerRadius) / levels;
 
-            var outerArcRadius = this.InnerRadius + (this.OuterLevel + 1) * levelSize + this.RadiusPunch;
-            var outerSubArcRadius = this.InnerRadius + this.OuterLevel * levelSize + this.RadiusPunch;
-            var innerArcRadius = this.InnerRadius + this.InnerLevel * levelSize + this.RadiusPunch;
+            var outerArcRadius = this.InnerRadius + ((this.OuterLevel + 1) * levelSize) + this.RadiusPunch;
+            var outerSubArcRadius = this.InnerRadius + (this.OuterLevel * levelSize) + this.RadiusPunch;
+            var innerArcRadius = this.InnerRadius + (this.InnerLevel * levelSize) + this.RadiusPunch;
 
             var outerArcSize = new Size(outerArcRadius, outerArcRadius);
             var outerArcStart = PolarToCartesian(this.StartAngle, outerArcRadius);

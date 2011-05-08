@@ -120,7 +120,6 @@
                 return null;
             }
 
-
             ////int columnNumber = 0;
             ////foreach (var widgetColumn in widgetsLayout)
             ////{

@@ -6,7 +6,7 @@
     using System.Text;
     using System.Windows.Data;
 
-    class CoalescedDateConverter : IMultiValueConverter
+    public class CoalescedDateConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
