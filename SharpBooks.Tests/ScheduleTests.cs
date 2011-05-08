@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SecurityTests.cs" company="(none)">
+// <copyright file="ScheduleTests.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
@@ -8,10 +8,10 @@
 namespace SharpBooks.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using NUnit.Framework;
     using SharpBooks.Scheduling;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class ScheduleTests
@@ -154,23 +154,23 @@ namespace SharpBooks.Tests
 
                 var expected = new List<DateTime>()
                 {
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*0),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 0),
 
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*1),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 1),
 
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*2),
-                    DateTime.MinValue.AddDays(1*1).AddHours(12*0),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 2),
+                    DateTime.MinValue.AddDays(1 * 1).AddHours(12 * 0),
 
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*3),
-                    DateTime.MinValue.AddDays(1*1).AddHours(12*1),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 3),
+                    DateTime.MinValue.AddDays(1 * 1).AddHours(12 * 1),
 
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*4),
-                    DateTime.MinValue.AddDays(1*1).AddHours(12*2),
-                    DateTime.MinValue.AddDays(1*2).AddHours(12*0),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 4),
+                    DateTime.MinValue.AddDays(1 * 1).AddHours(12 * 2),
+                    DateTime.MinValue.AddDays(1 * 2).AddHours(12 * 0),
 
-                    DateTime.MinValue.AddDays(1*0).AddHours(12*5),
-                    DateTime.MinValue.AddDays(1*1).AddHours(12*3),
-                    DateTime.MinValue.AddDays(1*2).AddHours(12*1),
+                    DateTime.MinValue.AddDays(1 * 0).AddHours(12 * 5),
+                    DateTime.MinValue.AddDays(1 * 1).AddHours(12 * 3),
+                    DateTime.MinValue.AddDays(1 * 2).AddHours(12 * 1),
                 };
 
                 var mismatches = from i in Enumerable.Range(0, expected.Count)

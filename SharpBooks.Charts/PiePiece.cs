@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Shapes;
-using System.Windows;
-using System.Windows.Media;
-
-namespace SharpBooks.Charts
+﻿namespace SharpBooks.Charts
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Media;
+    using System.Windows.Shapes;
+
     internal class PiePiece : Shape
     {
         public static readonly DependencyProperty OuterRadiusProperty =
@@ -219,7 +216,7 @@ namespace SharpBooks.Charts
 
                 using (StreamGeometryContext context = geometry.Open())
                 {
-                    DrawGeometry(context);
+                    this.DrawGeometry(context);
                 }
 
                 geometry.Freeze();
@@ -267,7 +264,7 @@ namespace SharpBooks.Charts
             context.ArcTo(innerArcEnd, innerArcSize, 0.0d, this.InnerAngle > 180.0d, this.InnerAngle < 0 ? SweepDirection.Clockwise : SweepDirection.Counterclockwise, true, true);
         }
 
-        private Point PolarToCartesian(double angle, double radius)
+        private static Point PolarToCartesian(double angle, double radius)
         {
             angle = angle * Math.PI / 180.0d;
 

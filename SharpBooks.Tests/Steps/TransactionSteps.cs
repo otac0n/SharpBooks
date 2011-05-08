@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TechTalk.SpecFlow;
-using NUnit.Framework;
-
-namespace SharpBooks.Tests.Steps
+﻿namespace SharpBooks.Tests.Steps
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using NUnit.Framework;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public class TransactionSteps
     {
@@ -89,7 +89,7 @@ namespace SharpBooks.Tests.Steps
                 Assume.That(table.Header, Has.Member("Transaction Amount"));
             }
 
-            using (var tLock = transaction.Lock())
+            using (var @lock = transaction.Lock())
             {
                 foreach (var row in table.Rows)
                 {
@@ -97,10 +97,10 @@ namespace SharpBooks.Tests.Steps
                     var amount = long.Parse(row["Amount"]);
                     var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
-                    var split = transaction.AddSplit(tLock);
-                    split.SetAccount(account, tLock);
-                    split.SetAmount(amount, tLock);
-                    split.SetTransactionAmount(transactionAmount, tLock);
+                    var split = transaction.AddSplit(@lock);
+                    split.SetAccount(account, @lock);
+                    split.SetAmount(amount, @lock);
+                    split.SetTransactionAmount(transactionAmount, @lock);
                 }
             }
 
@@ -131,7 +131,7 @@ namespace SharpBooks.Tests.Steps
                 Assume.That(table.Header, Has.Member("Transaction Amount"));
             }
 
-            using (var tLock = transaction.Lock())
+            using (var @lock = transaction.Lock())
             {
                 foreach (var row in table.Rows)
                 {
@@ -139,10 +139,10 @@ namespace SharpBooks.Tests.Steps
                     var amount = long.Parse(row["Amount"]);
                     var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
-                    var split = transaction.AddSplit(tLock);
-                    split.SetAccount(account, tLock);
-                    split.SetAmount(amount, tLock);
-                    split.SetTransactionAmount(transactionAmount, tLock);
+                    var split = transaction.AddSplit(@lock);
+                    split.SetAccount(account, @lock);
+                    split.SetAmount(amount, @lock);
+                    split.SetTransactionAmount(transactionAmount, @lock);
                 }
             }
         }

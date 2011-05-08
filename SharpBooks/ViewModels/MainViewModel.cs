@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpBooks.Plugins;
-using System.Windows.Controls;
-
-namespace SharpBooks.ViewModels
+﻿namespace SharpBooks.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows.Controls;
+    using SharpBooks.Plugins;
+
     internal class MainViewModel : ViewModelBase
     {
         private IEnumerable<IPluginFactory> plugins;
 
         private Book book;
         private ReadOnlyBook readOnlyBook;
+
+        public MainViewModel()
+        {
+            ////this.Book = BuildFakeBook();
+            this.plugins = LoadAllPlugins();
+        }
 
         internal Book Book
         {
@@ -42,12 +48,6 @@ namespace SharpBooks.ViewModels
             }
         }
 
-        public MainViewModel()
-        {
-            //this.Book = BuildFakeBook();
-            this.plugins = LoadAllPlugins();
-        }
-
         private static IEnumerable<IPluginFactory> LoadAllPlugins()
         {
             var assembly = System.Reflection.Assembly.GetEntryAssembly();
@@ -66,13 +66,13 @@ namespace SharpBooks.ViewModels
 
         private void AccountSelected(object sender, AccountSelectedEventArgs e)
         {
-            //AccountsTabItem.IsSelected = true;
-            //AccountsList.Visibility = Visibility.Hidden;
-            //SplitList.Visibility = Visibility.Visible;
+            ////AccountsTabItem.IsSelected = true;
+            ////AccountsList.Visibility = Visibility.Hidden;
+            ////SplitList.Visibility = Visibility.Visible;
 
             var account = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).Single();
-            //SplitList.DataContext = from s in this.Book.GetAccountSplits(account)
-            //                        select new SplitViewModel(s);
+            ////SplitList.DataContext = from s in this.Book.GetAccountSplits(account)
+            ////                        select new SplitViewModel(s);
         }
 
         private WidgetContainer LoadWidget(string widgetName)

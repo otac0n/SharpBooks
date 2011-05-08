@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TechTalk.SpecFlow;
-
-namespace SharpBooks.Tests.Steps
+﻿namespace SharpBooks.Tests.Steps
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using TechTalk.SpecFlow;
+
     [Binding]
     public class BookSteps
     {

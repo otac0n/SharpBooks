@@ -27,8 +27,8 @@ namespace SharpBooks.StandardPlugins
 
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
-            //var view = new RecentExpensesConfiguration();
-            //currentSettings = view.GetSettings(book, currentSettings);
+            ////var view = new RecentExpensesConfiguration();
+            ////currentSettings = view.GetSettings(book, currentSettings);
 
             return currentSettings;
         }

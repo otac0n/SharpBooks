@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-namespace SharpBooks
+﻿namespace SharpBooks
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using System.Windows.Navigation;
+    using System.Windows.Shapes;
+
     public partial class WidgetContainer : UserControl
     {
         public static DependencyProperty TitleProperty =
@@ -42,6 +42,11 @@ namespace SharpBooks
                 System.Drawing.SystemIcons.Warning.Handle,
                 Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(16, 16));
+
+        public WidgetContainer()
+        {
+            InitializeComponent();
+        }
 
         public bool IsExpanded
         {
@@ -75,11 +80,6 @@ namespace SharpBooks
             {
                 return warningIcon;
             }
-        }
-
-        public WidgetContainer()
-        {
-            InitializeComponent();
         }
 
         public string Title

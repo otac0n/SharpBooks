@@ -154,7 +154,7 @@ namespace GooglePriceQuoteSource
             }
 
             /// <summary>
-            /// This result code is unknown.
+            /// Gets or sets a value indicating whether this result code is unknown.
             /// </summary>
             [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
             public bool icc

@@ -8,16 +8,12 @@
 namespace SharpBooks.StandardPlugins
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
     using Newtonsoft.Json;
-    using SharpBooks.Plugins;
     using SharpBooks.Charts;
+    using SharpBooks.Plugins;
 
     internal class RecentExpensesWidget : IWidget
     {
@@ -86,18 +82,18 @@ namespace SharpBooks.StandardPlugins
 
         private void PopulateControl(ReadOnlyBook book)
         {
-            //var accounts = from a in book.Accounts
-            //               let path = Account.GetAccountPath(a, this.settings.PathSeperator)
-            //               where (from ap in this.settings.AccountPaths
-            //                      where string.Equals(ap, path, StringComparison.OrdinalIgnoreCase)
-            //                      select ap).Any()
-            //               orderby path
-            //               select a;
-
-            //foreach (var account in accounts)
-            //{
-            //    var balance = book.GetAccountSplits(account).Sum(s => s.Amount);
-            //}
+            ////var accounts = from a in book.Accounts
+            ////               let path = Account.GetAccountPath(a, this.settings.PathSeperator)
+            ////               where (from ap in this.settings.AccountPaths
+            ////                      where string.Equals(ap, path, StringComparison.OrdinalIgnoreCase)
+            ////                      select ap).Any()
+            ////               orderby path
+            ////               select a;
+            ////
+            ////foreach (var account in accounts)
+            ////{
+            ////    var balance = book.GetAccountSplits(account).Sum(s => s.Amount);
+            ////}
         }
 
         private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

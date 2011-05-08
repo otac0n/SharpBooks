@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using SharpBooks.Plugins;
-using SharpBooks.ViewModels;
-
-namespace SharpBooks.Controllers
+﻿namespace SharpBooks.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Newtonsoft.Json;
+    using SharpBooks.Plugins;
+    using SharpBooks.ViewModels;
+
     public class MainController
     {
         private Book book;
@@ -121,64 +121,64 @@ namespace SharpBooks.Controllers
             }
 
 
-            //int columnNumber = 0;
-            //foreach (var widgetColumn in widgetsLayout)
-            //{
-            //    var panel = new StackPanel
-            //    {
-            //        Orientation = Orientation.Vertical
-            //    };
-
-            //    if (widgetColumn.Widgets != null)
-            //    {
-            //        foreach (var widgetDescr in widgetColumn.Widgets)
-            //        {
-            //            var widget = this.LoadWidget(widgetDescr.Name);
-            //            widget.IsExpanded = widgetDescr.IsExpanded;
-            //            panel.Children.Add(widget);
-            //        }
-            //    }
-
-            //    OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-            //    {
-            //        MinWidth = 100.0d,
-            //        Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
-            //    });
-
-            //    var splitter = new GridSplitter
-            //    {
-            //        Width = 3.0d,
-            //    };
-
-            //    Grid.SetColumn(panel, columnNumber);
-            //    Grid.SetColumn(splitter, columnNumber);
-
-            //    OverviewGrid.Children.Add(panel);
-            //    OverviewGrid.Children.Add(splitter);
-
-            //    columnNumber++;
-            //}
-
-            //OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
-            //{
-            //    Width = new GridLength(1.0d, GridUnitType.Auto),
-            //});
+            ////int columnNumber = 0;
+            ////foreach (var widgetColumn in widgetsLayout)
+            ////{
+            ////    var panel = new StackPanel
+            ////    {
+            ////        Orientation = Orientation.Vertical
+            ////    };
+            ////
+            ////    if (widgetColumn.Widgets != null)
+            ////    {
+            ////        foreach (var widgetDescr in widgetColumn.Widgets)
+            ////        {
+            ////            var widget = this.LoadWidget(widgetDescr.Name);
+            ////            widget.IsExpanded = widgetDescr.IsExpanded;
+            ////            panel.Children.Add(widget);
+            ////        }
+            ////    }
+            ////
+            ////    OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+            ////    {
+            ////        MinWidth = 100.0d,
+            ////        Width = new GridLength(widgetColumn.ColumnWidth, GridUnitType.Pixel),
+            ////    });
+            ////
+            ////    var splitter = new GridSplitter
+            ////    {
+            ////        Width = 3.0d,
+            ////    };
+            ////
+            ////    Grid.SetColumn(panel, columnNumber);
+            ////    Grid.SetColumn(splitter, columnNumber);
+            ////
+            ////    OverviewGrid.Children.Add(panel);
+            ////    OverviewGrid.Children.Add(splitter);
+            ////
+            ////    columnNumber++;
+            ////}
+            ////
+            ////OverviewGrid.ColumnDefinitions.Add(new ColumnDefinition
+            ////{
+            ////    Width = new GridLength(1.0d, GridUnitType.Auto),
+            ////});
 
             return null;
         }
 
         private class OverviewColumnJson
         {
+            public int ColumnWidth { get; set; }
+
+            public List<WidgetDescriptionJson> Widgets { get; set; }
+
             public class WidgetDescriptionJson
             {
                 public string Name { get; set; }
 
                 public bool IsExpanded { get; set; }
             }
-
-            public int ColumnWidth { get; set; }
-
-            public List<WidgetDescriptionJson> Widgets { get; set; }
         }
 
         public void AddAccount(Account account)
