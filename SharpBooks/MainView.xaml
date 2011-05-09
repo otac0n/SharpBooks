@@ -11,6 +11,7 @@
         <convert:CurrencyConverter x:Key="Money" />
         <convert:CurrencyColorConverter x:Key="MoneyColor" />
         <convert:CoalescedDateConverter x:Key="SplitDate" />
+        <convert:OtherAccountConverter x:Key="OtherAccount" />
     </Window.Resources>
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
@@ -76,22 +77,8 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Reconciled" DisplayMemberBinding="{Binding IsReconciled}" />
-                                    <GridViewColumn Header="  Transaction Amount  ">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Label Foreground="{Binding TransactionAmount, Converter={StaticResource MoneyColor}}">
-                                                    <Label.Content>
-                                                        <MultiBinding Converter="{StaticResource Money}">
-                                                            <Binding Path="TransactionAmount" />
-                                                            <Binding Path="Transaction.BaseSecurity" />
-                                                        </MultiBinding>
-                                                    </Label.Content>
-                                                </Label>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="  Account  " DisplayMemberBinding="{Binding Account.Name}" />
+                                    <GridViewColumn Header="  Reconciled  " DisplayMemberBinding="{Binding IsReconciled}" />
+                                    <GridViewColumn Header="  Account  " DisplayMemberBinding="{Binding Converter={StaticResource OtherAccount}}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
