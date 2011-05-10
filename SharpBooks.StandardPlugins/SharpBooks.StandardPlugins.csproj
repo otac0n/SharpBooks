@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilePersistenceStrategy.cs" />
     <Compile Include="RecentExpensesWidget.cs" />
     <Compile Include="RecentExpensesSettings.cs" />
     <Compile Include="RecentExpensesWidgetFactory.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="FavoriteAccountsWidget.cs" />
     <Compile Include="FavoriteAccountsWidgetFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlPersistenceStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpBooks.Charts\SharpBooks.Charts.csproj">

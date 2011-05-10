@@ -60,6 +60,9 @@
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />
     <Compile Include="CompositeBalance.cs" />
+    <Compile Include="ILoader.cs" />
+    <Compile Include="Persistence\IPersistenceStrategy.cs" />
+    <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
     <Compile Include="ReadOnlyObservableCollection.cs" />
     <Compile Include="Scheduling\DateLimitSchedule.cs" />
     <Compile Include="Scheduling\DateUnit.cs" />
@@ -72,7 +75,6 @@
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
     <Compile Include="MathExtensions.cs" />
-    <Compile Include="ILoader.cs" />
     <Compile Include="ISaver.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="PriceRetrievalFailureException.cs" />

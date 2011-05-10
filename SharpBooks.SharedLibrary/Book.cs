@@ -138,7 +138,9 @@ namespace SharpBooks
         {
             lock (this.lockMutex)
             {
-                return this.settings.ContainsKey(key) ? this.settings[key] : null;
+                string value;
+                this.settings.TryGetValue(key, out value);
+                return value;
             }
         }
 
