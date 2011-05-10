@@ -44,42 +44,27 @@ namespace SharpBooks
 
         public ReadOnlyObservableCollection<Security> Securities
         {
-            get
-            {
-                return this.securitiesReadOnly;
-            }
+            get { return this.securitiesReadOnly; }
         }
 
         public ReadOnlyObservableCollection<Account> Accounts
         {
-            get
-            {
-                return this.accountsReadOnly;
-            }
+            get { return this.accountsReadOnly; }
         }
 
         public ReadOnlyObservableCollection<Account> RootAccounts
         {
-            get
-            {
-                return this.rootAccountsReadOnly;
-            }
+            get { return this.rootAccountsReadOnly; }
         }
 
         public ReadOnlyObservableCollection<Transaction> Transactions
         {
-            get
-            {
-                return this.transactionsReadOnly;
-            }
+            get { return this.transactionsReadOnly; }
         }
 
         public ReadOnlyObservableCollection<PriceQuote> PriceQuotes
         {
-            get
-            {
-                return this.priceQuotesReadOnly;
-            }
+            get { return this.priceQuotesReadOnly; }
         }
 
         public ICollection<Split> GetAccountSplits(Account account)
@@ -144,6 +129,11 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Gets the value of a setting.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <returns>The existing value of the setting, if the setting exists; null, otherwise.</returns>
         public string GetSetting(string key)
         {
             lock (this.lockMutex)
@@ -236,6 +226,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Adds an account to the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="account">The account to add.</param>
         public void AddAccount(Account account)
         {
             lock (this.lockMutex)
@@ -290,6 +284,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes an account from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="account">The account to remove.</param>
         public void RemoveAccount(Account account)
         {
             lock (this.lockMutex)
@@ -335,6 +333,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Adds a price quote to the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="priceQuote">The price quote to add.</param>
         public void AddPriceQuote(PriceQuote priceQuote)
         {
             lock (this.lockMutex)
@@ -386,6 +388,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes a price quote from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="priceQuote">The price quote to remove.</param>
         public void RemovePriceQuote(PriceQuote priceQuote)
         {
             lock (this.lockMutex)
@@ -405,6 +411,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Adds a transaction to the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="transaction">The transaction to add.</param>
         public void AddTransaction(Transaction transaction)
         {
             lock (this.lockMutex)
@@ -465,6 +475,10 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Removes a transaction from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="transaction">The transaction to remove.</param>
         public void RemoveTransaction(Transaction transaction)
         {
             lock (this.lockMutex)
@@ -486,11 +500,19 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Returns a read-only wrapper for the current <see cref="Book"/>.
+        /// </summary>
+        /// <returns>A <see cref="ReadOnlyBook"/> that acts a wrapper for the current <see cref="Book"/>.</returns>
         public ReadOnlyBook AsReadOnly()
         {
             return this.readOnlyFacade;
         }
 
+        /// <summary>
+        /// Creates a <see cref="SavePoint"/> that can be used to keep track of changes in the current <see cref="Book"/>.
+        /// </summary>
+        /// <returns>A <see cref="SavePoint"/> corresponding to the current state of the current <see cref="Book"/>.</returns>
         public SavePoint CreateSavePoint()
         {
             lock (this.lockMutex)
@@ -503,7 +525,12 @@ namespace SharpBooks
             }
         }
 
-        public void Replay(ISaver dataAdapter, SavePoint savePoint)
+        /// <summary>
+        /// Replays the changes in the current <see cref="Book"/> that have taken place since the <paramref name="savePoint"/> has been created.
+        /// </summary>
+        /// <param name="dataAdapter">The <see cref="ISaver"/> to which to replay the changes.</param>
+        /// <param name="savePoint">The <see cref="SavePoint"/> from which the changes should be replayed.  If null, the entirety of the current <see cref="Book"/> will be replayed.</param>
+        public void Replay(ISaver dataAdapter, SavePoint savePoint = null)
         {
             SaveTrack track;
 
