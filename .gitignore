@@ -1,6 +1,8 @@
-bin/
-obj/
+[Bb]in/
+[Oo]bj/
 *.suo
+*.docstates
 *.user
 *.Cache
 *.cache
+*.[Ll]ocal.xml
