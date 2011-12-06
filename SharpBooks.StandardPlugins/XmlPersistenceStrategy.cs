@@ -50,6 +50,44 @@
                 book.AddAccount(account);
             }
 
+            foreach (var t in doc.Element("Book").Element("Transactions").Elements("Transaction"))
+            {
+                var transactionId = (Guid)t.Attribute("id");
+                var securityId = (Guid)t.Attribute("securityId");
+                var security = securities[securityId];
+
+                var transaction = new Transaction(transactionId, security);
+                using (var tlock = transaction.Lock())
+                {
+                    foreach (var s in t.Elements("Split"))
+                    {
+                        var split = transaction.AddSplit(tlock);
+
+                        var accountId = (Guid)s.Attribute("accountId");
+                        var account = accounts[accountId];
+                        split.SetAccount(account, tlock);
+
+                        var amount = (long)s.Attribute("amount");
+                        split.SetAmount(amount, tlock);
+
+                        var transactionAmount = (long)s.Attribute("transactionAmount");
+                        split.SetTransactionAmount(transactionAmount, tlock);
+
+                        var dateClearedAttr = s.Attribute("dateCleared");
+                        if (dateClearedAttr != null)
+                        {
+                            var dateCleared = (DateTime)dateClearedAttr;
+                            split.SetDateCleared(dateCleared, tlock);
+                        }
+
+                        var reconciled = (bool)s.Attribute("reconciled");
+                        split.SetIsReconciled(reconciled, tlock);
+                    }
+                }
+
+                book.AddTransaction(transaction);
+            }
+
             return book;
         }
 
