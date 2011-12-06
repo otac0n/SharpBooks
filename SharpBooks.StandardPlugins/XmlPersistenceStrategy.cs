@@ -12,18 +12,16 @@
 
             var doc = XDocument.Load(uri.ToString());
 
-            var securities = from s in doc.Element("Book").Element("Securities").Elements("Security")
-                             let securityId = (Guid)s.Attribute("id")
-                             let securityType = (SecurityType)Enum.Parse(typeof(SecurityType), (string)s.Attribute("type"))
-                             let name = (string)s.Attribute("name")
-                             let symbol = (string)s.Attribute("symbol")
-                             let signFormat = (string)s.Attribute("signFormat")
-                             let fractionTraded = (int)s.Attribute("fractionTraded")
-                             select new Security(securityId, securityType, name, symbol, signFormat, fractionTraded);
-
-            foreach (var security in securities)
+            foreach (var s in doc.Element("Book").Element("Securities").Elements("Security"))
             {
-                book.AddSecurity(security);
+                var securityId = (Guid)s.Attribute("id");
+                var securityType = (SecurityType)Enum.Parse(typeof(SecurityType), (string)s.Attribute("type"));
+                var name = (string)s.Attribute("name");
+                var symbol = (string)s.Attribute("symbol");
+                var signFormat = (string)s.Attribute("signFormat");
+                var fractionTraded = (int)s.Attribute("fractionTraded");
+
+                book.AddSecurity(new Security(securityId, securityType, name, symbol, signFormat, fractionTraded));
             }
 
             return book;
