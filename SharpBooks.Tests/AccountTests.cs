@@ -139,7 +139,7 @@ namespace SharpBooks.Tests
             // Build a new, valid account.
             var ancestor = TestUtils.CreateValidAccount();
 
-            // Build the ancestory of the child account.
+            // Build the ancestry of the child account.
             var parent = ancestor;
             for (var i = 1; i < generations; i++)
             {
