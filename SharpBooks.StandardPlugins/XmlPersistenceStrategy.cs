@@ -14,6 +14,7 @@
             var doc = XDocument.Load(uri.ToString());
 
             var securities = new Dictionary<Guid, Security>();
+            var accounts = new Dictionary<Guid, Account>();
 
             foreach (var s in doc.Element("Book").Element("Securities").Elements("Security"))
             {
@@ -27,6 +28,26 @@
                 var security = new Security(securityId, securityType, name, symbol, signFormat, fractionTraded);
                 securities.Add(security.SecurityId, security);
                 book.AddSecurity(security);
+            }
+
+            foreach (var a in doc.Element("Book").Element("Accounts").Elements("Account"))
+            {
+                var accountId = (Guid)a.Attribute("id");
+                var securityId = (Guid)a.Attribute("securityId");
+                var security = securities[securityId];
+                Account parentAccount = null;
+                var parentAttr = a.Attribute("parentAccountId");
+                if (parentAttr != null)
+                {
+                    var parentAccountId = (Guid)parentAttr;
+                    parentAccount = accounts[parentAccountId];
+                }
+                var name = (string)a.Attribute("name");
+                var smallestFraction = (int)a.Attribute("smallestFraction");
+
+                var account = new Account(accountId, security, parentAccount, name, smallestFraction);
+                accounts.Add(account.AccountId, account);
+                book.AddAccount(account);
             }
 
             return book;
@@ -52,7 +73,11 @@
                     new XElement("Accounts",
                         from a in book.Accounts
                         select new XElement("Account",
-                            new XAttribute("id", a.AccountId)
+                            new XAttribute("id", a.AccountId),
+                            new XAttribute("securityId", a.Security.SecurityId),
+                            a.ParentAccount == null ? null : new XAttribute("parentAccountId", a.ParentAccount.AccountId),
+                            new XAttribute("name", a.Name),
+                            new XAttribute("smallestFraction", a.SmallestFraction)
                         )
                     ),
                     new XElement("Transactions",
