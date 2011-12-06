@@ -84,6 +84,22 @@
                 book.AddTransaction(transaction);
             }
 
+            foreach (var p in doc.Element("Book").Element("PriceQuotes").Elements("PriceQuote"))
+            {
+                var priceQuoteId = (Guid)p.Attribute("id");
+                var dateTime = (DateTime)p.Attribute("date");
+                var securityId = (Guid)p.Attribute("securityId");
+                var security = securities[securityId];
+                var quantity = (long)p.Attribute("quantity");
+                var currencyId = (Guid)p.Attribute("currencyId");
+                var currency = securities[currencyId];
+                var price = (long)p.Attribute("price");
+                var source = (string)p.Attribute("source");
+
+                var priceQuote = new PriceQuote(priceQuoteId, dateTime, security, quantity, currency, price, source);
+                book.AddPriceQuote(priceQuote);
+            }
+
             return book;
         }
 
@@ -133,7 +149,13 @@
                     new XElement("PriceQuotes",
                         from p in book.PriceQuotes
                         select new XElement("PriceQuote",
-                            new XAttribute("id", p.PriceQuoteId)
+                            new XAttribute("id", p.PriceQuoteId),
+                            new XAttribute("date", p.DateTime),
+                            new XAttribute("securityId", p.Security.SecurityId),
+                            new XAttribute("quantity", p.Quantity),
+                            new XAttribute("currencyId", p.Currency.SecurityId),
+                            new XAttribute("price", p.Price),
+                            new XAttribute("source", p.Source)
                         )
                     )
                 );

@@ -20,6 +20,7 @@
       <Split accountId="3ff569e7-1ffa-458c-a7fc-35b4959032c7" amount="-1750" transactionAmount="-1750" reconciled="False" />
     </Transaction>
   </Transactions>
+  <PriceQuotes />
   <Settings>
     <Setting key="overview-layout" value="[{&quot;ColumnWidth&quot;:200,&quot;Widgets&quot;:[{&quot;Name&quot;:&quot;widget1&quot;},{&quot;Name&quot;:&quot;widget2&quot;}]},{&quot;ColumnWidth&quot;:250,&quot;Widgets&quot;:[{&quot;Name&quot;:&quot;widget3&quot;}]}]" />
     <Setting key="overview-widgets-widget1-name" value="Favorite Accounts" />
