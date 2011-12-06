@@ -73,12 +73,8 @@
                         var transactionAmount = (long)s.Attribute("transactionAmount");
                         split.SetTransactionAmount(transactionAmount, tlock);
 
-                        var dateClearedAttr = s.Attribute("dateCleared");
-                        if (dateClearedAttr != null)
-                        {
-                            var dateCleared = (DateTime)dateClearedAttr;
-                            split.SetDateCleared(dateCleared, tlock);
-                        }
+                        var dateCleared = (DateTime?)s.Attribute("dateCleared");
+                        split.SetDateCleared(dateCleared, tlock);
 
                         var reconciled = (bool)s.Attribute("reconciled");
                         split.SetIsReconciled(reconciled, tlock);
@@ -121,7 +117,17 @@
                     new XElement("Transactions",
                         from t in book.Transactions
                         select new XElement("Transaction",
-                            new XAttribute("id", t.TransactionId)
+                            new XAttribute("id", t.TransactionId),
+                            new XAttribute("securityId", t.BaseSecurity.SecurityId),
+                            new XAttribute("date", t.Date),
+                            from s in t.Splits
+                            select new XElement("Split",
+                                new XAttribute("accountId", s.Account.AccountId),
+                                new XAttribute("amount", s.Amount),
+                                new XAttribute("transactionAmount", s.TransactionAmount),
+                                new XAttribute("dateCleared", s.DateCleared),
+                                new XAttribute("reconciled", s.IsReconciled)
+                            )
                         )
                     ),
                     new XElement("PriceQuotes",
