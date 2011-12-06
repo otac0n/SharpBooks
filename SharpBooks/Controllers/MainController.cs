@@ -16,7 +16,7 @@
         public MainController()
         {
             var strategy = new XmlPersistenceStrategy();
-            strategy.SetDestination(new Uri("test.xml", UriKind.Relative));
+            strategy.SetDestination(new Uri("TestBook.xml", UriKind.Relative));
 
             this.book = strategy.Load();
         }
