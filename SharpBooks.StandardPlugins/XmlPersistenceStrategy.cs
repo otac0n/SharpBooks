@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Xml.Linq;
+    using System.Collections.Generic;
 
     public class XmlPersistenceStrategy : FilePersistenceStrategy
     {
@@ -11,6 +12,8 @@
             var book = new Book();
 
             var doc = XDocument.Load(uri.ToString());
+
+            var securities = new Dictionary<Guid, Security>();
 
             foreach (var s in doc.Element("Book").Element("Securities").Elements("Security"))
             {
@@ -21,7 +24,9 @@
                 var signFormat = (string)s.Attribute("signFormat");
                 var fractionTraded = (int)s.Attribute("fractionTraded");
 
-                book.AddSecurity(new Security(securityId, securityType, name, symbol, signFormat, fractionTraded));
+                var security = new Security(securityId, securityType, name, symbol, signFormat, fractionTraded);
+                securities.Add(security.SecurityId, security);
+                book.AddSecurity(security);
             }
 
             return book;
