@@ -63,6 +63,7 @@
     <Compile Include="ILoader.cs" />
     <Compile Include="Persistence\IPersistenceStrategy.cs" />
     <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
+    <Compile Include="ReadOnlyDictionary`2.cs" />
     <Compile Include="ReadOnlyObservableCollection.cs" />
     <Compile Include="Scheduling\DateLimitSchedule.cs" />
     <Compile Include="Scheduling\DateUnit.cs" />

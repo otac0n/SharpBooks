@@ -31,6 +31,7 @@ namespace SharpBooks
         private readonly ReadOnlyObservableCollection<Account> rootAccountsReadOnly;
         private readonly ReadOnlyObservableCollection<PriceQuote> priceQuotesReadOnly;
         private readonly ReadOnlyObservableCollection<Transaction> transactionsReadOnly;
+        private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
 
         public Book()
         {
@@ -39,6 +40,7 @@ namespace SharpBooks
             this.rootAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.rootAccounts);
             this.priceQuotesReadOnly = new ReadOnlyObservableCollection<PriceQuote>(this.priceQuotes);
             this.transactionsReadOnly = new ReadOnlyObservableCollection<Transaction>(this.transactions);
+            this.settingsReadOnly = new ReadOnlyDictionary<string, string>(this.settings);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
@@ -65,6 +67,11 @@ namespace SharpBooks
         public ReadOnlyObservableCollection<PriceQuote> PriceQuotes
         {
             get { return this.priceQuotesReadOnly; }
+        }
+
+        public ReadOnlyDictionary<string, string> Settings
+        {
+            get { return this.settingsReadOnly; }
         }
 
         public ICollection<Split> GetAccountSplits(Account account)
@@ -266,9 +273,9 @@ namespace SharpBooks
                 }
 
                 var duplicateNames = from a in this.accounts
-                                   where a.Name == account.Name
-                                   where a.ParentAccount == account.ParentAccount
-                                   select a;
+                                     where a.Name == account.Name
+                                     where a.ParentAccount == account.ParentAccount
+                                     select a;
 
                 if (duplicateNames.Any())
                 {

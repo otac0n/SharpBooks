@@ -64,6 +64,14 @@ namespace SharpBooks
             }
         }
 
+        public IDictionary<string, string> Settings
+        {
+            get
+            {
+                return this.book.Settings;
+            }
+        }
+
         public ICollection<Split> GetAccountSplits(Account account)
         {
             return this.book.GetAccountSplits(account);
