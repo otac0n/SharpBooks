@@ -55,12 +55,15 @@
                 var transactionId = (Guid)t.Attribute("id");
                 var securityId = (Guid)t.Attribute("securityId");
                 var security = securities[securityId];
+                var date = (DateTime)t.Attribute("date");
 
                 var transaction = new Transaction(transactionId, security);
                 using (var tlock = transaction.Lock())
                 {
                     foreach (var s in t.Elements("Split"))
                     {
+                        transaction.SetDate(date, tlock);
+
                         var split = transaction.AddSplit(tlock);
 
                         var accountId = (Guid)s.Attribute("accountId");
@@ -149,7 +152,7 @@
                                 new XAttribute("accountId", s.Account.AccountId),
                                 new XAttribute("amount", s.Amount),
                                 new XAttribute("transactionAmount", s.TransactionAmount),
-                                new XAttribute("dateCleared", s.DateCleared),
+                                s.DateCleared.HasValue ? new XAttribute("dateCleared", s.DateCleared) : null,
                                 new XAttribute("reconciled", s.IsReconciled)
                             )
                         )
