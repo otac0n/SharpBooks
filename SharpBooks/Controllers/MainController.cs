@@ -15,12 +15,6 @@
 
         public MainController()
         {
-            var strategy = new XmlPersistenceStrategy();
-            strategy.SetDestination(new Uri("TestBook.xml", UriKind.Relative));
-
-            this.book = strategy.Load();
-
-            strategy.Save();
         }
 
         public ReadOnlyBook Book

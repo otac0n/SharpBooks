@@ -16,7 +16,6 @@
 
         public MainViewModel()
         {
-            ////this.Book = BuildFakeBook();
             this.plugins = LoadAllPlugins();
         }
 
