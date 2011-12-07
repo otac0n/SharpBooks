@@ -100,6 +100,14 @@
                 book.AddPriceQuote(priceQuote);
             }
 
+            foreach (var s in doc.Element("Book").Element("Settings").Elements("Setting"))
+            {
+                var key = (string)s.Attribute("key");
+                var value = (string)s.Attribute("value");
+
+                book.SetSetting(key, value);
+            }
+
             return book;
         }
 
@@ -156,6 +164,13 @@
                             new XAttribute("currencyId", p.Currency.SecurityId),
                             new XAttribute("price", p.Price),
                             new XAttribute("source", p.Source)
+                        )
+                    ),
+                    new XElement("Settings",
+                        from s in book.Settings
+                        select new XElement("Setting",
+                            new XAttribute("key", s.Key),
+                            new XAttribute("value", s.Value)
                         )
                     )
                 );
