@@ -116,8 +116,6 @@
 
         protected override void Save(Book book, Uri uri)
         {
-            var path = uri.LocalPath;
-
             var root =
                 new XElement("Book",
                     new XElement("Securities",
@@ -180,7 +178,7 @@
 
             var doc = new XDocument(root);
 
-            doc.Save(path, SaveOptions.DisableFormatting);
+            doc.Save(uri.ToString());
         }
     }
 }
