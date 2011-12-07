@@ -76,10 +76,5 @@ namespace SharpBooks
         {
             return this.book.GetAccountSplits(account);
         }
-
-        public string GetSetting(string key)
-        {
-            return this.book.GetSetting(key);
-        }
     }
 }

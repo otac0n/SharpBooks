@@ -34,7 +34,9 @@
             List<OverviewColumnJson> widgetsLayout = null;
             try
             {
-                widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumnJson>>(this.Book.GetSetting("overview-layout"));
+                string settings;
+                this.Book.Settings.TryGetValue("overview-layout", out settings);
+                widgetsLayout = JsonConvert.DeserializeObject<List<OverviewColumnJson>>(settings);
             }
             catch (JsonReaderException)
             {

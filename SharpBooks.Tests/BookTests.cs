@@ -67,49 +67,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        [TestCase("OK_VALUE")]
-        [TestCase("ABC")]
-        [TestCase("123")]
-        [TestCase("Aa~`1!@#$%^&*()_+09[]{}\\|;:'\"<>,./?")]
-        [TestCase("")]
-        [TestCase(null)]
-        public void GetSetting_WhenCalled_ReturnsPreviouslySetValue(string value)
-        {
-            // Create a new, empty book.
-            var book = new Book();
-
-            // Attempt to set the value of a setting.
-            book.SetSetting("OK_KEY", value);
-
-            // Assert that the value is round-tripped.
-            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(value));
-        }
-
-        [Test]
-        public void GetSetting_WhenSettingHasNotBeenAdded_ReturnsNull()
-        {
-            // Create a new, empty book.
-            var book = new Book();
-
-            // Assert that the value of any setting on an empty book is null.
-            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(null));
-        }
-
-        [Test]
-        public void GetSetting_WhenSettingHasBeenRemoved_ReturnsNull()
-        {
-            // Create a new, empty book.
-            var book = new Book();
-
-            // Add and immediately remove a setting from the book.
-            book.SetSetting("OK_KEY", "OK_VALUE");
-            book.RemoveSetting("OK_KEY");
-
-            // Assert that the value of any setting on an empty book is null.
-            Assert.That(book.GetSetting("OK_KEY"), Is.EqualTo(null));
-        }
-
-        [Test]
         public void AddSecurity_WhenSecurityIsValid_Succeeds()
         {
             // Create a new, empty book.

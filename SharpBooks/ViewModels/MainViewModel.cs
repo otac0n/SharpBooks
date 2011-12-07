@@ -79,9 +79,13 @@
         {
             var widgetKey = "overview-widgets-" + widgetName;
 
-            var factoryName = this.ReadOnlyBook.GetSetting(widgetKey + "-name");
-            var factoryType = this.ReadOnlyBook.GetSetting(widgetKey + "-type");
-            var widgetSettings = this.ReadOnlyBook.GetSetting(widgetKey + "-settings");
+            string factoryName;
+            string factoryType;
+            string widgetSettings;
+
+            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-name", out factoryName);
+            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-type", out factoryType);
+            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-settings", out widgetSettings);
 
             if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
             {

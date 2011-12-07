@@ -137,21 +137,6 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the value of a setting.
-        /// </summary>
-        /// <param name="key">The key of the setting.</param>
-        /// <returns>The existing value of the setting, if the setting exists; null, otherwise.</returns>
-        public string GetSetting(string key)
-        {
-            lock (this.lockMutex)
-            {
-                string value;
-                this.settings.TryGetValue(key, out value);
-                return value;
-            }
-        }
-
-        /// <summary>
         /// Adds a security to the <see cref="Book"/>.
         /// </summary>
         /// <param name="security">The security to add.</param>
