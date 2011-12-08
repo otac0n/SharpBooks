@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AccountSelectedEventArgs.cs" />
     <Compile Include="EventProxy.cs" />
+    <Compile Include="IPersistenceStrategyFactory.cs" />
     <Compile Include="IPluginEnumerator.cs" />
     <Compile Include="IPluginFactory.cs" />
     <Compile Include="IPriceQuoteSource.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="IWidget.cs" />
     <Compile Include="IWidgetFactory.cs" />
     <Compile Include="LoadPluginsFailureException.cs" />
+    <Compile Include="PersistenceStrategyFactory`1.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="PriceQuoteSourceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

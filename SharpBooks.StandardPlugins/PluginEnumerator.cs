@@ -24,6 +24,7 @@ namespace SharpBooks.StandardPlugins
         {
             yield return new FavoriteAccountsWidgetFactory();
             yield return new RecentExpensesWidgetFactory();
+            yield return new PersistenceStrategyFactory<XmlPersistenceStrategy>("XML File");
         }
     }
 }
