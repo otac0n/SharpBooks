@@ -8,6 +8,7 @@
     using SharpBooks.Plugins;
     using SharpBooks.ViewModels;
     using SharpBooks.StandardPlugins;
+    using System.Windows.Forms;
 
     public class MainController
     {
@@ -126,6 +127,11 @@
         internal void AddTransaction(Transaction transaction)
         {
             this.book.AddTransaction(transaction);
+        }
+
+        public void Run()
+        {
+            Application.Run(new MainView(this));
         }
     }
 }

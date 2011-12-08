@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Windows.Controls;
     using SharpBooks.Plugins;
 
     internal class MainViewModel : ViewModelBase
@@ -74,50 +73,50 @@
             ////                        select new SplitViewModel(s);
         }
 
-        private WidgetContainer LoadWidget(string widgetName)
-        {
-            var widgetKey = "overview-widgets-" + widgetName;
+        ////private WidgetContainer LoadWidget(string widgetName)
+        ////{
+        ////    var widgetKey = "overview-widgets-" + widgetName;
 
-            string factoryName;
-            string factoryType;
-            string widgetSettings;
+        ////    string factoryName;
+        ////    string factoryType;
+        ////    string widgetSettings;
 
-            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-name", out factoryName);
-            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-type", out factoryType);
-            this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-settings", out widgetSettings);
+        ////    this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-name", out factoryName);
+        ////    this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-type", out factoryType);
+        ////    this.ReadOnlyBook.Settings.TryGetValue(widgetKey + "-settings", out widgetSettings);
 
-            if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
-            {
-                var factory = (from p in this.plugins
-                               let w = p as IWidgetFactory
-                               where w != null
-                               where w.GetType().AssemblyQualifiedName == factoryType
-                               where w.Name == factoryName
-                               select w).SingleOrDefault();
+        ////    if (!string.IsNullOrEmpty(factoryName) && !string.IsNullOrEmpty(factoryType))
+        ////    {
+        ////        var factory = (from p in this.plugins
+        ////                       let w = p as IWidgetFactory
+        ////                       where w != null
+        ////                       where w.GetType().AssemblyQualifiedName == factoryType
+        ////                       where w.Name == factoryName
+        ////                       select w).SingleOrDefault();
 
-                var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
+        ////        var widget = factory.CreateInstance(this.ReadOnlyBook, widgetSettings);
 
-                var events = new EventProxy(
-                    this.AccountSelected);
+        ////        var events = new EventProxy(
+        ////            this.AccountSelected);
 
-                return new WidgetContainer
-                {
-                    Widget = widget.Create(this.ReadOnlyBook, events),
-                    Title = factoryName,
-                };
-            }
-            else
-            {
-                return new WidgetContainer
-                {
-                    Widget = new Label
-                    {
-                        Content = "Failed to load " + widgetName,
-                    },
-                    Title = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
-                    HasFailed = true,
-                };
-            }
-        }
+        ////        return new WidgetContainer
+        ////        {
+        ////            Widget = widget.Create(this.ReadOnlyBook, events),
+        ////            Title = factoryName,
+        ////        };
+        ////    }
+        ////    else
+        ////    {
+        ////        return new WidgetContainer
+        ////        {
+        ////            Widget = new Label
+        ////            {
+        ////                Content = "Failed to load " + widgetName,
+        ////            },
+        ////            Title = string.IsNullOrEmpty(factoryName) ? widgetName : factoryName,
+        ////            HasFailed = true,
+        ////        };
+        ////    }
+        ////}
     }
 }

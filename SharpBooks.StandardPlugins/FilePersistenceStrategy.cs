@@ -1,7 +1,7 @@
 ﻿namespace SharpBooks.StandardPlugins
 {
     using System;
-    using Microsoft.Win32;
+    using System.Windows.Forms;
     using SharpBooks.Persistence;
 
     public abstract class FilePersistenceStrategy : SimplePersistenceStrategy
@@ -29,7 +29,7 @@
 
             var result = dialog.ShowDialog();
 
-            if (result == true)
+            if (result == DialogResult.OK)
             {
                 return new Uri(dialog.FileName);
             }
