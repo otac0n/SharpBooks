@@ -8,11 +8,11 @@
 namespace SharpBooks.Plugins
 {
     using System;
-    using System.Windows;
+    using System.Windows.Forms;
 
     public interface IWidget : IDisposable
     {
-        FrameworkElement Create(ReadOnlyBook book, EventProxy events);
+        Control Create(ReadOnlyBook book, EventProxy events);
 
         void Refresh(ReadOnlyBook book, EventProxy events);
     }
