@@ -77,11 +77,6 @@
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Overview.cs" />
-    <Compile Include="ViewModels\OverviewColumn.cs" />
-    <Compile Include="ViewModels\SplitViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
