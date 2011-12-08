@@ -53,7 +53,7 @@ namespace SharpBooks.StandardPlugins
             }
 
             this.events = events;
-            this.control = new PiePlot();
+            this.control = null; //new PiePlot();
 
             this.PopulateControl(book);
 
