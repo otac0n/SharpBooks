@@ -6,21 +6,26 @@
 
     public abstract class FilePersistenceStrategy : SimplePersistenceStrategy
     {
+        protected abstract string FileFilter
+        {
+            get;
+        }
+
         public override Uri Open(Uri recentUri)
         {
             var dialog = new OpenFileDialog();
-            return GetFileUrl(dialog, recentUri);
+            return this.GetFileUrl(dialog, recentUri);
         }
 
         public override Uri SaveAs(Uri recentUri)
         {
             var dialog = new SaveFileDialog();
-            return GetFileUrl(dialog, recentUri);
+            return this.GetFileUrl(dialog, recentUri);
         }
 
-        private static Uri GetFileUrl(FileDialog dialog, Uri recentUri)
+        private Uri GetFileUrl(FileDialog dialog, Uri recentUri)
         {
-            dialog.Filter = "XML Files (*.xml)|*.xml";
+            dialog.Filter = this.FileFilter;
 
             if (recentUri.IsFile)
             {

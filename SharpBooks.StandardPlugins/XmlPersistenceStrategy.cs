@@ -7,6 +7,11 @@
 
     public class XmlPersistenceStrategy : FilePersistenceStrategy
     {
+        protected override string FileFilter
+        {
+            get { return "XML Files (*.xml)|*.xml"; }
+        }
+
         protected override Book Load(Uri uri)
         {
             var book = new Book();
