@@ -8,18 +8,16 @@
 namespace SharpBooks.StandardPlugins
 {
     using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Input;
+    using System.Linq;
+    using System.Windows.Forms;
     using Newtonsoft.Json;
-    using SharpBooks.Charts;
     using SharpBooks.Plugins;
 
     internal class RecentExpensesWidget : IWidget
     {
         private readonly RecentExpensesSettings settings;
 
-        private FrameworkElement control;
+        private Control control;
         private EventProxy events;
 
         public RecentExpensesWidget(string settings)
@@ -45,7 +43,7 @@ namespace SharpBooks.StandardPlugins
             return config;
         }
 
-        public FrameworkElement Create(ReadOnlyBook book, EventProxy events)
+        public Control Create(ReadOnlyBook book, EventProxy events)
         {
             if (this.control != null)
             {
@@ -96,19 +94,14 @@ namespace SharpBooks.StandardPlugins
             ////}
         }
 
-        private void Account_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.ClickCount == 2)
+            var args = new AccountSelectedEventArgs
             {
-                var args = new AccountSelectedEventArgs
-                {
-                    AccountId = (Guid)((Grid)sender).Tag,
-                };
+                AccountId = (Guid)((Control)sender).Tag,
+            };
 
-                this.events.RaiseAccountSelected(sender, args);
-
-                e.Handled = true;
-            }
+            this.events.RaiseAccountSelected(sender, args);
         }
     }
 }
