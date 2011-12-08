@@ -8,14 +8,12 @@
 
     internal class MainViewModel : ViewModelBase
     {
-        private IEnumerable<IPluginFactory> plugins;
 
         private Book book;
         private ReadOnlyBook readOnlyBook;
 
         public MainViewModel()
         {
-            this.plugins = LoadAllPlugins();
         }
 
         internal Book Book
@@ -43,22 +41,6 @@
             private set
             {
                 this.readOnlyBook = value;
-            }
-        }
-
-        private static IEnumerable<IPluginFactory> LoadAllPlugins()
-        {
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-
-            if (assembly != null)
-            {
-                var appPath = System.IO.Path.GetDirectoryName(assembly.Location);
-
-                return PluginLoader.LoadAllPlugins(appPath);
-            }
-            else
-            {
-                return null;
             }
         }
 

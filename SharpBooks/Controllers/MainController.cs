@@ -16,14 +16,17 @@ namespace SharpBooks.Controllers
     using SharpBooks.ViewModels;
     using SharpBooks.StandardPlugins;
     using System.Windows.Forms;
+    using System.IO;
 
     public class MainController
     {
+        private IList<IPluginFactory> plugins;
         private Book book;
         private Account activeAccount;
 
         public MainController()
         {
+            this.plugins = LoadAllPlugins();
         }
 
         public event EventHandler<EventArgs> ActiveAccountChanged;
@@ -53,6 +56,23 @@ namespace SharpBooks.Controllers
                 }
             }
         }
+
+        private static IList<IPluginFactory> LoadAllPlugins()
+        {
+            var assembly = System.Reflection.Assembly.GetEntryAssembly();
+
+            if (assembly != null)
+            {
+                var appPath = Path.GetDirectoryName(assembly.Location);
+
+                return PluginLoader.LoadAllPlugins(appPath);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         private void AccountSelected(object sender, AccountSelectedEventArgs e)
         {

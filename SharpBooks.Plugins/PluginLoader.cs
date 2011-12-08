@@ -9,6 +9,7 @@ namespace SharpBooks.Plugins
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
@@ -24,9 +25,9 @@ namespace SharpBooks.Plugins
         /// </summary>
         /// <param name="pluginsDirectory">The directory to search for plugins.</param>
         /// <returns>The plugin factories contained in the directory that loaded successfully.</returns>
-        public static IEnumerable<IPluginFactory> LoadAllPlugins(string pluginsDirectory)
+        public static ReadOnlyCollection<IPluginFactory> LoadAllPlugins(string pluginsDirectory)
         {
-            List<IPluginFactory> factories = new List<IPluginFactory>();
+            var factories = new List<IPluginFactory>();
 
             if (Directory.Exists(pluginsDirectory))
             {
