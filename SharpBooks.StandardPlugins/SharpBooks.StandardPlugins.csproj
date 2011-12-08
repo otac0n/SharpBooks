@@ -53,6 +53,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
@@ -68,15 +69,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FavoriteAccountsConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FavoriteAccountsConfiguration.Designer.cs">
+      <DependentUpon>FavoriteAccountsConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="FilePersistenceStrategy.cs" />
     <Compile Include="RecentExpensesWidget.cs" />
     <Compile Include="RecentExpensesSettings.cs" />
     <Compile Include="RecentExpensesWidgetFactory.cs" />
     <Compile Include="FavoriteAccountSettings.cs" />
     <Compile Include="PluginEnumerator.cs" />
-    <Compile Include="FavoriteAccountsConfiguration.xaml.cs">
-      <DependentUpon>FavoriteAccountsConfiguration.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FavoriteAccountsWidget.cs" />
     <Compile Include="FavoriteAccountsWidgetFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,18 +101,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FavoriteAccountsConfiguration.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FavoriteAccountsConfiguration.AccountView.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FavoriteAccountsConfiguration.resx">
+      <DependentUpon>FavoriteAccountsConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
