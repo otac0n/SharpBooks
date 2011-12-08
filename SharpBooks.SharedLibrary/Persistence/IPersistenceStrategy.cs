@@ -8,6 +8,6 @@
         Uri SaveAs(Uri recentUri);
 
         void SetDestination(Uri destination);
-        void Save();
+        void Save(Book book);
     }
 }

@@ -5,7 +5,6 @@
     public abstract class SimplePersistenceStrategy : IPersistenceStrategy
     {
         private Uri currentUri;
-        private Book book;
 
         protected abstract Book Load(Uri uri);
 
@@ -20,15 +19,14 @@
             this.currentUri = destination;
         }
 
-        public void Save()
+        public void Save(Book book)
         {
-            this.Save(this.book, this.currentUri);
+            this.Save(book, this.currentUri);
         }
 
         public Book Load()
         {
-            this.book = this.Load(this.currentUri);
-            return this.book;
+            return this.Load(this.currentUri);
         }
 
         ~SimplePersistenceStrategy()
