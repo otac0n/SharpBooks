@@ -14,66 +14,48 @@ namespace SharpBooks
     using SharpBooks.Controllers;
     using SharpBooks.Plugins;
 
-    public partial class MainView : Form, INotifyPropertyChanged
+    public partial class MainView : Form
     {
         private readonly MainController owner;
-        private Account activeAccount;
 
         public MainView(MainController owner)
         {
             this.owner = owner;
+            this.owner.ActiveAccountChanged += Owner_ActiveAccountChanged;
+
             InitializeComponent();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public MainController Controller
-        {
-            get
-            {
-                return this.owner;
-            }
-        }
-
-        public Account ActiveAccount
-        {
-            get
-            {
-                return this.activeAccount;
-            }
-
-            private set
-            {
-                this.activeAccount = value;
-
-                if (this.PropertyChanged != null)
-                {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("ActiveAccount"));
-                }
-            }
-        }
+        public event EventHandler<AccountSelectedEventArgs> AccountSelected;
+        public event EventHandler<EventArgs> AccountDeselected;
 
         private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                var args = new AccountSelectedEventArgs
+                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs
                 {
                     AccountId = (Guid)((Control)sender).Tag,
-                };
-
-                this.AccountSelected(args);
+                });
             }
-        }
-
-        private void AccountSelected(AccountSelectedEventArgs args)
-        {
-            this.ActiveAccount = this.Controller.Book.Accounts.Where(a => a.AccountId == args.AccountId).SingleOrDefault();
         }
 
         private void ReturnToAccounts_Click(object sender, EventArgs e)
         {
-            this.ActiveAccount = null;
+            this.AccountDeselected.SafeInvoke(this, () => new EventArgs());
+        }
+
+        private void Owner_ActiveAccountChanged(object sender, EventArgs e)
+        {
+            var activeAccount = this.owner.ActiveAccount;
+            if (activeAccount == null)
+            {
+                // TODO: Hide and clear-out the active account window.
+            }
+            else
+            {
+                // TODO: Populate and show the active account window.
+            }
         }
     }
 }

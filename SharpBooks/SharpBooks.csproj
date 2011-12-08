@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="FormsHelpers.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>

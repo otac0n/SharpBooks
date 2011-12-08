@@ -1,4 +1,11 @@
-﻿namespace SharpBooks.Controllers
+﻿﻿//-----------------------------------------------------------------------
+// <copyright file="MainController.cs" company="(none)">
+//  Copyright © 2010 John Gietzen. All rights reserved.
+// </copyright>
+// <author>John Gietzen</author>
+//-----------------------------------------------------------------------
+
+namespace SharpBooks.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -13,10 +20,13 @@
     public class MainController
     {
         private Book book;
+        private Account activeAccount;
 
         public MainController()
         {
         }
+
+        public event EventHandler<EventArgs> ActiveAccountChanged;
 
         public ReadOnlyBook Book
         {
@@ -24,6 +34,34 @@
             {
                 return this.book.AsReadOnly();
             }
+        }
+
+        public Account ActiveAccount
+        {
+            get
+            {
+                return this.activeAccount;
+            }
+
+            private set
+            {
+                if (this.activeAccount != value)
+                {
+                    this.activeAccount = value;
+
+                    this.ActiveAccountChanged.SafeInvoke(this, () => new EventArgs());
+                }
+            }
+        }
+
+        private void AccountSelected(object sender, AccountSelectedEventArgs e)
+        {
+            this.ActiveAccount = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).SingleOrDefault();
+        }
+
+        private void AccountDeselected(object sender, EventArgs e)
+        {
+            this.ActiveAccount = null;
         }
 
         public Overview GetOverview()
@@ -131,7 +169,11 @@
 
         public void Run()
         {
-            Application.Run(new MainView(this));
+            var view = new MainView(this);
+            view.AccountSelected += AccountSelected;
+            view.AccountDeselected += AccountDeselected;
+
+            Application.Run(view);
         }
     }
 }
