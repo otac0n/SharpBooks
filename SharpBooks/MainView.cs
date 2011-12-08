@@ -16,11 +16,12 @@ namespace SharpBooks
 
     public partial class MainView : Form, INotifyPropertyChanged
     {
-        private MainController controller = new MainController();
+        private readonly MainController owner;
         private Account activeAccount;
 
-        public MainView()
+        public MainView(MainController owner)
         {
+            this.owner = owner;
             InitializeComponent();
         }
 
@@ -30,7 +31,7 @@ namespace SharpBooks
         {
             get
             {
-                return this.controller;
+                return this.owner;
             }
         }
 

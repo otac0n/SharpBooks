@@ -11,6 +11,7 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using SharpBooks.Controllers;
 
     static class Program
     {
@@ -20,9 +21,11 @@ namespace SharpBooks
         [STAThread]
         static void Main()
         {
+            var controller = new MainController();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView());
+            controller.Run();
         }
     }
 }
