@@ -1,0 +1,4 @@
+Build the New Book wizard.
+Implement accounts with no base security.  (This would be used for expense and income accounts, or accounts that can carry balances in multiple currencies.)
+Add a GUID to the book itself.  Overload the constructor to take a GUID.
+Convert all dates to DateTime offsets.
