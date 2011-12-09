@@ -27,7 +27,7 @@
         {
             dialog.Filter = this.FileFilter;
 
-            if (recentUri.IsFile)
+            if (recentUri != null && recentUri.IsFile)
             {
                 dialog.FileName = recentUri.LocalPath;
             }
