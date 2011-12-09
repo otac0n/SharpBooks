@@ -38,7 +38,9 @@ namespace SharpBooks.Controllers
         {
             get
             {
-                return this.book.AsReadOnly();
+                return this.book == null
+                    ? null
+                    : this.book.AsReadOnly();
             }
         }
 

@@ -21,9 +21,13 @@ namespace SharpBooks
         public MainView(MainController owner)
         {
             this.owner = owner;
+            this.owner.BookChanged += Owner_BookChanged;
             this.owner.ActiveAccountChanged += Owner_ActiveAccountChanged;
 
             this.InitializeComponent();
+
+            this.Owner_BookChanged(this.owner, new EventArgs());
+            this.Owner_ActiveAccountChanged(this.owner, new EventArgs());
         }
 
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
@@ -68,6 +72,19 @@ namespace SharpBooks
         private void ReturnToAccounts_Click(object sender, EventArgs e)
         {
             this.AccountDeselected.SafeInvoke(this, () => new EventArgs());
+        }
+
+        private void Owner_BookChanged(object sender, EventArgs e)
+        {
+            var book = this.owner.Book;
+            if (book == null)
+            {
+                // TODO: Clear out the current book info and show the start page.
+            }
+            else
+            {
+                // TODO: Hide the start page and populate the new book info.
+            }
         }
 
         private void Owner_ActiveAccountChanged(object sender, EventArgs e)
