@@ -82,6 +82,14 @@ namespace SharpBooks.Controllers
             this.ActiveAccount = null;
         }
 
+        public IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
+        {
+            return (from p in this.plugins
+                    let ps = p as IPersistenceStrategyFactory
+                    where ps != null
+                    select ps).ToList();
+        }
+
         ////public Overview GetOverview()
         ////{
         ////    List<OverviewColumnJson> widgetsLayout = null;
@@ -238,6 +246,26 @@ namespace SharpBooks.Controllers
             view.AccountDeselected += AccountDeselected;
 
             Application.Run(view);
+        }
+
+        public void New()
+        {
+        }
+
+        public void Open(IPersistenceStrategyFactory factory)
+        {
+        }
+
+        public void Close()
+        {
+        }
+
+        public void Save()
+        {
+        }
+
+        public void SaveAs(IPersistenceStrategyFactory factory)
+        {
         }
     }
 }

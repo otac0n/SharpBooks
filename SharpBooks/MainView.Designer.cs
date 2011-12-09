@@ -30,6 +30,11 @@
         {
             System.Windows.Forms.MenuStrip mainMenu;
             System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabView = new System.Windows.Forms.TabControl();
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
@@ -38,6 +43,9 @@
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             mainMenu.SuspendLayout();
             this.TabView.SuspendLayout();
             this.AccountsTabPage.SuspendLayout();
@@ -55,9 +63,51 @@
             // 
             // fileToolStripMenuItem
             // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            closeToolStripMenuItem,
+            saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem});
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             fileToolStripMenuItem.Text = "&File";
+            // 
+            // newToolStripMenuItem
+            // 
+            newToolStripMenuItem.Name = "newToolStripMenuItem";
+            newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            newToolStripMenuItem.Text = "&New";
+            newToolStripMenuItem.Click += new System.EventHandler(this.New_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            // 
+            // closeToolStripMenuItem
+            // 
+            closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            closeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            closeToolStripMenuItem.Text = "&Close";
+            closeToolStripMenuItem.Click += new System.EventHandler(this.Close_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            saveToolStripMenuItem.Text = "&Save";
+            saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
             // TabView
             // 
@@ -148,6 +198,8 @@
         private System.Windows.Forms.TreeView AccountsList;
         private System.Windows.Forms.TabPage PaymentsTabPage;
         private System.Windows.Forms.TabPage InvestmentsTabItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 
     }
 }
