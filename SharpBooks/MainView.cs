@@ -24,25 +24,6 @@ namespace SharpBooks
             this.owner.ActiveAccountChanged += Owner_ActiveAccountChanged;
 
             this.InitializeComponent();
-            this.BuildPersistenceMenus();
-        }
-
-        private void BuildPersistenceMenus()
-        {
-            foreach (var ps in this.owner.GetPersistenceStrategies().OrderBy(ps => ps.Name))
-            {
-                var openItem = new ToolStripMenuItem();
-                var saveAsItem = new ToolStripMenuItem();
-
-                openItem.Text = saveAsItem.Text = ps.Name;
-                openItem.Tag = saveAsItem.Tag = ps;
-
-                openItem.Click += Open_Click;
-                saveAsItem.Click += SaveAs_Click;
-
-                this.openToolStripMenuItem.DropDownItems.Add(openItem);
-                this.saveAsToolStripMenuItem.DropDownItems.Add(saveAsItem);
-            }
         }
 
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
@@ -55,8 +36,7 @@ namespace SharpBooks
 
         private void Open_Click(object sender, EventArgs e)
         {
-            var factory = (IPersistenceStrategyFactory)((ToolStripItem)sender).Tag;
-            this.owner.Open(factory);
+            this.owner.Open();
         }
 
         private void Close_Click(object sender, EventArgs e)
@@ -66,13 +46,12 @@ namespace SharpBooks
 
         private void Save_Click(object sender, EventArgs e)
         {
-            this.owner.Save();
+            this.owner.Save(forceSaveAs: false);
         }
 
         private void SaveAs_Click(object sender, EventArgs e)
         {
-            var factory = (IPersistenceStrategyFactory)((ToolStripItem)sender).Tag;
-            this.owner.SaveAs(factory);
+            this.owner.Save(forceSaveAs: true);
         }
 
         private void Account_MouseDoubleClick(object sender, MouseEventArgs e)

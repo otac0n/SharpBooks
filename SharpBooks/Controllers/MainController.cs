@@ -16,12 +16,14 @@ namespace SharpBooks.Controllers
     using SharpBooks.StandardPlugins;
     using System.Windows.Forms;
     using System.IO;
+    using SharpBooks.Persistence;
 
     public class MainController
     {
         private IList<IPluginFactory> plugins;
         private Book book;
         private Account activeAccount;
+        private PersistenceMethod currentSaveMethod;
 
         public MainController()
         {
@@ -29,6 +31,8 @@ namespace SharpBooks.Controllers
         }
 
         public event EventHandler<EventArgs> ActiveAccountChanged;
+
+        public event EventHandler<EventArgs> BookChanged;
 
         public ReadOnlyBook Book
         {
@@ -53,6 +57,17 @@ namespace SharpBooks.Controllers
 
                     this.ActiveAccountChanged.SafeInvoke(this, () => new EventArgs());
                 }
+            }
+        }
+
+        private void SetBook(Book book)
+        {
+            if (book != this.book)
+            {
+                this.ActiveAccount = null;
+
+                this.book = book;
+                this.BookChanged.SafeInvoke(this, () => new EventArgs());
             }
         }
 
@@ -82,7 +97,7 @@ namespace SharpBooks.Controllers
             this.ActiveAccount = null;
         }
 
-        public IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
+        private IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
         {
             return (from p in this.plugins
                     let ps = p as IPersistenceStrategyFactory
@@ -250,22 +265,80 @@ namespace SharpBooks.Controllers
 
         public void New()
         {
+            this.Close();
+
+            var book = new Book();
+            this.SetBook(book);
         }
 
-        public void Open(IPersistenceStrategyFactory factory)
+        public void Open()
         {
+            this.Close();
+
+            // TODO: Open the a book.
         }
 
-        public void Close()
+        public bool Close()
         {
+            if (this.book != null) // TODO: If the book has unsaved changes.
+            {
+                var result = MessageBox.Show("Save changes to your current book?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    var success = this.Save(forceSaveAs: false);
+
+                    if (!success)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            this.currentSaveMethod = null;
+            this.SetBook(null);
+            return true;
         }
 
-        public void Save()
+        public bool Save(bool forceSaveAs)
         {
-        }
+            var saveMethod = this.currentSaveMethod;
+            while (true)
+            {
+                if (forceSaveAs || saveMethod == null)
+                {
+                    // TODO: Procure a new save method.
 
-        public void SaveAs(IPersistenceStrategyFactory factory)
-        {
+                    if (true) // TODO: If the user cancels.
+                    {
+                        return false;
+                    }
+                }
+
+                forceSaveAs = true;
+
+                try
+                {
+                    saveMethod.Strategy.SetDestination(saveMethod.Uri);
+                    saveMethod.Strategy.Save(this.book);
+
+                    this.currentSaveMethod = saveMethod;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    var result = MessageBox.Show(ex.ToString(), "Error Saving", MessageBoxButtons.RetryCancel);
+
+                    if (result == DialogResult.Cancel)
+                    {
+                        return false;
+                    }
+                }
+            }
         }
     }
 }
