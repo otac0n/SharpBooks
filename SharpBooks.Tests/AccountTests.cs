@@ -32,7 +32,37 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void Constructor_WhenSecurityIsNull_ThrowsException()
+        public void Constructor_WithNullSecurityAndNullFractionTraded_Succeeds()
+        {
+            // Create a new account with known good values.
+            new Account(
+                Guid.NewGuid(), // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // The test passes, because the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void Constructor_WhenSecurityIsNullButFractionTradedIsNotNull_ThrowsException()
+        {
+            // Build a delegate to construct a new account.
+            TestDelegate constructTransaction = () => new Account(
+                Guid.NewGuid(), // OK
+                null,
+                null, // OK
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
+
+            // Assert that calling the delegate throws an ArgumentNullException.
+            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Constructor_WhenSecurityIsNotNullButFractionTradedIsNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
             TestDelegate constructTransaction = () => new Account(

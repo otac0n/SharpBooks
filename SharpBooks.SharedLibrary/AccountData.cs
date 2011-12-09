@@ -56,7 +56,7 @@ namespace SharpBooks
             private set;
         }
 
-        public int SmallestFraction
+        public int? SmallestFraction
         {
             get;
             private set;
