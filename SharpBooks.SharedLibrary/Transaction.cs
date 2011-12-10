@@ -141,7 +141,7 @@ namespace SharpBooks
                         }
 
                         var sameSecurity = from s in this.splits
-                                           where s.Account != null && s.Account.Security == this.BaseSecurity
+                                           where s.Security == this.BaseSecurity
                                            select s;
 
                         if (!sameSecurity.Any())

@@ -23,5 +23,18 @@
 
             ScenarioContext.Current.Add(accountName, account);
         }
+
+        [Given(@"an account '(.*)' with no security")]
+        public void GivenAnAccountWithNoSecurity(string accountName)
+        {
+            var account = new Account(
+                accountId: Guid.NewGuid(),
+                security: null,
+                parentAccount: null,
+                name: accountName,
+                smallestFraction: null);
+
+            ScenarioContext.Current.Add(accountName, account);
+        }
     }
 }

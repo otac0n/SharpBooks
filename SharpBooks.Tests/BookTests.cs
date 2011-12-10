@@ -719,6 +719,7 @@ namespace SharpBooks.Tests
             {
                 var split = transaction2.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that trying to add the transaction throws an InvalidOperationException.

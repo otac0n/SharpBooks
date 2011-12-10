@@ -14,7 +14,7 @@ namespace SharpBooks.Tests
     public class SplitTests
     {
         /// <summary>
-        /// Holds a valid security, based on the ISO 4217 testing currency, XTS.
+        /// Holds a valid security, based on the ISO 4217 testing currency, XXX.
         /// </summary>
         private readonly Security noCurrency = new Security(
             new Guid("729ffd07-f913-4e49-9ce6-e0852d8237b6"),
@@ -39,6 +39,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the amount and transaction amount to be different.
                 split.SetAmount(1, transactionLock);
@@ -63,6 +64,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the amount and transaction amount to have different signs.
                 split.SetAmount(-1, transactionLock);
@@ -95,6 +97,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the amount and transaction amount to one, which is one tenth of the valid amount for the account.
                 split.SetAmount(1, transactionLock);
@@ -135,6 +138,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the amount and transaction amount to the test value.
                 split.SetAmount(amount, transactionLock);
@@ -162,6 +166,102 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void GetIsValid_WhenSecurityIsNull_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+
+                // Assert that the split is invalid without assigning a security.
+                Assert.False(split.IsValid);
+            }
+        }
+
+        [Test]
+        public void GetIsValid_WhenSecurityIsDifferentFromAccountSecurity_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+                split.SetSecurity(noCurrency, transactionLock);
+
+                // Assert that the split is invalid when the security is different from the account's.
+                Assert.False(split.IsValid);
+            }
+        }
+
+        [Test]
+        public void GetIsValid_WhenAccountSecurityIsNullButSecuirtyIsNotNull_ReturnsTrue()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new account with a null security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+                split.SetSecurity(noCurrency, transactionLock);
+
+                // Assert that the split is invalid without assigning an account.
+                Assert.True(split.IsValid);
+            }
+        }
+
+        [Test]
+        public void GetIsValid_WhenAccountSecurityAndSecuirtyAreNull_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new account with a null security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+
+                // Assert that the split is invalid without assigning a security, regardless of whether the account's security is null.
+                Assert.False(split.IsValid);
+            }
+        }
+
+        [Test]
         public void SetAccount_WhenLockIsValid_Succeeds()
         {
             // Create a new, empty transaction.
@@ -169,7 +269,7 @@ namespace SharpBooks.Tests
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
-            
+
             Split split;
 
             // Lock the transaction for editing.
@@ -194,7 +294,7 @@ namespace SharpBooks.Tests
 
             // Create a new, valid account.
             var account = TestUtils.CreateValidAccount();
-            
+
             Split split;
 
             // Lock the transaction for editing.
@@ -267,6 +367,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the amount of the split.
                 split.SetAmount(1, transactionLock);
@@ -293,6 +394,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that the split will not allow modification without a lock.
@@ -315,6 +417,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction1.AddSplit(lock1);
                 split.SetAccount(account, lock1);
+                split.SetSecurity(account.Security, lock1);
 
                 using (var lock2 = transaction2.Lock())
                 {
@@ -337,6 +440,7 @@ namespace SharpBooks.Tests
             var transactionLock = transaction.Lock();
             var split = transaction.AddSplit(transactionLock);
             split.SetAccount(account, transactionLock);
+            split.SetSecurity(account.Security, transactionLock);
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
@@ -360,6 +464,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the date of the split.
                 split.SetDateCleared(DateTime.MaxValue, transactionLock);
@@ -386,6 +491,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that the split will not allow modification without a lock.
@@ -408,6 +514,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction1.AddSplit(lock1);
                 split.SetAccount(account, lock1);
+                split.SetSecurity(account.Security, lock1);
 
                 using (var lock2 = transaction2.Lock())
                 {
@@ -430,6 +537,7 @@ namespace SharpBooks.Tests
             var transactionLock = transaction.Lock();
             var split = transaction.AddSplit(transactionLock);
             split.SetAccount(account, transactionLock);
+            split.SetSecurity(account.Security, transactionLock);
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
@@ -453,6 +561,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the reconciled flag of the split.
                 split.SetIsReconciled(true, transactionLock);
@@ -479,6 +588,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that the split will not allow modification without a lock.
@@ -501,6 +611,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction1.AddSplit(lock1);
                 split.SetAccount(account, lock1);
+                split.SetSecurity(account.Security, lock1);
 
                 using (var lock2 = transaction2.Lock())
                 {
@@ -523,6 +634,7 @@ namespace SharpBooks.Tests
             var transactionLock = transaction.Lock();
             var split = transaction.AddSplit(transactionLock);
             split.SetAccount(account, transactionLock);
+            split.SetSecurity(account.Security, transactionLock);
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
@@ -546,6 +658,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Set the transaction amount of the split.
                 split.SetTransactionAmount(1, transactionLock);
@@ -572,6 +685,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that the split will not allow modification without a lock.
@@ -594,6 +708,7 @@ namespace SharpBooks.Tests
                 // Add a split to the transaction.
                 var split = transaction1.AddSplit(lock1);
                 split.SetAccount(account, lock1);
+                split.SetSecurity(account.Security, lock1);
 
                 using (var lock2 = transaction2.Lock())
                 {
@@ -616,6 +731,7 @@ namespace SharpBooks.Tests
             var transactionLock = transaction.Lock();
             var split = transaction.AddSplit(transactionLock);
             split.SetAccount(account, transactionLock);
+            split.SetSecurity(account.Security, transactionLock);
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.

@@ -49,6 +49,7 @@ namespace SharpBooks.Tests
             {
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(splitAccouunt, transactionLock);
+                split.SetSecurity(splitAccouunt.Security, transactionLock);
             }
 
             return transaction;

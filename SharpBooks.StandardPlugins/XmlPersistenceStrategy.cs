@@ -75,6 +75,10 @@
                         var account = accounts[accountId];
                         split.SetAccount(account, tlock);
 
+                        var splitSecurityId = (Guid)s.Attribute("securityId");
+                        var splitSecurity = securities[splitSecurityId];
+                        split.SetSecurity(splitSecurity, tlock);
+
                         var amount = (long)s.Attribute("amount");
                         split.SetAmount(amount, tlock);
 

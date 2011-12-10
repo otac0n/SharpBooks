@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using TechTalk.SpecFlow;
+    using NUnit.Framework;
 
     [Binding]
     public class BookSteps
@@ -26,8 +27,9 @@
 
             book.AddSecurity(security);
         }
-        
+
         [When(@"I add the account '(.*)' to the book")]
+        [Then(@"I should be able to add the account '(.*)' to the book")]
         public void WhenIAddTheAccountToTheBook(string accountName)
         {
             var account = (Account)ScenarioContext.Current[accountName];
@@ -36,8 +38,9 @@
 
             book.AddAccount(account);
         }
-        
+
         [When(@"I add transaction '(.*)' to the book")]
+        [Then(@"I should be able to add transaction '(.*)' to the book")]
         public void WhenIAddTransactionToTheBook(string transactionName)
         {
             var transaction = (Transaction)ScenarioContext.Current[transactionName];
@@ -55,6 +58,16 @@
             var book = ScenarioContext.Current.Get<Book>();
 
             book.RemoveTransaction(transaction);
+        }
+
+        [Then(@"I should not be able to add transaction '(.*)' to the book")]
+        public void ThenIShouldNotBeAbleToAddTransactionToTheBook(string transactionName)
+        {
+            var transaction = (Transaction)ScenarioContext.Current[transactionName];
+
+            var book = ScenarioContext.Current.Get<Book>();
+
+            Assert.That(() => book.AddTransaction(transaction), Throws.InvalidOperationException);
         }
     }
 }

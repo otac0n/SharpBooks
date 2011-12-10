@@ -141,8 +141,10 @@ namespace SharpBooks
                         var newSplit = newTransaction.AddSplit(tlock);
 
                         var account = this.destinationBook.Accounts.Where(a => a.AccountId == split.AccountId).Single();
+                        var security = this.destinationBook.Securities.Where(s => s.SecurityId == split.SecurityId).Single();
 
                         newSplit.SetAccount(account, tlock);
+                        newSplit.SetSecurity(security, tlock);
                         newSplit.SetAmount(split.Amount, tlock);
                         newSplit.SetDateCleared(split.DateCleared, tlock);
                         newSplit.SetIsReconciled(split.IsReconciled, tlock);

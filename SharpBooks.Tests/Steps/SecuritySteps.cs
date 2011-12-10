@@ -16,7 +16,7 @@
                 securityId: Guid.NewGuid(),
                 securityType: SecurityType.Currency,
                 name: "Test Currency '" + name + "'",
-                symbol: "XTS",
+                symbol: "Currency - " + name,
                 signFormat: "{0}",
                 fractionTraded: 100);
 

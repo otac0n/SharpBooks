@@ -238,7 +238,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
                 }
 
-                if (!this.securities.Contains(account.Security))
+                if (account.Security != null && !this.securities.Contains(account.Security))
                 {
                     throw new InvalidOperationException("Could not add the account to the book, because the account's security has not been added.");
                 }
@@ -452,6 +452,17 @@ namespace SharpBooks
                     {
                         throw new InvalidOperationException(
                             "Could not add the transaction to the book, because the transaction contains at least on split whose account has not been added.");
+                    }
+
+                    var splitsWithoutSecurityInBook = from s in transaction.Splits
+                                                      where s.Account.Security == null
+                                                      where !this.securities.Contains(s.Security)
+                                                      select s;
+
+                    if (splitsWithoutSecurityInBook.Any())
+                    {
+                        throw new InvalidOperationException(
+                            "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
                     }
 
                     this.transactionLocks.Add(transaction, transactionLock);

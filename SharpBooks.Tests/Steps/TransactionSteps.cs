@@ -57,11 +57,18 @@
 
             ScenarioContext.Current.Add(transactionName, transaction);
         }
-        
+
         [Given(@"a transaction '(.*)' with the following splits")]
         public void GivenATransactionWithTheFollowingSplits(string transactionName, Table table)
         {
+            this.GivenATransactionWithBaseSecurityAndTheFollowingSplits(transactionName, null, table);
+        }
+
+        [Given(@"a transaction '(.*)' with base security '(.*)' and the following splits")]
+        public void GivenATransactionWithBaseSecurityAndTheFollowingSplits(string transactionName, string baseSecurity, Table table)
+        {
             Assume.That(table.Header, Has.Member("Account"));
+            Assume.That(table.Header, Has.Member("Security"));
             Assume.That(table.Header, Has.Member("Amount"));
 
             var accounts = (from a in table.Rows
@@ -74,11 +81,31 @@
                                 account
                             }).ToDictionary(a => a.acctName, a => a.account);
 
-            var firstAccount = accounts[table.Rows[0]["Account"]];
+            var securities = (from a in table.Rows
+                              group a by a["Security"] into g
+                              let secName = g.Key
+                              let security = (Security)ScenarioContext.Current[secName]
+                              select new
+                              {
+                                  secName,
+                                  security
+                              }).ToDictionary(a => a.secName, a => a.security);
+
+            Security transactionSecurity;
+
+            if (string.IsNullOrEmpty(baseSecurity))
+            {
+                var firstAccount = accounts[table.Rows[0]["Account"]];
+                transactionSecurity = firstAccount.Security;
+            }
+            else
+            {
+                transactionSecurity = (Security)ScenarioContext.Current[baseSecurity];
+            }
 
             var transaction = new Transaction(
                 transactionId: Guid.NewGuid(),
-                baseSecurity: firstAccount.Security);
+                baseSecurity: transactionSecurity);
 
             var securityCount = (from a in accounts
                                  group a.Value by a.Value.Security into g
@@ -94,11 +121,13 @@
                 foreach (var row in table.Rows)
                 {
                     var account = accounts[row["Account"]];
+                    var security = securities[row["Security"]];
                     var amount = long.Parse(row["Amount"]);
                     var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
                     var split = transaction.AddSplit(@lock);
                     split.SetAccount(account, @lock);
+                    split.SetSecurity(security, @lock);
                     split.SetAmount(amount, @lock);
                     split.SetTransactionAmount(transactionAmount, @lock);
                 }
@@ -141,6 +170,7 @@
 
                     var split = transaction.AddSplit(@lock);
                     split.SetAccount(account, @lock);
+                    split.SetSecurity(account.Security, @lock);
                     split.SetAmount(amount, @lock);
                     split.SetTransactionAmount(transactionAmount, @lock);
                 }
