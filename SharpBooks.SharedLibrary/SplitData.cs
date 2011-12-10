@@ -27,6 +27,7 @@ namespace SharpBooks
 
             this.TransactionId = split.Transaction.TransactionId;
             this.AccountId = split.Account.AccountId;
+            this.SecurityId = split.Security.SecurityId;
             this.Amount = split.Amount;
             this.DateCleared = split.DateCleared;
             this.IsReconciled = split.IsReconciled;
@@ -46,6 +47,15 @@ namespace SharpBooks
         /// Gets the Id of the account to which the split belongs.
         /// </summary>
         public Guid AccountId
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the Id of the security of which the split is made up.
+        /// </summary>
+        public Guid SecurityId
         {
             get;
             private set;

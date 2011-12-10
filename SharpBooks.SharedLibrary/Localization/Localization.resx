@@ -126,8 +126,17 @@
   <data name="AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE" xml:space="preserve">
     <value>The amount of a split must be evenly divisible by its account's smallest fraction.</value>
   </data>
+  <data name="SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT" xml:space="preserve">
+    <value>The split must not be assigned to an account that is identified as a grouping account.</value>
+  </data>
   <data name="SPLIT_MUST_BE_ASSIGNED" xml:space="preserve">
     <value>The split must be assigned to an account.</value>
+  </data>
+  <data name="SPLIT_MUST_HAVE_A_SECURITY" xml:space="preserve">
+    <value>The split must have a security.</value>
+  </data>
+  <data name="SPLIT_SECURITY_MUST_MATCH_ACCOUNT" xml:space="preserve">
+    <value>The security of a split must match the security of its account, if the account has a security specified.</value>
   </data>
   <data name="TRANSACTION_MUST_HAVE_SPLIT" xml:space="preserve">
     <value>The transaction must have at least one split.</value>

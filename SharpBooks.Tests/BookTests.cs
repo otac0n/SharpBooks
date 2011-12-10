@@ -351,6 +351,7 @@ namespace SharpBooks.Tests
             // Build a parent account.
             var parent = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
@@ -362,6 +363,7 @@ namespace SharpBooks.Tests
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 parent, // OK
                 "OK_NAME",
@@ -422,6 +424,7 @@ namespace SharpBooks.Tests
             // Build a parent account.
             var parent = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
@@ -430,6 +433,7 @@ namespace SharpBooks.Tests
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 parent,
                 "OK_NAME",
@@ -452,6 +456,7 @@ namespace SharpBooks.Tests
             // Construct the offending account with the same AccountId as the above account.
             var account2 = new Account(
                 account1.AccountId,
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME_DIFFERENT",
@@ -592,6 +597,7 @@ namespace SharpBooks.Tests
             // Build a parent account.
             var parent = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
@@ -603,6 +609,7 @@ namespace SharpBooks.Tests
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 parent,
                 "OK_NAME",
@@ -719,6 +726,7 @@ namespace SharpBooks.Tests
             {
                 var split = transaction2.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that trying to add the transaction throws an InvalidOperationException.

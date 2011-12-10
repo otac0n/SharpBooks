@@ -57,6 +57,15 @@ namespace SharpBooks
         }
 
         /// <summary>
+        /// Gets the security of which the split is made up.
+        /// </summary>
+        public Security Security
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the amount by which the split affects its account.
         /// </summary>
         public long Amount
@@ -102,12 +111,27 @@ namespace SharpBooks
                     yield return new RuleViolation("Account", Localization.Localization.SPLIT_MUST_BE_ASSIGNED);
                 }
 
-                if (this.Amount != this.TransactionAmount && this.Account != null && this.Account.Security == this.Transaction.BaseSecurity)
+                if (this.Account != null && this.Account.AccountType == AccountType.Grouping)
+                {
+                    yield return new RuleViolation("Account", Localization.Localization.SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT);
+                }
+
+                if (this.Security == null)
+                {
+                    yield return new RuleViolation("Security", Localization.Localization.SPLIT_MUST_HAVE_A_SECURITY);
+                }
+
+                if (this.Account != null && this.Account.Security != null && this.Account.Security != this.Security)
+                {
+                    yield return new RuleViolation("Security", Localization.Localization.SPLIT_SECURITY_MUST_MATCH_ACCOUNT);
+                }
+
+                if (this.Amount != this.TransactionAmount && this.Security == this.Transaction.BaseSecurity)
                 {
                     yield return new RuleViolation("Amount", Localization.Localization.AMOUNT_AND_TRANSACTION_AMOUNT_MUST_BE_EQUAL);
                 }
 
-                if (this.Account != null && this.Amount % (this.Account.Security.FractionTraded / this.Account.SmallestFraction) != 0)
+                if (this.Account != null && this.Account.SmallestFraction.HasValue && this.Amount % (this.Account.Security.FractionTraded / this.Account.SmallestFraction) != 0)
                 {
                     yield return new RuleViolation("Amount", Localization.Localization.AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE);
                 }
@@ -125,6 +149,22 @@ namespace SharpBooks
                 this.Transaction.ValidateLock(transactionLock);
 
                 this.Account = account;
+            }
+            finally
+            {
+                this.Transaction.ExitCriticalSection();
+            }
+        }
+
+        public void SetSecurity(Security security, TransactionLock transactionLock)
+        {
+            this.Transaction.EnterCriticalSection();
+
+            try
+            {
+                this.Transaction.ValidateLock(transactionLock);
+
+                this.Security = security;
             }
             finally
             {

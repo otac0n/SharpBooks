@@ -224,6 +224,7 @@ namespace SharpBooks.Tests
             {
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
 
                 // Assert that the AddSplit function successfully created a split.
                 Assert.That(split.Transaction, Is.EqualTo(transaction));
@@ -288,6 +289,7 @@ namespace SharpBooks.Tests
             {
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Lock the transaction for editing.
@@ -316,6 +318,7 @@ namespace SharpBooks.Tests
             {
                 split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
             }
 
             // Assert that the transaction will not allow a split to be removed without a lock.
@@ -338,6 +341,7 @@ namespace SharpBooks.Tests
                 // Add a split to the first transaction.
                 var split = transaction1.AddSplit(lock1);
                 split.SetAccount(account, lock1);
+                split.SetSecurity(account.Security, lock1);
 
                 // Lock the second transaction for editing.
                 using (var lock2 = transaction2.Lock())
@@ -361,6 +365,7 @@ namespace SharpBooks.Tests
             var transactionLock = transaction.Lock();
             var split = transaction.AddSplit(transactionLock);
             split.SetAccount(account, transactionLock);
+            split.SetSecurity(account.Security, transactionLock);
             transactionLock.Dispose();
 
             // Assert that the old lock cannot be reused to remove the split.
@@ -396,6 +401,7 @@ namespace SharpBooks.Tests
                 // Add and remove a split.
                 var split = transaction.AddSplit(transactionLock);
                 split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
                 transaction.RemoveSplit(split, transactionLock);
 
                 // Assert that attempting to remove the split again throws an exception.

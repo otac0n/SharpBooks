@@ -16,10 +16,25 @@
 
             var account = new Account(
                 accountId: Guid.NewGuid(),
+                accountType: AccountType.Balance,
                 security: security,
                 parentAccount: null,
                 name: accountName,
                 smallestFraction: security.FractionTraded);
+
+            ScenarioContext.Current.Add(accountName, account);
+        }
+
+        [Given(@"an account '(.*)' with no security")]
+        public void GivenAnAccountWithNoSecurity(string accountName)
+        {
+            var account = new Account(
+                accountId: Guid.NewGuid(),
+                accountType: AccountType.Balance, // OK
+                security: null,
+                parentAccount: null,
+                name: accountName,
+                smallestFraction: null);
 
             ScenarioContext.Current.Add(accountName, account);
         }

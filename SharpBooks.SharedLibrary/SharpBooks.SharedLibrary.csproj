@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="AccountData.cs" />
+    <Compile Include="AccountType.cs" />
     <Compile Include="Balance.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />

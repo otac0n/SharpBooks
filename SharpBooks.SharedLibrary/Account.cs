@@ -16,10 +16,11 @@ namespace SharpBooks
     public class Account : INotifyPropertyChanged
     {
         private readonly Guid accountId;
+        private readonly AccountType accountType;
         private readonly Security security;
         private readonly Account parentAccount;
         private readonly string name;
-        private readonly int smallestFraction;
+        private readonly int? smallestFraction;
 
         private readonly ObservableCollection<Account> childrenAccounts = new ObservableCollection<Account>();
         private readonly ReadOnlyObservableCollection<Account> childrenAccountsReadOnly;
@@ -31,14 +32,19 @@ namespace SharpBooks
         private Balance balance;
         private CompositeBalance totalBalance;
 
-        public Account(Guid accountId, Security security, Account parentAccount, string name, int smallestFraction)
+        public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
         {
             if (accountId == Guid.Empty)
             {
                 throw new ArgumentOutOfRangeException("accountId");
             }
 
-            if (security == null)
+            if (!Enum.GetValues(typeof(AccountType)).Cast<AccountType>().Contains(accountType))
+            {
+                throw new ArgumentOutOfRangeException("accountType");
+            }
+
+            if (security == null && smallestFraction.HasValue)
             {
                 throw new ArgumentNullException("security");
             }
@@ -48,14 +54,22 @@ namespace SharpBooks
                 throw new ArgumentNullException("name");
             }
 
+            if (security != null && !smallestFraction.HasValue)
+            {
+                throw new ArgumentNullException("smallestFraction");
+            }
+
             if (smallestFraction <= 0)
             {
                 throw new ArgumentOutOfRangeException("smallestFraction");
             }
 
-            if (security.FractionTraded % smallestFraction != 0)
+            if (security != null)
             {
-                throw new InvalidOperationException("An account's smallest fraction must represent a whole number multiple of the units used by its security");
+                if (security.FractionTraded % smallestFraction != 0)
+                {
+                    throw new InvalidOperationException("An account's smallest fraction must represent a whole number multiple of the units used by its security");
+                }
             }
 
             var parent = parentAccount;
@@ -70,6 +84,7 @@ namespace SharpBooks
             }
 
             this.accountId = accountId;
+            this.accountType = accountType;
             this.security = security;
             this.parentAccount = parentAccount;
             this.name = name;
@@ -86,6 +101,15 @@ namespace SharpBooks
             get
             {
                 return this.accountId;
+            }
+        }
+
+
+        public AccountType AccountType
+        {
+            get
+            {
+                return this.accountType;
             }
         }
 
@@ -113,7 +137,7 @@ namespace SharpBooks
             }
         }
 
-        public int SmallestFraction
+        public int? SmallestFraction
         {
             get
             {
@@ -148,7 +172,7 @@ namespace SharpBooks
 
                     this.balance = new Balance(this.Security, sum, true);
                 }
-                
+
                 return this.balance;
             }
         }
@@ -206,7 +230,7 @@ namespace SharpBooks
                         foreach (var s in this.book.GetAccountSplits(this))
                         {
                             this.splits.Add(s);
-                        }                                          
+                        }
                     }
                 }
             }
@@ -311,7 +335,7 @@ namespace SharpBooks
         private void InvalidateBalance()
         {
             this.balance = null;
-            
+
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs("Balance"));

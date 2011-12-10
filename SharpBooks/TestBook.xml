@@ -4,20 +4,20 @@
     <Security id="af894ff7-820b-4db2-92f8-c3164156d4ca" type="Currency" name="United States dollar" symbol="USD" signFormat="{0:\$#,##0.00#;(\$#,##0.00#)}" fractionTraded="1000" />
   </Securities>
   <Accounts>
-    <Account id="e85eb893-b865-4c73-8a5c-873d1927736b" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" name="Assets" smallestFraction="100" />
-    <Account id="3ff569e7-1ffa-458c-a7fc-35b4959032c7" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="e85eb893-b865-4c73-8a5c-873d1927736b" name="My Bank Account" smallestFraction="100" />
-    <Account id="ba197abe-9c3a-4f78-8e8a-042084636a21" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="e85eb893-b865-4c73-8a5c-873d1927736b" name="My Other Bank" smallestFraction="100" />
-    <Account id="2f6c4440-a699-4cf2-8a19-b69ad8750d6e" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" name="Liabilities" smallestFraction="100" />
-    <Account id="b257f6f9-a974-4bac-abe9-5d0b9d752716" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="2f6c4440-a699-4cf2-8a19-b69ad8750d6e" name="My Home Loan" smallestFraction="100" />
+    <Account id="e85eb893-b865-4c73-8a5c-873d1927736b" type="Grouping" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" name="Assets" smallestFraction="100" />
+    <Account id="3ff569e7-1ffa-458c-a7fc-35b4959032c7" type="Balance" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="e85eb893-b865-4c73-8a5c-873d1927736b" name="My Bank Account" smallestFraction="100" />
+    <Account id="ba197abe-9c3a-4f78-8e8a-042084636a21" type="Balance" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="e85eb893-b865-4c73-8a5c-873d1927736b" name="My Other Bank" smallestFraction="100" />
+    <Account id="2f6c4440-a699-4cf2-8a19-b69ad8750d6e" type="Grouping" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" name="Liabilities" smallestFraction="100" />
+    <Account id="b257f6f9-a974-4bac-abe9-5d0b9d752716" type="Balance" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" parentAccountId="2f6c4440-a699-4cf2-8a19-b69ad8750d6e" name="My Home Loan" smallestFraction="100" />
   </Accounts>
   <Transactions>
     <Transaction id="924c703d-8aaf-4671-b57a-346b175b5c81" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" date="2011-12-02T00:00:00Z">
-      <Split accountId="3ff569e7-1ffa-458c-a7fc-35b4959032c7" amount="3520" transactionAmount="3520" dateCleared="2011-12-03T00:00:00Z" reconciled="false" />
-      <Split accountId="ba197abe-9c3a-4f78-8e8a-042084636a21" amount="-3520" transactionAmount="-3520" reconciled="false" />
+      <Split accountId="3ff569e7-1ffa-458c-a7fc-35b4959032c7" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" amount="3520" transactionAmount="3520" dateCleared="2011-12-03T00:00:00Z" reconciled="false" />
+      <Split accountId="ba197abe-9c3a-4f78-8e8a-042084636a21" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" amount="-3520" transactionAmount="-3520" reconciled="false" />
     </Transaction>
     <Transaction id="506a5ec4-4eee-4f44-91a6-0b37c5fc7cfc" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" date="2011-12-01T00:00:00Z">
-      <Split accountId="b257f6f9-a974-4bac-abe9-5d0b9d752716" amount="1750" transactionAmount="1750" dateCleared="2011-12-02T00:00:00Z" reconciled="false" />
-      <Split accountId="3ff569e7-1ffa-458c-a7fc-35b4959032c7" amount="-1750" transactionAmount="-1750" reconciled="false" />
+      <Split accountId="b257f6f9-a974-4bac-abe9-5d0b9d752716" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" amount="1750" transactionAmount="1750" dateCleared="2011-12-02T00:00:00Z" reconciled="false" />
+      <Split accountId="3ff569e7-1ffa-458c-a7fc-35b4959032c7" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" amount="-1750" transactionAmount="-1750" reconciled="false" />
     </Transaction>
   </Transactions>
   <PriceQuotes />
