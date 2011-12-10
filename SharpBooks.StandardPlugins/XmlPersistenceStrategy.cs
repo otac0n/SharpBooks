@@ -39,15 +39,21 @@
             {
                 var accountId = (Guid)a.Attribute("id");
                 var accountType = (AccountType)Enum.Parse(typeof(AccountType), (string)a.Attribute("type"));
-                var securityId = (Guid)a.Attribute("securityId");
-                var security = securities[securityId];
+
+                Security security = null;
+                var securityAttr = a.Attribute("securityId");
+                if (securityAttr != null)
+                {
+                    security = securities[(Guid)securityAttr];
+                }
+
                 Account parentAccount = null;
                 var parentAttr = a.Attribute("parentAccountId");
                 if (parentAttr != null)
                 {
-                    var parentAccountId = (Guid)parentAttr;
-                    parentAccount = accounts[parentAccountId];
+                    parentAccount = accounts[(Guid)parentAttr];
                 }
+
                 var name = (string)a.Attribute("name");
                 var smallestFraction = (int)a.Attribute("smallestFraction");
 
@@ -143,7 +149,8 @@
                         from a in book.Accounts
                         select new XElement("Account",
                             new XAttribute("id", a.AccountId),
-                            new XAttribute("securityId", a.Security.SecurityId),
+                            new XAttribute("type", a.AccountType),
+                            a.Security == null ? null : new XAttribute("securityId", a.Security.SecurityId),
                             a.ParentAccount == null ? null : new XAttribute("parentAccountId", a.ParentAccount.AccountId),
                             new XAttribute("name", a.Name),
                             new XAttribute("smallestFraction", a.SmallestFraction)
@@ -158,6 +165,7 @@
                             from s in t.Splits
                             select new XElement("Split",
                                 new XAttribute("accountId", s.Account.AccountId),
+                                new XAttribute("securityId", s.Security.SecurityId),
                                 new XAttribute("amount", s.Amount),
                                 new XAttribute("transactionAmount", s.TransactionAmount),
                                 s.DateCleared.HasValue ? new XAttribute("dateCleared", s.DateCleared) : null,
