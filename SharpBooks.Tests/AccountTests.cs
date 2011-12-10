@@ -22,6 +22,7 @@ namespace SharpBooks.Tests
             // Create a new account with known good values.
             new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
@@ -37,6 +38,7 @@ namespace SharpBooks.Tests
             // Create a new account with known good values.
             new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 null, // OK
                 null, // OK
                 "OK_NAME",
@@ -47,78 +49,119 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        [TestCase(AccountType.Balance)]
+        [TestCase(AccountType.Grouping)]
+        public void Constructor_WithValidAccountType_Succeeds(AccountType accountType)
+        {
+            // Create a new account with known good values.
+            new Account(
+                Guid.NewGuid(), // OK
+                accountType,
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // The test passes, because the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        [TestCase((AccountType)(-1))]
+        [TestCase((AccountType)int.MaxValue)]
+        public void Constructor_WithInvalidAccountType_ThrowsException(AccountType accountType)
+        {
+            // Build a delegate to construct a new account.
+            TestDelegate constructAccount = () => new Account(
+                Guid.NewGuid(), // OK
+                accountType,
+                TestUtils.TestCurrency, // OK
+                null, // OK
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
+
+            // Assert that calling the delegate throws an ArgumentNullException.
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
         public void Constructor_WhenSecurityIsNullButFractionTradedIsNotNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 null,
                 null, // OK
                 "OK_NAME",
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an ArgumentNullException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void Constructor_WhenSecurityIsNotNullButFractionTradedIsNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 null,
                 null, // OK
                 "OK_NAME",
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an ArgumentNullException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void Constructor_WhenAccountIdIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.Empty,
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an ArgumentOutOfRangeException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
         public void Constructor_WhenNameIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(),
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 string.Empty,
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an ArgumentNullException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Test]
         public void Constructor_WhenNameIsNull_ThrowsException()
         {
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(),
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 null,
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an ArgumentNullException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Theory]
@@ -128,15 +171,16 @@ namespace SharpBooks.Tests
             Assume.That(smallestFraction <= 0);
 
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
                 smallestFraction);
 
             // Assert that calling the delegate throws an ArgumentOutOfRangeException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(constructAccount, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory]
@@ -147,15 +191,16 @@ namespace SharpBooks.Tests
             Assume.That(TestUtils.TestCurrency.FractionTraded % smallestFraction != 0);
 
             // Build a delegate to construct a new account.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
                 smallestFraction);
 
             // Assert that calling the delegate throws an InvalidOperationException.
-            Assert.That(constructTransaction, Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(constructAccount, Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -175,6 +220,7 @@ namespace SharpBooks.Tests
             {
                 parent = new Account(
                     Guid.NewGuid(), // OK
+                    AccountType.Balance, // OK
                     TestUtils.TestCurrency, // OK
                     parent,
                     "OK_NAME",
@@ -182,15 +228,16 @@ namespace SharpBooks.Tests
             }
 
             // Build a delegate to construct a new account with the same AccountId as its ancestor.
-            TestDelegate constructTransaction = () => new Account(
+            TestDelegate constructAccount = () => new Account(
                 ancestor.AccountId,
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 ancestor,
                 "OK_NAME",
                 TestUtils.TestCurrency.FractionTraded); // OK
 
             // Assert that calling the delegate throws an InvalidOperationException.
-            Assert.That(constructTransaction, Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(constructAccount, Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -199,6 +246,7 @@ namespace SharpBooks.Tests
             // Build a parent account.
             var parent = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME",
@@ -207,6 +255,7 @@ namespace SharpBooks.Tests
             // Construct the child account, passing the above account as the parent.
             var child = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 parent,
                 "OK_NAME",

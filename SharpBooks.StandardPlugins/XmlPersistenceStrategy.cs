@@ -38,6 +38,7 @@
             foreach (var a in doc.Element("Book").Element("Accounts").Elements("Account"))
             {
                 var accountId = (Guid)a.Attribute("id");
+                var accountType = (AccountType)Enum.Parse(typeof(AccountType), (string)a.Attribute("type"));
                 var securityId = (Guid)a.Attribute("securityId");
                 var security = securities[securityId];
                 Account parentAccount = null;
@@ -50,7 +51,7 @@
                 var name = (string)a.Attribute("name");
                 var smallestFraction = (int)a.Attribute("smallestFraction");
 
-                var account = new Account(accountId, security, parentAccount, name, smallestFraction);
+                var account = new Account(accountId, accountType, security, parentAccount, name, smallestFraction);
                 accounts.Add(account.AccountId, account);
                 book.AddAccount(account);
             }

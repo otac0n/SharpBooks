@@ -126,6 +126,9 @@
   <data name="AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE" xml:space="preserve">
     <value>The amount of a split must be evenly divisible by its account's smallest fraction.</value>
   </data>
+  <data name="SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT" xml:space="preserve">
+    <value>The split must not be assigned to an account that is identified as a grouping account.</value>
+  </data>
   <data name="SPLIT_MUST_BE_ASSIGNED" xml:space="preserve">
     <value>The split must be assigned to an account.</value>
   </data>

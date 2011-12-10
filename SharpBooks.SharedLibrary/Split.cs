@@ -111,6 +111,11 @@ namespace SharpBooks
                     yield return new RuleViolation("Account", Localization.Localization.SPLIT_MUST_BE_ASSIGNED);
                 }
 
+                if (this.Account != null && this.Account.AccountType == AccountType.Grouping)
+                {
+                    yield return new RuleViolation("Account", Localization.Localization.SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT);
+                }
+
                 if (this.Security == null)
                 {
                     yield return new RuleViolation("Security", Localization.Localization.SPLIT_MUST_HAVE_A_SECURITY);

@@ -16,6 +16,7 @@
 
             var account = new Account(
                 accountId: Guid.NewGuid(),
+                accountType: AccountType.Balance,
                 security: security,
                 parentAccount: null,
                 name: accountName,
@@ -29,6 +30,7 @@
         {
             var account = new Account(
                 accountId: Guid.NewGuid(),
+                accountType: AccountType.Balance, // OK
                 security: null,
                 parentAccount: null,
                 name: accountName,

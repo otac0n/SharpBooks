@@ -88,6 +88,15 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The split must not be assigned to an account that is identified as a grouping account..
+        /// </summary>
+        internal static string SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT {
+            get {
+                return ResourceManager.GetString("SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The split must be assigned to an account..
         /// </summary>
         internal static string SPLIT_MUST_BE_ASSIGNED {

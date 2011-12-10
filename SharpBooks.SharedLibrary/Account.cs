@@ -16,6 +16,7 @@ namespace SharpBooks
     public class Account : INotifyPropertyChanged
     {
         private readonly Guid accountId;
+        private readonly AccountType accountType;
         private readonly Security security;
         private readonly Account parentAccount;
         private readonly string name;
@@ -31,11 +32,16 @@ namespace SharpBooks
         private Balance balance;
         private CompositeBalance totalBalance;
 
-        public Account(Guid accountId, Security security, Account parentAccount, string name, int? smallestFraction)
+        public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
         {
             if (accountId == Guid.Empty)
             {
                 throw new ArgumentOutOfRangeException("accountId");
+            }
+
+            if (!Enum.GetValues(typeof(AccountType)).Cast<AccountType>().Contains(accountType))
+            {
+                throw new ArgumentOutOfRangeException("accountType");
             }
 
             if (security == null && smallestFraction.HasValue)
@@ -78,6 +84,7 @@ namespace SharpBooks
             }
 
             this.accountId = accountId;
+            this.accountType = accountType;
             this.security = security;
             this.parentAccount = parentAccount;
             this.name = name;
@@ -94,6 +101,15 @@ namespace SharpBooks
             get
             {
                 return this.accountId;
+            }
+        }
+
+
+        public AccountType AccountType
+        {
+            get
+            {
+                return this.accountType;
             }
         }
 

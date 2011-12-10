@@ -50,6 +50,34 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void GetIsValid_WhenAccountIsGroupingAccount_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new account with a null security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                AccountType.Grouping, // OK
+                TestUtils.TestCurrency, // OK
+                null, // OK
+                "OK_NAME",
+                TestUtils.TestCurrency.FractionTraded); // OK
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
+
+                // Assert that the split is invalid because the account is a grouping account and may not have transaction splits assigned to it.
+                Assert.False(split.IsValid);
+            }
+        }
+
+        [Test]
         public void GetIsValid_WhenAmountAndTransactionAmountSignsDiffer_ReturnsFalse()
         {
             // Create a new, empty transaction.
@@ -86,6 +114,7 @@ namespace SharpBooks.Tests
             // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
             var account = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME", // OK
@@ -127,6 +156,7 @@ namespace SharpBooks.Tests
             // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
             var account = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 TestUtils.TestCurrency, // OK
                 null, // OK
                 "OK_NAME", // OK
@@ -217,6 +247,7 @@ namespace SharpBooks.Tests
             // Create a new account with a null security.
             var account = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 null, // OK
                 null, // OK
                 "OK_NAME",
@@ -244,6 +275,7 @@ namespace SharpBooks.Tests
             // Create a new account with a null security.
             var account = new Account(
                 Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
                 null, // OK
                 null, // OK
                 "OK_NAME",

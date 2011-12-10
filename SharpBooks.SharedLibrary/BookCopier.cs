@@ -101,6 +101,7 @@ namespace SharpBooks
 
                 var newAccount = new Account(
                     account.AccountId,
+                    account.AccountType,
                     security,
                     parent,
                     account.Name,
