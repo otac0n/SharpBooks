@@ -423,11 +423,6 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
 
-                if (!transaction.IsValid)
-                {
-                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
-                }
-
                 var duplicateIds = from t in this.transactions
                                    where t.TransactionId == transaction.TransactionId
                                    select t;
@@ -444,6 +439,11 @@ namespace SharpBooks
                 {
                     transactionLock = transaction.Lock();
 
+                    if (!transaction.IsValid)
+                    {
+                        throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
+                    }
+
                     var splitsWithoutAccountsInBook = from s in transaction.Splits
                                                       where !this.accounts.Contains(s.Account)
                                                       select s;
@@ -451,7 +451,7 @@ namespace SharpBooks
                     if (splitsWithoutAccountsInBook.Any())
                     {
                         throw new InvalidOperationException(
-                            "Could not add the transaction to the book, because the transaction contains at least on split whose account has not been added.");
+                            "Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added.");
                     }
 
                     var splitsWithoutSecurityInBook = from s in transaction.Splits
