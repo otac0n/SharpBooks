@@ -1,3 +1,18 @@
 Build the New Book wizard.
 Add a GUID to the book itself.  Overload the constructor to take a GUID.
 Convert all dates to DateTime offsets.
+Add account and transaction metadata storage of some sort:
+    Account:
+        Hide / Show in Account List
+        Hide / Show Balance
+        Sort Order
+        Description
+        Account/Card/Loan Number
+        Icon (Possibly even save the bitmap with the book.)
+    Transaction:
+        Description
+        Notes
+    Split:
+        Other Party / Who?
+        Reconciled on Statement? (Jan 1 2012 - Jan 30 2012, for example)
+        Check Number
