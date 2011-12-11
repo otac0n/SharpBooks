@@ -269,8 +269,16 @@ namespace SharpBooks.Controllers
         {
             this.Close();
 
-            var book = new Book();
-            this.SetBook(book);
+            using (var wizard = new NewBookWizard(this))
+            {
+                var result = wizard.ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                this.SetBook(wizard.NewBook);
+            }
         }
 
         public void Open()

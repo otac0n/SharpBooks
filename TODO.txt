@@ -1,4 +1,3 @@
-Build the New Book wizard.
 Add a GUID to the book itself.  Overload the constructor to take a GUID.
 Convert all dates to DateTime offsets.
 Add account and transaction metadata storage of some sort:

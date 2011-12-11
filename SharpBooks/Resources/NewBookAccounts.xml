@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Accounts>
+  <Account name="Assets" groupOnly="true">
+    <Account name="Cash" />
+  </Account>
+  <Account name="Liabilites" groupOnly="true">
+  </Account>
+  <Account name="Income" groupOnly="true">
+    <Account name="Bonuses" />
+    <Account name="Gifts" />
+    <Account name="Interest" />
+    <Account name="Dividends" />
+    <Account name="Salary">
+      <Account name="Retirement Match" />
+    </Account>
+  </Account>
+  <Account name="Expenses" groupOnly="true">
+    <Account name="Auto">
+      <Account name="Gas" />
+      <Account name="Maintenance" />
+      <Account name="Parking" />
+      <Account name="Tolls" />
+    </Account>
+    <Account name="Charity" />
+    <Account name="Child Care" />
+    <Account name="Clothes" />
+    <Account name="Computer">
+      <Account name="Hardware" />
+      <Account name="Software" />
+      <Account name="Online Services" />
+    </Account>
+    <Account name="Food">
+      <Account name="Restaurants" />
+      <Account name="Groceries" />
+      <Account name="Fast Food &amp; Coffee Shops" />
+      <Account name="Vending Machines" />
+      <Account name="Convenience Stores" />
+    </Account>
+    <Account name="Education" />
+    <Account name="Electronics" />
+    <Account name="Entertainment">
+      <Account name="Music &amp; Movies" />
+      <Account name="Games" />
+      <Account name="Recreation" />
+      <Account name="Subscriptions" />
+    </Account>
+    <Account name="Fees">
+      <Account name="ATM Fees" />
+      <Account name="Finance Charges" />
+      <Account name="Late Fees" />
+      <Account name="Service Fees" />
+    </Account>
+    <Account name="Fines" />
+    <Account name="Gifts" />
+    <Account name="Hobbies" />
+    <Account name="Household">
+      <Account name="Furniture" />
+      <Account name="Supplies" />
+      <Account name="Improvements" />
+      <Account name="Repairs" />
+      <Account name="Lawn &amp; Garden" />
+    </Account>
+    <Account name="Insurance">
+      <Account name="Home" />
+      <Account name="Auto" />
+      <Account name="Health" />
+      <Account name="Life" />
+    </Account>
+    <Account name="Loan Interest" />
+    <Account name="Laundry" />
+    <Account name="Medical" />
+    <Account name="Memberships" />
+    <Account name="Miscellaneous" />
+    <Account name="Online Services" />
+    <Account name="Rent" />
+    <Account name="Taxes">
+      <Account name="Federal" />
+      <Account name="State" />
+      <Account name="Property" />
+      <Account name="Medicare" />
+      <Account name="Social Security" />
+    </Account>
+    <Account name="Utilities">
+      <Account name="Television &amp; Internet" />
+      <Account name="Electric" />
+      <Account name="Gas" />
+      <Account name="Water" />
+      <Account name="Garbage" />
+      <Account name="Home Phone" />
+      <Account name="Mobile Phone" />
+    </Account>
+  </Account>
+</Accounts>

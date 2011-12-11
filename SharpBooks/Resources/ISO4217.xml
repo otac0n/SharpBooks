@@ -39,7 +39,7 @@
   <Currency code="KMF" number="174" name="Comorian franc" fraction="1" format="{0}" />
   <Currency code="CRC" number="188" name="Costa Rican colon" fraction="100" format="{0}" />
   <Currency code="HRK" number="191" name="Croatian kuna" fraction="100" format="{0}" />
-  <Currency code="CUP" number="192" name="Cuban peso" fraction="100" format="{0}" />
+  <Currency code="CUP" number="192" name="Cuban peso" fraction="100" format="{0:$#,##0.00;$(#,##0.00)}" />
   <Currency code="CZK" number="203" name="Czech koruna" fraction="100" format="{0}" />
   <Currency code="DKK" number="208" name="Danish krone" fraction="100" format="{0}" />
   <Currency code="DOP" number="214" name="Dominican peso" fraction="100" format="{0}" />
@@ -82,7 +82,7 @@
   <Currency code="MVR" number="462" name="Maldivian rufiyaa" fraction="100" format="{0}" />
   <Currency code="MRO" number="478" name="Mauritanian ouguiya" fraction="5" format="{0}" />
   <Currency code="MUR" number="480" name="Mauritian rupee" fraction="100" format="{0}" />
-  <Currency code="MXN" number="484" name="Mexican peso" fraction="100" format="{0}" />
+  <Currency code="MXN" number="484" name="Mexican peso" fraction="100" format="{0:$#,##0.00;$(#,##0.00)}" />
   <Currency code="MNT" number="496" name="Mongolian tögrög" fraction="100" format="{0}" />
   <Currency code="MDL" number="498" name="Moldovan leu" fraction="100" format="{0}" />
   <Currency code="MAD" number="504" name="Moroccan dirham" fraction="100" format="{0}" />
@@ -132,7 +132,7 @@
   <Currency code="YER" number="886" name="Yemeni rial" fraction="100" format="{0}" />
   <Currency code="ZMK" number="894" name="Zambian kwacha" fraction="100" format="{0}" />
   <Currency code="TWD" number="901" name="New Taiwan dollar" fraction="100" format="{0}" />
-  <Currency code="CUC" number="931" name="Cuban convertible peso" fraction="100" format="{0}" />
+  <Currency code="CUC" number="931" name="Cuban convertible peso" fraction="100" format="{0:$#,##0.00;$(#,##0.00)}" />
   <Currency code="ZWL" number="932" name="Zimbabwe dollar" fraction="100" format="{0}" />
   <Currency code="TMT" number="934" name="Turkmenistani manat" fraction="100" format="{0}" />
   <Currency code="GHS" number="936" name="Ghanaian cedi" fraction="100" format="{0}" />
