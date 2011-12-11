@@ -3,7 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{864EE9C3-6DA1-4C76-AFF7-F729BEA92F3D}"
 	ProjectSection(SolutionItems) = preProject
-		currencies.csv = currencies.csv
 		CustomDictionary.xml = CustomDictionary.xml
 		Settings.StyleCop = Settings.StyleCop
 		SharpBooks.snk = SharpBooks.snk
