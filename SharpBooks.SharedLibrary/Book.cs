@@ -206,6 +206,16 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
                 }
 
+                var dependantSplits = from t in this.transactions
+                                      from s in t.Splits
+                                      where s.Security == security
+                                      select s;
+
+                if (dependantSplits.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one transaction depends on it.");
+                }
+
                 var dependantPriceQuotes = from q in this.priceQuotes
                                            where q.Security == security || q.Currency == security
                                            select q;

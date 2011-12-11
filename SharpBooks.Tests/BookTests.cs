@@ -247,6 +247,41 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void RemoveSecurity_WhenSecurityIsUsedInSplits_ThrowsException()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new account with no security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            book.AddAccount(account);
+
+            // Create a transaction that uses this split, but not as the 
+            var transaction = new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
+            using (var tLock = transaction.Lock())
+            {
+                transaction.SetDate(DateTime.Today, tLock);
+
+                var split1 = transaction.AddSplit(tLock);
+                split1.SetAccount(account, tLock);
+                split1.SetSecurity(TestUtils.TestCurrency, tLock);
+                split1.SetAmount(0, tLock);
+            }
+
+            book.AddTransaction(transaction);
+
+            // Assert that trying to remove the security while the account depends on it throws an InvalidOperationException.
+            Assert.That(() => book.RemoveSecurity(TestUtils.TestCurrency), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void RemoveSecurity_WhenSecurityIsUsedByPriceQuoteAsSecurity_ThrowsException()
         {
             // Create a new, valid book.
