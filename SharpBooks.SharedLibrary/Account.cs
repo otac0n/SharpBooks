@@ -29,7 +29,7 @@ namespace SharpBooks
         private readonly ReadOnlyObservableCollection<Split> splitsReadOnly;
 
         private Book book;
-        private Balance balance;
+        private CompositeBalance balance;
         private CompositeBalance totalBalance;
 
         public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
@@ -161,16 +161,17 @@ namespace SharpBooks
             }
         }
 
-        public Balance Balance
+        public CompositeBalance Balance
         {
             get
             {
                 if (this.balance == null)
                 {
-                    var sum = (from s in this.book.GetAccountSplits(this)
-                               select s.Amount).Sum();
+                    var balances = from s in this.book.GetAccountSplits(this)
+                                   group s by s.Security into g
+                                   select new Balance(g.Key, g.Sum(s => s.Amount), true);
 
-                    this.balance = new Balance(this.Security, sum, true);
+                    this.balance = new CompositeBalance(balances);
                 }
 
                 return this.balance;
@@ -186,7 +187,7 @@ namespace SharpBooks
                     var childrenBalances = from c in this.ChildrenAccounts
                                            select c.TotalBalance;
 
-                    this.totalBalance = new CompositeBalance(this.Security, this.Balance, childrenBalances);
+                    this.totalBalance = new CompositeBalance(this.Balance, childrenBalances);
                 }
 
                 return this.totalBalance;

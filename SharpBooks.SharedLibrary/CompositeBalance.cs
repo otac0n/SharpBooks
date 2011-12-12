@@ -14,31 +14,16 @@ namespace SharpBooks
 
     public sealed class CompositeBalance
     {
-        private readonly Security security;
         private readonly ICollection<Balance> balances;
 
-        public CompositeBalance(Security security, Balance balance, IEnumerable<CompositeBalance> balances)
+        public CompositeBalance(IEnumerable<Balance> balances)
         {
-            if (security == null)
-            {
-                throw new ArgumentNullException("security");
-            }
-
-            if (balance == null)
-            {
-                throw new ArgumentNullException("balance");
-            }
-
-            this.security = security;
-            this.balances = CombineBalances(balance, balances).AsReadOnly();
+            this.balances = CombineBalances(balances).AsReadOnly();
         }
 
-        public Security Security
+        public CompositeBalance(CompositeBalance balance, IEnumerable<CompositeBalance> balances)
         {
-            get
-            {
-                return this.security;
-            }
+            this.balances = CombineBalances(balances.Concat(new[] { balance })).AsReadOnly();
         }
 
         public ICollection<Balance> Balances
@@ -51,33 +36,45 @@ namespace SharpBooks
 
         public override string ToString()
         {
-            return string.Join(", ", this.balances.Select(b => b.ToString()));
-        }
-
-        private static List<Balance> CombineBalances(Balance balance, IEnumerable<CompositeBalance> balances)
-        {
-            if (balance == null)
+            if (this.balances.Count > 0)
             {
-                throw new ArgumentNullException("balance");
-            }
-
-            if (balances == null)
-            {
-                var bal = new List<Balance>();
-                bal.Add(balance);
-                return bal;
+                return string.Join(", ", this.balances.Select(b => b.ToString()));
             }
             else
             {
-                var bal = new List<Balance>(balances.SelectMany(b => b.Balances));
-                bal.Add(balance);
+                return "0";
+            }
+        }
 
-                return (from b in bal
+        private static List<Balance> CombineBalances(IEnumerable<CompositeBalance> balances)
+        {
+            if (balances == null)
+            {
+                return new List<Balance>();
+            }
+            else
+            {
+                return CombineBalances(balances.SelectMany(s => s.Balances));
+            }
+        }
+
+        private static List<Balance> CombineBalances(IEnumerable<Balance> balances)
+        {
+            if (balances == null)
+            {
+                return new List<Balance>();
+            }
+            else
+            {
+                return (from b in balances
                         group b by b.Security into g
+                        let amount = g.Sum(c => c.Amount)
+                        let exact = g.All(c => c.IsExact)
+                        where amount != 0 || !exact
                         select new Balance(
                             g.Key,
-                            g.Sum(c => c.Amount),
-                            g.All(c => c.IsExact))).ToList();
+                            amount,
+                            exact)).ToList();
             }
         }
     }
