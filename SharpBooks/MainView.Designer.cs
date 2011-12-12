@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.MenuStrip mainMenu;
             System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -35,12 +36,15 @@
             System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.TabView = new System.Windows.Forms.TabControl();
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.PaymentsTabPage = new System.Windows.Forms.TabPage();
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
+            this.accountImages = new System.Windows.Forms.ImageList(this.components);
+            this.accountTree = new SharpBooks.AccountTree();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,6 +143,7 @@
             // 
             // AccountsTabPage
             // 
+            this.AccountsTabPage.Controls.Add(this.accountTree);
             this.AccountsTabPage.Controls.Add(this.AccountsList);
             this.AccountsTabPage.Location = new System.Drawing.Point(4, 22);
             this.AccountsTabPage.Name = "AccountsTabPage";
@@ -176,6 +181,28 @@
             this.InvestmentsTabItem.Text = "Investments";
             this.InvestmentsTabItem.UseVisualStyleBackColor = true;
             // 
+            // accountImages
+            // 
+            this.accountImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("accountImages.ImageStream")));
+            this.accountImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.accountImages.Images.SetKeyName(0, "Coinstack.png");
+            // 
+            // accountTree
+            // 
+            this.accountTree.Book = null;
+            this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountTree.FullRowSelect = true;
+            this.accountTree.HideSelection = false;
+            this.accountTree.ImageIndex = 0;
+            this.accountTree.ImageList = this.accountImages;
+            this.accountTree.ItemHeight = 24;
+            this.accountTree.Location = new System.Drawing.Point(3, 3);
+            this.accountTree.Name = "accountTree";
+            this.accountTree.SelectedImageIndex = 0;
+            this.accountTree.ShowLines = false;
+            this.accountTree.Size = new System.Drawing.Size(770, 356);
+            this.accountTree.TabIndex = 1;
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,6 +230,8 @@
         private System.Windows.Forms.TreeView AccountsList;
         private System.Windows.Forms.TabPage PaymentsTabPage;
         private System.Windows.Forms.TabPage InvestmentsTabItem;
+        private AccountTree accountTree;
+        private System.Windows.Forms.ImageList accountImages;
 
     }
 }

@@ -77,14 +77,7 @@ namespace SharpBooks
         private void Owner_BookChanged(object sender, EventArgs e)
         {
             var book = this.owner.Book;
-            if (book == null)
-            {
-                // TODO: Clear out the current book info and show the start page.
-            }
-            else
-            {
-                // TODO: Hide the start page and populate the new book info.
-            }
+            this.accountTree.Book = book;
         }
 
         private void Owner_ActiveAccountChanged(object sender, EventArgs e)
