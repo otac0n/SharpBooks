@@ -15,6 +15,7 @@ namespace SharpBooks
     using System.Text;
     using System.Windows.Forms;
     using System.Diagnostics;
+    using SharpBooks.Plugins;
 
     public class AccountTree : TreeView
     {
@@ -25,7 +26,10 @@ namespace SharpBooks
         public AccountTree()
         {
             this.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            this.NodeMouseDoubleClick += AccountTree_NodeMouseDoubleClick;
         }
+
+        public event EventHandler<AccountSelectedEventArgs> AccountSelected;
 
         [Browsable(false)]
         public ReadOnlyBook Book
@@ -106,6 +110,13 @@ namespace SharpBooks
                 g.FillRectangle(background, amountBounds);
                 TextRenderer.DrawText(g, amountText, font, amountBounds, foreground, TextFormatFlags.Right | TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter);
             }
+        }
+
+        void AccountTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var account = (Account)e.Node.Tag;
+
+            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
         }
     }
 }

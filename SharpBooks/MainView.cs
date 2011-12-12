@@ -92,5 +92,10 @@ namespace SharpBooks
                 // TODO: Populate and show the active account window.
             }
         }
+
+        private void AccountTree_AccountSelected(object sender, AccountSelectedEventArgs e)
+        {
+            this.AccountSelected.SafeInvoke(this, () => e);
+        }
     }
 }
