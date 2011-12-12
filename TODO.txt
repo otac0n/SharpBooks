@@ -15,3 +15,7 @@ Add account and transaction metadata storage of some sort:
         Other Party / Who?
         Reconciled on Statement? (Jan 1 2012 - Jan 30 2012, for example)
         Check Number
+Develop Heuristics for Guessing / Setting the base security of the transaction.  Something like:
+    1.  Base security of the current account.
+    2.  Balance of the current account (i.e. if "Cash" contains $100 and no other currencies.)
+    3.  Historical usage in the current account.
