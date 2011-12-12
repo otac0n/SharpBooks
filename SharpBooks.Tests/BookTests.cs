@@ -769,6 +769,30 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddTransaction_WhenTheTransactionHasPreviouslyBeenRemoved_Succeeds()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new, valid transaction and add it to the book.
+            var transaction1 = TestUtils.CreateValidTransaction(account);
+            book.AddTransaction(transaction1);
+
+            // Remove the transaction.
+            book.RemoveTransaction(transaction1);
+
+            // Add the transaction again.
+            book.AddTransaction(transaction1);
+
+            // The test passes, because the call to AddTransaction() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
         public void AddTransaction_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid book.

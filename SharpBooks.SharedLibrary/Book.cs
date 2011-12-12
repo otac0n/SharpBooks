@@ -20,6 +20,7 @@ namespace SharpBooks
         private readonly ObservableCollection<Account> rootAccounts = new ObservableCollection<Account>();
         private readonly ObservableCollection<PriceQuote> priceQuotes = new ObservableCollection<PriceQuote>();
         private readonly ObservableCollection<Transaction> transactions = new ObservableCollection<Transaction>();
+        private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
         private readonly Dictionary<Transaction, TransactionLock> transactionLocks = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
@@ -428,16 +429,12 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (this.transactions.Contains(transaction))
+                if (this.transactionLocks.ContainsKey(transaction))
                 {
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
 
-                var duplicateIds = from t in this.transactions
-                                   where t.TransactionId == transaction.TransactionId
-                                   select t;
-
-                if (duplicateIds.Any())
+                if (this.transactionIds.Contains(transaction.TransactionId))
                 {
                     throw new InvalidOperationException(
                         "Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.");
@@ -477,6 +474,7 @@ namespace SharpBooks
 
                     this.transactionLocks.Add(transaction, transactionLock);
                     this.transactions.Add(transaction);
+                    this.transactionIds.Add(transaction.TransactionId);
                     this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
                     transactionLock = null;
                 }
@@ -503,14 +501,16 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (!this.transactions.Contains(transaction))
+                TransactionLock transactionLock;
+                if (!this.transactionLocks.TryGetValue(transaction, out transactionLock))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
-                this.transactionLocks[transaction].Dispose();
+                transactionLock.Dispose();
                 this.transactionLocks.Remove(transaction);
                 this.transactions.Remove(transaction);
+                this.transactionIds.Remove(transaction.TransactionId);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
             }
         }
