@@ -136,8 +136,11 @@ namespace SharpBooks
                 c = date1.CompareTo(date2);
                 if (c != 0) return c;
 
-                c = x.Security.Symbol.CompareTo(y.Security.Symbol);
-                if (c != 0) return c;
+                if (x.Security != y.Security)
+                {
+                    c = x.Security.Symbol.CompareTo(y.Security.Symbol);
+                    if (c != 0) return c;
+                }
 
                 return x.Amount.CompareTo(y.Amount);
             }
