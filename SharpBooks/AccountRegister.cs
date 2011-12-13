@@ -24,6 +24,8 @@ namespace SharpBooks
         {
             this.AlternatingBackColor = SystemColors.ControlLight;
             this.BackColor = SystemColors.Window;
+            this.Padding = new Padding(3);
+
             InitializeComponent();
         }
 
@@ -55,8 +57,12 @@ namespace SharpBooks
         {
             if (this.account != null)
             {
+                const int topPixelLine = 1;
+                const int bottomPixelLine = 1;
+                var itemHeight = this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine;
+
                 this.splits = new SortedList<Split>(this.book.GetAccountSplits(this.account), new SplitComparer());
-                this.AutoScrollMinSize = new Size(0, this.splits.Count * (int)(this.Font.SizeInPoints * 2.0F));
+                this.AutoScrollMinSize = new Size(0, topPixelLine + this.splits.Count * itemHeight);
                 this.Invalidate();
             }
         }
@@ -66,39 +72,53 @@ namespace SharpBooks
             var s = this.splits;
             if (s != null && !e.ClipRectangle.IsEmpty)
             {
+                const int topPixelLine = 1;
+                const int bottomPixelLine = 1;
                 var g = e.Graphics;
-                var itemHeight = (int)(this.Font.SizeInPoints * 2.0F);
+                var itemHeight = (this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine);
                 var offset = this.AutoScrollPosition;
                 var c = s.Count;
                 var listWidth = this.ClientSize.Width;
                 var listHeight = c * itemHeight;
+                var textPadding = this.Padding.Top;
 
 
                 g.Clear(SystemColors.AppWorkspace);
 
                 using (var background = new SolidBrush(this.BackColor))
                 {
-                    g.FillRectangle(background, offset.X, offset.Y, listWidth, listHeight);
+                    g.FillRectangle(background, offset.X, offset.Y, listWidth, listHeight + topPixelLine);
+                    g.DrawLine(SystemPens.WindowFrame, offset.X, offset.Y, offset.X + listWidth, offset.Y);
                 }
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
                     using (var brush = new SolidBrush(this.ForeColor))
                     {
-                        for (int i = 0; i < c; i++)
+                        var firstVisible = (-offset.Y - topPixelLine) / itemHeight;
+                        firstVisible = firstVisible < 0 ? 0 : firstVisible;
+
+                        var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
+                        var lastVisible = firstVisible + count + 1;
+                        lastVisible = lastVisible > c ? c : lastVisible;
+
+                        for (int i = firstVisible; i < lastVisible; i++)
                         {
+                            var rowTop = topPixelLine + offset.Y + i * itemHeight;
+                            var textTop = rowTop + textPadding;
+                            var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
+                            var alternatingRow = i % 2 == 1;
+
                             var split = s[i];
                             var text = split.Security.FormatValue(split.Amount);
 
-                            if (i % 2 == 1)
+                            if (alternatingRow)
                             {
-                                g.FillRectangle(background, offset.X, offset.Y + i * itemHeight, listWidth, itemHeight);
+                                g.FillRectangle(background, offset.X, rowTop, listWidth, itemHeight);
                             }
 
-                            g.DrawString(text, this.Font, brush, offset.X, offset.Y + i * itemHeight);
-                            g.DrawLine(SystemPens.WindowFrame,
-                                offset.X, offset.Y + i * itemHeight + itemHeight - 1,
-                                offset.X + listWidth, offset.Y + i * itemHeight + itemHeight - 1);
+                            g.DrawString(text, this.Font, brush, offset.X, textTop);
+                            g.DrawLine(SystemPens.WindowFrame, offset.X, rowBottomPixel, offset.X + listWidth, rowBottomPixel);
                         }
                     }
                 }
