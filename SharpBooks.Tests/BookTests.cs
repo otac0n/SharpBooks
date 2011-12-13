@@ -87,7 +87,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.Securities.CollectionChanged += (sender, e) => { called = true; };
+            book.SecurityAdded += (sender, e) => { called = true; };
 
             // Add the test security to the book.
             book.AddSecurity(TestUtils.TestCurrency);
@@ -190,7 +190,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.Securities.CollectionChanged += (sender, e) => { called = true; };
+            book.SecurityRemoved += (sender, e) => { called = true; };
 
             // Remove the security from the book.
             book.RemoveSecurity(TestUtils.TestCurrency);
@@ -338,26 +338,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void AddAccount_WhenAccountIsValidAndHasNoParent_NotifiesRootAccountsOfChange()
-        {
-            // Create a new, valid book.
-            var book = TestUtils.CreateValidBook();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
-            book.RootAccounts.CollectionChanged += (sender, e) => { called = true; };
-
-            // Add the account to the book.
-            book.AddAccount(account);
-
-            // Assert that the collection notified us of the change.
-            Assert.That(called, Is.True);
-        }
-
-        [Test]
         public void AddAccount_WhenValid_NotifiesOfChange()
         {
             // Create a new, valid book.
@@ -368,7 +348,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.Accounts.CollectionChanged += (sender, e) => { called = true; };
+            book.AccountAdded += (sender, e) => { called = true; };
 
             // Add the account to the book.
             book.AddAccount(account);
@@ -574,30 +554,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.Accounts.CollectionChanged += (sender, e) => { called = true; };
-
-            // Remove the account from the book.
-            book.RemoveAccount(account);
-
-            // Assert that the collection notified us of the change.
-            Assert.That(called, Is.True);
-        }
-
-        [Test]
-        public void RemoveAccount_WhenValidAndHasNoParent_NotifiesRootAccountsOfChange()
-        {
-            // Create a new, valid book.
-            var book = TestUtils.CreateValidBook();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Add the account to the book.
-            book.AddAccount(account);
-
-            // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
-            book.RootAccounts.CollectionChanged += (sender, e) => { called = true; };
+            book.AccountRemoved += (sender, e) => { called = true; };
 
             // Remove the account from the book.
             book.RemoveAccount(account);
@@ -769,6 +726,30 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void AddTransaction_WhenTheTransactionHasPreviouslyBeenRemoved_Succeeds()
+        {
+            // Create a new, valid book.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a new, valid account and add it to the book.
+            var account = TestUtils.CreateValidAccount();
+            book.AddAccount(account);
+
+            // Create a new, valid transaction and add it to the book.
+            var transaction1 = TestUtils.CreateValidTransaction(account);
+            book.AddTransaction(transaction1);
+
+            // Remove the transaction.
+            book.RemoveTransaction(transaction1);
+
+            // Add the transaction again.
+            book.AddTransaction(transaction1);
+
+            // The test passes, because the call to AddTransaction() has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
         public void AddTransaction_DuplicateAttempts_ThrowsException()
         {
             // Create a new, valid book.
@@ -892,7 +873,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.PriceQuotes.CollectionChanged += (sender, e) => { called = true; };
+            book.PriceQuoteAdded += (sender, e) => { called = true; };
 
             // Attempt to add the price quote to the book.
             book.AddPriceQuote(priceQuote);
@@ -1047,7 +1028,7 @@ namespace SharpBooks.Tests
 
             // Wire-up the CollectionChanged event to flag the change.
             bool called = false;
-            book.PriceQuotes.CollectionChanged += (sender, e) => { called = true; };
+            book.PriceQuoteRemoved += (sender, e) => { called = true; };
 
             // Remove the price quote from the book.
             book.RemovePriceQuote(priceQuote);

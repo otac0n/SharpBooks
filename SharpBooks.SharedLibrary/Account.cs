@@ -13,7 +13,7 @@ namespace SharpBooks
     using System.ComponentModel;
     using System.Linq;
 
-    public class Account : INotifyPropertyChanged
+    public class Account
     {
         private readonly Guid accountId;
         private readonly AccountType accountType;
@@ -22,15 +22,7 @@ namespace SharpBooks
         private readonly string name;
         private readonly int? smallestFraction;
 
-        private readonly ObservableCollection<Account> childrenAccounts = new ObservableCollection<Account>();
-        private readonly ReadOnlyObservableCollection<Account> childrenAccountsReadOnly;
-
-        private readonly ObservableCollection<Split> splits = new ObservableCollection<Split>();
-        private readonly ReadOnlyObservableCollection<Split> splitsReadOnly;
-
         private Book book;
-        private CompositeBalance balance;
-        private CompositeBalance totalBalance;
 
         public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
         {
@@ -89,12 +81,7 @@ namespace SharpBooks
             this.parentAccount = parentAccount;
             this.name = name;
             this.smallestFraction = smallestFraction;
-
-            this.childrenAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.childrenAccounts);
-            this.splitsReadOnly = new ReadOnlyObservableCollection<Split>(this.splits);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Guid AccountId
         {
@@ -145,36 +132,13 @@ namespace SharpBooks
             }
         }
 
-        public ReadOnlyObservableCollection<Account> ChildrenAccounts
-        {
-            get
-            {
-                return this.childrenAccountsReadOnly;
-            }
-        }
-
-        public ReadOnlyObservableCollection<Split> Splits
-        {
-            get
-            {
-                return this.splitsReadOnly;
-            }
-        }
-
         public CompositeBalance Balance
         {
             get
             {
-                if (this.balance == null)
-                {
-                    var balances = from s in this.book.GetAccountSplits(this)
-                                   group s by s.Security into g
-                                   select new Balance(g.Key, g.Sum(s => s.Amount), true);
-
-                    this.balance = new CompositeBalance(balances);
-                }
-
-                return this.balance;
+                return this.book == null
+                    ? null
+                    : this.book.GetAccountBalance(this);
             }
         }
 
@@ -182,15 +146,9 @@ namespace SharpBooks
         {
             get
             {
-                if (this.totalBalance == null)
-                {
-                    var childrenBalances = from c in this.ChildrenAccounts
-                                           select c.TotalBalance;
-
-                    this.totalBalance = new CompositeBalance(this.Balance, childrenBalances);
-                }
-
-                return this.totalBalance;
+                return this.book == null
+                    ? null
+                    : this.book.GetAccountTotalBalance(this);
             }
         }
 
@@ -205,34 +163,7 @@ namespace SharpBooks
             {
                 if (this.book != value)
                 {
-                    if (this.book != null)
-                    {
-                        this.book.Accounts.CollectionChanged -= this.BookAccounts_CollectionChanged;
-                        this.book.Transactions.CollectionChanged -= this.BookTransactions_CollectionChanged;
-                        this.childrenAccounts.Clear();
-                        this.splits.Clear();
-                    }
-
                     this.book = value;
-
-                    if (this.book != null)
-                    {
-                        this.book.Accounts.CollectionChanged += this.BookAccounts_CollectionChanged;
-                        this.book.Transactions.CollectionChanged += this.BookTransactions_CollectionChanged;
-
-                        foreach (var child in from a in this.book.Accounts
-                                              where a.ParentAccount == this
-                                              select a)
-                        {
-                            child.PropertyChanged += this.Child_PropertyChanged;
-                            this.childrenAccounts.Add(child);
-                        }
-
-                        foreach (var s in this.book.GetAccountSplits(this))
-                        {
-                            this.splits.Add(s);
-                        }
-                    }
                 }
             }
         }
@@ -250,99 +181,6 @@ namespace SharpBooks
             }
 
             return GetAccountPath(account.ParentAccount, separator) + separator + account.Name;
-        }
-
-        private void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "TotalBalance")
-            {
-                this.InvalidateTotalBalance();
-            }
-        }
-
-        private void InvalidateTotalBalance()
-        {
-            this.totalBalance = null;
-
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("TotalBalance"));
-            }
-        }
-
-        private void BookAccounts_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var removal in from Account a in e.OldItems
-                                        where a.ParentAccount == this
-                                        select a)
-                {
-                    removal.PropertyChanged -= this.Child_PropertyChanged;
-                    this.childrenAccounts.Remove(removal);
-                }
-            }
-
-            if (e.NewItems != null)
-            {
-                foreach (var addition in from Account a in e.NewItems
-                                         where a.ParentAccount == this
-                                         select a)
-                {
-                    addition.PropertyChanged += this.Child_PropertyChanged;
-                    this.childrenAccounts.Add(addition);
-                }
-            }
-        }
-
-        private void BookTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            bool affected = false;
-
-            if (e.OldItems != null)
-            {
-                var removedSplits = (from Transaction t in e.OldItems
-                                     select t).SelectMany(t => t.Splits);
-
-                foreach (var split in from s in removedSplits
-                                      where s.Account == this
-                                      select s)
-                {
-                    this.splits.Remove(split);
-                    affected = true;
-                }
-            }
-
-            if (e.NewItems != null)
-            {
-                var addedSplits = (from Transaction t in e.NewItems
-                                   select t).SelectMany(t => t.Splits);
-
-                foreach (var split in from s in addedSplits
-                                      where s.Account == this
-                                      select s)
-                {
-                    this.splits.Add(split);
-                    affected = true;
-                }
-            }
-
-            if (affected)
-            {
-                this.InvalidateBalance();
-            }
-        }
-
-        private void InvalidateBalance()
-        {
-            this.balance = null;
-
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs("Balance"));
-            }
-
-            this.InvalidateTotalBalance();
         }
     }
 }

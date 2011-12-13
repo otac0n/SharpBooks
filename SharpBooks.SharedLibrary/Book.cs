@@ -11,60 +11,70 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using SharpBooks.Events;
 
     public class Book
     {
         private readonly object lockMutex = new object();
-        private readonly ObservableCollection<Security> securities = new ObservableCollection<Security>();
-        private readonly ObservableCollection<Account> accounts = new ObservableCollection<Account>();
-        private readonly ObservableCollection<Account> rootAccounts = new ObservableCollection<Account>();
-        private readonly ObservableCollection<PriceQuote> priceQuotes = new ObservableCollection<PriceQuote>();
-        private readonly ObservableCollection<Transaction> transactions = new ObservableCollection<Transaction>();
-        private readonly Dictionary<Transaction, TransactionLock> transactionLocks = new Dictionary<Transaction, TransactionLock>();
+        private readonly HashSet<Security> securities = new HashSet<Security>();
+        private readonly HashSet<Account> accounts = new HashSet<Account>();
+        private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
+        private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
+        private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
+        private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
         private readonly ReadOnlyBook readOnlyFacade;
-        private readonly ReadOnlyObservableCollection<Security> securitiesReadOnly;
-        private readonly ReadOnlyObservableCollection<Account> accountsReadOnly;
-        private readonly ReadOnlyObservableCollection<Account> rootAccountsReadOnly;
-        private readonly ReadOnlyObservableCollection<PriceQuote> priceQuotesReadOnly;
-        private readonly ReadOnlyObservableCollection<Transaction> transactionsReadOnly;
+        private readonly ICollection<Security> securitiesReadOnly;
+        private readonly ICollection<Account> accountsReadOnly;
+        private readonly ICollection<Account> rootAccountsReadOnly;
+        private readonly ICollection<PriceQuote> priceQuotesReadOnly;
         private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
+
+        // Indexes:
+        private readonly Dictionary<Account, CompositeBalance> balances = new Dictionary<Account, CompositeBalance>();
+        private readonly Dictionary<Account, CompositeBalance> totalBalances = new Dictionary<Account, CompositeBalance>();
 
         public Book()
         {
-            this.securitiesReadOnly = new ReadOnlyObservableCollection<Security>(this.securities);
-            this.accountsReadOnly = new ReadOnlyObservableCollection<Account>(this.accounts);
-            this.rootAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.rootAccounts);
-            this.priceQuotesReadOnly = new ReadOnlyObservableCollection<PriceQuote>(this.priceQuotes);
-            this.transactionsReadOnly = new ReadOnlyObservableCollection<Transaction>(this.transactions);
+            this.securitiesReadOnly = new ReadOnlyCollectionWrapper<Security>(this.securities);
+            this.accountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.accounts);
+            this.rootAccountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.rootAccounts);
+            this.priceQuotesReadOnly = new ReadOnlyCollectionWrapper<PriceQuote>(this.priceQuotes);
             this.settingsReadOnly = new ReadOnlyDictionary<string, string>(this.settings);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
-        public ReadOnlyObservableCollection<Security> Securities
+        public event EventHandler<AccountAddedEventArgs> AccountAdded;
+        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+
+        public ICollection<Security> Securities
         {
             get { return this.securitiesReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Account> Accounts
+        public ICollection<Account> Accounts
         {
             get { return this.accountsReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Account> RootAccounts
+        public ICollection<Account> RootAccounts
         {
             get { return this.rootAccountsReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Transaction> Transactions
+        public ICollection<Transaction> Transactions
         {
-            get { return this.transactionsReadOnly; }
+            get { return this.transactions.Keys; }
         }
 
-        public ReadOnlyObservableCollection<PriceQuote> PriceQuotes
+        public ICollection<PriceQuote> PriceQuotes
         {
             get { return this.priceQuotesReadOnly; }
         }
@@ -90,12 +100,111 @@ namespace SharpBooks
 
                 var splits = new List<Split>();
 
-                foreach (var t in this.transactions)
+                foreach (var t in this.transactions.Keys)
                 {
                     splits.AddRange(t.Splits.Where(s => s.Account == account));
                 }
 
                 return splits.AsReadOnly();
+            }
+        }
+
+        /// <summary>
+        /// Adds a transaction to all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being added.</param>
+        private void AddTransactionToBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a transaction from all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being removed.</param>
+        private void RemoveTransactionFromBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, -split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
+            }
+        }
+
+        public CompositeBalance GetAccountBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                return balance;
+            }
+        }
+
+        public CompositeBalance GetAccountTotalBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (this.totalBalances.TryGetValue(account, out balance))
+                {
+                    return balance;
+                }
+
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                var subAccountBalances = from a in this.accounts
+                                         where a.ParentAccount == account
+                                         select this.GetAccountTotalBalance(a);
+
+                balance = new CompositeBalance(balance, subAccountBalances);
+                this.totalBalances[account] = balance;
+                return balance;
             }
         }
 
@@ -177,6 +286,8 @@ namespace SharpBooks
                 this.securities.Add(security);
                 this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
             }
+
+            this.SecurityAdded.SafeInvoke(this, new SecurityAddedEventArgs(security));
         }
 
         /// <summary>
@@ -206,7 +317,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
                 }
 
-                var dependantSplits = from t in this.transactions
+                var dependantSplits = from t in this.transactions.Keys
                                       from s in t.Splits
                                       where s.Security == security
                                       select s;
@@ -228,6 +339,8 @@ namespace SharpBooks
                 this.securities.Remove(security);
                 this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
             }
+
+            this.SecurityRemoved.SafeInvoke(this, new SecurityRemovedEventArgs(security));
         }
 
         /// <summary>
@@ -285,7 +398,11 @@ namespace SharpBooks
 
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
                 account.Book = this;
+
+                this.balances.Add(account, new CompositeBalance());
             }
+
+            this.AccountAdded.SafeInvoke(this, new AccountAddedEventArgs(account));
         }
 
         /// <summary>
@@ -315,7 +432,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
                 }
 
-                var involvedTransactions = from t in this.transactions
+                var involvedTransactions = from t in this.transactions.Keys
                                            where (from s in t.Splits
                                                   where s.Account == account
                                                   select s).Any()
@@ -334,7 +451,12 @@ namespace SharpBooks
 
                 this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
                 account.Book = null;
+
+                this.balances.Remove(account);
+                this.totalBalances.Remove(account);
             }
+
+            this.AccountRemoved.SafeInvoke(this, new AccountRemovedEventArgs(account));
         }
 
         /// <summary>
@@ -390,6 +512,8 @@ namespace SharpBooks
                 this.priceQuotes.Add(priceQuote);
                 this.UpdateSaveTracks(st => st.AddPriceQuote(new PriceQuoteData(priceQuote)));
             }
+
+            this.PriceQuoteAdded.SafeInvoke(this, new PriceQuoteAddedEventArgs(priceQuote));
         }
 
         /// <summary>
@@ -413,6 +537,8 @@ namespace SharpBooks
                 this.priceQuotes.Remove(priceQuote);
                 this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
             }
+
+            this.PriceQuoteRemoved.SafeInvoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
         }
 
         /// <summary>
@@ -428,16 +554,12 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (this.transactions.Contains(transaction))
+                if (this.transactions.ContainsKey(transaction))
                 {
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
 
-                var duplicateIds = from t in this.transactions
-                                   where t.TransactionId == transaction.TransactionId
-                                   select t;
-
-                if (duplicateIds.Any())
+                if (this.transactionIds.Contains(transaction.TransactionId))
                 {
                     throw new InvalidOperationException(
                         "Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.");
@@ -475,8 +597,8 @@ namespace SharpBooks
                             "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
                     }
 
-                    this.transactionLocks.Add(transaction, transactionLock);
-                    this.transactions.Add(transaction);
+                    this.transactions.Add(transaction, transactionLock);
+                    this.transactionIds.Add(transaction.TransactionId);
                     this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
                     transactionLock = null;
                 }
@@ -487,6 +609,8 @@ namespace SharpBooks
                         transactionLock.Dispose();
                     }
                 }
+
+                this.AddTransactionToBalances(transaction);
             }
         }
 
@@ -503,15 +627,18 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (!this.transactions.Contains(transaction))
+                TransactionLock transactionLock;
+                if (!this.transactions.TryGetValue(transaction, out transactionLock))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
-                this.transactionLocks[transaction].Dispose();
-                this.transactionLocks.Remove(transaction);
+                transactionLock.Dispose();
                 this.transactions.Remove(transaction);
+                this.transactionIds.Remove(transaction.TransactionId);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
+
+                this.RemoveTransactionFromBalances(transaction);
             }
         }
 

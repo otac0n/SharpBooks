@@ -55,17 +55,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="EventsHelpers.cs" />
+    <Compile Include="Events\AccountAddedEventArgs.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="AccountType.cs" />
     <Compile Include="Balance.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />
     <Compile Include="CompositeBalance.cs" />
+    <Compile Include="Events\AccountRemovedEventArgs.cs" />
+    <Compile Include="Events\SecurityAddedEventArgs.cs" />
+    <Compile Include="Events\SecurityRemovedEventArgs.cs" />
+    <Compile Include="Events\PriceQuoteRemovedEventArgs.cs" />
+    <Compile Include="Events\PriceQuoteAddedEventArgs.cs" />
     <Compile Include="ILoader.cs" />
     <Compile Include="Persistence\IPersistenceStrategy.cs" />
     <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
     <Compile Include="ReadOnlyDictionary`2.cs" />
-    <Compile Include="ReadOnlyObservableCollection.cs" />
+    <Compile Include="ReadOnlyCollectionWrapper`1.cs" />
     <Compile Include="Scheduling\DateLimitSchedule.cs" />
     <Compile Include="Scheduling\DateUnit.cs" />
     <Compile Include="Scheduling\DistinctSchedule.cs" />
