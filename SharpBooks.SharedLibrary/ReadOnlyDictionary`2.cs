@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ReadOnlyBook.cs" company="(none)">
+// <copyright file="ReadOnlyDictionary`2.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
