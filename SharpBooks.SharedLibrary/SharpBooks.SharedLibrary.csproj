@@ -101,6 +101,7 @@
     <Compile Include="RuleViolation.cs" />
     <Compile Include="Scheduling\RepetitionSchedule.cs" />
     <Compile Include="Scheduling\SingleDaySchedule.cs" />
+    <Compile Include="SortedList`1.cs" />
     <Compile Include="Split.cs" />
     <Compile Include="SplitData.cs" />
     <Compile Include="Transaction.cs" />
