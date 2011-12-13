@@ -34,6 +34,10 @@ namespace SharpBooks
         private readonly ReadOnlyObservableCollection<Transaction> transactionsReadOnly;
         private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
 
+        // Indexes:
+        private readonly Dictionary<Account, CompositeBalance> balances = new Dictionary<Account, CompositeBalance>();
+        private readonly Dictionary<Account, CompositeBalance> totalBalances = new Dictionary<Account, CompositeBalance>();
+
         public Book()
         {
             this.securitiesReadOnly = new ReadOnlyObservableCollection<Security>(this.securities);
@@ -97,6 +101,105 @@ namespace SharpBooks
                 }
 
                 return splits.AsReadOnly();
+            }
+        }
+
+        /// <summary>
+        /// Adds a transaction to all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being added.</param>
+        private void AddTransactionToBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a transaction from all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being removed.</param>
+        private void RemoveTransactionFromBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, -split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
+            }
+        }
+
+        public CompositeBalance GetAccountBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                return balance;
+            }
+        }
+
+        public CompositeBalance GetAccountTotalBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (this.totalBalances.TryGetValue(account, out balance))
+                {
+                    return balance;
+                }
+
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                var subAccountBalances = from a in this.accounts
+                                         where a.ParentAccount == account
+                                         select this.GetAccountTotalBalance(a);
+
+                balance = new CompositeBalance(balance, subAccountBalances);
+                this.totalBalances[account] = balance;
+                return balance;
             }
         }
 
@@ -286,6 +389,8 @@ namespace SharpBooks
 
                 this.UpdateSaveTracks(st => st.AddAccount(new AccountData(account)));
                 account.Book = this;
+
+                this.balances.Add(account, new CompositeBalance());
             }
         }
 
@@ -335,6 +440,9 @@ namespace SharpBooks
 
                 this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
                 account.Book = null;
+
+                this.balances.Remove(account);
+                this.totalBalances.Remove(account);
             }
         }
 
@@ -485,6 +593,8 @@ namespace SharpBooks
                         transactionLock.Dispose();
                     }
                 }
+
+                this.AddTransactionToBalances(transaction);
             }
         }
 
@@ -512,6 +622,8 @@ namespace SharpBooks
                 this.transactions.Remove(transaction);
                 this.transactionIds.Remove(transaction.TransactionId);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
+
+                this.RemoveTransactionFromBalances(transaction);
             }
         }
 
