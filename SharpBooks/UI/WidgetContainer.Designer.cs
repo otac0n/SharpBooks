@@ -1,6 +1,6 @@
-﻿namespace SharpBooks
+﻿namespace SharpBooks.UI
 {
-    partial class AccountRegister
+    partial class WidgetContainer
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,19 +30,16 @@
         {
             this.SuspendLayout();
             // 
-            // AccountRegister
+            // WidgetContainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.DoubleBuffered = true;
-            this.Name = "AccountRegister";
+            this.Name = "WidgetContainer";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
 
     }
 }

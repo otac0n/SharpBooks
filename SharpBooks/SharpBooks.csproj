@@ -69,13 +69,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountRegister.cs">
+    <Compile Include="UI\AccountRegister.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AccountRegister.Designer.cs">
+    <Compile Include="UI\AccountRegister.Designer.cs">
       <DependentUpon>AccountRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="AccountTree.cs">
+    <Compile Include="UI\AccountTree.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
@@ -94,10 +94,10 @@
     </Compile>
     <Compile Include="PersistenceMethod.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="WidgetContainer.cs">
+    <Compile Include="UI\WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WidgetContainer.Designer.cs">
+    <Compile Include="UI\WidgetContainer.Designer.cs">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -115,8 +115,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="AccountRegister.resx">
+    <EmbeddedResource Include="UI\AccountRegister.resx">
       <DependentUpon>AccountRegister.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
@@ -128,7 +129,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="WidgetContainer.resx">
+    <EmbeddedResource Include="UI\WidgetContainer.resx">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

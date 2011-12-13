@@ -44,8 +44,8 @@
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.PaymentsTabPage = new System.Windows.Forms.TabPage();
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
-            this.accountTree = new SharpBooks.AccountTree();
-            this.accountRegister = new SharpBooks.AccountRegister();
+            this.accountTree = new SharpBooks.UI.AccountTree();
+            this.accountRegister = new SharpBooks.UI.AccountRegister();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -242,9 +242,9 @@
         private System.Windows.Forms.TreeView AccountsList;
         private System.Windows.Forms.TabPage PaymentsTabPage;
         private System.Windows.Forms.TabPage InvestmentsTabItem;
-        private AccountTree accountTree;
+        private SharpBooks.UI.AccountTree accountTree;
         private System.Windows.Forms.ImageList accountImages;
-        private AccountRegister accountRegister;
+        private SharpBooks.UI.AccountRegister accountRegister;
 
     }
 }

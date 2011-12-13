@@ -5,7 +5,7 @@
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
 
-namespace SharpBooks
+namespace SharpBooks.UI
 {
     using System;
     using System.Collections.Generic;
