@@ -110,14 +110,23 @@ namespace SharpBooks
                             var alternatingRow = i % 2 == 1;
 
                             var split = s[i];
-                            var text = split.Security.FormatValue(split.Amount);
+                            var textParts = new[]
+                            {
+                                (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
+                                split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
+                                split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
+                            };
 
                             if (alternatingRow)
                             {
                                 g.FillRectangle(background, offset.X, rowTop, listWidth, itemHeight);
                             }
 
-                            g.DrawString(text, this.Font, brush, offset.X, textTop);
+                            for (int j = 0; j < textParts.Length; j++)
+                            {
+                                g.DrawString(textParts[j], this.Font, brush, offset.X + j * 100, textTop);
+                            }
+
                             g.DrawLine(SystemPens.WindowFrame, offset.X, rowBottomPixel, offset.X + listWidth, rowBottomPixel);
                         }
                     }
