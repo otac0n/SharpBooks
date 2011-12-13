@@ -20,9 +20,8 @@ namespace SharpBooks
         private readonly HashSet<Account> accounts = new HashSet<Account>();
         private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
         private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
-        private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
         private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
-        private readonly Dictionary<Transaction, TransactionLock> transactionLocks = new Dictionary<Transaction, TransactionLock>();
+        private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
@@ -32,7 +31,6 @@ namespace SharpBooks
         private readonly ICollection<Account> accountsReadOnly;
         private readonly ICollection<Account> rootAccountsReadOnly;
         private readonly ICollection<PriceQuote> priceQuotesReadOnly;
-        private readonly ICollection<Transaction> transactionsReadOnly;
         private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
 
         // Indexes:
@@ -45,7 +43,6 @@ namespace SharpBooks
             this.accountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.accounts);
             this.rootAccountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.rootAccounts);
             this.priceQuotesReadOnly = new ReadOnlyCollectionWrapper<PriceQuote>(this.priceQuotes);
-            this.transactionsReadOnly = new ReadOnlyCollectionWrapper<Transaction>(this.transactions);
             this.settingsReadOnly = new ReadOnlyDictionary<string, string>(this.settings);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
@@ -74,7 +71,7 @@ namespace SharpBooks
 
         public ICollection<Transaction> Transactions
         {
-            get { return this.transactionsReadOnly; }
+            get { return this.transactions.Keys; }
         }
 
         public ICollection<PriceQuote> PriceQuotes
@@ -103,7 +100,7 @@ namespace SharpBooks
 
                 var splits = new List<Split>();
 
-                foreach (var t in this.transactions)
+                foreach (var t in this.transactions.Keys)
                 {
                     splits.AddRange(t.Splits.Where(s => s.Account == account));
                 }
@@ -320,7 +317,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
                 }
 
-                var dependantSplits = from t in this.transactions
+                var dependantSplits = from t in this.transactions.Keys
                                       from s in t.Splits
                                       where s.Security == security
                                       select s;
@@ -435,7 +432,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
                 }
 
-                var involvedTransactions = from t in this.transactions
+                var involvedTransactions = from t in this.transactions.Keys
                                            where (from s in t.Splits
                                                   where s.Account == account
                                                   select s).Any()
@@ -557,7 +554,7 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (this.transactionLocks.ContainsKey(transaction))
+                if (this.transactions.ContainsKey(transaction))
                 {
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
@@ -600,8 +597,7 @@ namespace SharpBooks
                             "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
                     }
 
-                    this.transactionLocks.Add(transaction, transactionLock);
-                    this.transactions.Add(transaction);
+                    this.transactions.Add(transaction, transactionLock);
                     this.transactionIds.Add(transaction.TransactionId);
                     this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
                     transactionLock = null;
@@ -632,13 +628,12 @@ namespace SharpBooks
                 }
 
                 TransactionLock transactionLock;
-                if (!this.transactionLocks.TryGetValue(transaction, out transactionLock))
+                if (!this.transactions.TryGetValue(transaction, out transactionLock))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
                 transactionLock.Dispose();
-                this.transactionLocks.Remove(transaction);
                 this.transactions.Remove(transaction);
                 this.transactionIds.Remove(transaction.TransactionId);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
