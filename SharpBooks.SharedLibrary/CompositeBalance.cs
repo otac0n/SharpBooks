@@ -7,11 +7,8 @@
 
 namespace SharpBooks
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Collections.ObjectModel;
 
     public sealed class CompositeBalance
     {
@@ -32,7 +29,7 @@ namespace SharpBooks
             this.balances = CombineBalances(balances.Concat(new[] { balance })).AsReadOnly();
         }
 
-        private CompositeBalance(ReadOnlyCollection<Balance> balances)
+        private CompositeBalance(System.Collections.ObjectModel.ReadOnlyCollection<Balance> balances)
         {
             this.balances = balances;
         }

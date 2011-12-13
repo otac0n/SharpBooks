@@ -11,15 +11,16 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using SharpBooks.Events;
 
     public class Book
     {
         private readonly object lockMutex = new object();
-        private readonly ObservableCollection<Security> securities = new ObservableCollection<Security>();
-        private readonly ObservableCollection<Account> accounts = new ObservableCollection<Account>();
-        private readonly ObservableCollection<Account> rootAccounts = new ObservableCollection<Account>();
-        private readonly ObservableCollection<PriceQuote> priceQuotes = new ObservableCollection<PriceQuote>();
-        private readonly ObservableCollection<Transaction> transactions = new ObservableCollection<Transaction>();
+        private readonly HashSet<Security> securities = new HashSet<Security>();
+        private readonly HashSet<Account> accounts = new HashSet<Account>();
+        private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
+        private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
+        private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
         private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
         private readonly Dictionary<Transaction, TransactionLock> transactionLocks = new Dictionary<Transaction, TransactionLock>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
@@ -27,11 +28,11 @@ namespace SharpBooks
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
 
         private readonly ReadOnlyBook readOnlyFacade;
-        private readonly ReadOnlyObservableCollection<Security> securitiesReadOnly;
-        private readonly ReadOnlyObservableCollection<Account> accountsReadOnly;
-        private readonly ReadOnlyObservableCollection<Account> rootAccountsReadOnly;
-        private readonly ReadOnlyObservableCollection<PriceQuote> priceQuotesReadOnly;
-        private readonly ReadOnlyObservableCollection<Transaction> transactionsReadOnly;
+        private readonly ICollection<Security> securitiesReadOnly;
+        private readonly ICollection<Account> accountsReadOnly;
+        private readonly ICollection<Account> rootAccountsReadOnly;
+        private readonly ICollection<PriceQuote> priceQuotesReadOnly;
+        private readonly ICollection<Transaction> transactionsReadOnly;
         private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
 
         // Indexes:
@@ -40,36 +41,43 @@ namespace SharpBooks
 
         public Book()
         {
-            this.securitiesReadOnly = new ReadOnlyObservableCollection<Security>(this.securities);
-            this.accountsReadOnly = new ReadOnlyObservableCollection<Account>(this.accounts);
-            this.rootAccountsReadOnly = new ReadOnlyObservableCollection<Account>(this.rootAccounts);
-            this.priceQuotesReadOnly = new ReadOnlyObservableCollection<PriceQuote>(this.priceQuotes);
-            this.transactionsReadOnly = new ReadOnlyObservableCollection<Transaction>(this.transactions);
+            this.securitiesReadOnly = new ReadOnlyCollectionWrapper<Security>(this.securities);
+            this.accountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.accounts);
+            this.rootAccountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.rootAccounts);
+            this.priceQuotesReadOnly = new ReadOnlyCollectionWrapper<PriceQuote>(this.priceQuotes);
+            this.transactionsReadOnly = new ReadOnlyCollectionWrapper<Transaction>(this.transactions);
             this.settingsReadOnly = new ReadOnlyDictionary<string, string>(this.settings);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
-        public ReadOnlyObservableCollection<Security> Securities
+        public event EventHandler<AccountAddedEventArgs> AccountAdded;
+        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+
+        public ICollection<Security> Securities
         {
             get { return this.securitiesReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Account> Accounts
+        public ICollection<Account> Accounts
         {
             get { return this.accountsReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Account> RootAccounts
+        public ICollection<Account> RootAccounts
         {
             get { return this.rootAccountsReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<Transaction> Transactions
+        public ICollection<Transaction> Transactions
         {
             get { return this.transactionsReadOnly; }
         }
 
-        public ReadOnlyObservableCollection<PriceQuote> PriceQuotes
+        public ICollection<PriceQuote> PriceQuotes
         {
             get { return this.priceQuotesReadOnly; }
         }
@@ -281,6 +289,8 @@ namespace SharpBooks
                 this.securities.Add(security);
                 this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
             }
+
+            this.SecurityAdded.SafeInvoke(this, new SecurityAddedEventArgs(security));
         }
 
         /// <summary>
@@ -332,6 +342,8 @@ namespace SharpBooks
                 this.securities.Remove(security);
                 this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
             }
+
+            this.SecurityRemoved.SafeInvoke(this, new SecurityRemovedEventArgs(security));
         }
 
         /// <summary>
@@ -392,6 +404,8 @@ namespace SharpBooks
 
                 this.balances.Add(account, new CompositeBalance());
             }
+
+            this.AccountAdded.SafeInvoke(this, new AccountAddedEventArgs(account));
         }
 
         /// <summary>
@@ -444,6 +458,8 @@ namespace SharpBooks
                 this.balances.Remove(account);
                 this.totalBalances.Remove(account);
             }
+
+            this.AccountRemoved.SafeInvoke(this, new AccountRemovedEventArgs(account));
         }
 
         /// <summary>
@@ -499,6 +515,8 @@ namespace SharpBooks
                 this.priceQuotes.Add(priceQuote);
                 this.UpdateSaveTracks(st => st.AddPriceQuote(new PriceQuoteData(priceQuote)));
             }
+
+            this.PriceQuoteAdded.SafeInvoke(this, new PriceQuoteAddedEventArgs(priceQuote));
         }
 
         /// <summary>
@@ -522,6 +540,8 @@ namespace SharpBooks
                 this.priceQuotes.Remove(priceQuote);
                 this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
             }
+
+            this.PriceQuoteRemoved.SafeInvoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
         }
 
         /// <summary>

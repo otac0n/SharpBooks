@@ -14,13 +14,5 @@ namespace SharpBooks
 
     public static class FormsHelpers
     {
-        public static void SafeInvoke<TEventArgs>(this EventHandler<TEventArgs> foo, object @this, Func<TEventArgs> getArgs) where TEventArgs : EventArgs
-        {
-            if (foo != null)
-            {
-                var args = getArgs();
-                foo(@this, args);
-            }
-        }
     }
 }

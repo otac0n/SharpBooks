@@ -32,7 +32,7 @@ namespace SharpBooks
             }
         }
 
-        public ReadOnlyObservableCollection<Account> Accounts
+        public ICollection<Account> Accounts
         {
             get
             {
@@ -40,7 +40,7 @@ namespace SharpBooks
             }
         }
 
-        public ReadOnlyObservableCollection<Account> RootAccounts
+        public ICollection<Account> RootAccounts
         {
             get
             {
