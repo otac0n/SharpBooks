@@ -15,7 +15,7 @@ namespace SharpBooks
 
     public class SortedList<T> : IList<T>
     {
-        private readonly IComparer<T> comparer;
+        private IComparer<T> comparer;
         private readonly List<T> storage;
 
         public SortedList()
@@ -52,6 +52,17 @@ namespace SharpBooks
 
             this.storage = new List<T>(collection);
             this.storage.Sort(this.comparer);
+        }
+
+        public void SetComparer(IComparer<T> comparer)
+        {
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
+            this.comparer = comparer;
+            this.storage.Sort(comparer);
         }
 
         public int IndexOf(T item)
