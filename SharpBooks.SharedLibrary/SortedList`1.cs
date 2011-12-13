@@ -109,6 +109,12 @@ namespace SharpBooks
             this.storage.Insert(result, item);
         }
 
+        public void AddRange(IEnumerable<T> item)
+        {
+            this.storage.AddRange(item);
+            this.storage.Sort(this.comparer);
+        }
+
         public void Clear()
         {
             this.storage.Clear();
