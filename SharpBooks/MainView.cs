@@ -78,19 +78,19 @@ namespace SharpBooks
         {
             var book = this.owner.Book;
             this.accountTree.Book = book;
+
+            bool isNull = book == null;
+            this.tabView.Visible = !isNull;
         }
 
         private void Owner_ActiveAccountChanged(object sender, EventArgs e)
         {
             var activeAccount = this.owner.ActiveAccount;
-            if (activeAccount == null)
-            {
-                // TODO: Hide and clear-out the active account window.
-            }
-            else
-            {
-                // TODO: Populate and show the active account window.
-            }
+            this.accountRegister.SetAccount(activeAccount, this.owner.Book);
+
+            bool isNull = activeAccount == null;
+            this.accountRegister.Visible = !isNull;
+            this.accountTree.Visible = isNull;
         }
 
         private void AccountTree_AccountSelected(object sender, AccountSelectedEventArgs e)

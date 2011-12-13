@@ -37,14 +37,15 @@
             System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
-            this.TabView = new System.Windows.Forms.TabControl();
+            this.tabView = new System.Windows.Forms.TabControl();
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
+            this.accountImages = new System.Windows.Forms.ImageList(this.components);
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.PaymentsTabPage = new System.Windows.Forms.TabPage();
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
-            this.accountImages = new System.Windows.Forms.ImageList(this.components);
             this.accountTree = new SharpBooks.AccountTree();
+            this.accountRegister = new SharpBooks.AccountRegister();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,7 @@
             saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             mainMenu.SuspendLayout();
-            this.TabView.SuspendLayout();
+            this.tabView.SuspendLayout();
             this.AccountsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,18 +119,18 @@
             saveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             saveAsToolStripMenuItem.Text = "Save &As";
             // 
-            // TabView
+            // tabView
             // 
-            this.TabView.Controls.Add(this.OverviewTabPage);
-            this.TabView.Controls.Add(this.AccountsTabPage);
-            this.TabView.Controls.Add(this.PaymentsTabPage);
-            this.TabView.Controls.Add(this.InvestmentsTabItem);
-            this.TabView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TabView.Location = new System.Drawing.Point(0, 24);
-            this.TabView.Name = "TabView";
-            this.TabView.SelectedIndex = 0;
-            this.TabView.Size = new System.Drawing.Size(784, 388);
-            this.TabView.TabIndex = 1;
+            this.tabView.Controls.Add(this.OverviewTabPage);
+            this.tabView.Controls.Add(this.AccountsTabPage);
+            this.tabView.Controls.Add(this.PaymentsTabPage);
+            this.tabView.Controls.Add(this.InvestmentsTabItem);
+            this.tabView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabView.Location = new System.Drawing.Point(0, 24);
+            this.tabView.Name = "tabView";
+            this.tabView.SelectedIndex = 0;
+            this.tabView.Size = new System.Drawing.Size(784, 388);
+            this.tabView.TabIndex = 1;
             // 
             // OverviewTabPage
             // 
@@ -143,6 +144,7 @@
             // 
             // AccountsTabPage
             // 
+            this.AccountsTabPage.Controls.Add(this.accountRegister);
             this.AccountsTabPage.Controls.Add(this.accountTree);
             this.AccountsTabPage.Controls.Add(this.AccountsList);
             this.AccountsTabPage.Location = new System.Drawing.Point(4, 22);
@@ -152,6 +154,12 @@
             this.AccountsTabPage.TabIndex = 1;
             this.AccountsTabPage.Text = "Accounts / Expenses";
             this.AccountsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // accountImages
+            // 
+            this.accountImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("accountImages.ImageStream")));
+            this.accountImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.accountImages.Images.SetKeyName(0, "Coinstack.png");
             // 
             // AccountsList
             // 
@@ -181,16 +189,11 @@
             this.InvestmentsTabItem.Text = "Investments";
             this.InvestmentsTabItem.UseVisualStyleBackColor = true;
             // 
-            // accountImages
-            // 
-            this.accountImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("accountImages.ImageStream")));
-            this.accountImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.accountImages.Images.SetKeyName(0, "Coinstack.png");
-            // 
             // accountTree
             // 
             this.accountTree.Book = null;
             this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountTree.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.accountTree.FullRowSelect = true;
             this.accountTree.HideSelection = false;
             this.accountTree.ImageIndex = 0;
@@ -202,20 +205,29 @@
             this.accountTree.ShowLines = false;
             this.accountTree.Size = new System.Drawing.Size(770, 356);
             this.accountTree.TabIndex = 1;
+            this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
+            // 
+            // accountRegister
+            // 
+            this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountRegister.Location = new System.Drawing.Point(3, 3);
+            this.accountRegister.Name = "accountRegister";
+            this.accountRegister.Size = new System.Drawing.Size(770, 356);
+            this.accountRegister.TabIndex = 2;
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 412);
-            this.Controls.Add(this.TabView);
+            this.Controls.Add(this.tabView);
             this.Controls.Add(mainMenu);
             this.MainMenuStrip = mainMenu;
             this.Name = "MainView";
             this.Text = "MainView";
             mainMenu.ResumeLayout(false);
             mainMenu.PerformLayout();
-            this.TabView.ResumeLayout(false);
+            this.tabView.ResumeLayout(false);
             this.AccountsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -224,7 +236,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl TabView;
+        private System.Windows.Forms.TabControl tabView;
         private System.Windows.Forms.TabPage OverviewTabPage;
         private System.Windows.Forms.TabPage AccountsTabPage;
         private System.Windows.Forms.TreeView AccountsList;
@@ -232,6 +244,7 @@
         private System.Windows.Forms.TabPage InvestmentsTabItem;
         private AccountTree accountTree;
         private System.Windows.Forms.ImageList accountImages;
+        private AccountRegister accountRegister;
 
     }
 }
