@@ -108,7 +108,7 @@ namespace SharpBooks
         {
             get
             {
-                return this.RuleViolations.Count() == 0;
+                return !this.RuleViolations.Any();
             }
         }
 
