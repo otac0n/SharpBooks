@@ -34,9 +34,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.DoubleBuffered = true;
             this.Name = "HeaderControl";
             this.Size = new System.Drawing.Size(150, 25);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HeaderControl_MouseMove);
             this.ResumeLayout(false);
 
         }
