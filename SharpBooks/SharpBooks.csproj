@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="PersistenceMethod.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UI\HeaderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\HeaderControl.Designer.cs">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\HeaderControl.resx">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\WidgetContainer.resx">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
