@@ -131,31 +131,27 @@ namespace SharpBooks.UI
 
         private int FindHoveredColumn(MouseEventArgs e, out bool showResize)
         {
-            var height = this.ClientSize.Height;
-
-            Rectangle rect;
             var hoverColumn = -1;
             var hoverResize = -1;
 
-            int left = 0;
-            for (int i = 0; i < this.columns.Count; i++)
+            var bounds = this.GetColumnBounds();
+            var padding = this.CellPadding;
+
+            for (int i = 0; i < bounds.Length; i++)
             {
-                var col = this.columns[i];
-                var w = col.Width;
+                var rect = bounds[i];
+                var loc = e.Location;
 
                 if (hoverColumn == -1)
                 {
-                    rect = new Rectangle(left, 0, w, height);
-                    if (rect.Contains(e.Location))
+                    if (rect.Contains(loc))
                     {
                         hoverColumn = i;
                     }
                 }
 
-                left += w;
-
-                rect = new Rectangle(left - 1 - this.CellPadding, 0, 2 * this.CellPadding + 1, height);
-                if (rect.Contains(e.Location))
+                rect = new Rectangle(rect.Right - 1 - padding, rect.Y, 2 * padding + 1, rect.Height);
+                if (rect.Contains(loc))
                 {
                     hoverResize = i;
                 }
@@ -248,6 +244,23 @@ namespace SharpBooks.UI
             }
 
             base.OnMouseUp(e);
+        }
+
+        public Rectangle[] GetColumnBounds()
+        {
+            var bounds = new Rectangle[this.columns.Count];
+
+            var height = this.ClientSize.Height;
+            int left = 0;
+
+            for (int i = 0; i < this.columns.Count; i++)
+            {
+                var w = this.columns[i].Width;
+                bounds[i] = new Rectangle(left, 0, w, height);
+                left += w;
+            }
+
+            return bounds;
         }
 
         public class ColumnHeader
