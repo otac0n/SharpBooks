@@ -50,6 +50,7 @@
             this.headers.Name = "headers";
             this.headers.Size = new System.Drawing.Size(133, 25);
             this.headers.TabIndex = 0;
+            this.headers.ColumnWidthChanged += new System.EventHandler<System.Windows.Forms.ColumnWidthChangedEventArgs>(this.Headers_ColumnWidthChanged);
             // 
             // AccountRegister
             // 

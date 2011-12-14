@@ -167,5 +167,10 @@ namespace SharpBooks.UI
                 return x.Amount.CompareTo(y.Amount);
             }
         }
+
+        private void Headers_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            this.Invalidate();
+        }
     }
 }

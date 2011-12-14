@@ -41,6 +41,8 @@ namespace SharpBooks.UI
             InitializeComponent();
         }
 
+        public event EventHandler<ColumnWidthChangedEventArgs> ColumnWidthChanged;
+
         protected override void OnPaint(PaintEventArgs e)
         {
             const TextFormatFlags BaseFormat = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
@@ -184,6 +186,7 @@ namespace SharpBooks.UI
         {
             this.resizing = false;
             this.columns[this.hoverColumn].Width = this.originalWidth;
+            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
         }
 
         private void DoResize(MouseEventArgs e)
@@ -196,6 +199,7 @@ namespace SharpBooks.UI
             }
 
             this.columns[this.hoverColumn].Width = desiredWidth;
+            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
