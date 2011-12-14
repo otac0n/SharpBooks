@@ -21,6 +21,9 @@ namespace SharpBooks.UI
 
         private SortedList<Split> splits;
 
+        private int offset = 0;
+        private bool lockOffset = false;
+
         public AccountRegister()
         {
             this.AlternatingBackColor = SystemColors.ControlLight;
@@ -65,12 +68,20 @@ namespace SharpBooks.UI
         {
             if (this.account != null)
             {
-                const int bottomPixelLine = 1;
-                var itemHeight = this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine;
+                var itemHeight = this.GetItemHeight();
 
                 this.splits = new SortedList<Split>(this.book.GetAccountSplits(this.account), new SplitComparer());
+                this.vScroll.Value = 0;
+                this.vScroll.Maximum = this.splits.Count;
+
                 this.Invalidate();
             }
+        }
+
+        private int GetItemHeight()
+        {
+            const int bottomPixelLine = 1;
+            return this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -81,8 +92,9 @@ namespace SharpBooks.UI
                 const int bottomPixelLine = 1;
                 const TextFormatFlags BaseFormat = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
                 var g = e.Graphics;
-                var itemHeight = (this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine);
-                var offset = this.AutoScrollPosition;
+                var itemHeight = this.GetItemHeight();
+                var offsetY = this.offset;
+                var offsetX = 0;
                 var c = s.Count;
                 var listWidth = this.ClientSize.Width;
                 var listHeight = c * itemHeight;
@@ -96,14 +108,14 @@ namespace SharpBooks.UI
 
                 using (var background = new SolidBrush(this.BackColor))
                 {
-                    g.FillRectangle(background, offset.X, offset.Y, listWidth, headerHeight + listHeight);
+                    g.FillRectangle(background, offsetX, offsetY, listWidth, headerHeight + listHeight);
                 }
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
                     using (var brush = new SolidBrush(this.ForeColor))
                     {
-                        var firstVisible = (-offset.Y - headerHeight) / itemHeight;
+                        var firstVisible = (-offsetY - headerHeight) / itemHeight;
                         firstVisible = firstVisible < 0 ? 0 : firstVisible;
 
                         var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
@@ -112,7 +124,7 @@ namespace SharpBooks.UI
 
                         for (int i = firstVisible; i < lastVisible; i++)
                         {
-                            var rowTop = headerHeight + offset.Y + i * itemHeight;
+                            var rowTop = headerHeight + offsetY + i * itemHeight;
                             var textTop = rowTop + textPadding;
                             var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
                             var alternatingRow = i % 2 == 1;
@@ -131,7 +143,7 @@ namespace SharpBooks.UI
 
                             if (alternatingRow)
                             {
-                                g.FillRectangle(background, offset.X, rowTop, listWidth, itemHeight);
+                                g.FillRectangle(background, offsetX, rowTop, listWidth, itemHeight);
                             }
 
                             for (int j = 0; j < textParts.Length; j++)
@@ -140,7 +152,7 @@ namespace SharpBooks.UI
                                 TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
                             }
 
-                            g.DrawLine(SystemPens.WindowFrame, offset.X, rowBottomPixel, offset.X + listWidth, rowBottomPixel);
+                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
                         }
                     }
                 }
@@ -171,6 +183,20 @@ namespace SharpBooks.UI
         private void Headers_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
             this.Invalidate();
+        }
+
+        private void VScroll_ValueChanged(object sender, EventArgs e)
+        {
+            if (!this.lockOffset)
+            {
+                var c = this.splits.Count;
+                var itemHeight = this.GetItemHeight();
+                var listHeight = c * itemHeight;
+
+                var v = this.vScroll.Value;
+                this.offset = -(int)(((long)v * listHeight) / c);
+                this.Invalidate();
+            }
         }
     }
 }

@@ -28,18 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.vScroll = new System.Windows.Forms.VScrollBar();
             this.headers = new SharpBooks.UI.HeaderControl();
             this.SuspendLayout();
             // 
-            // vScrollBar1
+            // vScroll
             // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(133, 0);
-            this.vScrollBar1.Maximum = 100000;
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 150);
-            this.vScrollBar1.TabIndex = 1;
+            this.vScroll.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScroll.Location = new System.Drawing.Point(133, 0);
+            this.vScroll.Maximum = 100000;
+            this.vScroll.Name = "vScroll";
+            this.vScroll.Size = new System.Drawing.Size(17, 150);
+            this.vScroll.TabIndex = 1;
+            this.vScroll.ValueChanged += new System.EventHandler(this.VScroll_ValueChanged);
             // 
             // headers
             // 
@@ -58,7 +59,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.headers);
-            this.Controls.Add(this.vScrollBar1);
+            this.Controls.Add(this.vScroll);
             this.DoubleBuffered = true;
             this.Name = "AccountRegister";
             this.ResumeLayout(false);
@@ -68,7 +69,7 @@
         #endregion
 
         private HeaderControl headers;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.VScrollBar vScroll;
 
 
     }
