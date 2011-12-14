@@ -12,6 +12,7 @@ namespace SharpBooks.UI
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
+    using System.Windows.Forms.VisualStyles;
 
     public partial class AccountRegister : UserControl
     {
@@ -24,9 +25,16 @@ namespace SharpBooks.UI
         {
             this.AlternatingBackColor = SystemColors.ControlLight;
             this.BackColor = SystemColors.Window;
-            this.Padding = new Padding(3);
 
             InitializeComponent();
+
+            this.headers.Columns.Add("Date", 100);
+            this.headers.Columns.Add("Number", 50);
+            this.headers.Columns.Add("Description", 200);
+            this.headers.Columns.Add("Account", 100);
+            this.headers.Columns.Add("Deposit", 100);
+            this.headers.Columns.Add("Withdrawal", 100);
+            this.headers.Columns.Add("Balance", 110);
         }
 
         [Browsable(false)]
@@ -57,12 +65,10 @@ namespace SharpBooks.UI
         {
             if (this.account != null)
             {
-                const int topPixelLine = 1;
                 const int bottomPixelLine = 1;
                 var itemHeight = this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine;
 
                 this.splits = new SortedList<Split>(this.book.GetAccountSplits(this.account), new SplitComparer());
-                this.AutoScrollMinSize = new Size(0, topPixelLine + this.splits.Count * itemHeight);
                 this.Invalidate();
             }
         }
@@ -72,8 +78,8 @@ namespace SharpBooks.UI
             var s = this.splits;
             if (s != null && !e.ClipRectangle.IsEmpty)
             {
-                const int topPixelLine = 1;
                 const int bottomPixelLine = 1;
+                const TextFormatFlags BaseFormat = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
                 var g = e.Graphics;
                 var itemHeight = (this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine);
                 var offset = this.AutoScrollPosition;
@@ -81,21 +87,23 @@ namespace SharpBooks.UI
                 var listWidth = this.ClientSize.Width;
                 var listHeight = c * itemHeight;
                 var textPadding = this.Padding.Top;
+                var headerHeight = this.headers.Height;
+
+                var columnBounds = this.headers.GetColumnBounds();
 
 
                 g.Clear(SystemColors.AppWorkspace);
 
                 using (var background = new SolidBrush(this.BackColor))
                 {
-                    g.FillRectangle(background, offset.X, offset.Y, listWidth, listHeight + topPixelLine);
-                    g.DrawLine(SystemPens.WindowFrame, offset.X, offset.Y, offset.X + listWidth, offset.Y);
+                    g.FillRectangle(background, offset.X, offset.Y, listWidth, headerHeight + listHeight);
                 }
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
                     using (var brush = new SolidBrush(this.ForeColor))
                     {
-                        var firstVisible = (-offset.Y - topPixelLine) / itemHeight;
+                        var firstVisible = (-offset.Y - headerHeight) / itemHeight;
                         firstVisible = firstVisible < 0 ? 0 : firstVisible;
 
                         var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
@@ -104,7 +112,7 @@ namespace SharpBooks.UI
 
                         for (int i = firstVisible; i < lastVisible; i++)
                         {
-                            var rowTop = topPixelLine + offset.Y + i * itemHeight;
+                            var rowTop = headerHeight + offset.Y + i * itemHeight;
                             var textTop = rowTop + textPadding;
                             var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
                             var alternatingRow = i % 2 == 1;
@@ -113,8 +121,12 @@ namespace SharpBooks.UI
                             var textParts = new[]
                             {
                                 (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
+                                "9999",
+                                "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
+                                "TODO: Account goes here.",
                                 split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
                                 split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
+                                "TODO: Balance.",
                             };
 
                             if (alternatingRow)
@@ -124,7 +136,8 @@ namespace SharpBooks.UI
 
                             for (int j = 0; j < textParts.Length; j++)
                             {
-                                g.DrawString(textParts[j], this.Font, brush, offset.X + j * 100, textTop);
+                                var col = columnBounds[j];
+                                TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
                             }
 
                             g.DrawLine(SystemPens.WindowFrame, offset.X, rowBottomPixel, offset.X + listWidth, rowBottomPixel);
