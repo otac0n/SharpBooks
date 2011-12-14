@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.vScroll = new System.Windows.Forms.VScrollBar();
+            this.splitsView = new SharpBooks.UI.SplitsView();
             this.headers = new SharpBooks.UI.HeaderControl();
             this.SuspendLayout();
             // 
@@ -41,6 +42,17 @@
             this.vScroll.Size = new System.Drawing.Size(17, 150);
             this.vScroll.TabIndex = 1;
             this.vScroll.ValueChanged += new System.EventHandler(this.VScroll_ValueChanged);
+            // 
+            // splitsView
+            // 
+            this.splitsView.AlternatingBackColor = System.Drawing.Color.Empty;
+            this.splitsView.BackColor = System.Drawing.Color.Transparent;
+            this.splitsView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitsView.Location = new System.Drawing.Point(0, 25);
+            this.splitsView.Name = "splitsView";
+            this.splitsView.Offset = new System.Drawing.Point(0, 0);
+            this.splitsView.Size = new System.Drawing.Size(133, 125);
+            this.splitsView.TabIndex = 2;
             // 
             // headers
             // 
@@ -58,9 +70,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.splitsView);
             this.Controls.Add(this.headers);
             this.Controls.Add(this.vScroll);
-            this.DoubleBuffered = true;
             this.Name = "AccountRegister";
             this.ResumeLayout(false);
 
@@ -70,6 +82,7 @@
 
         private HeaderControl headers;
         private System.Windows.Forms.VScrollBar vScroll;
+        private SplitsView splitsView;
 
 
     }
