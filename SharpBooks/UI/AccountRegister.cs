@@ -41,7 +41,7 @@ namespace SharpBooks.UI
 
         private void Headers_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            this.splitsView.Invalidate();
+            this.Refresh();
         }
 
         private void VScroll_ValueChanged(object sender, EventArgs e)

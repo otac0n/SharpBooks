@@ -198,8 +198,7 @@ namespace SharpBooks.UI
                 desiredWidth = 0;
             }
 
-            this.columns[this.hoverColumn].Width = desiredWidth;
-            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
+            this.SetColumnWidth(this.columns[this.hoverColumn], desiredWidth);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -250,6 +249,23 @@ namespace SharpBooks.UI
             base.OnMouseUp(e);
         }
 
+        internal void SetColumnWidth(ColumnHeader header, int width)
+        {
+            if (width < header.MinWidth)
+            {
+                width = header.MinWidth;
+            }
+
+            header.width = width;
+            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.columns.IndexOf(header)));
+            this.Invalidate();
+        }
+
+        internal void ColumnContentChanged(ColumnHeader header)
+        {
+            this.Invalidate();
+        }
+
         public Rectangle[] GetColumnBounds()
         {
             var bounds = new Rectangle[this.columns.Count];
@@ -270,7 +286,7 @@ namespace SharpBooks.UI
         public class ColumnHeader
         {
             internal HeaderControl headerControl;
-            private int width = 60;
+            internal int width = 60;
             private int minWidth = 10;
             private string text;
             private HorizontalAlign textAlign = HorizontalAlign.Left;
@@ -286,8 +302,7 @@ namespace SharpBooks.UI
                         throw new ArgumentOutOfRangeException("value");
                     }
 
-                    this.width = value < this.minWidth ? this.minWidth : value;
-                    this.NotifyHeaderControl();
+                    this.SetColumnWidth(value < this.minWidth ? this.minWidth : value);
                 }
             }
 
@@ -302,10 +317,10 @@ namespace SharpBooks.UI
                         throw new ArgumentOutOfRangeException("value");
                     }
 
-                    this.minWidth = 0;
+                    this.minWidth = value;
                     if (this.width < this.minWidth)
                     {
-                        this.Width = this.minWidth;
+                        this.SetColumnWidth(this.minWidth);
                     }
                 }
             }
@@ -334,7 +349,8 @@ namespace SharpBooks.UI
                 set
                 {
                     this.text = value ?? "";
-                    this.NotifyHeaderControl();
+
+                    this.ColumnContentChanged();
                 }
             }
 
@@ -351,15 +367,32 @@ namespace SharpBooks.UI
                     }
 
                     this.textAlign = value;
-                    this.NotifyHeaderControl();
+                    this.ColumnContentChanged();
                 }
             }
 
-            private void NotifyHeaderControl()
+            private void SetColumnWidth(int width)
             {
                 if (this.headerControl != null)
                 {
-                    this.headerControl.Invalidate();
+                    this.headerControl.SetColumnWidth(this, width);
+                }
+                else
+                {
+                    if (width < this.minWidth)
+                    {
+                        width = this.minWidth;
+                    }
+
+                    this.width = width;
+                }
+            }
+
+            private void ColumnContentChanged()
+            {
+                if (this.headerControl != null)
+                {
+                    this.headerControl.ColumnContentChanged(this);
                 }
             }
         }
