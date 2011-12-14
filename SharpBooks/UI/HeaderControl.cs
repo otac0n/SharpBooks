@@ -254,6 +254,7 @@ namespace SharpBooks.UI
         {
             internal HeaderControl headerControl;
             private int width = 60;
+            private int minWidth = 10;
             private string text;
             private HorizontalAlign textAlign = HorizontalAlign.Left;
 
@@ -268,8 +269,27 @@ namespace SharpBooks.UI
                         throw new ArgumentOutOfRangeException("value");
                     }
 
-                    this.width = value;
+                    this.width = value < this.minWidth ? this.minWidth : value;
                     this.NotifyHeaderControl();
+                }
+            }
+
+            public int MinWidth
+            {
+                get { return this.minWidth; }
+
+                set
+                {
+                    if (value < 0)
+                    {
+                        throw new ArgumentOutOfRangeException("value");
+                    }
+
+                    this.minWidth = 0;
+                    if (this.width < this.minWidth)
+                    {
+                        this.Width = this.minWidth;
+                    }
                 }
             }
 
