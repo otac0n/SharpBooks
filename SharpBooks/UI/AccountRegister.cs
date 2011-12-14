@@ -35,8 +35,8 @@ namespace SharpBooks.UI
             this.headers.Columns.Add("Number", 50);
             this.headers.Columns.Add("Description", 200);
             this.headers.Columns.Add("Account", 100);
-            this.headers.Columns.Add("Deposit", 100);
-            this.headers.Columns.Add("Withdrawal", 100);
+            this.headers.Columns.Add("Deposit", 60);
+            this.headers.Columns.Add("Withdrawal", 60);
             this.headers.Columns.Add("Balance", 110);
         }
 
@@ -113,24 +113,22 @@ namespace SharpBooks.UI
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
-                    using (var brush = new SolidBrush(this.ForeColor))
+                    var firstVisible = (-offsetY - headerHeight) / itemHeight;
+                    firstVisible = firstVisible < 0 ? 0 : firstVisible;
+
+                    var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
+                    var lastVisible = firstVisible + count + 1;
+                    lastVisible = lastVisible > c ? c : lastVisible;
+
+                    for (int i = firstVisible; i < lastVisible; i++)
                     {
-                        var firstVisible = (-offsetY - headerHeight) / itemHeight;
-                        firstVisible = firstVisible < 0 ? 0 : firstVisible;
+                        var rowTop = headerHeight + offsetY + i * itemHeight;
+                        var textTop = rowTop + textPadding;
+                        var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
+                        var alternatingRow = i % 2 == 1;
 
-                        var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
-                        var lastVisible = firstVisible + count + 1;
-                        lastVisible = lastVisible > c ? c : lastVisible;
-
-                        for (int i = firstVisible; i < lastVisible; i++)
-                        {
-                            var rowTop = headerHeight + offsetY + i * itemHeight;
-                            var textTop = rowTop + textPadding;
-                            var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
-                            var alternatingRow = i % 2 == 1;
-
-                            var split = s[i];
-                            var textParts = new[]
+                        var split = s[i];
+                        var textParts = new[]
                             {
                                 (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
                                 "9999",
@@ -141,19 +139,18 @@ namespace SharpBooks.UI
                                 "TODO: Balance.",
                             };
 
-                            if (alternatingRow)
-                            {
-                                g.FillRectangle(background, offsetX, rowTop, listWidth, itemHeight);
-                            }
-
-                            for (int j = 0; j < textParts.Length; j++)
-                            {
-                                var col = columnBounds[j];
-                                TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
-                            }
-
-                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
+                        if (alternatingRow)
+                        {
+                            g.FillRectangle(background, offsetX, rowTop, listWidth, itemHeight);
                         }
+
+                        for (int j = 0; j < textParts.Length; j++)
+                        {
+                            var col = columnBounds[j];
+                            TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
+                        }
+
+                        g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
                     }
                 }
             }
