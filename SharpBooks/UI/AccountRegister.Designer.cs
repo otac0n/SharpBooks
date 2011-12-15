@@ -36,8 +36,9 @@
             // vScroll
             // 
             this.vScroll.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScroll.LargeChange = 1;
             this.vScroll.Location = new System.Drawing.Point(133, 0);
-            this.vScroll.Maximum = 100000;
+            this.vScroll.Maximum = 0;
             this.vScroll.Name = "vScroll";
             this.vScroll.Size = new System.Drawing.Size(17, 150);
             this.vScroll.TabIndex = 1;
@@ -53,6 +54,7 @@
             this.splitsView.Offset = new System.Drawing.Point(0, 0);
             this.splitsView.Size = new System.Drawing.Size(133, 125);
             this.splitsView.TabIndex = 2;
+            this.splitsView.ScrollableSizeChanged += new System.EventHandler<System.EventArgs>(this.Splits_ScrollableSizeChanged);
             // 
             // headers
             // 

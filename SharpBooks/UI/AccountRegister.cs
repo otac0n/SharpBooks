@@ -46,16 +46,14 @@ namespace SharpBooks.UI
 
         private void VScroll_ValueChanged(object sender, EventArgs e)
         {
-            //if (!this.lockOffset)
-            //{
-            //    var c = this.splits.Count;
-            //    var itemHeight = this.GetItemHeight();
-            //    var listHeight = c * itemHeight;
+            this.splitsView.Offset = new Point(0, -this.vScroll.Value);
+        }
 
-            //    var v = this.vScroll.Value;
-            //    this.offset = -(int)(((long)v * listHeight) / c);
-            //    this.Invalidate();
-            //}
+        private void Splits_ScrollableSizeChanged(object sender, EventArgs e)
+        {
+            var s = this.splitsView.ScrollSize;
+            this.vScroll.Visible = s.Height != 0;
+            this.vScroll.Maximum = s.Height;
         }
     }
 }

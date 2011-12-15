@@ -25,8 +25,11 @@ namespace SharpBooks.UI
 
         public SplitsView()
         {
+            this.splits = new SortedList<Split>(new SplitComparer());
             InitializeComponent();
         }
+
+        public event EventHandler<EventArgs> ScrollableSizeChanged;
 
         public Color AlternatingBackColor
         {
@@ -46,11 +49,46 @@ namespace SharpBooks.UI
             }
         }
 
+        public Size ScrollSize
+        {
+            get
+            {
+                var itemHeight = this.GetItemHeight();
+                var c = this.splits.Count;
+                var listHeight = c * itemHeight;
+
+                var scrollableSize = listHeight - this.ClientSize.Height;
+                if (scrollableSize < 0)
+                {
+                    scrollableSize = 0;
+                }
+
+                return new Size(0, scrollableSize);
+            }
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+
+            this.OnScrollSizeChanged();
+        }
+
+        private void OnScrollSizeChanged()
+        {
+            this.OnScrollSizeChanged(new EventArgs());
+        }
+
+        protected virtual void OnScrollSizeChanged(EventArgs e)
+        {
+            this.ScrollableSizeChanged.SafeInvoke(this, e);
+        }
+
         public void SetAccount(Account account, ReadOnlyBook book)
         {
             if (this.account != account)
             {
-                this.splits = null;
+                this.splits.Clear();
                 this.account = account;
                 this.book = book;
                 this.InitializeAccount();
@@ -63,7 +101,8 @@ namespace SharpBooks.UI
             {
                 var itemHeight = this.GetItemHeight();
 
-                this.splits = new SortedList<Split>(this.book.GetAccountSplits(this.account), new SplitComparer());
+                this.splits.AddRange(this.book.GetAccountSplits(this.account));
+                this.OnScrollSizeChanged();
                 this.Invalidate();
             }
         }
