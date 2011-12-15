@@ -23,10 +23,6 @@ namespace SharpBooks.UI
         private readonly ColumnHeaderCollection columnHeaders;
         private readonly List<ColumnHeader> columns = new List<ColumnHeader>();
 
-        private readonly VisualStyleRenderer normalRenderer = new VisualStyleRenderer(VisualStyleElement.Header.Item.Normal);
-        private readonly VisualStyleRenderer hotRenderer = new VisualStyleRenderer(VisualStyleElement.Header.Item.Hot);
-        private readonly VisualStyleRenderer pressedRenderer = new VisualStyleRenderer(VisualStyleElement.Header.Item.Pressed);
-
         private int hoverColumn = -1;
         private bool hoverResize = true;
 
@@ -74,14 +70,12 @@ namespace SharpBooks.UI
                         break;
                 }
 
-                (i == this.hoverColumn ? hotRenderer : normalRenderer).DrawBackground(g, rect);
-                rect.Inflate(-this.CellPadding, -this.CellPadding);
-                TextRenderer.DrawText(g, col.Text, this.Font, rect, this.ForeColor, format);
+                HeaderRenderer.DrawHeader(g, rect, col.Text, this.Font, format, i == this.hoverColumn ? HeaderItemState.Hot : HeaderItemState.Normal);
             }
 
             if (left < width)
             {
-                normalRenderer.DrawBackground(g, new Rectangle(left, 0, width - left, height));
+                HeaderRenderer.DrawHeader(g, new Rectangle(left, 0, width - left, height), HeaderItemState.Normal);
             }
         }
 
