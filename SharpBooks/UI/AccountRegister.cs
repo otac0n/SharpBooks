@@ -16,13 +16,22 @@ namespace SharpBooks.UI
 
     public partial class AccountRegister : UserControl
     {
+        private readonly HeaderControl.ColumnHeader descriptionColumn;
+
         public AccountRegister()
         {
             InitializeComponent();
 
+            this.descriptionColumn = new HeaderControl.ColumnHeader
+            {
+                Text = "Description",
+                Width = 200,
+                CanResize = false,
+            };
+
             this.headers.Columns.Add("Date", 100);
             this.headers.Columns.Add("Number", 50);
-            this.headers.Columns.Add("Description", 200);
+            this.headers.Columns.Add(descriptionColumn);
             this.headers.Columns.Add("Account", 100);
             this.headers.Columns.Add("Deposit", 60);
             this.headers.Columns.Add("Withdrawal", 60);

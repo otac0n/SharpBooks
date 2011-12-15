@@ -33,6 +33,7 @@ namespace SharpBooks.UI
         private bool resizing = false;
         private Point resizeSource;
         private int originalWidth;
+        private MouseEventArgs lastMouseMove;
 
         public HeaderControl()
         {
@@ -152,10 +153,13 @@ namespace SharpBooks.UI
                     }
                 }
 
-                rect = new Rectangle(rect.Right - 1 - padding, rect.Y, 2 * padding + 1, rect.Height);
-                if (rect.Contains(loc))
+                if (this.columns[i].CanResize)
                 {
-                    hoverResize = i;
+                    rect = new Rectangle(rect.Right - 1 - padding, rect.Y, 2 * padding + 1, rect.Height);
+                    if (rect.Contains(loc))
+                    {
+                        hoverResize = i;
+                    }
                 }
             }
 
@@ -171,7 +175,7 @@ namespace SharpBooks.UI
                 this.Invalidate();
             }
 
-            this.hoverResize = true;
+            this.hoverResize = showResize;
             this.Cursor = showResize ? Cursors.VSplit : Cursors.Arrow;
         }
 
@@ -182,7 +186,7 @@ namespace SharpBooks.UI
             this.originalWidth = this.columns[this.hoverColumn].Width;
         }
 
-        private void CancelResize(MouseEventArgs e)
+        private void CancelResize()
         {
             this.resizing = false;
             this.columns[this.hoverColumn].Width = this.originalWidth;
@@ -203,6 +207,8 @@ namespace SharpBooks.UI
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            this.lastMouseMove = e;
+
             if (!this.resizing)
             {
                 bool showResize;
@@ -233,7 +239,8 @@ namespace SharpBooks.UI
             }
             else if (e.Button == MouseButtons.Right && this.resizing)
             {
-                this.CancelResize(e);
+                this.CancelResize();
+                this.OnMouseMove(e);
             }
 
             base.OnMouseDown(e);
@@ -266,6 +273,20 @@ namespace SharpBooks.UI
             this.Invalidate();
         }
 
+        internal void ColumnCanResizeChanged(ColumnHeader header)
+        {
+            var index = this.columns.IndexOf(header);
+            if (this.hoverColumn == index)
+            {
+                if (this.resizing && !header.CanResize)
+                {
+                    this.CancelResize();
+                }
+
+                this.OnMouseMove(this.lastMouseMove);
+            }
+        }
+
         public Rectangle[] GetColumnBounds()
         {
             var bounds = new Rectangle[this.columns.Count];
@@ -289,7 +310,19 @@ namespace SharpBooks.UI
             internal int width = 60;
             private int minWidth = 10;
             private string text;
+            private bool canResize = true;
             private HorizontalAlign textAlign = HorizontalAlign.Left;
+
+            public bool CanResize
+            {
+                get { return this.canResize; }
+
+                set
+                {
+                    this.canResize = value;
+                    this.CanResizeChanged();
+                }
+            }
 
             public int Width
             {
@@ -371,6 +404,14 @@ namespace SharpBooks.UI
                 }
             }
 
+            private void CanResizeChanged()
+            {
+                if (this.headerControl != null)
+                {
+                    this.headerControl.ColumnCanResizeChanged(this);
+                }
+            }
+
             private void SetColumnWidth(int width)
             {
                 if (this.headerControl != null)
@@ -411,7 +452,7 @@ namespace SharpBooks.UI
                 this.owner.InsertColumn(this.Count, header);
             }
 
-            public void Add(string text, int width)
+            public ColumnHeader Add(string text, int width)
             {
                 var header = new ColumnHeader
                 {
@@ -420,6 +461,8 @@ namespace SharpBooks.UI
                 };
 
                 this.Add(header);
+
+                return header;
             }
 
             public void Clear()
