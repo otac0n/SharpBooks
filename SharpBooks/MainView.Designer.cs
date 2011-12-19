@@ -40,12 +40,12 @@
             this.tabView = new System.Windows.Forms.TabControl();
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
+            this.accountRegister = new SharpBooks.UI.AccountRegister();
+            this.accountTree = new SharpBooks.UI.AccountTree();
             this.accountImages = new System.Windows.Forms.ImageList(this.components);
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.PaymentsTabPage = new System.Windows.Forms.TabPage();
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
-            this.accountTree = new SharpBooks.UI.AccountTree();
-            this.accountRegister = new SharpBooks.UI.AccountRegister();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -156,6 +156,33 @@
             this.AccountsTabPage.Text = "Accounts / Expenses";
             this.AccountsTabPage.UseVisualStyleBackColor = true;
             // 
+            // accountRegister
+            // 
+            this.accountRegister.BackColor = System.Drawing.SystemColors.Window;
+            this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountRegister.Location = new System.Drawing.Point(3, 3);
+            this.accountRegister.Name = "accountRegister";
+            this.accountRegister.Size = new System.Drawing.Size(770, 356);
+            this.accountRegister.TabIndex = 2;
+            // 
+            // accountTree
+            // 
+            this.accountTree.Book = null;
+            this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountTree.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.accountTree.FullRowSelect = true;
+            this.accountTree.HideSelection = false;
+            this.accountTree.ImageIndex = 0;
+            this.accountTree.ImageList = this.accountImages;
+            this.accountTree.ItemHeight = 24;
+            this.accountTree.Location = new System.Drawing.Point(3, 3);
+            this.accountTree.Name = "accountTree";
+            this.accountTree.SelectedImageIndex = 0;
+            this.accountTree.ShowLines = false;
+            this.accountTree.Size = new System.Drawing.Size(770, 356);
+            this.accountTree.TabIndex = 1;
+            this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
+            // 
             // accountImages
             // 
             this.accountImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("accountImages.ImageStream")));
@@ -189,32 +216,6 @@
             this.InvestmentsTabItem.TabIndex = 3;
             this.InvestmentsTabItem.Text = "Investments";
             this.InvestmentsTabItem.UseVisualStyleBackColor = true;
-            // 
-            // accountTree
-            // 
-            this.accountTree.Book = null;
-            this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountTree.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.accountTree.FullRowSelect = true;
-            this.accountTree.HideSelection = false;
-            this.accountTree.ImageIndex = 0;
-            this.accountTree.ImageList = this.accountImages;
-            this.accountTree.ItemHeight = 24;
-            this.accountTree.Location = new System.Drawing.Point(3, 3);
-            this.accountTree.Name = "accountTree";
-            this.accountTree.SelectedImageIndex = 0;
-            this.accountTree.ShowLines = false;
-            this.accountTree.Size = new System.Drawing.Size(770, 356);
-            this.accountTree.TabIndex = 1;
-            this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
-            // 
-            // accountRegister
-            // 
-            this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountRegister.Location = new System.Drawing.Point(3, 3);
-            this.accountRegister.Name = "accountRegister";
-            this.accountRegister.Size = new System.Drawing.Size(770, 356);
-            this.accountRegister.TabIndex = 2;
             // 
             // MainView
             // 
