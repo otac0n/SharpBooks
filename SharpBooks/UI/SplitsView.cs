@@ -158,10 +158,9 @@ namespace SharpBooks.UI
 
                     for (int i = firstVisible; i <= lastVisible; i++)
                     {
-                        var rowTop = offsetY + i * itemHeight;
-                        var textTop = rowTop + textPadding;
-                        var rowBottomPixel = rowTop + itemHeight - bottomPixelLine;
                         var alternatingRow = i % 2 == 1;
+
+                        var rowRectangle = GetRowRectangle(i, itemHeight, offsetY, offsetX, listWidth, textPadding);
 
                         var split = s[i];
                         var textParts = new[]
@@ -175,8 +174,6 @@ namespace SharpBooks.UI
                                 "TODO: Balance.",
                             };
 
-                        var rowRectangle = new Rectangle(offsetX, rowTop, listWidth, itemHeight);
-
                         if (i == this.hoverIndex)
                         {
                             g.FillRectangle(SystemBrushes.HotTrack, rowRectangle);
@@ -188,19 +185,35 @@ namespace SharpBooks.UI
                                 g.FillRectangle(background, rowRectangle);
                             }
 
-                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
+                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowRectangle.Bottom - bottomPixelLine, offsetX + listWidth, rowRectangle.Bottom - bottomPixelLine);
                         }
 
                         for (int j = 0; j < textParts.Length; j++)
                         {
                             var col = columnBounds[j];
-                            TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
+                            TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowRectangle.Top, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
                         }
                     }
                 }
             }
 
             base.OnPaint(e);
+        }
+
+        private Rectangle GetRowRectangle(int i)
+        {
+            var itemHeight = this.GetItemHeight();
+            var listWidth = this.ClientSize.Width;
+            var textPadding = this.Padding.Top;
+            return GetRowRectangle(i, itemHeight, this.offset.Y, this.offset.X, listWidth, textPadding);
+        }
+
+        private static Rectangle GetRowRectangle(int i, int itemHeight, int offsetY, int offsetX, int listWidth, int textPadding)
+        {
+            var rowTop = offsetY + i * itemHeight;
+            var textTop = rowTop + textPadding;
+            var rowRectangle = new Rectangle(offsetX, rowTop, listWidth, itemHeight);
+            return rowRectangle;
         }
 
         private int GetVirtualRow(Point point)
@@ -233,8 +246,12 @@ namespace SharpBooks.UI
 
             if (this.hoverIndex != hoverIndex)
             {
+                this.Invalidate(
+                    this.GetRowRectangle(this.hoverIndex));
+                this.Invalidate(
+                    this.GetRowRectangle(hoverIndex));
+
                 this.hoverIndex = hoverIndex;
-                this.Invalidate();
             }
         }
 
@@ -242,8 +259,10 @@ namespace SharpBooks.UI
         {
             if (this.hoverIndex != -1)
             {
+                this.Invalidate(
+                    this.GetRowRectangle(this.hoverIndex));
+
                 this.hoverIndex = -1;
-                this.Invalidate();
             }
 
             base.OnMouseLeave(e);
