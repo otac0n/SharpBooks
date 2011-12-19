@@ -8,12 +8,9 @@
 namespace SharpBooks.UI
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Forms.VisualStyles;
-    using System.Windows.Forms;
     using System.Drawing;
+    using System.Windows.Forms;
+    using System.Windows.Forms.VisualStyles;
 
     public enum HeaderItemState
     {
@@ -29,11 +26,21 @@ namespace SharpBooks.UI
 
         private static bool renderMatchingApplicationState = true;
 
+        private static bool isSupported;
+
+        static HeaderRenderer()
+        {
+            isSupported = VisualStyleRenderer.IsSupported
+                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.Header.Item.Normal)
+                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.Header.Item.Hot)
+                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.Header.Item.Pressed);
+        }
+
         private static bool RenderWithVisualStyles
         {
             get
             {
-                return renderMatchingApplicationState ? Application.RenderWithVisualStyles : true;
+                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
             }
         }
 
