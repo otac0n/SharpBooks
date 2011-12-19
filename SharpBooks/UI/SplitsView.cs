@@ -29,7 +29,7 @@ namespace SharpBooks.UI
         public SplitsView()
         {
             this.splits = new SortedList<Split>(new SplitComparer());
-            this.AlternatingBackColor = Color.Silver;
+            this.AlternatingBackColor = Color.WhiteSmoke;
             InitializeComponent();
         }
 
