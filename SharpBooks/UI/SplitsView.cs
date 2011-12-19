@@ -71,15 +71,15 @@ namespace SharpBooks.UI
         {
             base.OnSizeChanged(e);
 
-            this.OnScrollSizeChanged();
+            this.OnScrollableSizeChanged();
         }
 
-        private void OnScrollSizeChanged()
+        private void OnScrollableSizeChanged()
         {
-            this.OnScrollSizeChanged(new EventArgs());
+            this.OnScrollableSizeChanged(new EventArgs());
         }
 
-        protected virtual void OnScrollSizeChanged(EventArgs e)
+        protected virtual void OnScrollableSizeChanged(EventArgs e)
         {
             this.ScrollableSizeChanged.SafeInvoke(this, e);
         }
@@ -102,7 +102,7 @@ namespace SharpBooks.UI
                 var itemHeight = this.GetItemHeight();
 
                 this.splits.AddRange(this.book.GetAccountSplits(this.account));
-                this.OnScrollSizeChanged();
+                this.OnScrollableSizeChanged();
                 this.Invalidate();
             }
         }
