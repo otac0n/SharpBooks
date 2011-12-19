@@ -64,6 +64,13 @@ namespace SharpBooks.UI
 
             set
             {
+                if (value < 0 ||
+                    value >= this.splits.Count)
+                {
+                    value = -1;
+                }
+
+
                 if (value != this.selectedIndex)
                 {
                     this.InvalidateRows(this.selectedIndex, value);
@@ -135,6 +142,12 @@ namespace SharpBooks.UI
         {
             const int bottomPixelLine = 1;
             return this.Padding.Top + this.Font.Height + this.Padding.Bottom + bottomPixelLine;
+        }
+
+        private int GetItemsPerPage()
+        {
+            var size = this.GetItemHeight();
+            return this.ClientSize.Height / size;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -306,16 +319,37 @@ namespace SharpBooks.UI
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            var selectedIndex = this.GetVirtualRow(e.Location);
-            if (selectedIndex < 0 ||
-                selectedIndex >= this.splits.Count)
-            {
-                selectedIndex = -1;
-            }
-
-            this.SelectedIndex = selectedIndex;
+            this.SelectedIndex = this.GetVirtualRow(e.Location);
 
             base.OnMouseClick(e);
+        }
+
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Down:
+                    this.SelectedIndex++;
+                    return true;
+
+                case Keys.Up:
+                    this.SelectedIndex--;
+                    return true;
+
+                case Keys.PageDown:
+                    this.SelectedIndex += this.GetItemsPerPage() - 1;
+                    return true;
+
+                case Keys.PageUp:
+                    this.SelectedIndex -= this.GetItemsPerPage() - 1;
+                    return true;
+
+                case Keys.Left:
+                case Keys.Right:
+                    return true;
+            }
+
+            return base.ProcessDialogKey(keyData);
         }
 
         private class SplitComparer : IComparer<Split>
