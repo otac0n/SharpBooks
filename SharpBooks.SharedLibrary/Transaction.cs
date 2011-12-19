@@ -76,7 +76,7 @@ namespace SharpBooks
         /// <summary>
         /// Gets an enumerable collection of the splits that make up the transaction.
         /// </summary>
-        public IEnumerable<Split> Splits
+        public IList<Split> Splits
         {
             get
             {

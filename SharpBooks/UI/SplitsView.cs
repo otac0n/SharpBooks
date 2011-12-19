@@ -11,6 +11,7 @@ namespace SharpBooks.UI
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using System.Windows.Forms.VisualStyles;
 
@@ -163,7 +164,7 @@ namespace SharpBooks.UI
                             (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
                             "9999",
                             "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
-                            "TODO: Account goes here.",
+                            split.Transaction.Splits.Where(sp => sp != split).Select(sp => sp.Account.Name).SingleOrDefault() ?? "-- Split --",
                             split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
                             split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
                             "TODO: Balance.",
