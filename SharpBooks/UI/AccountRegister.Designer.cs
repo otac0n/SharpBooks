@@ -55,6 +55,7 @@
             this.splitsView.Size = new System.Drawing.Size(133, 125);
             this.splitsView.TabIndex = 2;
             this.splitsView.ScrollableSizeChanged += new System.EventHandler<System.EventArgs>(this.Splits_ScrollableSizeChanged);
+            this.splitsView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Splits_MouseWheel);
             // 
             // headers
             // 

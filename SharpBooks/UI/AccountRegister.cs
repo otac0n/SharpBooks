@@ -64,5 +64,10 @@ namespace SharpBooks.UI
             this.vScroll.Visible = s.Height != 0;
             this.vScroll.Maximum = s.Height;
         }
+
+        private void Splits_MouseWheel(object sender, MouseEventArgs e)
+        {
+            this.vScroll.Value = (this.vScroll.Value - e.Delta).Clamp(0, this.vScroll.Maximum);
+        }
     }
 }

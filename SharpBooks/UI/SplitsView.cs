@@ -33,6 +33,14 @@ namespace SharpBooks.UI
 
         public event EventHandler<EventArgs> ScrollableSizeChanged;
 
+        [Browsable(true)]
+        public new event MouseEventHandler MouseWheel
+        {
+            add { base.MouseWheel += value; }
+
+            remove { base.MouseWheel -= value; }
+        }
+
         public Color AlternatingBackColor
         {
             get;
@@ -117,6 +125,13 @@ namespace SharpBooks.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            var register = this.Parent as AccountRegister;
+            if (register == null)
+            {
+                base.OnPaint(e);
+                return;
+            }
+
             var s = this.splits;
             if (s != null && !e.ClipRectangle.IsEmpty)
             {
@@ -131,7 +146,7 @@ namespace SharpBooks.UI
                 var listHeight = c * itemHeight;
                 var textPadding = this.Padding.Top;
 
-                var columnBounds = ((AccountRegister)this.Parent).GetColumnBounds();
+                var columnBounds = register.GetColumnBounds();
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
@@ -184,6 +199,8 @@ namespace SharpBooks.UI
                     }
                 }
             }
+
+            base.OnPaint(e);
         }
 
         private int GetVirtualRow(Point point)
@@ -200,6 +217,13 @@ namespace SharpBooks.UI
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            this.UpdateHover(e);
+
+            base.OnMouseMove(e);
+        }
+
+        private void UpdateHover(MouseEventArgs e)
+        {
             var hoverIndex = this.GetVirtualRow(e.Location);
             if (hoverIndex < 0 ||
                 hoverIndex >= this.splits.Count)
@@ -212,8 +236,6 @@ namespace SharpBooks.UI
                 this.hoverIndex = hoverIndex;
                 this.Invalidate();
             }
-
-            base.OnMouseMove(e);
         }
 
         protected override void OnMouseLeave(EventArgs e)
@@ -225,6 +247,13 @@ namespace SharpBooks.UI
             }
 
             base.OnMouseLeave(e);
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            this.UpdateHover(e);
         }
 
         private class SplitComparer : IComparer<Split>
