@@ -46,7 +46,6 @@
             // 
             // splitsView
             // 
-            this.splitsView.AlternatingBackColor = System.Drawing.Color.Empty;
             this.splitsView.BackColor = System.Drawing.Color.Transparent;
             this.splitsView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitsView.Location = new System.Drawing.Point(0, 25);

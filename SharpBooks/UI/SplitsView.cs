@@ -28,6 +28,7 @@ namespace SharpBooks.UI
         public SplitsView()
         {
             this.splits = new SortedList<Split>(new SplitComparer());
+            this.AlternatingBackColor = Color.Silver;
             InitializeComponent();
         }
 
@@ -41,12 +42,8 @@ namespace SharpBooks.UI
             remove { base.MouseWheel -= value; }
         }
 
-        public Color AlternatingBackColor
-        {
-            get;
-
-            set;
-        }
+        [Browsable(true)]
+        public Color AlternatingBackColor { get; set; }
 
         public Point Offset
         {
@@ -162,15 +159,15 @@ namespace SharpBooks.UI
 
                         var split = s[i];
                         var textParts = new[]
-                            {
-                                (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
-                                "9999",
-                                "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
-                                "TODO: Account goes here.",
-                                split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
-                                split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
-                                "TODO: Balance.",
-                            };
+                        {
+                            (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
+                            "9999",
+                            "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
+                            "TODO: Account goes here.",
+                            split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
+                            split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
+                            "TODO: Balance.",
+                        };
 
                         var textRectangles = new Rectangle[textParts.Length];
                         for (int j = 0; j < columnBounds.Length; j++)
