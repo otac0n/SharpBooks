@@ -23,6 +23,8 @@ namespace SharpBooks.UI
 
         private Point offset;
 
+        private int hoverIndex = -1;
+
         public SplitsView()
         {
             this.splits = new SortedList<Split>(new SplitComparer());
@@ -133,14 +135,13 @@ namespace SharpBooks.UI
 
                 using (var background = new SolidBrush(this.AlternatingBackColor))
                 {
-                    var firstVisible = -offsetY / itemHeight;
+                    var firstVisible = this.GetVirtualRow(e.ClipRectangle.Top);
                     firstVisible = firstVisible < 0 ? 0 : firstVisible;
 
-                    var count = (this.ClientSize.Height + itemHeight - 1) / itemHeight;
-                    var lastVisible = firstVisible + count + 1;
-                    lastVisible = lastVisible > c ? c : lastVisible;
+                    var lastVisible = this.GetVirtualRow(e.ClipRectangle.Bottom - 1);
+                    lastVisible = lastVisible >= c ? c - 1 : lastVisible;
 
-                    for (int i = firstVisible; i < lastVisible; i++)
+                    for (int i = firstVisible; i <= lastVisible; i++)
                     {
                         var rowTop = offsetY + i * itemHeight;
                         var textTop = rowTop + textPadding;
@@ -159,9 +160,20 @@ namespace SharpBooks.UI
                                 "TODO: Balance.",
                             };
 
-                        if (alternatingRow)
+                        var rowRectangle = new Rectangle(offsetX, rowTop, listWidth, itemHeight);
+
+                        if (i == this.hoverIndex)
                         {
-                            g.FillRectangle(background, offsetX, rowTop, listWidth, itemHeight);
+                            g.FillRectangle(SystemBrushes.HotTrack, rowRectangle);
+                        }
+                        else
+                        {
+                            if (alternatingRow)
+                            {
+                                g.FillRectangle(background, rowRectangle);
+                            }
+
+                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
                         }
 
                         for (int j = 0; j < textParts.Length; j++)
@@ -169,11 +181,50 @@ namespace SharpBooks.UI
                             var col = columnBounds[j];
                             TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowTop, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
                         }
-
-                        g.DrawLine(SystemPens.WindowFrame, offsetX, rowBottomPixel, offsetX + listWidth, rowBottomPixel);
                     }
                 }
             }
+        }
+
+        private int GetVirtualRow(Point point)
+        {
+            return this.GetVirtualRow(point.Y);
+        }
+
+        private int GetVirtualRow(int y)
+        {
+            var itemHeight = this.GetItemHeight();
+            var offsetY = this.offset.Y;
+            return (y - offsetY) / itemHeight;
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            var hoverIndex = this.GetVirtualRow(e.Location);
+            if (hoverIndex < 0 ||
+                hoverIndex >= this.splits.Count)
+            {
+                hoverIndex = -1;
+            }
+
+            if (this.hoverIndex != hoverIndex)
+            {
+                this.hoverIndex = hoverIndex;
+                this.Invalidate();
+            }
+
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            if (this.hoverIndex != -1)
+            {
+                this.hoverIndex = -1;
+                this.Invalidate();
+            }
+
+            base.OnMouseLeave(e);
         }
 
         private class SplitComparer : IComparer<Split>
