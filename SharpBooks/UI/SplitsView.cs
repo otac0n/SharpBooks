@@ -372,6 +372,16 @@ namespace SharpBooks.UI
                     this.EnsureSelectionVisible();
                     return true;
 
+                case Keys.Control | Keys.End:
+                    this.SelectedIndex = this.splits.Count - 1;
+                    this.EnsureSelectionVisible();
+                    return true;
+
+                case Keys.Control | Keys.Home:
+                    this.SelectedIndex = 0;
+                    this.EnsureSelectionVisible();
+                    return true;
+
                 case Keys.Left:
                 case Keys.Right:
                     return true;
