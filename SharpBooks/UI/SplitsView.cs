@@ -130,6 +130,11 @@ namespace SharpBooks.UI
 
         public void EnsureSelectionVisible()
         {
+            if (this.selectedIndex == -1)
+            {
+                return;
+            }
+
             var rect = this.GetItemRectangle(this.selectedIndex);
             var desiredOffset = new Point();
 
