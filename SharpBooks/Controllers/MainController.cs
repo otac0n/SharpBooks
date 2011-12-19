@@ -281,11 +281,54 @@ namespace SharpBooks.Controllers
             }
         }
 
-        public void Open()
+        public bool Open()
         {
-            this.Close();
+            if (!this.Close())
+            {
+                return false;
+            }
 
-            // TODO: Open the a book.
+            var saveMethod = this.currentSaveMethod;
+            while (true)
+            {
+                var plugins = this.GetPersistenceStrategies();
+                using (var selector = new PersistencePluginSelector(plugins))
+                {
+                    var result = selector.ShowDialog();
+
+                    if (result == DialogResult.Cancel)
+                    {
+                        return false;
+                    }
+
+                    var factory = selector.StrategyFactory;
+                    saveMethod = new PersistenceMethod(factory.CreateInstance(), null);
+                }
+
+                saveMethod.Uri = saveMethod.Strategy.Open(saveMethod.Uri);
+                if (saveMethod.Uri == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    saveMethod.Strategy.SetDestination(saveMethod.Uri);
+                    this.SetBook(saveMethod.Strategy.Load());
+
+                    this.currentSaveMethod = saveMethod;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    var result = MessageBox.Show(ex.ToString(), "Error Loading", MessageBoxButtons.RetryCancel);
+
+                    if (result == DialogResult.Cancel)
+                    {
+                        return false;
+                    }
+                }
+            }
         }
 
         public bool Close()

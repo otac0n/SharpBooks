@@ -55,7 +55,7 @@
                 }
 
                 var name = (string)a.Attribute("name");
-                var smallestFraction = (int)a.Attribute("smallestFraction");
+                var smallestFraction = (int?)a.Attribute("smallestFraction");
 
                 var account = new Account(accountId, accountType, security, parentAccount, name, smallestFraction);
                 accounts.Add(account.AccountId, account);
