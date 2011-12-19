@@ -16,7 +16,7 @@ namespace SharpBooks.UI
 
     internal partial class SplitsView : UserControl
     {
-        private SortedList<Split> splits;
+        private readonly SortedList<Split> splits;
 
         private ReadOnlyBook book;
         private Account account;
