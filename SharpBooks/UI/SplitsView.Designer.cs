@@ -37,6 +37,7 @@
             this.BackColor = System.Drawing.Color.Transparent;
             this.DoubleBuffered = true;
             this.Name = "SplitsView";
+            this.Padding = new System.Windows.Forms.Padding(3);
             this.ResumeLayout(false);
 
         }
