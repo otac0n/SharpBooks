@@ -316,14 +316,32 @@ namespace SharpBooks.Controllers
 
         public bool Save(bool forceSaveAs)
         {
+            if (this.book == null)
+            {
+                return false;
+            }
+
             var saveMethod = this.currentSaveMethod;
             while (true)
             {
                 if (forceSaveAs || saveMethod == null)
                 {
-                    // TODO: Procure a new save method.
+                    var plugins = this.GetPersistenceStrategies();
+                    using (var selector = new PersistencePluginSelector(plugins))
+                    {
+                        var result = selector.ShowDialog();
 
-                    if (true) // TODO: If the user cancels.
+                        if (result == DialogResult.Cancel)
+                        {
+                            return false;
+                        }
+
+                        var factory = selector.StrategyFactory;
+                        saveMethod = new PersistenceMethod(factory.CreateInstance(), null);
+                    }
+
+                    saveMethod.Uri = saveMethod.Strategy.SaveAs(saveMethod.Uri);
+                    if (saveMethod.Uri == null)
                     {
                         return false;
                     }

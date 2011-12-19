@@ -118,6 +118,7 @@
             | System.Windows.Forms.Keys.S)));
             saveAsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             saveAsToolStripMenuItem.Text = "Save &As";
+            saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs_Click);
             // 
             // tabView
             // 

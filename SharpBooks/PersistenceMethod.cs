@@ -13,7 +13,7 @@ namespace SharpBooks
     public class PersistenceMethod
     {
         private readonly IPersistenceStrategy strategy;
-        private readonly Uri uri;
+        private Uri uri;
 
         public PersistenceMethod(IPersistenceStrategy strategy, Uri uri)
         {
@@ -29,6 +29,8 @@ namespace SharpBooks
         public Uri Uri
         {
             get { return this.uri; }
+
+            set { this.uri = value; }
         }
     }
 }

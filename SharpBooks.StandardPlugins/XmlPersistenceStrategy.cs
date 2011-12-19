@@ -153,7 +153,7 @@
                             a.Security == null ? null : new XAttribute("securityId", a.Security.SecurityId),
                             a.ParentAccount == null ? null : new XAttribute("parentAccountId", a.ParentAccount.AccountId),
                             new XAttribute("name", a.Name),
-                            new XAttribute("smallestFraction", a.SmallestFraction)
+                            a.Security == null ? null : new XAttribute("smallestFraction", a.SmallestFraction)
                         )
                     ),
                     new XElement("Transactions",
@@ -196,7 +196,7 @@
 
             var doc = new XDocument(root);
 
-            doc.Save(uri.ToString());
+            doc.Save(uri.LocalPath);
         }
     }
 }
