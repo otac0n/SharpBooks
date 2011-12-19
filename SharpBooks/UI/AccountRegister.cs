@@ -69,5 +69,10 @@ namespace SharpBooks.UI
         {
             this.vScroll.Value = (this.vScroll.Value - e.Delta).Clamp(0, this.vScroll.Maximum);
         }
+
+        private void Splits_DesiresOffset(object sender, DesiresOffsetEventArgs e)
+        {
+            this.vScroll.Value = -e.DesiredOffset.Y;
+        }
     }
 }

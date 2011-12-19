@@ -35,6 +35,7 @@ namespace SharpBooks.UI
         }
 
         public event EventHandler<EventArgs> ScrollableSizeChanged;
+        public event EventHandler<DesiresOffsetEventArgs> DesiresOffset;
 
         [Browsable(true)]
         public new event MouseEventHandler MouseWheel
@@ -58,6 +59,7 @@ namespace SharpBooks.UI
             }
         }
 
+        [Browsable(false)]
         public int SelectedIndex
         {
             get { return this.selectedIndex; }
@@ -124,6 +126,27 @@ namespace SharpBooks.UI
                 this.book = book;
                 this.InitializeAccount();
             }
+        }
+
+        public void EnsureSelectionVisible()
+        {
+            var rect = this.GetItemRectangle(this.selectedIndex);
+            var desiredOffset = new Point();
+
+            var bottomOff = this.ClientSize.Height - rect.Bottom;
+            if (bottomOff < 0)
+            {
+                desiredOffset.Y += bottomOff;
+            }
+
+            var topOff = rect.Top + desiredOffset.Y;
+            if (topOff < 0)
+            {
+                desiredOffset.Y -= topOff;
+            }
+
+            desiredOffset.Offset(this.offset);
+            this.DesiresOffset.SafeInvoke(this, new DesiresOffsetEventArgs(desiredOffset));
         }
 
         private void InitializeAccount()
@@ -320,6 +343,7 @@ namespace SharpBooks.UI
         protected override void OnMouseClick(MouseEventArgs e)
         {
             this.SelectedIndex = this.GetVirtualRow(e.Location);
+            this.EnsureSelectionVisible();
 
             base.OnMouseClick(e);
         }
@@ -329,19 +353,23 @@ namespace SharpBooks.UI
             switch (keyData)
             {
                 case Keys.Down:
-                    this.SelectedIndex++;
+                    this.SelectedIndex = (this.selectedIndex + 1).Clamp(0, this.splits.Count - 1);
+                    this.EnsureSelectionVisible();
                     return true;
 
                 case Keys.Up:
-                    this.SelectedIndex--;
+                    this.SelectedIndex = (this.selectedIndex - 1).Clamp(0, this.splits.Count - 1);
+                    this.EnsureSelectionVisible();
                     return true;
 
                 case Keys.PageDown:
-                    this.SelectedIndex += this.GetItemsPerPage() - 1;
+                    this.SelectedIndex = (this.selectedIndex + (this.GetItemsPerPage() - 1)).Clamp(0, this.splits.Count - 1);
+                    this.EnsureSelectionVisible();
                     return true;
 
                 case Keys.PageUp:
-                    this.SelectedIndex -= this.GetItemsPerPage() - 1;
+                    this.SelectedIndex = (this.selectedIndex - (this.GetItemsPerPage() - 1)).Clamp(0, this.splits.Count - 1);
+                    this.EnsureSelectionVisible();
                     return true;
 
                 case Keys.Left:

@@ -46,14 +46,17 @@
             // 
             // splitsView
             // 
+            this.splitsView.AlternatingBackColor = System.Drawing.Color.WhiteSmoke;
             this.splitsView.BackColor = System.Drawing.Color.Transparent;
             this.splitsView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitsView.Location = new System.Drawing.Point(0, 25);
             this.splitsView.Name = "splitsView";
             this.splitsView.Offset = new System.Drawing.Point(0, 0);
+            this.splitsView.Padding = new System.Windows.Forms.Padding(3);
             this.splitsView.Size = new System.Drawing.Size(133, 125);
             this.splitsView.TabIndex = 2;
             this.splitsView.ScrollableSizeChanged += new System.EventHandler<System.EventArgs>(this.Splits_ScrollableSizeChanged);
+            this.splitsView.DesiresOffset += new System.EventHandler<SharpBooks.UI.DesiresOffsetEventArgs>(this.Splits_DesiresOffset);
             this.splitsView.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Splits_MouseWheel);
             // 
             // headers

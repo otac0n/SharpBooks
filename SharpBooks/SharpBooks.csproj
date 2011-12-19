@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="PersistenceMethod.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="UI\DesiresOffsetEventArgs.cs" />
     <Compile Include="UI\HeaderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
