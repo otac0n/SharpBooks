@@ -101,6 +101,7 @@
       <DependentUpon>HeaderControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\HeaderRenderer.cs" />
+    <Compile Include="UI\ListItemRenderer.cs" />
     <Compile Include="UI\SplitsView.cs">
       <SubType>UserControl</SubType>
     </Compile>

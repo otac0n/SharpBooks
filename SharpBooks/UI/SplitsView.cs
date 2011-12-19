@@ -135,8 +135,6 @@ namespace SharpBooks.UI
             var s = this.splits;
             if (s != null && !e.ClipRectangle.IsEmpty)
             {
-                const int bottomPixelLine = 1;
-                const TextFormatFlags BaseFormat = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
                 var g = e.Graphics;
                 var itemHeight = this.GetItemHeight();
                 var offsetY = this.offset.Y;
@@ -174,25 +172,21 @@ namespace SharpBooks.UI
                                 "TODO: Balance.",
                             };
 
-                        if (i == this.hoverIndex)
-                        {
-                            g.FillRectangle(SystemBrushes.HotTrack, rowRectangle);
-                        }
-                        else
-                        {
-                            if (alternatingRow)
-                            {
-                                g.FillRectangle(background, rowRectangle);
-                            }
-
-                            g.DrawLine(SystemPens.WindowFrame, offsetX, rowRectangle.Bottom - bottomPixelLine, offsetX + listWidth, rowRectangle.Bottom - bottomPixelLine);
-                        }
-
-                        for (int j = 0; j < textParts.Length; j++)
+                        var textRectangles = new Rectangle[textParts.Length];
+                        for (int j = 0; j < columnBounds.Length; j++)
                         {
                             var col = columnBounds[j];
-                            TextRenderer.DrawText(g, textParts[j], this.Font, new Rectangle(col.X, rowRectangle.Top, col.Width, itemHeight), this.ForeColor, BaseFormat | TextFormatFlags.Left);
+                            textRectangles[j] = new Rectangle(offsetX + col.X, rowRectangle.Top, col.Width, itemHeight);
                         }
+
+                        ListItemRenderer.RenderItems(
+                            g,
+                            rowRectangle,
+                            alternatingRow ? background : null,
+                            textRectangles,
+                            textParts,
+                            this.Font,
+                            i == this.hoverIndex ? ListViewItemState.Hot : ListViewItemState.Normal);
                     }
                 }
             }
