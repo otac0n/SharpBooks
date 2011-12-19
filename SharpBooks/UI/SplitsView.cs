@@ -185,7 +185,7 @@ namespace SharpBooks.UI
                     {
                         var alternatingRow = i % 2 == 1;
 
-                        var rowRectangle = GetRowRectangle(i, itemHeight, offsetY, offsetX, listWidth, textPadding);
+                        var rowRectangle = GetItemRectangle(i, itemHeight, offsetY, offsetX, listWidth, textPadding);
 
                         var split = s[i];
                         var textParts = new[]
@@ -234,15 +234,15 @@ namespace SharpBooks.UI
             base.OnPaint(e);
         }
 
-        private Rectangle GetRowRectangle(int i)
+        private Rectangle GetItemRectangle(int i)
         {
             var itemHeight = this.GetItemHeight();
             var listWidth = this.ClientSize.Width;
             var textPadding = this.Padding.Top;
-            return GetRowRectangle(i, itemHeight, this.offset.Y, this.offset.X, listWidth, textPadding);
+            return GetItemRectangle(i, itemHeight, this.offset.Y, this.offset.X, listWidth, textPadding);
         }
 
-        private static Rectangle GetRowRectangle(int i, int itemHeight, int offsetY, int offsetX, int listWidth, int textPadding)
+        private static Rectangle GetItemRectangle(int i, int itemHeight, int offsetY, int offsetX, int listWidth, int textPadding)
         {
             var rowTop = offsetY + i * itemHeight;
             var textTop = rowTop + textPadding;
@@ -305,7 +305,7 @@ namespace SharpBooks.UI
                 var r = rows[i];
                 if (r != -1)
                 {
-                    this.Invalidate(this.GetRowRectangle(r));
+                    this.Invalidate(this.GetItemRectangle(r));
                 }
             }
         }
