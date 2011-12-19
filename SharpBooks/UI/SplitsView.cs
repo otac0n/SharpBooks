@@ -25,6 +25,7 @@ namespace SharpBooks.UI
         private Point offset;
 
         private int hoverIndex = -1;
+        private int selectedIndex = -1;
 
         public SplitsView()
         {
@@ -54,6 +55,21 @@ namespace SharpBooks.UI
             {
                 this.offset = value;
                 this.Invalidate();
+            }
+        }
+
+        public int SelectedIndex
+        {
+            get { return this.selectedIndex; }
+
+            set
+            {
+                if (value != this.selectedIndex)
+                {
+                    this.InvalidateRows(this.selectedIndex, value);
+
+                    this.selectedIndex = value;
+                }
             }
         }
 
@@ -177,6 +193,19 @@ namespace SharpBooks.UI
                             textRectangles[j] = new Rectangle(offsetX + col.X, rowRectangle.Top, col.Width, itemHeight);
                         }
 
+                        var state = ListViewItemState.Normal;
+
+                        if (i == this.selectedIndex)
+                        {
+                            state = this.Focused || i == this.hoverIndex
+                                ? ListViewItemState.Selected
+                                : ListViewItemState.SelectedNotFocus;
+                        }
+                        else if (i == this.hoverIndex)
+                        {
+                            state = ListViewItemState.Hot;
+                        }
+
                         ListItemRenderer.RenderItems(
                             g,
                             rowRectangle,
@@ -184,7 +213,7 @@ namespace SharpBooks.UI
                             textRectangles,
                             textParts,
                             this.Font,
-                            i == this.hoverIndex ? ListViewItemState.Hot : ListViewItemState.Normal);
+                            state);
                     }
                 }
             }
@@ -238,10 +267,7 @@ namespace SharpBooks.UI
 
             if (this.hoverIndex != hoverIndex)
             {
-                this.Invalidate(
-                    this.GetRowRectangle(this.hoverIndex));
-                this.Invalidate(
-                    this.GetRowRectangle(hoverIndex));
+                this.InvalidateRows(this.hoverIndex, hoverIndex);
 
                 this.hoverIndex = hoverIndex;
             }
@@ -251,8 +277,7 @@ namespace SharpBooks.UI
         {
             if (this.hoverIndex != -1)
             {
-                this.Invalidate(
-                    this.GetRowRectangle(this.hoverIndex));
+                this.InvalidateRows(this.hoverIndex);
 
                 this.hoverIndex = -1;
             }
@@ -260,11 +285,37 @@ namespace SharpBooks.UI
             base.OnMouseLeave(e);
         }
 
+        private void InvalidateRows(params int[] rows)
+        {
+            for (int i = 0; i < rows.Length; i++)
+            {
+                var r = rows[i];
+                if (r != -1)
+                {
+                    this.Invalidate(this.GetRowRectangle(r));
+                }
+            }
+        }
+
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
 
             this.UpdateHover(e);
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            var selectedIndex = this.GetVirtualRow(e.Location);
+            if (selectedIndex < 0 ||
+                selectedIndex >= this.splits.Count)
+            {
+                selectedIndex = -1;
+            }
+
+            this.SelectedIndex = selectedIndex;
+
+            base.OnMouseClick(e);
         }
 
         private class SplitComparer : IComparer<Split>
