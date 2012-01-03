@@ -154,6 +154,10 @@ namespace SharpBooks.UI
             this.DesiresOffset.SafeInvoke(this, new DesiresOffsetEventArgs(desiredOffset));
         }
 
+        public void BeginEdit(int index)
+        {
+        }
+
         private void InitializeAccount()
         {
             if (this.account != null)
@@ -353,6 +357,16 @@ namespace SharpBooks.UI
             base.OnMouseClick(e);
         }
 
+        protected override void OnMouseDoubleClick(MouseEventArgs e)
+        {
+            if (this.selectedIndex != -1)
+            {
+                this.BeginEdit(this.selectedIndex);
+            }
+
+            base.OnMouseDoubleClick(e);
+        }
+
         protected override bool ProcessDialogKey(Keys keyData)
         {
             switch (keyData)
@@ -385,6 +399,14 @@ namespace SharpBooks.UI
                 case Keys.Control | Keys.Home:
                     this.SelectedIndex = 0;
                     this.EnsureSelectionVisible();
+                    return true;
+
+                case Keys.Enter:
+                    if (this.SelectedIndex != -1)
+                    {
+                        this.BeginEdit(this.selectedIndex);
+                    }
+
                     return true;
 
                 case Keys.Left:
