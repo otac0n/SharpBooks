@@ -14,7 +14,7 @@ namespace SharpBooks.Tests
     public class RangeTests
     {
         [Datapoints]
-        private int[] intDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
+        private int[] intDatapoints = new[] { int.MaxValue, -3, -2, -1, 0, 1, 2, 3, int.MinValue };
 
         [Theory]
         public void Contains_WithInclusiveStart_ReturnsTrue(int start, int end, bool endInclusive)
@@ -60,6 +60,18 @@ namespace SharpBooks.Tests
             var range = new NumberRange { Start = start, End = end };
 
             var result = range.Contains(end, startInclusive: startInclusive, endInclusive: false);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Theory]
+        public void Contains_WithInvalidRange_ReturnsFalse(int start, int end, bool startInclusive, bool endInclusive, int value)
+        {
+            Assume.That(start > end);
+
+            var range = new NumberRange { Start = start, End = end };
+
+            var result = range.Contains(value, startInclusive: startInclusive, endInclusive: endInclusive);
 
             Assert.That(result, Is.False);
         }

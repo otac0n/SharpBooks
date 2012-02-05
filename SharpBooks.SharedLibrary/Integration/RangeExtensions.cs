@@ -13,6 +13,11 @@ namespace SharpBooks.Integration
     {
         public static bool Contains<T>(this IRange<T> range, T value, bool startInclusive = true, bool endInclusive = false) where T : IComparable<T>
         {
+            if (range.Start.CompareTo(range.End) > 0)
+            {
+                return false;
+            }
+
             var start = range.Start.CompareTo(value);
             var end = range.End.CompareTo(value);
 
