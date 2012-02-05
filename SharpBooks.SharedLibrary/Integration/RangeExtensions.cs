@@ -11,7 +11,7 @@ namespace SharpBooks.Integration
 
     public static class RangeExtensions
     {
-        public static bool Contains<T>(this IRange<T> range, T value, bool startInclusive = true, bool endInclusive = false) where T : IComparable<T>
+        public static bool Contains<T>(this IRange<T> range, T value) where T : IComparable<T>
         {
             if (range.Start.CompareTo(range.End) > 0)
             {
@@ -21,8 +21,8 @@ namespace SharpBooks.Integration
             var start = range.Start.CompareTo(value);
             var end = range.End.CompareTo(value);
 
-            if (startInclusive && start == 0 ||
-                endInclusive && end == 0)
+            if (range.StartInclusive && start == 0 ||
+                range.EndInclusive && end == 0)
             {
                 return true;
             }
@@ -36,7 +36,7 @@ namespace SharpBooks.Integration
             return true;
         }
 
-        public static bool Contains<T>(this IRange<T> range, IRange<T> other, bool startInclusive = true, bool endInclusive = false) where T : IComparable<T>
+        public static bool Contains<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
         {
             if (range.Start.CompareTo(range.End) > 0 ||
                 other.Start.CompareTo(other.End) > 0)
@@ -56,11 +56,31 @@ namespace SharpBooks.Integration
             var startToEnd = range.Start.CompareTo(other.End);
             var endToStart = range.End.CompareTo(other.Start);
 
+            if (startToStart == 0 && !range.StartInclusive && other.StartInclusive)
+            {
+                // The other one starts inclusively at the same point this one does exclusively.
+
+                if (startToEnd != 0 || !range.EndInclusive)
+                {
+                    return false;
+                }
+            }
+
+            if (endToEnd == 0 && !range.EndInclusive && other.EndInclusive)
+            {
+                // The other one ends inclusively at the same point this one does exclusively.
+
+                if (endToStart != 0 || !range.StartInclusive)
+                {
+                    return false;
+                }
+            }
+
             if (startToStart < 0)
             {
                 // The other range starts after this one does.
 
-                if (endToStart == 0 && !endInclusive)
+                if (endToStart == 0 && !range.EndInclusive)
                 {
                     // The other range ends when this one ends, but the end is not inclusive.
                     return false;
@@ -71,7 +91,7 @@ namespace SharpBooks.Integration
             {
                 // The other range ends before this one does.
 
-                if (startToEnd == 0 && !startInclusive)
+                if (startToEnd == 0 && !range.StartInclusive)
                 {
                     // The other range starts when this one ends, but the start is not inclusive.
                     return false;
@@ -79,8 +99,8 @@ namespace SharpBooks.Integration
             }
 
             if (startToEnd == 0 &&
-                !startInclusive &&
-                !endInclusive)
+                !range.StartInclusive &&
+                !range.EndInclusive)
             {
                 // Both ranges include exactly one point, but the point is not inclusive on either end.
                 return false;

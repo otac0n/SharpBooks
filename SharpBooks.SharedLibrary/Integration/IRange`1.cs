@@ -13,6 +13,10 @@ namespace SharpBooks.Integration
     {
         T Start { get; }
 
+        bool StartInclusive { get; }
+
         T End { get; }
+
+        bool EndInclusive { get; }
     }
 }
