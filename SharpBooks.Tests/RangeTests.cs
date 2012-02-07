@@ -39,9 +39,11 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IsEmpty_WithSelfExcludedSet_ReturnsTrue(int startAndEnd)
+        public void IsEmpty_WithSelfExcludedSet_ReturnsTrue(int startAndEnd, bool startInclusive, bool endInclusive)
         {
-            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = false, End = startAndEnd, EndInclusive = false };
+            Assume.That(!startInclusive || !endInclusive);
+
+            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = startInclusive, End = startAndEnd, EndInclusive = endInclusive };
 
             var actual = rangeA.IsEmpty();
 
@@ -49,11 +51,9 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IsEmpty_WithNonSelfExcludedSet_ReturnsFalse(int startAndEnd, bool startInclusive, bool endInclusive)
+        public void IsEmpty_WithNonSelfExcludedSet_ReturnsFalse(int startAndEnd)
         {
-            Assume.That(startInclusive || endInclusive);
-
-            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = startInclusive, End = startAndEnd, EndInclusive = endInclusive };
+            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = true, End = startAndEnd, EndInclusive = true };
 
             var actual = rangeA.IsEmpty();
 
@@ -87,7 +87,7 @@ namespace SharpBooks.Tests
         [Theory]
         public void Contains_WithInclusiveStart_ReturnsTrue(int start, int end, bool endInclusive)
         {
-            Assume.That(start <= end);
+            Assume.That(start < end);
 
             var range = new NumberRange { Start = start, StartInclusive = true, End = end, EndInclusive = endInclusive };
 
@@ -99,7 +99,7 @@ namespace SharpBooks.Tests
         [Theory]
         public void Contains_WithInclusiveEnd_ReturnsTrue(int start, int end, bool startInclusive)
         {
-            Assume.That(start <= end);
+            Assume.That(start < end);
 
             var range = new NumberRange { Start = start, StartInclusive = startInclusive, End = end, EndInclusive = true };
 
@@ -111,7 +111,7 @@ namespace SharpBooks.Tests
         [Theory]
         public void Contains_WithExclusiveStart_ReturnsFalse(int start, int end, bool endInclusive)
         {
-            Assume.That(start < end);
+            Assume.That(start <= end);
 
             var range = new NumberRange { Start = start, StartInclusive = false, End = end, EndInclusive = endInclusive };
 
@@ -123,7 +123,7 @@ namespace SharpBooks.Tests
         [Theory]
         public void Contains_WithExclusiveEnd_ReturnsFalse(int start, int end, bool startInclusive)
         {
-            Assume.That(start < end);
+            Assume.That(start <= end);
 
             var range = new NumberRange { Start = start, StartInclusive = startInclusive, End = end, EndInclusive = false };
 
@@ -133,7 +133,7 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithInvalidRange_ReturnsFalse(int start, int end, bool startInclusive, bool endInclusive, int value)
+        public void Contains_WithEmptyRange_ReturnsFalse(int start, int end, bool startInclusive, bool endInclusive, int value)
         {
             Assume.That(start > end);
 
@@ -145,9 +145,11 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithZeroLengthAndExclusiveStartAndEnd_ReturnsFalse(int startAndEnd, int value)
+        public void Contains_WithZeroLengthAndExclusiveStartOrEnd_ReturnsFalse(int startAndEnd, bool startInclusive, bool endInclusive, int value)
         {
-            var range = new NumberRange { Start = startAndEnd, StartInclusive = false, End = startAndEnd, EndInclusive = false };
+            Assume.That(!startInclusive || !endInclusive);
+
+            var range = new NumberRange { Start = startAndEnd, StartInclusive = startInclusive, End = startAndEnd, EndInclusive = endInclusive };
 
             var result = range.Contains(value);
 
@@ -166,21 +168,23 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithInvalidRange_ReturnsFalse(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        public void Contains_WithEmptyRange_ReturnsTrue(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
         {
             var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aStart, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusive };
 
             var result = rangeA.Contains(rangeB);
 
-            Assert.That(result, Is.False);
+            Assert.That(result, Is.True);
         }
 
         [Theory]
-        public void Contains_FromInvalidRange_ReturnsFalse(bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
+        public void Contains_FromEmptyRange_ReturnsFalse(bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
         {
             var rangeA = new NumberRange { Start = 1, StartInclusive = aStartInclusive, End = 0, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = bStart, StartInclusive = bStartInclusive, End = bEnd, EndInclusive = bEndInclusive };
+
+            Assume.That(!rangeB.IsEmpty());
 
             var result = rangeA.Contains(rangeB);
 
@@ -243,11 +247,9 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithZeroRangeInclusive_ReturnsTrue(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusively)
+        public void Contains_InDegenerateRange_ReturnsTrue(bool bStartInclusive, bool bEndInclusively)
         {
-            Assume.That(aStartInclusive || aEndInclusive);
-
-            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 0, EndInclusive = aEndInclusive };
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 0, EndInclusive = true };
             var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusively };
 
             var result = rangeA.Contains(rangeB);
@@ -256,10 +258,13 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithZeroRangeExclusive_ReturnsFalse(bool bStartInclusive, bool bEndInclusively)
+        public void Contains_WithZeroRangeExclusive_ReturnsFalse(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusively)
         {
             var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
             var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusively };
+
+            Assume.That(rangeA.IsEmpty());
+            Assume.That(!rangeB.IsEmpty());
 
             var result = rangeA.Contains(rangeB);
 
@@ -271,6 +276,8 @@ namespace SharpBooks.Tests
         {
             var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = false };
             var rangeB = new NumberRange { Start = 3, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusively };
+
+            Assume.That(!rangeB.IsEmpty());
 
             var result = rangeA.Contains(rangeB);
 
@@ -294,6 +301,8 @@ namespace SharpBooks.Tests
             var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusively };
 
+            Assume.That(!rangeB.IsEmpty());
+
             var result = rangeA.Contains(rangeB);
 
             Assert.That(result, Is.False);
@@ -311,7 +320,7 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IntersectWith_WithInvalidRange_ReturnsNull(bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
+        public void IntersectWith_WithEmptyRange_ReturnsNull(bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
         {
             var rangeA = new NumberRange { Start = 1, StartInclusive = aStartInclusive, End = 0, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = bStart, StartInclusive = bStartInclusive, End = bEnd, EndInclusive = bEndInclusive };
@@ -322,7 +331,7 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IntersectWith_FromInvalidRange_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        public void IntersectWith_FromEmptyRange_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
         {
             var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aEnd, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusive };
@@ -374,7 +383,7 @@ namespace SharpBooks.Tests
 
             Assert.That(actual.Start, Is.EqualTo(rangeB.Start));
             Assert.That(actual.End, Is.EqualTo(rangeA.End));
-            Assert.That(actual.StartInclusive || actual.EndInclusive, Is.EqualTo(true));
+            Assert.That(actual.StartInclusive && actual.EndInclusive, Is.EqualTo(true));
         }
 
         [Theory]
@@ -464,9 +473,11 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IntersectWith_WhenThisRangeIsEmpty_ReturnsNull(int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
+        public void IntersectWith_WhenThisRangeIsEmpty_ReturnsNull(int aStartAndEnd, bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
         {
-            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
+            Assume.That(!aStartInclusive || !aEndInclusive);
+
+            var rangeA = new NumberRange { Start = aStartAndEnd, StartInclusive = aStartInclusive, End = aStartAndEnd, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = bStart, StartInclusive = bStartInclusive, End = bEnd, EndInclusive = bEndInclusive };
 
             var actual = rangeA.IntersectWith(rangeB);
@@ -475,8 +486,10 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void IntersectWith_WhenOtherRangeIsEmpty_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive)
+        public void IntersectWith_WhenOtherRangeIsEmpty_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, int bStartAndEnd, bool bStartInclusive, bool bEndInclusive)
         {
+            Assume.That(!bStartInclusive || !bEndInclusive);
+
             var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aEnd, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
 
