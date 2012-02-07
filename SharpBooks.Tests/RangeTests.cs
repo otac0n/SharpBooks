@@ -254,6 +254,181 @@ namespace SharpBooks.Tests
             Assert.That(result, Is.True);
         }
 
+        [Theory]
+        public void IntersectWith_WithInvalidRange_ReturnsNull(bool aStartInclusive, bool aEndInclusive, int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 1, StartInclusive = aStartInclusive, End = 0, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = bStart, StartInclusive = bStartInclusive, End = bEnd, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Theory]
+        public void IntersectWith_FromInvalidRange_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aEnd, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Theory]
+        public void IntersectWith_WithSameRange_ReturnsOriginalReference(bool aStartInclusive, bool aEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = aEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeA);
+
+            Assert.That(actual, Is.EqualTo(rangeA));
+        }
+
+        [Theory]
+        public void IntersectWith_WithWhollyContianedRange_ReturnsContainedRange(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 2, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.EqualTo(rangeB));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesDoNotIntersect_ReturnsNull(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 1, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesIntersectInAPoint_ReturnsThatPointWithMatchingInclusivity(bool aStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 2, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = true, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual.Start, Is.EqualTo(rangeB.Start));
+            Assert.That(actual.End, Is.EqualTo(rangeA.End));
+            Assert.That(actual.StartInclusive || actual.EndInclusive, Is.EqualTo(true));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesIntersectInAnExclusivePoint_ReturnsNull(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            Assume.That(!aEndInclusive || !bStartInclusive);
+
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 2, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesIntersectInARange_ReturnsThatRangeWithMatchingInclusivity(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 2, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual.Start, Is.EqualTo(rangeB.Start));
+            Assert.That(actual.StartInclusive, Is.EqualTo(rangeB.StartInclusive));
+            Assert.That(actual.End, Is.EqualTo(rangeA.End));
+            Assert.That(actual.EndInclusive, Is.EqualTo(rangeA.EndInclusive));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesIntersectInARangeReversed_ReturnsThatRangeWithMatchingInclusivity(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 2, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeB.IntersectWith(rangeA);
+
+            Assert.That(actual.Start, Is.EqualTo(rangeB.Start));
+            Assert.That(actual.StartInclusive, Is.EqualTo(rangeB.StartInclusive));
+            Assert.That(actual.End, Is.EqualTo(rangeA.End));
+            Assert.That(actual.EndInclusive, Is.EqualTo(rangeA.EndInclusive));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesAreSameSize_ReturnsRangeWithMostRestrictedInclusivity(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual.Start, Is.EqualTo(rangeB.Start));
+            Assert.That(actual.StartInclusive, Is.EqualTo(rangeA.StartInclusive && rangeB.StartInclusive));
+            Assert.That(actual.End, Is.EqualTo(rangeA.End));
+            Assert.That(actual.EndInclusive, Is.EqualTo(rangeA.EndInclusive && rangeB.EndInclusive));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesAreSameSizeAndThisRangeMatchesMostRestrictive_ReturnsThisRange(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            Assume.That(bStartInclusive || bEndInclusive);
+            Assume.That(bStartInclusive || (!bStartInclusive && !aStartInclusive));
+            Assume.That(bEndInclusive || (!bEndInclusive && !aEndInclusive));
+
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.EqualTo(rangeA));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenRangesAreSameSizeAndOtherRangeMatchesMostRestrictive_ReturnsOtherRange(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        {
+            Assume.That(aStartInclusive || aEndInclusive);
+            Assume.That(aStartInclusive || (!aStartInclusive && !bStartInclusive));
+            Assume.That(aEndInclusive || (!aEndInclusive && !bEndInclusive));
+            Assume.That((!bStartInclusive && aStartInclusive) || (!bEndInclusive && aEndInclusive));
+
+            var rangeA = new NumberRange { Start = 0, StartInclusive = aStartInclusive, End = 3, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 3, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.EqualTo(rangeB));
+        }
+
+        [Theory]
+        public void IntersectWith_WhenThisRangeIsEmpty_ReturnsNull(int bStart, bool bStartInclusive, int bEnd, bool bEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
+            var rangeB = new NumberRange { Start = bStart, StartInclusive = bStartInclusive, End = bEnd, EndInclusive = bEndInclusive };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Theory]
+        public void IntersectWith_WhenOtherRangeIsEmpty_ReturnsNull(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive)
+        {
+            var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aEnd, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
+
+            var actual = rangeA.IntersectWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
         private class NumberRange : IRange<int>
         {
             public int Start { get; set; }
@@ -263,6 +438,32 @@ namespace SharpBooks.Tests
             public int End { get; set; }
 
             public bool EndInclusive { get; set; }
+
+            public NumberRange Clone(int start, bool startInclusive, int end, bool endInclusive)
+            {
+                return new NumberRange
+                {
+                    Start = start,
+                    StartInclusive = startInclusive,
+                    End = end,
+                    EndInclusive = endInclusive,
+                };
+            }
+
+            IRange<int> IRange<int>.Clone(int start, bool startInclusive, int end, bool endInclusive)
+            {
+                return this.Clone(start, startInclusive, end, endInclusive);
+            }
+
+            public override string ToString()
+            {
+                return
+                    (StartInclusive ? "[" : "(") +
+                    Start +
+                    "," +
+                    End +
+                    (EndInclusive ? "]" : ")");
+            }
         }
     }
 }
