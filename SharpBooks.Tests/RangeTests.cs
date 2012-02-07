@@ -7,6 +7,7 @@
 
 namespace SharpBooks.Tests
 {
+    using System.Linq;
     using NUnit.Framework;
     using SharpBooks.Integration;
 
@@ -496,6 +497,111 @@ namespace SharpBooks.Tests
             var actual = rangeA.IntersectWith(rangeB);
 
             Assert.That(actual, Is.Null);
+        }
+
+        [Test]
+        public void UnionWith_WithTwoEmptySets_ReturnsNull()
+        {
+            NumberRange rangeA = null;
+            NumberRange rangeB = null;
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Test]
+        public void UnionWith_WithOtherRangeEmpty_ReturnsThisRange()
+        {
+            var rangeA = new NumberRange { Start = 1, StartInclusive = false, End = 3, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeA }));
+        }
+
+        [Test]
+        public void UnionWith_WithThisRangeEmpty_ReturnsOtherRange()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeB }));
+        }
+
+        [Test]
+        public void UnionWith_WhenRangesDoNotIntersect_ReturnsBothRanges()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 1, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeA, rangeB }));
+        }
+
+        [Test]
+        public void UnionWith_WhenRangesIntersectAtAnExcludedPoint_ReturnsBothRanges()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 2, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeA, rangeB }));
+        }
+
+        [Theory]
+        public void UnionWith_WhenRangesIntersectAtAnIncludedPoint_ReturnsASingleRangeThatContainsBothRanges(bool aEndInclusive, bool bStartInclusive)
+        {
+            Assume.That(aEndInclusive || bStartInclusive);
+
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 2, EndInclusive = aEndInclusive };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = bStartInclusive, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.Contains(rangeA));
+            Assert.That(single.Contains(rangeB));
+        }
+
+        [Test]
+        public void UnionWith_WhenRangesOverlap_ReturnsASingleRangeThatContainsBothRanges()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 2, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.Contains(rangeA));
+            Assert.That(single.Contains(rangeB));
+        }
+
+        [Test]
+        public void UnionWith_WhenThisRangeContainsOtherRange_ReturnsThisRange()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = false, End = 2, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeA }));
+        }
+
+        [Test]
+        public void UnionWith_WhenOtherRangeContainsThisRange_ReturnsOtherRange()
+        {
+            var rangeA = new NumberRange { Start = 1, StartInclusive = false, End = 2, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.UnionWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeB }));
         }
 
         private class NumberRange : IRange<int>
