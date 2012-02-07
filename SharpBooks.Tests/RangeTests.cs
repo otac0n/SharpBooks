@@ -17,6 +17,62 @@ namespace SharpBooks.Tests
         private int[] intDatapoints = new[] { -3, -2, -1, 0, 1, 2, 3 };
 
         [Theory]
+        public void IsEmpty_WithNullSet_ReturnsTrue(int start, int end, bool startInclusive, bool endInclusive)
+        {
+            NumberRange rangeA = null;
+
+            var actual = rangeA.IsEmpty();
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Theory]
+        public void IsEmpty_WithBackwardsSet_ReturnsTrue(int start, int end, bool startInclusive, bool endInclusive)
+        {
+            Assume.That(start > end);
+
+            var rangeA = new NumberRange { Start = start, StartInclusive = startInclusive, End = end, EndInclusive = endInclusive };
+
+            var actual = rangeA.IsEmpty();
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Theory]
+        public void IsEmpty_WithSelfExcludedSet_ReturnsTrue(int startAndEnd)
+        {
+            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = false, End = startAndEnd, EndInclusive = false };
+
+            var actual = rangeA.IsEmpty();
+
+            Assert.That(actual, Is.True);
+        }
+
+        [Theory]
+        public void IsEmpty_WithNonSelfExcludedSet_ReturnsFalse(int startAndEnd, bool startInclusive, bool endInclusive)
+        {
+            Assume.That(startInclusive || endInclusive);
+
+            var rangeA = new NumberRange { Start = startAndEnd, StartInclusive = startInclusive, End = startAndEnd, EndInclusive = endInclusive };
+
+            var actual = rangeA.IsEmpty();
+
+            Assert.That(actual, Is.False);
+        }
+
+        [Theory]
+        public void IsEmpty_WithInOrderSetSet_ReturnsFalse(int start, int end, bool startInclusive, bool endInclusive)
+        {
+            Assume.That(start < end);
+
+            var rangeA = new NumberRange { Start = start, StartInclusive = startInclusive, End = end, EndInclusive = endInclusive };
+
+            var actual = rangeA.IsEmpty();
+
+            Assert.That(actual, Is.False);
+        }
+
+        [Theory]
         public void Contains_WithIncludedValue_ReturnsTrue(int start, int end, int value, bool startInclusive, bool endInclusive)
         {
             Assume.That(start < value && value < end);

@@ -11,6 +11,28 @@ namespace SharpBooks.Integration
 
     public static class RangeExtensions
     {
+        public static bool IsEmpty<T>(this IRange<T> range) where T : IComparable<T>
+        {
+            if (range == null)
+            {
+                return true;
+            }
+
+            var startToEnd = range.Start.CompareTo(range.End);
+            if (startToEnd > 0)
+            {
+                return true;
+            }
+            else if (startToEnd == 0 && !range.StartInclusive && !range.EndInclusive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static bool Contains<T>(this IRange<T> range, T value) where T : IComparable<T>
         {
             if (range.Start.CompareTo(range.End) > 0)
