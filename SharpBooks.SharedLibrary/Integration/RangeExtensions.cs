@@ -328,7 +328,12 @@ namespace SharpBooks.Integration
             setA = setA ?? new IRange<T>[0];
             setB = setB ?? new IRange<T>[0];
 
-            var list = (from r in setA.Concat(setB)
+            return setA.Concat(setB).Simplify();
+        }
+
+        public static IList<IRange<T>> Simplify<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            var list = (from r in set
                         where !r.IsEmpty()
                         orderby r.Start descending
                         select r).ToList();
