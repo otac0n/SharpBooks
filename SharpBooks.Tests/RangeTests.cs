@@ -604,6 +604,24 @@ namespace SharpBooks.Tests
             Assert.That(actual, Is.EquivalentTo(new[] { rangeB }));
         }
 
+        [Test]
+        public void UnionWith_SimplifiesSet_ReturnsOtherRange()
+        {
+            var set = new[]
+            {
+                new NumberRange { Start = 0, StartInclusive = true, End = 1, EndInclusive = false },
+                new NumberRange { Start = 2, StartInclusive = true, End = 3, EndInclusive = false },
+            };
+
+            var range = new NumberRange { Start = 1, StartInclusive = true, End = 2, EndInclusive = false };
+
+            var actual = set.UnionWith(range);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.Start, Is.EqualTo(0));
+            Assert.That(single.End, Is.EqualTo(3));
+        }
+
         private class NumberRange : IRange<int>
         {
             public int Start { get; set; }

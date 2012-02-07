@@ -9,6 +9,7 @@ namespace SharpBooks.Integration
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public static class RangeExtensions
     {
@@ -187,7 +188,7 @@ namespace SharpBooks.Integration
                 endInclusive);
         }
 
-        public static IEnumerable<IRange<T>> UnionWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
         {
             var rangeEmpty = range.IsEmpty();
             var otherEmpty = other.IsEmpty();
@@ -315,6 +316,50 @@ namespace SharpBooks.Integration
                     end,
                     endInclusive)
             };
+        }
+
+        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
+        {
+            return set.UnionWith(new[] { range });
+        }
+
+        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
+        {
+            setA = setA ?? new IRange<T>[0];
+            setB = setB ?? new IRange<T>[0];
+
+            var list = (from r in setA.Concat(setB)
+                        where !r.IsEmpty()
+                        orderby r.Start descending
+                        select r).ToList();
+
+            if (list.Count == 0)
+            {
+                return null;
+            }
+
+            Func<IRange<T>> dequeue = () =>
+            {
+                var a = list[list.Count - 1];
+                list.RemoveAt(list.Count - 1);
+                return a;
+            };
+
+            var results = new Stack<IRange<T>>();
+            results.Push(dequeue());
+
+            while (list.Count > 0)
+            {
+                var rangeA = results.Pop();
+                var rangeB = dequeue();
+
+                foreach (var result in rangeA.UnionWith(rangeB))
+                {
+                    results.Push(result);
+                }
+            }
+
+            return results.ToArray();
         }
     }
 }
