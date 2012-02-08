@@ -733,6 +733,22 @@ namespace SharpBooks.Tests
             Assert.That(actual[1].Start, Is.EqualTo(actual[1].End));
         }
 
+        [Test]
+        public void DifferenceWith_WhenSetEsExcluded_ReturnsEmpty()
+        {
+            var set = new[]
+            {
+                new NumberRange { Start = 0, StartInclusive = true, End = 2, EndInclusive = true },
+                new NumberRange { Start = 2, StartInclusive = false, End = 3, EndInclusive = false },
+            };
+
+            var range = new NumberRange { Start = 0, StartInclusive = true, End = 3, EndInclusive = true };
+
+            var actual = set.DifferenceWith(range);
+
+            Assert.That(actual.IsEmpty());
+        }
+
         private class NumberRange : IRange<int>
         {
             public int Start { get; set; }

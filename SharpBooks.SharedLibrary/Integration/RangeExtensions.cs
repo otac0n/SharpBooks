@@ -323,6 +323,11 @@ namespace SharpBooks.Integration
             return set.UnionWith(new[] { range });
         }
 
+        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            return set.UnionWith(new[] { range });
+        }
+
         public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
         {
             setA = setA ?? new IRange<T>[0];
@@ -412,6 +417,53 @@ namespace SharpBooks.Integration
             }
 
             return ranges;
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
+        {
+            return set.DifferenceWith(new[] { range });
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            return set.DifferenceWith(new[] { range });
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
+        {
+            if (setA.IsEmpty())
+            {
+                return null;
+            }
+            else if (setB.IsEmpty())
+            {
+                return setA.ToList();
+            }
+
+            List<IRange<T>> results = null;
+
+            foreach (var rangeB in setB)
+            {
+                results = new List<IRange<T>>();
+
+                foreach (var rangeA in setA)
+                {
+                    var diff = rangeA.DifferenceWith(rangeB);
+                    if (diff != null)
+                    {
+                        results.AddRange(diff);
+                    }
+                }
+
+                if (results.Count == 0)
+                {
+                    return null;
+                }
+
+                setA = results;
+            }
+
+            return results;
         }
     }
 }
