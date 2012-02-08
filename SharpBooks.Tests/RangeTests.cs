@@ -622,6 +622,117 @@ namespace SharpBooks.Tests
             Assert.That(single.End, Is.EqualTo(3));
         }
 
+        [Test]
+        public void DifferenceWith_WithEmptyRange_ReturnsThisRange()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 2, StartInclusive = false, End = 2, EndInclusive = false };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            Assert.That(actual, Is.EquivalentTo(new[] { rangeA }));
+        }
+
+        [Test]
+        public void DifferenceWith_FromEmptyRange_ReturnsNull()
+        {
+            var rangeA = new NumberRange { Start = 2, StartInclusive = false, End = 2, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Test]
+        public void DifferenceWith_WhenThisRangeIsContainedByOtherRange_ReturnsNull()
+        {
+            var rangeA = new NumberRange { Start = 1, StartInclusive = false, End = 2, EndInclusive = false };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            Assert.That(actual, Is.Null);
+        }
+
+        [Test]
+        public void DifferenceWith_WithRangesIntersectingAtStartPoint_ReturnsNewRangeExcludingStart()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 3, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = true, End = 0, EndInclusive = true };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.Start, Is.EqualTo(rangeA.Start));
+            Assert.That(single.StartInclusive, Is.False);
+        }
+
+        [Test]
+        public void DifferenceWith_WithRangesIntersectingAtEndPoint_ReturnsNewRangeExcludingEnd()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 3, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 3, StartInclusive = true, End = 3, EndInclusive = true };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.End, Is.EqualTo(rangeA.End));
+            Assert.That(single.EndInclusive, Is.False);
+        }
+
+        [Test]
+        public void DifferenceWith_WhenOtherOverlapsThisStart_ReturnsNewRangeExcludingStart()
+        {
+            var rangeA = new NumberRange { Start = 1, StartInclusive = true, End = 3, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = true, End = 2, EndInclusive = true };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.Start, Is.EqualTo(rangeB.End));
+            Assert.That(single.StartInclusive, Is.False);
+        }
+
+        [Test]
+        public void DifferenceWith_WhenOtherOverlapsThisEnd_ReturnsNewRangeExcludingStart()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 2, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = true, End = 3, EndInclusive = true };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            var single = actual.Single(); // Asserts that the array contains a single entry.
+            Assert.That(single.End, Is.EqualTo(rangeB.Start));
+            Assert.That(single.EndInclusive, Is.False);
+        }
+
+        [Test]
+        public void DifferenceWith_WhenOtherRangeContainedByThis_ReturnsTwoRangesThatDontIntersectOther()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 3, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 1, StartInclusive = true, End = 2, EndInclusive = true };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            Assert.That(actual.Count, Is.EqualTo(2));
+            Assert.That(actual[0].IntersectWith(rangeB).IsEmpty());
+            Assert.That(actual[1].IntersectWith(rangeB).IsEmpty());
+        }
+
+        [Test]
+        public void DifferenceWith_WhenWhollyOverlappedExceptEndPoints_ReturnsTwoDegenerateRangesForTheEndPoints()
+        {
+            var rangeA = new NumberRange { Start = 0, StartInclusive = true, End = 3, EndInclusive = true };
+            var rangeB = new NumberRange { Start = 0, StartInclusive = false, End = 3, EndInclusive = false };
+
+            var actual = rangeA.DifferenceWith(rangeB);
+
+            Assert.That(actual.Count, Is.EqualTo(2));
+            Assert.That(actual[0].Start, Is.EqualTo(actual[0].End));
+            Assert.That(actual[1].Start, Is.EqualTo(actual[1].End));
+        }
+
         private class NumberRange : IRange<int>
         {
             public int Start { get; set; }

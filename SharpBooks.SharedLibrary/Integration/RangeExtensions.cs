@@ -366,5 +366,52 @@ namespace SharpBooks.Integration
 
             return results.ToArray();
         }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        {
+            if (range.IsEmpty())
+            {
+                return null;
+            }
+
+            var intersection = range.IntersectWith(other);
+
+            if (intersection.IsEmpty())
+            {
+                return new[] { range };
+            }
+            else if (intersection == range)
+            {
+                return null;
+            }
+
+            var ranges = new List<IRange<T>>();
+
+            var startToStart = range.Start.CompareTo(intersection.Start);
+
+            if (startToStart != 0 ||
+                (range.StartInclusive && !intersection.StartInclusive))
+            {
+                ranges.Add(range.Clone(
+                        range.Start,
+                        range.StartInclusive,
+                        intersection.Start,
+                        !intersection.StartInclusive));
+            }
+
+            var endToEnd = range.End.CompareTo(intersection.End);
+
+            if (endToEnd != 0 ||
+                (range.EndInclusive && !intersection.EndInclusive))
+            {
+                ranges.Add(range.Clone(
+                        intersection.End,
+                        !intersection.EndInclusive,
+                        range.End,
+                        range.EndInclusive));
+            }
+
+            return ranges;
+        }
     }
 }
