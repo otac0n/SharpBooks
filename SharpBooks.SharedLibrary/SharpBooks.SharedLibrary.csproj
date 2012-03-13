@@ -71,6 +71,7 @@
     <Compile Include="ILoader.cs" />
     <Compile Include="Integration\IRange`1.cs" />
     <Compile Include="Integration\RangeExtensions.cs" />
+    <Compile Include="Integration\StringRange.cs" />
     <Compile Include="Persistence\IPersistenceStrategy.cs" />
     <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
     <Compile Include="ReadOnlyDictionary`2.cs" />
