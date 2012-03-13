@@ -32,14 +32,52 @@ namespace SharpBooks.UI
 
         private static bool isSupported;
 
+        private static VisualStyleElement baseElement;
+
         static ListItemRenderer()
         {
-            isSupported = VisualStyleRenderer.IsSupported
-                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.ListView.Item.Normal)
-                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.ListView.Item.Hot)
-                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.ListView.Item.Selected)
-                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.ListView.Item.Disabled)
-                       && VisualStyleRenderer.IsElementDefined(VisualStyleElement.ListView.Item.SelectedNotFocus);
+            if (!VisualStyleRenderer.IsSupported)
+            {
+                isSupported = false;
+                return;
+            }
+
+            VisualStyleElement
+                normal = VisualStyleElement.ListView.Item.Normal,
+                hot = VisualStyleElement.ListView.Item.Hot,
+                selected = VisualStyleElement.ListView.Item.Selected,
+                disabled = VisualStyleElement.ListView.Item.Disabled,
+                selectedNotFocus = VisualStyleElement.ListView.Item.SelectedNotFocus;
+
+            isSupported = VisualStyleRenderer.IsElementDefined(normal) &&
+                          VisualStyleRenderer.IsElementDefined(hot) &&
+                          VisualStyleRenderer.IsElementDefined(selected) &&
+                          VisualStyleRenderer.IsElementDefined(disabled) &&
+                          VisualStyleRenderer.IsElementDefined(selectedNotFocus);
+
+            if (isSupported)
+            {
+                baseElement = normal;
+                return;
+            }
+
+            normal = VisualStyleElement.CreateElement("Explorer::ListView", 1, (int)ListViewItemState.Normal);
+            hot = VisualStyleElement.CreateElement("Explorer::ListView", 1, (int)ListViewItemState.Hot);
+            selected = VisualStyleElement.CreateElement("Explorer::ListView", 1, (int)ListViewItemState.Selected);
+            disabled = VisualStyleElement.CreateElement("Explorer::ListView", 1, (int)ListViewItemState.Disabled);
+            selectedNotFocus = VisualStyleElement.CreateElement("Explorer::ListView", 1, (int)ListViewItemState.SelectedNotFocus);
+
+            isSupported = VisualStyleRenderer.IsElementDefined(normal) &&
+                          VisualStyleRenderer.IsElementDefined(hot) &&
+                          VisualStyleRenderer.IsElementDefined(selected) &&
+                          VisualStyleRenderer.IsElementDefined(disabled) &&
+                          VisualStyleRenderer.IsElementDefined(selectedNotFocus);
+
+            if (isSupported)
+            {
+                baseElement = normal;
+                return;
+            }
         }
 
         private static bool RenderWithVisualStyles
@@ -62,22 +100,29 @@ namespace SharpBooks.UI
             if (visualStyleRenderer == null)
             {
                 visualStyleRenderer = new VisualStyleRenderer(
-                    VisualStyleElement.ListView.Item.Normal.ClassName,
-                    VisualStyleElement.ListView.Item.Normal.Part,
+                    baseElement.ClassName,
+                    baseElement.Part,
                     (int)state);
             }
             else
             {
                 visualStyleRenderer.SetParameters(
-                    VisualStyleElement.ListView.Item.Normal.ClassName,
-                    VisualStyleElement.ListView.Item.Normal.Part,
+                    baseElement.ClassName,
+                    baseElement.Part,
                     (int)state);
             }
         }
 
         public static void RenderBackground(Graphics g, Rectangle bounds, Brush background, ListViewItemState state)
         {
-            if (RenderWithVisualStyles)
+            if (state == ListViewItemState.Normal)
+            {
+                if (background != null)
+                {
+                    g.FillRectangle(background, bounds);
+                }
+            }
+            else if (RenderWithVisualStyles)
             {
                 InitializeRenderer(state);
                 visualStyleRenderer.DrawBackground(g, bounds);
