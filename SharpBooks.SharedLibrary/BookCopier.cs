@@ -147,6 +147,7 @@ namespace SharpBooks
                         newSplit.SetAccount(account, tlock);
                         newSplit.SetSecurity(security, tlock);
                         newSplit.SetAmount(split.Amount, tlock);
+                        newSplit.SetTransactionAmount(split.TransactionAmount, tlock);
                         newSplit.SetDateCleared(split.DateCleared, tlock);
                         newSplit.SetIsReconciled(split.IsReconciled, tlock);
                     }

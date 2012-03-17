@@ -408,5 +408,39 @@ namespace SharpBooks.Tests
                 Assert.That(() => transaction.RemoveSplit(split, transactionLock), Throws.InstanceOf<InvalidOperationException>());
             }
         }
+
+        [Test]
+        public void Copy_WithTransactionInAnyState_CopiesTheTransaction()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split.
+                var split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
+                split.SetAmount(1000, transactionLock);
+                split.SetTransactionAmount(100, transactionLock);
+                split.SetIsReconciled(true, transactionLock);
+                split.SetDateCleared(DateTime.MinValue, transactionLock);
+            }
+
+            var copy = transaction.Copy();
+
+            Assert.That(transaction.BaseSecurity, Is.EqualTo(copy.BaseSecurity));
+            Assert.That(transaction.TransactionId, Is.EqualTo(copy.TransactionId));
+            Assert.That(transaction.Splits[0].Account, Is.EqualTo(copy.Splits[0].Account));
+            Assert.That(transaction.Splits[0].Amount, Is.EqualTo(copy.Splits[0].Amount));
+            Assert.That(transaction.Splits[0].DateCleared, Is.EqualTo(copy.Splits[0].DateCleared));
+            Assert.That(transaction.Splits[0].IsReconciled, Is.EqualTo(copy.Splits[0].IsReconciled));
+            Assert.That(transaction.Splits[0].Security, Is.EqualTo(copy.Splits[0].Security));
+            Assert.That(transaction.Splits[0].TransactionAmount, Is.EqualTo(copy.Splits[0].TransactionAmount));
+        }
     }
 }

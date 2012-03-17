@@ -275,5 +275,30 @@ namespace SharpBooks
                 throw new InvalidOperationException("Could not modify the transaction, because the lock provided was not valid.");
             }
         }
+
+        public Transaction Copy()
+        {
+            lock (this.lockMutex)
+            {
+                var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
+                using (var tLock = tNew.Lock())
+                {
+                    tNew.SetDate(this.Date, tLock);
+
+                    foreach (var split in this.splits)
+                    {
+                        var sNew = tNew.AddSplit(tLock);
+                        sNew.SetAccount(split.Account, tLock);
+                        sNew.SetAmount(split.Amount, tLock);
+                        sNew.SetDateCleared(split.DateCleared, tLock);
+                        sNew.SetIsReconciled(split.IsReconciled, tLock);
+                        sNew.SetSecurity(split.Security, tLock);
+                        sNew.SetTransactionAmount(split.TransactionAmount, tLock);
+                    }
+                }
+
+                return tNew;
+            }
+        }
     }
 }

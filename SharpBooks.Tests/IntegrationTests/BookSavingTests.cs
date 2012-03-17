@@ -63,7 +63,7 @@ namespace SharpBooks.Tests.IntegrationTests
             var destination = new MockSaver();
             book.Replay(destination, null);
 
-            // Assert that the mock recieved the proper additiona and removals of each component.
+            // Assert that the mock received the proper additional and removals of each component.
             Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(2));
             Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(2));
             Assert.That(destination.PriceQuoteAdditions.Count, Is.EqualTo(1));
@@ -97,7 +97,7 @@ namespace SharpBooks.Tests.IntegrationTests
             var destination = new MockSaver();
             book.Replay(destination, savePoint);
 
-            // Assert that the mock recieved one addition and one removal of each an account and a transaciton.
+            // Assert that the mock received one addition and one removal of each an account and a transaction.
             Assert.That(destination.SecurityAdditions.Count, Is.EqualTo(0));
             Assert.That(destination.SecurityRemovals.Count, Is.EqualTo(0));
             Assert.That(destination.AccountAdditions.Count, Is.EqualTo(0));
