@@ -36,6 +36,7 @@ namespace SharpBooks.UI
 
         public event EventHandler<EventArgs> ScrollableSizeChanged;
         public event EventHandler<DesiresOffsetEventArgs> DesiresOffset;
+        public event EventHandler<EventArgs> SelectedIndexChanged;
 
         [Browsable(true)]
         public new event MouseEventHandler MouseWheel
@@ -72,12 +73,12 @@ namespace SharpBooks.UI
                     value = -1;
                 }
 
-
                 if (value != this.selectedIndex)
                 {
                     this.InvalidateRows(this.selectedIndex, value);
 
                     this.selectedIndex = value;
+                    this.OnSelectedIndexChanged();
                 }
             }
         }
@@ -115,6 +116,16 @@ namespace SharpBooks.UI
         protected virtual void OnScrollableSizeChanged(EventArgs e)
         {
             this.ScrollableSizeChanged.SafeInvoke(this, e);
+        }
+
+        private void OnSelectedIndexChanged()
+        {
+            this.OnSelectedIndexChanged(new EventArgs());
+        }
+
+        private void OnSelectedIndexChanged(EventArgs e)
+        {
+            this.SelectedIndexChanged.SafeInvoke(this, e);
         }
 
         public void SetAccount(Account account, ReadOnlyBook book)
