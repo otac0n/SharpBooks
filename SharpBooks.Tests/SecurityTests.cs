@@ -45,7 +45,7 @@ namespace SharpBooks.Tests
         [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", null,  "{0}")]
         [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "",              "XTS", "{0}")]
         [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, null,            "XTS", "{0}")]
-        [TestCase("00000000-0000-0000-0000-000000000000", SecurityType.Currency, "Test Currency", "XTS", "")]
+        [TestCase("00000000-0000-0000-0000-000000000000", SecurityType.Currency, "Test Currency", "XTS", "{0}")]
         public void Constructor_WithEmptyParameters_ThrowsException(string securityId, SecurityType securityType, string name, string symbol, string signFormat)
         {
             // Build a delegate to construct a new security.

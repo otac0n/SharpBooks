@@ -16,6 +16,11 @@ namespace SharpBooks
     {
         public Security(Guid securityId, SecurityType securityType, string name, string symbol, string signFormat, int fractionTraded)
         {
+            if (securityId == Guid.Empty)
+            {
+                throw new ArgumentNullException("securityId");
+            }
+
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
