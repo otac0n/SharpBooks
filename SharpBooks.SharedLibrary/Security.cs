@@ -89,5 +89,10 @@ namespace SharpBooks
         {
             return this.Format.Format(value, this.FractionTraded);
         }
+
+        public bool TryParseValue(string s, out long result)
+        {
+            return this.Format.TryParse(s, this.FractionTraded, out result);
+        }
     }
 }

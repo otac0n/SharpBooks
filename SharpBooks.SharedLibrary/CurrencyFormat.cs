@@ -169,5 +169,25 @@ namespace SharpBooks
 
             return actualValue.ToString("C", this.numberFormatInfo);
         }
+
+        public bool TryParse(string s, int fractionTraded, out long result)
+        {
+            result = 0;
+
+            decimal actualValue;
+            if (!decimal.TryParse(s, NumberStyles.Currency, this.numberFormatInfo, out actualValue))
+            {
+                return false;
+            }
+
+            var value = actualValue * fractionTraded;
+            if (value != decimal.Truncate(value))
+            {
+                return false;
+            }
+
+            result = (long)value;
+            return true;
+        }
     }
 }
