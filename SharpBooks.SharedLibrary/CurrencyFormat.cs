@@ -125,6 +125,11 @@ namespace SharpBooks
                 CurrencyPositivePattern = positivePatternMapping[this.positiveFormat],
                 CurrencyNegativePattern = negativePatternMapping[Tuple.Create(this.positiveFormat, this.negativeFormat)],
                 CurrencySymbol = this.currencySymbol,
+
+                NumberDecimalDigits = this.DecimalDigits,
+                NumberDecimalSeparator = this.decimalSeparator,
+                NumberGroupSeparator = this.groupSeparator,
+                NumberGroupSizes = this.groupSizes,
             };
         }
 
