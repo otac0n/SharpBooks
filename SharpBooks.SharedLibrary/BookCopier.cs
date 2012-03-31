@@ -69,7 +69,7 @@ namespace SharpBooks
                     security.SecurityType,
                     security.Name,
                     security.Symbol,
-                    security.SignFormat,
+                    security.Format,
                     security.FractionTraded);
 
                 this.destinationBook.AddSecurity(newSecurity);

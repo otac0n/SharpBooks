@@ -45,23 +45,22 @@ namespace SharpBooks
             var doc = LoadResourceDocument("ISO4217.xml");
 
             var currencies = from currency in doc.Element("Currencies").Elements("Currency")
-                             let symbol = (string)currency.Attribute("code")
+                             let code = (string)currency.Attribute("code")
                              let name = (string)currency.Attribute("name")
-                             let format = (string)currency.Attribute("format")
+                             let symbol = (string)currency.Attribute("symbol")
                              let fraction = (int)currency.Attribute("fraction")
                              orderby symbol
                              select new Security(
                                  Guid.NewGuid(),
                                  SecurityType.Currency,
                                  name,
-                                 symbol,
-                                 format,
+                                 code,
+                                 new CurrencyFormat(currencySymbol: symbol),
                                  fraction
                              );
 
             foreach (var sec in currencies)
             {
-
                 var item = new ListViewItem(new[] { sec.Symbol, sec.Name })
                 {
                     Tag = sec,

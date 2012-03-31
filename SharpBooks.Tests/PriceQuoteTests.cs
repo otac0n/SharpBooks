@@ -61,7 +61,7 @@ namespace SharpBooks.Tests
                 SecurityType.Stock,
                 "OK_NAME",
                 "OK_SYMBOL",
-                "{0} OK_FORMAT",
+                new CurrencyFormat(), // OK
                 1); // OK
 
             // Build a delegate to construct a new price quote.

@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Book>
   <Securities>
-    <Security id="af894ff7-820b-4db2-92f8-c3164156d4ca" type="Currency" name="United States dollar" symbol="USD" signFormat="{0:\$#,##0.00#;(\$#,##0.00#)}" fractionTraded="1000" />
+    <Security id="af894ff7-820b-4db2-92f8-c3164156d4ca" type="Currency" name="United States dollar" symbol="USD" fractionTraded="1000">
+      <Format symbol="$" decimalDigits="2" decimalSeparator="." groupSeparator="," groupSizes="3" positiveFormat="Prefix" negativeFormat="Parenthesis" />
+    </Security>
   </Securities>
   <Accounts>
     <Account id="e85eb893-b865-4c73-8a5c-873d1927736b" type="Grouping" securityId="af894ff7-820b-4db2-92f8-c3164156d4ca" name="Assets" smallestFraction="100" />

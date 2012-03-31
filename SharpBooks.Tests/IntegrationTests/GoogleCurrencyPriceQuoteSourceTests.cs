@@ -26,7 +26,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "United States dollar",
                 "USD",
-                "{0:$#,##0.00#;($#,##0.00#);-$0-}",
+                new CurrencyFormat(currencySymbol: "$"),
                 1000);
 
             var euro = new Security(
@@ -34,7 +34,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Euro",
                 "EUR",
-                "{0:€#,##0.00;(€#,##0.00);-€0-}",
+                new CurrencyFormat(currencySymbol: "€"),
                 100);
 
             var aud = new Security(
@@ -42,7 +42,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Australian dollar",
                 "AUD",
-                "{0:$#,##0.00;($#,##0.00);-$0-}",
+                new CurrencyFormat(currencySymbol: "$"),
                 100);
 
             var nzd = new Security(
@@ -50,7 +50,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "New Zealand dollar",
                 "NZD",
-                "{0:$#,##0.00;($#,##0.00);-$0-}",
+                new CurrencyFormat(currencySymbol: "$"),
                 100);
 
             var pound = new Security(
@@ -58,7 +58,7 @@ namespace SharpBooks.Tests.IntegrationTests
                 SecurityType.Currency,
                 "Pound sterling",
                 "GBP",
-                "{0:£#,##0.00;(£#,##0.00);-£0-}",
+                new CurrencyFormat(currencySymbol: "£"),
                 100);
 
             this.securities.Add(euro.Symbol, euro);

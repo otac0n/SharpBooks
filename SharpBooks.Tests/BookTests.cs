@@ -121,7 +121,7 @@ namespace SharpBooks.Tests
                 TestUtils.TestCurrency.SecurityType,
                 "Duplicate",
                 TestUtils.TestCurrency.Symbol,
-                "{0}",
+                new CurrencyFormat(), // OK
                 1);
 
             // Assert that trying to add a security that has the same type and symbol of another security throws an InvalidOperationException.
@@ -143,7 +143,7 @@ namespace SharpBooks.Tests
                 SecurityType.Stock,
                 "Duplicate",
                 "DIFFERENT_SYMBOL",
-                "{0}",
+                new CurrencyFormat(), // OK
                 1);
 
             // Assert that trying to add a security that has the same SecurityId of another security throws an InvalidOperationException.
@@ -263,7 +263,7 @@ namespace SharpBooks.Tests
 
             book.AddAccount(account);
 
-            // Create a transaction that uses this split, but not as the 
+            // Create a transaction that uses this split, but not as the
             var transaction = new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
             using (var tLock = transaction.Lock())
             {

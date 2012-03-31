@@ -25,7 +25,7 @@ namespace SharpBooks
             this.SecurityType = security.SecurityType;
             this.Symbol = security.Symbol;
             this.Name = security.Name;
-            this.SignFormat = security.SignFormat;
+            this.Format = security.Format;
             this.FractionTraded = security.FractionTraded;
         }
 
@@ -53,7 +53,7 @@ namespace SharpBooks
             private set;
         }
 
-        public string SignFormat
+        public CurrencyFormat Format
         {
             get;
             private set;

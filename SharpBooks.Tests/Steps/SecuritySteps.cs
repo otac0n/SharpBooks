@@ -17,7 +17,7 @@
                 securityType: SecurityType.Currency,
                 name: "Test Currency '" + name + "'",
                 symbol: "Currency - " + name,
-                signFormat: "{0}",
+                format: new CurrencyFormat(currencySymbol: name, positiveFormat: PositiveFormat.SuffixSpaced, negativeFormat: NegativeFormat.Prefix),
                 fractionTraded: 100);
 
             ScenarioContext.Current.Add(name, security);

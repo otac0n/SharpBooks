@@ -21,7 +21,7 @@ namespace SharpBooks.Tests
             SecurityType.Currency,
             "No Currency",
             "XXX",
-            "{0}",
+            new CurrencyFormat(),
             1);
 
         [Test]

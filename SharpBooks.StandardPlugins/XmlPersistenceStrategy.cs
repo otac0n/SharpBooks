@@ -1,9 +1,9 @@
 ﻿namespace SharpBooks.StandardPlugins
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
-    using System.Collections.Generic;
 
     public class XmlPersistenceStrategy : FilePersistenceStrategy
     {
@@ -23,14 +23,23 @@
 
             foreach (var s in doc.Element("Book").Element("Securities").Elements("Security"))
             {
+                var f = s.Element("Format");
+                var decimalDigits = (int)f.Attribute("decimalDigits");
+                var decimalSeparator = (string)f.Attribute("decimalSeparator");
+                var groupSeparator = (string)f.Attribute("groupSeparator");
+                var groupSizes = ((string)f.Attribute("groupSizes")).Split(',').Select(g => int.Parse(g.Trim()));
+                var positiveFormat = (PositiveFormat)Enum.Parse(typeof(PositiveFormat), (string)f.Attribute("positiveFormat"));
+                var negativeFormat = (NegativeFormat)Enum.Parse(typeof(NegativeFormat), (string)f.Attribute("negativeFormat"));
+                var currencySymbol = (string)f.Attribute("symbol");
+                var format = new CurrencyFormat(decimalDigits, decimalSeparator, groupSeparator, groupSizes, currencySymbol, positiveFormat, negativeFormat);
+
                 var securityId = (Guid)s.Attribute("id");
                 var securityType = (SecurityType)Enum.Parse(typeof(SecurityType), (string)s.Attribute("type"));
                 var name = (string)s.Attribute("name");
                 var symbol = (string)s.Attribute("symbol");
-                var signFormat = (string)s.Attribute("signFormat");
                 var fractionTraded = (int)s.Attribute("fractionTraded");
 
-                var security = new Security(securityId, securityType, name, symbol, signFormat, fractionTraded);
+                var security = new Security(securityId, securityType, name, symbol, format, fractionTraded);
                 securities.Add(security.SecurityId, security);
                 book.AddSecurity(security);
             }
@@ -141,8 +150,16 @@
                             new XAttribute("type", s.SecurityType),
                             new XAttribute("name", s.Name),
                             new XAttribute("symbol", s.Symbol),
-                            new XAttribute("signFormat", s.SignFormat),
-                            new XAttribute("fractionTraded", s.FractionTraded)
+                            new XAttribute("fractionTraded", s.FractionTraded),
+                            new XElement("Format",
+                                new XAttribute("decimalDigits", s.Format.DecimalDigits),
+                                new XAttribute("decimalSeparator", s.Format.DecimalSeparator),
+                                new XAttribute("groupSeparator", s.Format.GroupSeparator),
+                                new XAttribute("groupSizes", string.Join(",", s.Format.GroupSizes)),
+                                new XAttribute("negativeFormat", s.Format.NegativeFormat),
+                                new XAttribute("positiveFormat", s.Format.PositiveFormat),
+                                new XAttribute("symbol", s.Format.Symbol)
+                            )
                         )
                     ),
                     new XElement("Accounts",

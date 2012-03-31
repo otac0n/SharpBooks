@@ -20,7 +20,7 @@ namespace SharpBooks.Tests
             SecurityType.Currency,
             "Test Currency",
             "XTS",
-            "{0}",
+            new CurrencyFormat(),
             1000);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace SharpBooks.Tests
             SecurityType.Currency,
             "Test Stock",
             "GOOG",
-            "{0} GOOG",
+            new CurrencyFormat(currencySymbol: "GOOG", positiveFormat: PositiveFormat.SuffixSpaced, negativeFormat: NegativeFormat.Prefix),
             1000);
 
         public static Transaction CreateEmptyTransaction()

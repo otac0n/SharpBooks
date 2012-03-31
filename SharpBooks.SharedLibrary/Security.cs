@@ -14,7 +14,7 @@ namespace SharpBooks
     [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "'Security' is a standard term for the financial instrument represented by this class.")]
     public sealed class Security
     {
-        public Security(Guid securityId, SecurityType securityType, string name, string symbol, string signFormat, int fractionTraded)
+        public Security(Guid securityId, SecurityType securityType, string name, string symbol, CurrencyFormat format, int fractionTraded)
         {
             if (securityId == Guid.Empty)
             {
@@ -31,26 +31,21 @@ namespace SharpBooks
                 throw new ArgumentNullException("symbol");
             }
 
-            if (string.IsNullOrEmpty(signFormat))
+            if (format == null)
             {
                 throw new ArgumentNullException("signFormat");
             }
 
-            if (!ValidateSignFormat(signFormat))
-            {
-                throw new ArgumentException("The sign format of a security must include the dollar amount (i.e. '{0}')  as part of the format string.", "signFormat");
-            }
-
             if (fractionTraded <= 0)
             {
-                throw new ArgumentOutOfRangeException("fractionTraded", "The fraction traded must be greateder than or equal to one.");
+                throw new ArgumentOutOfRangeException("fractionTraded", "The fraction traded must be greater than or equal to one.");
             }
 
             this.SecurityId = securityId;
             this.SecurityType = securityType;
             this.Name = name;
             this.Symbol = symbol;
-            this.SignFormat = signFormat;
+            this.Format = format;
             this.FractionTraded = fractionTraded;
         }
 
@@ -78,7 +73,7 @@ namespace SharpBooks
             private set;
         }
 
-        public string SignFormat
+        public CurrencyFormat Format
         {
             get;
             private set;
@@ -92,32 +87,7 @@ namespace SharpBooks
 
         public string FormatValue(long value)
         {
-            decimal acutalValue = (decimal)value / (decimal)this.FractionTraded;
-
-            return string.Format(CultureInfo.InvariantCulture, this.SignFormat, acutalValue);
-        }
-
-        private static bool ValidateSignFormat(string signFormat)
-        {
-            if (string.IsNullOrEmpty(signFormat) ||
-                !signFormat.Contains("{") ||
-                signFormat.Contains("{{"))
-            {
-                return false;
-            }
-
-            string result;
-
-            try
-            {
-                result = string.Format(CultureInfo.InvariantCulture, signFormat, (decimal)1);
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-
-            return !string.IsNullOrEmpty(result);
+            return this.Format.Format(value, this.FractionTraded);
         }
     }
 }
