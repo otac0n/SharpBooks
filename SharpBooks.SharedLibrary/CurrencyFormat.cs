@@ -178,6 +178,10 @@ namespace SharpBooks
         public bool TryParse(string s, int fractionTraded, out long result)
         {
             result = 0;
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return true;
+            }
 
             decimal actualValue;
             if (!decimal.TryParse(s, NumberStyles.Currency, this.numberFormatInfo, out actualValue))

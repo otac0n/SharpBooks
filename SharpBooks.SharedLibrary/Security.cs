@@ -94,5 +94,16 @@ namespace SharpBooks
         {
             return this.Format.TryParse(s, this.FractionTraded, out result);
         }
+
+        public long ParseValue(string s)
+        {
+            long amount;
+            if (!this.TryParseValue(s, out amount))
+            {
+                throw new FormatException("The value was not in an acceptable format.");
+            }
+
+            return amount;
+        }
     }
 }
