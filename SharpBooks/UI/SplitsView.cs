@@ -83,6 +83,21 @@ namespace SharpBooks.UI
             }
         }
 
+        public Split SelectedSplit
+        {
+            get
+            {
+                if (this.selectedIndex == -1)
+                {
+                    return null;
+                }
+                else
+                {
+                    return this.splits[this.selectedIndex];
+                }
+            }
+        }
+
         public Size ScrollSize
         {
             get
