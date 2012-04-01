@@ -172,7 +172,24 @@ namespace SharpBooks
         {
             decimal actualValue = (decimal)value / (decimal)fractionTraded;
 
-            return actualValue.ToString("C", this.numberFormatInfo);
+            int count = CountDecimalDigits(actualValue);
+            count = Math.Max(
+                this.numberFormatInfo.CurrencyDecimalDigits,
+                count);
+
+            return actualValue.ToString("C" + count, this.numberFormatInfo);
+        }
+
+        private static int CountDecimalDigits(decimal value)
+        {
+            int count = 0;
+            while (decimal.Truncate(value) != value)
+            {
+                value *= 10;
+                count++;
+            }
+
+            return count;
         }
 
         public bool TryParse(string s, int fractionTraded, out long result)
