@@ -176,6 +176,7 @@
             this.accountTree.Size = new System.Drawing.Size(770, 356);
             this.accountTree.TabIndex = 1;
             this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
+            this.accountTree.NewAccountRequested += new System.EventHandler<SharpBooks.Plugins.NewAccountRequestedEventArgs>(this.AccountTree_NewAccountRequested);
             // 
             // accountImages
             // 

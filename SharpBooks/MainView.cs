@@ -1,6 +1,6 @@
 ﻿﻿//-----------------------------------------------------------------------
 // <copyright file="MainView.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -31,6 +31,7 @@ namespace SharpBooks
         }
 
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
+
         public event EventHandler<EventArgs> AccountDeselected;
 
         private void New_Click(object sender, EventArgs e)
@@ -96,6 +97,11 @@ namespace SharpBooks
         private void AccountTree_AccountSelected(object sender, AccountSelectedEventArgs e)
         {
             this.AccountSelected.SafeInvoke(this, () => e);
+        }
+
+        private void AccountTree_NewAccountRequested(object sender, NewAccountRequestedEventArgs e)
+        {
+            this.owner.NewAccount(e.ParentAccountId);
         }
     }
 }

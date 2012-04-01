@@ -29,6 +29,8 @@ namespace SharpBooks.UI
 
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
 
+        public event EventHandler<NewAccountRequestedEventArgs> NewAccountRequested;
+
         [Browsable(false)]
         public ReadOnlyBook Book
         {
@@ -140,6 +142,13 @@ namespace SharpBooks.UI
             var account = (Account)this.tree.SelectedNode.Tag;
 
             this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+        }
+
+        private void newAccount_Click(object sender, EventArgs e)
+        {
+            var parentAccount = (Account)this.tree.SelectedNode.Tag;
+
+            this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="AccountSelectedEventArgs.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -11,10 +11,6 @@ namespace SharpBooks.Plugins
 
     public class AccountSelectedEventArgs : EventArgs
     {
-        public Guid AccountId
-        {
-            get;
-            set;
-        }
+        public Guid AccountId { get; set; }
     }
 }

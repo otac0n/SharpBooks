@@ -30,11 +30,20 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem newAccountToolStripMenuItem;
             this.tree = new System.Windows.Forms.TreeView();
             this.nodeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            newAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nodeContextMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
             // 
             // tree
             // 
@@ -55,16 +64,17 @@
             // nodeContextMenu
             // 
             this.nodeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            openToolStripMenuItem});
+            openToolStripMenuItem,
+            newAccountToolStripMenuItem});
             this.nodeContextMenu.Name = "nodeContextMenu";
-            this.nodeContextMenu.Size = new System.Drawing.Size(153, 48);
+            this.nodeContextMenu.Size = new System.Drawing.Size(153, 70);
             // 
-            // openToolStripMenuItem
+            // newAccountToolStripMenuItem
             // 
-            openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            openToolStripMenuItem.Text = "Open";
-            openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
+            newAccountToolStripMenuItem.Name = "newAccountToolStripMenuItem";
+            newAccountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            newAccountToolStripMenuItem.Text = "New Account";
+            newAccountToolStripMenuItem.Click += new System.EventHandler(this.newAccount_Click);
             // 
             // AccountTree
             // 

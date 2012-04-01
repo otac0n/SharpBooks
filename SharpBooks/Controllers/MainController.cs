@@ -9,14 +9,14 @@ namespace SharpBooks.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Windows.Forms;
     using Newtonsoft.Json;
+    using SharpBooks.Persistence;
     using SharpBooks.Plugins;
     using SharpBooks.StandardPlugins;
-    using System.Windows.Forms;
-    using System.IO;
-    using SharpBooks.Persistence;
 
     public class MainController
     {
@@ -410,6 +410,10 @@ namespace SharpBooks.Controllers
                     }
                 }
             }
+        }
+
+        public void NewAccount(Guid? parentAccountId)
+        {
         }
     }
 }
