@@ -170,16 +170,9 @@
             // 
             this.accountTree.Book = null;
             this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountTree.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.accountTree.FullRowSelect = true;
-            this.accountTree.HideSelection = false;
-            this.accountTree.ImageIndex = 0;
             this.accountTree.ImageList = this.accountImages;
-            this.accountTree.ItemHeight = 24;
             this.accountTree.Location = new System.Drawing.Point(3, 3);
             this.accountTree.Name = "accountTree";
-            this.accountTree.SelectedImageIndex = 0;
-            this.accountTree.ShowLines = false;
             this.accountTree.Size = new System.Drawing.Size(770, 356);
             this.accountTree.TabIndex = 1;
             this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);

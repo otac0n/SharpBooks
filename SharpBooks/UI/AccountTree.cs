@@ -1,6 +1,6 @@
-﻿﻿//-----------------------------------------------------------------------
+﻿﻿﻿//-----------------------------------------------------------------------
 // <copyright file="AccountTree.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -10,14 +10,13 @@ namespace SharpBooks.UI
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
     using SharpBooks.Plugins;
 
-    public class AccountTree : TreeView
+    public partial class AccountTree : UserControl
     {
         private readonly Dictionary<Account, TreeNode> nodeLookup = new Dictionary<Account, TreeNode>();
 
@@ -25,8 +24,7 @@ namespace SharpBooks.UI
 
         public AccountTree()
         {
-            this.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            this.NodeMouseDoubleClick += AccountTree_NodeMouseDoubleClick;
+            InitializeComponent();
         }
 
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
@@ -40,7 +38,7 @@ namespace SharpBooks.UI
             {
                 if (this.book != value)
                 {
-                    this.Nodes.Clear();
+                    this.tree.Nodes.Clear();
                     this.nodeLookup.Clear();
 
                     this.book = value;
@@ -49,13 +47,19 @@ namespace SharpBooks.UI
             }
         }
 
+        public ImageList ImageList
+        {
+            get { return this.tree.ImageList; }
+            set { this.tree.ImageList = value; }
+        }
+
         private void InitializeBook()
         {
             if (this.book != null)
             {
                 var accounts = this.book.Accounts.ToLookup(a => a.ParentAccount);
 
-                this.Nodes.AddRange(BuildTreeNodes(null, accounts));
+                this.tree.Nodes.AddRange(BuildTreeNodes(null, accounts));
             }
         }
 
@@ -80,7 +84,7 @@ namespace SharpBooks.UI
             return nodes.ToArray();
         }
 
-        protected override void OnDrawNode(DrawTreeNodeEventArgs e)
+        private void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             var g = e.Graphics;
             var node = e.Node;
@@ -95,11 +99,11 @@ namespace SharpBooks.UI
             var font = (node.NodeFont != null) ? node.NodeFont : node.TreeView.Font;
 
             var textSize = TextRenderer.MeasureText(amountText, font);
-            var amountBounds = new Rectangle(this.ClientSize.Width - textSize.Width, bounds.Top, textSize.Width, bounds.Height);
+            var amountBounds = new Rectangle(this.tree.ClientSize.Width - textSize.Width, bounds.Top, textSize.Width, bounds.Height);
 
-            using (var backBrush = new SolidBrush(this.BackColor))
+            using (var backBrush = new SolidBrush(this.tree.BackColor))
             {
-                var foreColor = (node.ForeColor != Color.Empty) ? node.ForeColor : this.ForeColor;
+                var foreColor = (node.ForeColor != Color.Empty) ? node.ForeColor : this.tree.ForeColor;
 
                 var background = isFocused && thisFocused ? SystemBrushes.Highlight : backBrush;
                 var foreground = isFocused && thisFocused ? SystemColors.HighlightText : foreColor;
@@ -112,7 +116,7 @@ namespace SharpBooks.UI
             }
         }
 
-        void AccountTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {

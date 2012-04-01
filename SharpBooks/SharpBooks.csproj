@@ -70,7 +70,10 @@
       <DependentUpon>AccountRegister.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AccountTree.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\AccountTree.Designer.cs">
+      <DependentUpon>AccountTree.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="FormsHelpers.cs" />
@@ -140,6 +143,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AccountTree.resx">
+      <DependentUpon>AccountTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\HeaderControl.resx">
       <DependentUpon>HeaderControl.cs</DependentUpon>
