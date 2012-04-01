@@ -125,5 +125,21 @@ namespace SharpBooks.UI
                 this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
             }
         }
+
+        private void tree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.tree.SelectedNode = e.Node;
+                this.nodeContextMenu.Show(this.tree.PointToScreen(e.Location));
+            }
+        }
+
+        private void open_Click(object sender, EventArgs e)
+        {
+            var account = (Account)this.tree.SelectedNode.Tag;
+
+            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+        }
     }
 }
