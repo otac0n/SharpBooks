@@ -108,6 +108,16 @@ namespace SharpBooks
                 throw new ArgumentNullException("symbol");
             }
 
+            if (!Enum.GetValues(typeof(PositiveFormat)).Cast<PositiveFormat>().Contains(positiveFormat))
+            {
+                throw new ArgumentOutOfRangeException("positiveFormat");
+            }
+
+            if (!Enum.GetValues(typeof(NegativeFormat)).Cast<NegativeFormat>().Contains(negativeFormat))
+            {
+                throw new ArgumentOutOfRangeException("negativeFormat");
+            }
+
             this.decimalDigits = decimalDigits;
             this.decimalSeparator = decimalSeparator;
             this.groupSeparator = groupSeparator;
