@@ -414,6 +414,25 @@ namespace SharpBooks.Controllers
 
         public void NewAccount(Guid? parentAccountId)
         {
+            var parent = parentAccountId.HasValue ? this.book.Accounts.Where(a => a.AccountId == parentAccountId.Value).Single() : null;
+            var newAccount = new Account(
+                Guid.NewGuid(),
+                AccountType.Balance,
+                parent == null ? null : parent.Security,
+                parent,
+                "New Account",
+                parent == null ? null : parent.SmallestFraction);
+
+            using (var editor = new EditAccountView(this, newAccount))
+            {
+                var result = editor.ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                // TODO: Add the account.
+            }
         }
     }
 }
