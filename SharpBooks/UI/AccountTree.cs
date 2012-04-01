@@ -10,11 +10,11 @@ namespace SharpBooks.UI
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
-    using System.Diagnostics;
     using SharpBooks.Plugins;
 
     public class AccountTree : TreeView
@@ -114,9 +114,12 @@ namespace SharpBooks.UI
 
         void AccountTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var account = (Account)e.Node.Tag;
+            if (e.Button == MouseButtons.Left)
+            {
+                var account = (Account)e.Node.Tag;
 
-            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+            }
         }
     }
 }
