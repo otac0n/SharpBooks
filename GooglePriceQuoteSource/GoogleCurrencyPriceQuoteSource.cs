@@ -8,10 +8,11 @@
 namespace GooglePriceQuoteSource
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Net;
     using System.Text.RegularExpressions;
-    using Newtonsoft.Json;
     using SharpBooks;
 
     /// <summary>
@@ -19,7 +20,7 @@ namespace GooglePriceQuoteSource
     /// </summary>
     public class GoogleCurrencyPriceQuoteSource : IPriceQuoteSource
     {
-        private const string UrlFormat = "http://www.google.com/ig/calculator?hl=en&q=1+{0}+in+{1}";
+        private const string UrlFormat = "https://www.google.com/finance/getprices?q={0}{1}&x=CURRENCY&i=1&p=1d";
 
         /// <summary>
         /// Retrieves a price quote from Google™ Calculator.
@@ -61,19 +62,17 @@ namespace GooglePriceQuoteSource
                 throw BuildError(security.Symbol + currency.Symbol, "Check the inner exception for details.", ex);
             }
 
-            var result = JsonConvert.DeserializeObject<CalculatorResult>(data);
-
-            if (!string.IsNullOrEmpty(result.err))
-            {
-                throw BuildError(security.Symbol + currency.Symbol, "Google™ calculator returned the following error: Invalid calculator expression (" + result.err + ")");
-            }
-
-            var match = Regex.Match(result.rhs, @"^\d+\.\d+");
+            DateTimeOffset date;
             decimal price;
-
-            if (!match.Success || !decimal.TryParse(match.Value, out price))
+            try
             {
-                throw BuildError(security.Symbol + currency.Symbol, "The data returned was not in a recognized format.");
+                var result = Parse(data).Last();
+                date = result.Item1;
+                price = result.Item2;
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw BuildError(security.Symbol + currency.Symbol, "Check the inner exception for details.", ex);
             }
 
             checked
@@ -95,7 +94,67 @@ namespace GooglePriceQuoteSource
                 quantity /= gcd;
                 longPrice /= gcd;
 
-                return new PriceQuote(Guid.NewGuid(), DateTime.UtcNow, security, quantity, currency, longPrice, "Google™ Calculator");
+                return new PriceQuote(Guid.NewGuid(), date.UtcDateTime, security, quantity, currency, longPrice, "Google™ Calculator");
+            }
+        }
+
+        public static IEnumerable<Tuple<DateTimeOffset, decimal>> Parse(string data)
+        {
+            var lines = data.Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            var headers = new Dictionary<string, string>();
+
+            int i;
+            for (i = 0; i < lines.Length; i++)
+            {
+                int width = 1;
+                var index = lines[i].IndexOf("=");
+                if (index == -1)
+                {
+                    width = 3;
+                    index = lines[i].IndexOf("%3D");
+                }
+
+                if (index == -1)
+                {
+                    break;
+                }
+
+                headers.Add(lines[i].Substring(0, index), lines[i].Substring(index + width));
+            }
+
+            var columns = headers["COLUMNS"]
+                .Split(',')
+                .Select((col, ix) => new { col, ix })
+                .ToDictionary(e => e.col, e => e.ix);
+
+            var interval = int.Parse(headers["INTERVAL"]);
+            var tz = int.Parse(headers["TIMEZONE_OFFSET"]);
+            var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromMinutes(tz));
+
+            var reference = epoch;
+            for (; i < lines.Length; i++)
+            {
+                var cols = lines[i].Split(',');
+
+                var dateStr = cols[columns["DATE"]];
+                var closeStr = cols[columns["CLOSE"]];
+
+                int offset;
+                if (dateStr.StartsWith("a"))
+                {
+                    reference = epoch.AddSeconds(int.Parse(dateStr.Substring(1)));
+                    offset = 0;
+                }
+                else
+                {
+                    offset = int.Parse(dateStr);
+                }
+
+                var date = reference.AddSeconds(offset * interval);
+                var close = decimal.Parse(closeStr);
+
+                yield return Tuple.Create(date, close);
             }
         }
 
@@ -114,52 +173,6 @@ namespace GooglePriceQuoteSource
         private static Exception BuildError(string symbol, string error, Exception innerException)
         {
             return new PriceRetrievalFailureException("Could not download the Google™ price data for the symbol '" + symbol + "'.  " + error, innerException);
-        }
-
-        /// <summary>
-        /// Encapsulates a result from Google™ Calculator.
-        /// </summary>
-        private class CalculatorResult
-        {
-            /// <summary>
-            /// Gets or sets the left-hand-side of the equation.
-            /// </summary>
-            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
-            public string lhs
-            {
-                get;
-                set;
-            }
-
-            /// <summary>
-            /// Gets or sets the right-hand-side of the equation.
-            /// </summary>
-            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
-            public string rhs
-            {
-                get;
-                set;
-            }
-
-            /// <summary>
-            /// Gets or sets the error result from the query.
-            /// </summary>
-            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
-            public string err
-            {
-                get;
-                set;
-            }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether this result code is unknown.
-            /// </summary>
-            [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Necessary for JSON deserialization.")]
-            public bool icc
-            {
-                get;
-                set;
-            }
         }
     }
 }

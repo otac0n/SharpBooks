@@ -76,7 +76,7 @@ namespace SharpBooks.Tests
             Debug.Write(" = ");
             Debug.Write(quote.Currency.FormatValue(quote.Price));
             Debug.Write(" @ ");
-            Debug.WriteLine(quote.DateTime);
+            Debug.WriteLine(quote.DateTime.ToString("O"));
         }
 
         public static PriceQuote CreateValidPriceQuote()
