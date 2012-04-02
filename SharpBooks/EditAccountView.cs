@@ -106,7 +106,42 @@ namespace SharpBooks
                 security,
                 this.originalAccount.ParentAccount,
                 this.nameTextBox.Text,
-                security != null ? (int)security.ParseValue(this.fractionTextBox.Text) : (int?)null);
+                security != null ? (int)(security.FractionTraded / security.ParseValue(this.fractionTextBox.Text)) : (int?)null);
+        }
+
+        private void nameTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+            this.errorProvider.SetError(box, null);
+
+            if (string.IsNullOrEmpty(box.Text))
+            {
+                this.errorProvider.SetError(box, "You must specify an account name.");
+                e.Cancel = true;
+            }
+        }
+
+        private void fractionTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+            this.errorProvider.SetError(box, null);
+
+            var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
+            long fraction;
+            if (!security.TryParseValue(box.Text, out fraction))
+            {
+                this.errorProvider.SetError(box, "You must enter a valid value.");
+                e.Cancel = true;
+            }
+            else if (fraction <= 0)
+            {
+                this.errorProvider.SetError(box, "You must enter a value greater than zero.");
+                e.Cancel = true;
+            }
+            else
+            {
+                box.Text = security.FormatValue(fraction);
+            }
         }
     }
 }

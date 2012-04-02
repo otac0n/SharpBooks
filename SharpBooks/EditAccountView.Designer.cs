@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label nameLabel;
             System.Windows.Forms.Label typeLabel;
             System.Windows.Forms.Label currencyLabel;
@@ -40,11 +41,13 @@
             this.securityComboBox = new System.Windows.Forms.ComboBox();
             this.fractionTextBox = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             nameLabel = new System.Windows.Forms.Label();
             typeLabel = new System.Windows.Forms.Label();
             currencyLabel = new System.Windows.Forms.Label();
             fractionLabel = new System.Windows.Forms.Label();
             cancelButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -87,7 +90,7 @@
             // 
             cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Location = new System.Drawing.Point(248, 198);
+            cancelButton.Location = new System.Drawing.Point(236, 198);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new System.Drawing.Size(75, 23);
             cancelButton.TabIndex = 11;
@@ -132,8 +135,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Location = new System.Drawing.Point(119, 54);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(204, 20);
+            this.nameTextBox.Size = new System.Drawing.Size(192, 20);
             this.nameTextBox.TabIndex = 2;
+            this.nameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.nameTextBox_Validating);
             // 
             // securityComboBox
             // 
@@ -143,7 +147,7 @@
             this.securityComboBox.FormattingEnabled = true;
             this.securityComboBox.Location = new System.Drawing.Point(119, 126);
             this.securityComboBox.Name = "securityComboBox";
-            this.securityComboBox.Size = new System.Drawing.Size(204, 21);
+            this.securityComboBox.Size = new System.Drawing.Size(192, 21);
             this.securityComboBox.TabIndex = 7;
             this.securityComboBox.SelectedValueChanged += new System.EventHandler(this.securityComboBox_SelectedValueChanged);
             // 
@@ -153,20 +157,25 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fractionTextBox.Location = new System.Drawing.Point(119, 153);
             this.fractionTextBox.Name = "fractionTextBox";
-            this.fractionTextBox.Size = new System.Drawing.Size(204, 20);
+            this.fractionTextBox.Size = new System.Drawing.Size(192, 20);
             this.fractionTextBox.TabIndex = 9;
+            this.fractionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.fractionTextBox_Validating);
             // 
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(167, 198);
+            this.okButton.Location = new System.Drawing.Point(155, 198);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 10;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // EditAccountView
             // 
@@ -187,6 +196,7 @@
             this.Controls.Add(this.titleLabel);
             this.Name = "EditAccountView";
             this.Text = "New Account";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,5 +211,6 @@
         private System.Windows.Forms.TextBox fractionTextBox;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
