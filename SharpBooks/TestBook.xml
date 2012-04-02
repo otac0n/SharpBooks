@@ -2,7 +2,7 @@
 <Book>
   <Securities>
     <Security id="af894ff7-820b-4db2-92f8-c3164156d4ca" type="Currency" name="United States dollar" symbol="USD" fractionTraded="1000">
-      <Format symbol="$" decimalDigits="2" decimalSeparator="." groupSeparator="," groupSizes="3" positiveFormat="Prefix" negativeFormat="Parenthesis" />
+      <Format symbol="$" decimalDigits="2" decimalSeparator="." groupSeparator="," groupSizes="3" positiveFormat="Prefix" negativeFormat="Parentheses" />
     </Security>
   </Securities>
   <Accounts>
