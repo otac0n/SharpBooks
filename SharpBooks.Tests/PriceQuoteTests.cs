@@ -25,7 +25,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 null,
                 1, // OK
                 TestUtils.TestCurrency, // OK
@@ -42,7 +42,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 null,
@@ -67,7 +67,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 invalidCurrency,
@@ -84,7 +84,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestCurrency,
                 1, // OK
                 TestUtils.TestCurrency,
@@ -103,7 +103,7 @@ namespace SharpBooks.Tests
             // Build a test delegate to construct the PriceQuote.
             TestDelegate buildQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 quantity,
                 TestUtils.TestCurrency, // OK
@@ -120,7 +120,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 TestUtils.TestCurrency, // OK
@@ -137,7 +137,7 @@ namespace SharpBooks.Tests
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 TestUtils.TestCurrency, // OK
@@ -153,7 +153,7 @@ namespace SharpBooks.Tests
         {
             new PriceQuote(
                 Guid.NewGuid(), // OK
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 TestUtils.TestCurrency, // OK
@@ -165,12 +165,30 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        [TestCase(DateTimeKind.Local)]
+        [TestCase(DateTimeKind.Unspecified)]
+        public void Constructor_WithNonUTCDate_ThrowsException(DateTimeKind kind)
+        {
+            Assert.That(() =>
+            {
+                var ignore = new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, kind), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    TestUtils.TestCurrency, // OK
+                    1, // OK
+                    "OK_SOURCE");
+            }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
         public void Constructor_WhenPriceQuoteIdIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
             TestDelegate constructPriceQuote = () => new PriceQuote(
                 Guid.Empty,
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 TestUtils.TestCurrency, // OK

@@ -21,6 +21,11 @@ namespace SharpBooks
                 throw new ArgumentOutOfRangeException("priceQuoteId");
             }
 
+            if (dateTime.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentOutOfRangeException("dateTime");
+            }
+
             if (security == null)
             {
                 throw new ArgumentNullException("security");

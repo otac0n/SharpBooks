@@ -44,6 +44,7 @@ namespace SharpBooks
 
             this.BaseSecurity = baseSecurity;
             this.TransactionId = transactionId;
+            this.Date = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
         }
 
         /// <summary>
@@ -183,6 +184,11 @@ namespace SharpBooks
         /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
         public void SetDate(DateTime date, TransactionLock transactionLock)
         {
+            if (date.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentOutOfRangeException("date");
+            }
+
             lock (this.lockMutex)
             {
                 this.ValidateLock(transactionLock);

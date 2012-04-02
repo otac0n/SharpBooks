@@ -81,10 +81,10 @@
                 var transaction = new Transaction(transactionId, security);
                 using (var tlock = transaction.Lock())
                 {
+                    transaction.SetDate(date, tlock);
+
                     foreach (var s in t.Elements("Split"))
                     {
-                        transaction.SetDate(date, tlock);
-
                         var split = transaction.AddSplit(tlock);
 
                         var accountId = (Guid)s.Attribute("accountId");

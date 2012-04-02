@@ -499,10 +499,35 @@ namespace SharpBooks.Tests
                 split.SetSecurity(account.Security, transactionLock);
 
                 // Set the date of the split.
-                split.SetDateCleared(DateTime.MaxValue, transactionLock);
+                split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), transactionLock);
 
                 // Assert that the DateCleared property reflects the new value.
                 Assert.That(split.DateCleared, Is.EqualTo(DateTime.MaxValue));
+            }
+        }
+
+        [Test]
+        [TestCase(DateTimeKind.Local)]
+        [TestCase(DateTimeKind.Unspecified)]
+        public void SetDateCleared_WithNonUTCDate_ThrowsException(DateTimeKind kind)
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            Split split;
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                // Add a split to the transaction.
+                split = transaction.AddSplit(transactionLock);
+                split.SetAccount(account, transactionLock);
+                split.SetSecurity(account.Security, transactionLock);
+
+                Assert.That(() => split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, kind), transactionLock), Throws.InstanceOf<ArgumentOutOfRangeException>());
             }
         }
 
@@ -527,7 +552,7 @@ namespace SharpBooks.Tests
             }
 
             // Assert that the split will not allow modification without a lock.
-            Assert.That(() => split.SetDateCleared(DateTime.MaxValue, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -551,7 +576,7 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the split.
-                    Assert.That(() => split.SetDateCleared(DateTime.MaxValue, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
@@ -573,7 +598,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the split will not allow modification with a disposed lock.
-            Assert.That(() => split.SetDateCleared(DateTime.MaxValue, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]

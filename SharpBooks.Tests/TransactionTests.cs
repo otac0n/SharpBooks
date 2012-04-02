@@ -159,10 +159,25 @@ namespace SharpBooks.Tests
             using (var transactionLock = transaction.Lock())
             {
                 // Set the date of the transaction.
-                transaction.SetDate(DateTime.MaxValue, transactionLock);
+                transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), transactionLock);
 
                 // Assert that the Date property reflects the new value.
                 Assert.That(transaction.Date, Is.EqualTo(DateTime.MaxValue));
+            }
+        }
+
+        [Test]
+        [TestCase(DateTimeKind.Local)]
+        [TestCase(DateTimeKind.Unspecified)]
+        public void SetDate_WithNonUTCDate_ThrowsException(DateTimeKind kind)
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Lock the transaction for editing.
+            using (var transactionLock = transaction.Lock())
+            {
+                Assert.That(() => transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, kind), transactionLock), Throws.InstanceOf<ArgumentOutOfRangeException>());
             }
         }
 
@@ -173,7 +188,7 @@ namespace SharpBooks.Tests
             var transaction = TestUtils.CreateEmptyTransaction();
 
             // Assert that the transaction will not allow modification without a lock.
-            Assert.That(() => transaction.SetDate(DateTime.MaxValue, null), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), null), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -189,7 +204,7 @@ namespace SharpBooks.Tests
                 using (var lock2 = transaction2.Lock())
                 {
                     // Assert that the lock from the second transaction may not be used on the first transaction to modify the date.
-                    Assert.That(() => transaction1.SetDate(DateTime.MaxValue, lock2), Throws.InstanceOf<InvalidOperationException>());
+                    Assert.That(() => transaction1.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), lock2), Throws.InstanceOf<InvalidOperationException>());
                 }
             }
         }
@@ -205,7 +220,7 @@ namespace SharpBooks.Tests
             transactionLock.Dispose();
 
             // Assert that the transaction will not allow modification with a disposed lock.
-            Assert.That(() => transaction.SetDate(DateTime.MaxValue, transactionLock), Throws.InstanceOf<InvalidOperationException>());
+            Assert.That(() => transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc), transactionLock), Throws.InstanceOf<InvalidOperationException>());
         }
 
         [Test]
@@ -428,7 +443,7 @@ namespace SharpBooks.Tests
                 split.SetAmount(1000, transactionLock);
                 split.SetTransactionAmount(100, transactionLock);
                 split.SetIsReconciled(true, transactionLock);
-                split.SetDateCleared(DateTime.MinValue, transactionLock);
+                split.SetDateCleared(DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), transactionLock);
             }
 
             var copy = transaction.Copy();

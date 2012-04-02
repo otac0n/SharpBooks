@@ -44,7 +44,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the point in time at which the transactioin took place.
+        /// Gets the point in time at which the transaction took place.
         /// </summary>
         public DateTime Date
         {

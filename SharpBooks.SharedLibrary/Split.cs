@@ -206,6 +206,11 @@ namespace SharpBooks
 
         public void SetDateCleared(DateTime? dateCleared, TransactionLock transactionLock)
         {
+            if (dateCleared.HasValue && dateCleared.Value.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentOutOfRangeException("dateCleared");
+            }
+
             this.Transaction.EnterCriticalSection();
 
             try

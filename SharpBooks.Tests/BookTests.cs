@@ -267,8 +267,6 @@ namespace SharpBooks.Tests
             var transaction = new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
             using (var tLock = transaction.Lock())
             {
-                transaction.SetDate(DateTime.Today, tLock);
-
                 var split1 = transaction.AddSplit(tLock);
                 split1.SetAccount(account, tLock);
                 split1.SetSecurity(TestUtils.TestCurrency, tLock);
@@ -938,7 +936,7 @@ namespace SharpBooks.Tests
             // Create a new, valid price quote that has the same price quote id as the above quote.
             var priceQuote2 = new PriceQuote(
                 priceQuote1.PriceQuoteId,
-                DateTime.MinValue, // OK
+                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
                 1, // OK
                 TestUtils.TestCurrency, // OK

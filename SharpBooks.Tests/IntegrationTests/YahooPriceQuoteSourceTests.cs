@@ -111,16 +111,16 @@ namespace SharpBooks.Tests.IntegrationTests
             {
                 // Retrieve the real-world security and currency.
                 var security = this.securities[securitySymbol];
-                var usd = this.securities[currencySymbol];
+                var currency = this.securities[currencySymbol];
 
-                Assume.That(usd.SecurityType, Is.EqualTo(SecurityType.Currency));
+                Assume.That(currency.SecurityType, Is.EqualTo(SecurityType.Currency));
 
                 // Retrieve the quote.
-                var currency = source.GetPriceQuote(security, usd);
+                var quote = source.GetPriceQuote(security, currency);
 
                 // Assert that the returned quote is valid, then display the quote for the test-runner.
-                Assert.That(currency, Is.Not.Null);
-                TestUtils.DisplayQuote(currency);
+                Assert.That(quote, Is.Not.Null);
+                TestUtils.DisplayQuote(quote);
             }
         }
     }
