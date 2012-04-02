@@ -431,7 +431,7 @@ namespace SharpBooks.Controllers
                     return;
                 }
 
-                // TODO: Add the account.
+                this.book.AddAccount(editor.NewAccount);
             }
         }
     }
