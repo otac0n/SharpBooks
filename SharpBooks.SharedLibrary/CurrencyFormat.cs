@@ -23,7 +23,7 @@ namespace SharpBooks
 
     public enum NegativeFormat
     {
-        Parenthesis,
+        Parentheses,
         Prefix,
         Infix,
         Suffix,
@@ -41,19 +41,19 @@ namespace SharpBooks
 
         private static readonly Dictionary<Tuple<PositiveFormat, NegativeFormat>, int> negativePatternMapping = new Dictionary<Tuple<PositiveFormat, NegativeFormat>, int>
         {
-            { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Parenthesis), 0 },
+            { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Parentheses), 0 },
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Prefix),      1 },
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Infix),       2 },
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Suffix),      3 },
-            { Tuple.Create(PositiveFormat.Suffix,       NegativeFormat.Parenthesis), 4 },
+            { Tuple.Create(PositiveFormat.Suffix,       NegativeFormat.Parentheses), 4 },
             { Tuple.Create(PositiveFormat.Suffix,       NegativeFormat.Prefix),      5 },
             { Tuple.Create(PositiveFormat.Suffix,       NegativeFormat.Infix),       6 },
             { Tuple.Create(PositiveFormat.Suffix,       NegativeFormat.Suffix),      7 },
-            { Tuple.Create(PositiveFormat.PrefixSpaced, NegativeFormat.Parenthesis), 14 },
+            { Tuple.Create(PositiveFormat.PrefixSpaced, NegativeFormat.Parentheses), 14 },
             { Tuple.Create(PositiveFormat.PrefixSpaced, NegativeFormat.Prefix),      9 },
             { Tuple.Create(PositiveFormat.PrefixSpaced, NegativeFormat.Infix),       12 },
             { Tuple.Create(PositiveFormat.PrefixSpaced, NegativeFormat.Suffix),      11 },
-            { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Parenthesis), 15 },
+            { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Parentheses), 15 },
             { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Prefix),      8 },
             { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Infix),       13 },
             { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Suffix),      10 },
@@ -76,7 +76,7 @@ namespace SharpBooks
             IEnumerable<int> groupSizes = null,
             string currencySymbol = "",
             PositiveFormat positiveFormat = PositiveFormat.Prefix,
-            NegativeFormat negativeFormat = NegativeFormat.Parenthesis)
+            NegativeFormat negativeFormat = NegativeFormat.Parentheses)
         {
             if (decimalDigits < 0 || decimalDigits > 99)
             {
