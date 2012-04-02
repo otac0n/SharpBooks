@@ -47,6 +47,53 @@
             cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
+            // nameLabel
+            // 
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new System.Drawing.Point(12, 57);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new System.Drawing.Size(38, 13);
+            nameLabel.TabIndex = 1;
+            nameLabel.Text = "&Name:";
+            // 
+            // typeLabel
+            // 
+            typeLabel.AutoSize = true;
+            typeLabel.Location = new System.Drawing.Point(12, 82);
+            typeLabel.Name = "typeLabel";
+            typeLabel.Size = new System.Drawing.Size(77, 13);
+            typeLabel.TabIndex = 3;
+            typeLabel.Text = "Account Type:";
+            // 
+            // currencyLabel
+            // 
+            currencyLabel.AutoSize = true;
+            currencyLabel.Location = new System.Drawing.Point(12, 129);
+            currencyLabel.Name = "currencyLabel";
+            currencyLabel.Size = new System.Drawing.Size(101, 13);
+            currencyLabel.TabIndex = 6;
+            currencyLabel.Text = "Currency / &Security:";
+            // 
+            // fractionLabel
+            // 
+            fractionLabel.AutoSize = true;
+            fractionLabel.Location = new System.Drawing.Point(12, 156);
+            fractionLabel.Name = "fractionLabel";
+            fractionLabel.Size = new System.Drawing.Size(90, 13);
+            fractionLabel.TabIndex = 8;
+            fractionLabel.Text = "Smallest &Fraction:";
+            // 
+            // cancelButton
+            // 
+            cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            cancelButton.Location = new System.Drawing.Point(248, 198);
+            cancelButton.Name = "cancelButton";
+            cancelButton.Size = new System.Drawing.Size(75, 23);
+            cancelButton.TabIndex = 11;
+            cancelButton.Text = "&Cancel";
+            cancelButton.UseVisualStyleBackColor = true;
+            // 
             // titleLabel
             // 
             this.titleLabel.AutoSize = true;
@@ -88,51 +135,17 @@
             this.nameTextBox.Size = new System.Drawing.Size(204, 20);
             this.nameTextBox.TabIndex = 2;
             // 
-            // nameLabel
-            // 
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new System.Drawing.Point(12, 57);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new System.Drawing.Size(38, 13);
-            nameLabel.TabIndex = 1;
-            nameLabel.Text = "&Name:";
-            // 
-            // typeLabel
-            // 
-            typeLabel.AutoSize = true;
-            typeLabel.Location = new System.Drawing.Point(12, 82);
-            typeLabel.Name = "typeLabel";
-            typeLabel.Size = new System.Drawing.Size(77, 13);
-            typeLabel.TabIndex = 3;
-            typeLabel.Text = "Account Type:";
-            // 
             // securityComboBox
             // 
             this.securityComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.securityComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.securityComboBox.FormattingEnabled = true;
             this.securityComboBox.Location = new System.Drawing.Point(119, 126);
             this.securityComboBox.Name = "securityComboBox";
             this.securityComboBox.Size = new System.Drawing.Size(204, 21);
             this.securityComboBox.TabIndex = 7;
-            // 
-            // currencyLabel
-            // 
-            currencyLabel.AutoSize = true;
-            currencyLabel.Location = new System.Drawing.Point(12, 129);
-            currencyLabel.Name = "currencyLabel";
-            currencyLabel.Size = new System.Drawing.Size(101, 13);
-            currencyLabel.TabIndex = 6;
-            currencyLabel.Text = "Currency / &Security:";
-            // 
-            // fractionLabel
-            // 
-            fractionLabel.AutoSize = true;
-            fractionLabel.Location = new System.Drawing.Point(12, 156);
-            fractionLabel.Name = "fractionLabel";
-            fractionLabel.Size = new System.Drawing.Size(90, 13);
-            fractionLabel.TabIndex = 8;
-            fractionLabel.Text = "Smallest &Fraction:";
+            this.securityComboBox.SelectedValueChanged += new System.EventHandler(this.securityComboBox_SelectedValueChanged);
             // 
             // fractionTextBox
             // 
@@ -146,23 +159,14 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Location = new System.Drawing.Point(167, 198);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 10;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
-            // 
-            // cancelButton
-            // 
-            cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Location = new System.Drawing.Point(248, 198);
-            cancelButton.Name = "cancelButton";
-            cancelButton.Size = new System.Drawing.Size(75, 23);
-            cancelButton.TabIndex = 11;
-            cancelButton.Text = "&Cancel";
-            cancelButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // EditAccountView
             // 
