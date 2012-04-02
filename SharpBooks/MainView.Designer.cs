@@ -36,11 +36,14 @@
             System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+            System.Windows.Forms.Button returnToAccountsButton;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             this.tabView = new System.Windows.Forms.TabControl();
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
+            this.accountViewContainer = new System.Windows.Forms.Panel();
             this.accountRegister = new SharpBooks.UI.AccountRegister();
+            this.accountViewActions = new System.Windows.Forms.Panel();
             this.accountTree = new SharpBooks.UI.AccountTree();
             this.accountImages = new System.Windows.Forms.ImageList(this.components);
             this.AccountsList = new System.Windows.Forms.TreeView();
@@ -53,9 +56,12 @@
             closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            returnToAccountsButton = new System.Windows.Forms.Button();
             mainMenu.SuspendLayout();
             this.tabView.SuspendLayout();
             this.AccountsTabPage.SuspendLayout();
+            this.accountViewContainer.SuspendLayout();
+            this.accountViewActions.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -146,7 +152,7 @@
             // 
             // AccountsTabPage
             // 
-            this.AccountsTabPage.Controls.Add(this.accountRegister);
+            this.AccountsTabPage.Controls.Add(this.accountViewContainer);
             this.AccountsTabPage.Controls.Add(this.accountTree);
             this.AccountsTabPage.Controls.Add(this.AccountsList);
             this.AccountsTabPage.Location = new System.Drawing.Point(4, 22);
@@ -157,14 +163,45 @@
             this.AccountsTabPage.Text = "Accounts / Expenses";
             this.AccountsTabPage.UseVisualStyleBackColor = true;
             // 
+            // accountViewContainer
+            // 
+            this.accountViewContainer.Controls.Add(this.accountRegister);
+            this.accountViewContainer.Controls.Add(this.accountViewActions);
+            this.accountViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountViewContainer.Location = new System.Drawing.Point(3, 3);
+            this.accountViewContainer.Name = "accountViewContainer";
+            this.accountViewContainer.Size = new System.Drawing.Size(770, 356);
+            this.accountViewContainer.TabIndex = 3;
+            this.accountViewContainer.Visible = false;
+            // 
             // accountRegister
             // 
             this.accountRegister.BackColor = System.Drawing.SystemColors.Window;
             this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountRegister.Location = new System.Drawing.Point(3, 3);
+            this.accountRegister.Location = new System.Drawing.Point(0, 23);
             this.accountRegister.Name = "accountRegister";
-            this.accountRegister.Size = new System.Drawing.Size(770, 356);
-            this.accountRegister.TabIndex = 2;
+            this.accountRegister.Size = new System.Drawing.Size(770, 333);
+            this.accountRegister.TabIndex = 3;
+            // 
+            // accountViewActions
+            // 
+            this.accountViewActions.Controls.Add(returnToAccountsButton);
+            this.accountViewActions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.accountViewActions.Location = new System.Drawing.Point(0, 0);
+            this.accountViewActions.Name = "accountViewActions";
+            this.accountViewActions.Size = new System.Drawing.Size(770, 23);
+            this.accountViewActions.TabIndex = 4;
+            // 
+            // returnToAccountsButton
+            // 
+            returnToAccountsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            returnToAccountsButton.Location = new System.Drawing.Point(662, 0);
+            returnToAccountsButton.Name = "returnToAccountsButton";
+            returnToAccountsButton.Size = new System.Drawing.Size(108, 23);
+            returnToAccountsButton.TabIndex = 0;
+            returnToAccountsButton.Text = "Back to Accounts";
+            returnToAccountsButton.UseVisualStyleBackColor = true;
+            returnToAccountsButton.Click += new System.EventHandler(this.ReturnToAccounts_Click);
             // 
             // accountTree
             // 
@@ -176,7 +213,6 @@
             this.accountTree.Size = new System.Drawing.Size(770, 356);
             this.accountTree.TabIndex = 1;
             this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
-            this.accountTree.NewAccountRequested += new System.EventHandler<SharpBooks.Plugins.NewAccountRequestedEventArgs>(this.AccountTree_NewAccountRequested);
             // 
             // accountImages
             // 
@@ -226,6 +262,8 @@
             mainMenu.PerformLayout();
             this.tabView.ResumeLayout(false);
             this.AccountsTabPage.ResumeLayout(false);
+            this.accountViewContainer.ResumeLayout(false);
+            this.accountViewActions.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,7 +279,9 @@
         private System.Windows.Forms.TabPage InvestmentsTabItem;
         private SharpBooks.UI.AccountTree accountTree;
         private System.Windows.Forms.ImageList accountImages;
-        private SharpBooks.UI.AccountRegister accountRegister;
+        private System.Windows.Forms.Panel accountViewContainer;
+        private UI.AccountRegister accountRegister;
+        private System.Windows.Forms.Panel accountViewActions;
 
     }
 }
