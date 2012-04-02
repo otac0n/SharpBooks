@@ -9,6 +9,7 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
+    using SharpBooks.Events;
 
     public class ReadOnlyBook
     {
@@ -22,7 +23,20 @@ namespace SharpBooks
             }
 
             this.book = book;
+            this.book.AccountAdded += (o, e) => this.AccountAdded.SafeInvoke(this, e);
+            this.book.AccountRemoved += (o, e) => this.AccountRemoved.SafeInvoke(this, e);
+            this.book.PriceQuoteAdded += (o, e) => this.PriceQuoteAdded.SafeInvoke(this, e);
+            this.book.PriceQuoteRemoved += (o, e) => this.PriceQuoteRemoved.SafeInvoke(this, e);
+            this.book.SecurityAdded += (o, e) => this.SecurityAdded.SafeInvoke(this, e);
+            this.book.SecurityRemoved += (o, e) => this.SecurityRemoved.SafeInvoke(this, e);
         }
+
+        public event EventHandler<AccountAddedEventArgs> AccountAdded;
+        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
 
         public ICollection<Security> Securities
         {

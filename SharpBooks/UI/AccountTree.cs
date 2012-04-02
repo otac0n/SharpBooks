@@ -40,10 +40,13 @@ namespace SharpBooks.UI
             {
                 if (this.book != value)
                 {
+                    this.DetachBookHandlers();
+
                     this.tree.Nodes.Clear();
                     this.nodeLookup.Clear();
 
                     this.book = value;
+                    this.AttachBookHandlers();
                     this.InitializeBook();
                 }
             }
@@ -53,6 +56,24 @@ namespace SharpBooks.UI
         {
             get { return this.tree.ImageList; }
             set { this.tree.ImageList = value; }
+        }
+
+        private void AttachBookHandlers()
+        {
+            if (this.book != null)
+            {
+                this.book.AccountAdded += book_AccountAdded;
+                this.book.AccountRemoved += book_AccountRemoved;
+            }
+        }
+
+        private void DetachBookHandlers()
+        {
+            if (this.book != null)
+            {
+                this.book.AccountAdded -= book_AccountAdded;
+                this.book.AccountRemoved -= book_AccountRemoved;
+            }
         }
 
         private void InitializeBook()
@@ -77,6 +98,7 @@ namespace SharpBooks.UI
                     Name = a.Name,
                     Tag = a,
                 };
+                this.nodeLookup.Add(a, node);
 
                 node.Nodes.AddRange(BuildTreeNodes(a, accounts));
 
@@ -84,6 +106,45 @@ namespace SharpBooks.UI
             }
 
             return nodes.ToArray();
+        }
+
+        void book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
+        {
+            var a = e.Account;
+
+            var node = new TreeNode  // TODO: Determine the icon from the metadata.
+            {
+                Text = a.Name,
+                Name = a.Name,
+                Tag = a,
+            };
+            this.nodeLookup.Add(a, node);
+
+            // TODO: Insert the book in the correct order.
+            if (a.ParentAccount != null)
+            {
+                var parentNode = this.nodeLookup[a.ParentAccount];
+                parentNode.Nodes.Add(node);
+            }
+            else
+            {
+                this.tree.Nodes.Add(node);
+            }
+        }
+
+        void book_AccountRemoved(object sender, Events.AccountRemovedEventArgs e)
+        {
+            var node = this.nodeLookup[e.Account];
+            this.nodeLookup.Remove(e.Account);
+
+            if (node.Parent != null)
+            {
+                node.Parent.Nodes.Remove(node);
+            }
+            else
+            {
+                this.tree.Nodes.Remove(node);
+            }
         }
 
         private void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
