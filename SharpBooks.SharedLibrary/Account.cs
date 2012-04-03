@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Account.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -11,6 +11,7 @@ namespace SharpBooks
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
 
     public class Account
@@ -91,7 +92,6 @@ namespace SharpBooks
             }
         }
 
-
         public AccountType AccountType
         {
             get
@@ -168,19 +168,19 @@ namespace SharpBooks
             }
         }
 
-        public static string GetAccountPath(Account account, string separator)
+        public string GetPath(string separator)
         {
-            if (account == null)
+            if (this.ParentAccount == null)
             {
-                throw new ArgumentNullException("account");
+                return this.Name;
             }
 
-            if (account.ParentAccount == null)
-            {
-                return account.Name;
-            }
+            return this.ParentAccount.GetPath(separator) + separator + this.Name;
+        }
 
-            return GetAccountPath(account.ParentAccount, separator) + separator + account.Name;
+        public override string ToString()
+        {
+            return this.GetPath(Path.DirectorySeparatorChar.ToString());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FavoriteAccountSettings.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>otac0n</author>
 //-----------------------------------------------------------------------
@@ -9,6 +9,7 @@ namespace SharpBooks.StandardPlugins
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Encapsulates the settings for the "Favorite Accounts" widget.
@@ -17,7 +18,7 @@ namespace SharpBooks.StandardPlugins
     {
         public FavoriteAccountSettings()
         {
-            this.PathSeperator = @"\";
+            this.PathSeperator = Path.DirectorySeparatorChar.ToString();
             this.AccountPaths = new List<string>();
         }
 

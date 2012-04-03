@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FavoriteAccountConfiguration.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>otac0n</author>
 //-----------------------------------------------------------------------
@@ -36,7 +36,7 @@ namespace SharpBooks.StandardPlugins
             var config = FavoriteAccountsWidget.LoadSettings(settings);
 
             var newAccounts = from a in book.Accounts
-                              let path = Account.GetAccountPath(a, config.PathSeperator)
+                              let path = a.GetPath(config.PathSeperator)
                               let fave = (from ap in config.AccountPaths
                                           where string.Equals(ap, path, StringComparison.OrdinalIgnoreCase)
                                           select ap).Any()
@@ -51,7 +51,6 @@ namespace SharpBooks.StandardPlugins
             {
                 this.accountViewBindingSource.Add(a);
             }
-
 
             var result = this.ShowDialog();
 

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FavoriteAccountsWidget.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace SharpBooks.StandardPlugins
         private void PopulateControl(ReadOnlyBook book)
         {
             var accounts = from a in book.Accounts
-                           let path = Account.GetAccountPath(a, this.settings.PathSeperator)
+                           let path = a.GetPath(this.settings.PathSeperator)
                            where (from ap in this.settings.AccountPaths
                                   where string.Equals(ap, path, StringComparison.OrdinalIgnoreCase)
                                   select ap).Any()
