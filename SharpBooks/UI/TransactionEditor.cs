@@ -29,6 +29,8 @@ namespace SharpBooks.UI
             InitializeComponent();
         }
 
+        public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
+
         public void SetBook(ReadOnlyBook book)
         {
             this.SetSplit(null);
@@ -42,19 +44,17 @@ namespace SharpBooks.UI
 
         internal void SetSplit(Split split)
         {
-            if (split == null)
+            if (this.tLock != null)
             {
-                if (this.tLock != null)
-                {
-                    this.tLock.Dispose();
-                    this.tLock = null;
-                    this.split = null;
-                    this.otherSplit = null;
-                    this.transaction = null;
-                    this.originalTransaction = null;
-                }
+                this.tLock.Dispose();
+                this.tLock = null;
+                this.split = null;
+                this.otherSplit = null;
+                this.transaction = null;
+                this.originalTransaction = null;
             }
-            else
+
+            if (split != null)
             {
                 Debug.Assert(
                     split.Transaction.Splits.Count == 2 &&
@@ -185,6 +185,15 @@ namespace SharpBooks.UI
             if (errors.Any())
             {
                 MessageBox.Show("There were errors validating the transaction:" + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, errors.Select(err => err.Message)));
+            }
+            else
+            {
+                var oldTransaction = this.originalTransaction;
+                var newTransaction = this.transaction;
+                var split = this.split;
+
+                this.SetSplit(null);
+                this.TransactionUpdated.SafeInvoke(this, new TransactionUpdatedEventArgs(oldTransaction, newTransaction));
             }
         }
     }

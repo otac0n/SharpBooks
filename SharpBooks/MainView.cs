@@ -103,5 +103,10 @@ namespace SharpBooks
         {
             this.owner.NewAccount(e.ParentAccountId);
         }
+
+        private void AccountRegister_TransactionUpdated(object sender, UI.TransactionUpdatedEventArgs e)
+        {
+            this.owner.UpdateTransaction(e.OldTransaction, e.NewTransaction);
+        }
     }
 }

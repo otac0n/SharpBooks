@@ -127,6 +127,17 @@
             saveAsToolStripMenuItem.Text = "Save &As";
             saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs_Click);
             // 
+            // returnToAccountsButton
+            // 
+            returnToAccountsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            returnToAccountsButton.Location = new System.Drawing.Point(662, 0);
+            returnToAccountsButton.Name = "returnToAccountsButton";
+            returnToAccountsButton.Size = new System.Drawing.Size(108, 23);
+            returnToAccountsButton.TabIndex = 0;
+            returnToAccountsButton.Text = "Back to Accounts";
+            returnToAccountsButton.UseVisualStyleBackColor = true;
+            returnToAccountsButton.Click += new System.EventHandler(this.ReturnToAccounts_Click);
+            // 
             // tabView
             // 
             this.tabView.Controls.Add(this.OverviewTabPage);
@@ -182,6 +193,7 @@
             this.accountRegister.Name = "accountRegister";
             this.accountRegister.Size = new System.Drawing.Size(770, 333);
             this.accountRegister.TabIndex = 3;
+            this.accountRegister.TransactionUpdated += new System.EventHandler<SharpBooks.UI.TransactionUpdatedEventArgs>(this.AccountRegister_TransactionUpdated);
             // 
             // accountViewActions
             // 
@@ -191,17 +203,6 @@
             this.accountViewActions.Name = "accountViewActions";
             this.accountViewActions.Size = new System.Drawing.Size(770, 23);
             this.accountViewActions.TabIndex = 4;
-            // 
-            // returnToAccountsButton
-            // 
-            returnToAccountsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            returnToAccountsButton.Location = new System.Drawing.Point(662, 0);
-            returnToAccountsButton.Name = "returnToAccountsButton";
-            returnToAccountsButton.Size = new System.Drawing.Size(108, 23);
-            returnToAccountsButton.TabIndex = 0;
-            returnToAccountsButton.Text = "Back to Accounts";
-            returnToAccountsButton.UseVisualStyleBackColor = true;
-            returnToAccountsButton.Click += new System.EventHandler(this.ReturnToAccounts_Click);
             // 
             // accountTree
             // 

@@ -118,6 +118,7 @@
     <Compile Include="UI\TransactionEditor.Designer.cs">
       <DependentUpon>TransactionEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TransactionUpdatedEventArgs.cs" />
     <Compile Include="UI\WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>

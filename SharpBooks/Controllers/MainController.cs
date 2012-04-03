@@ -251,9 +251,14 @@ namespace SharpBooks.Controllers
             this.book.AddAccount(account);
         }
 
-        internal void AddTransaction(Transaction transaction)
+        public void AddTransaction(Transaction transaction)
         {
             this.book.AddTransaction(transaction);
+        }
+
+        public void UpdateTransaction(Transaction oldTransaction, Transaction newTransaction)
+        {
+            this.book.ReplaceTransaction(oldTransaction, newTransaction);
         }
 
         public void Run()

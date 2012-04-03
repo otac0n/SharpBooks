@@ -38,6 +38,8 @@ namespace SharpBooks.UI
             this.headers.Columns.Add("Balance", 110);
         }
 
+        public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
+
         public void SetAccount(Account account, ReadOnlyBook book)
         {
             this.splitsView.SetAccount(account, book);
@@ -79,6 +81,11 @@ namespace SharpBooks.UI
         private void Splits_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.transactionEditor.SetSplit(this.splitsView.SelectedSplit);
+        }
+
+        private void transactionEditor_TransactionUpdated(object sender, TransactionUpdatedEventArgs e)
+        {
+            this.TransactionUpdated.SafeInvoke(this, e);
         }
     }
 }

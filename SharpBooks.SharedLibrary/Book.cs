@@ -643,6 +643,91 @@ namespace SharpBooks
         }
 
         /// <summary>
+        /// Replaces a transaction in a <see cref="Book"/> with an updated copy of the same transaction.
+        /// </summary>
+        /// <param name="oldTransaction">The transaction that should be replaced.</param>
+        /// <param name="newTransaction">The transaction that will replace the old transaction.</param>
+        public void ReplaceTransaction(Transaction oldTransaction, Transaction newTransaction)
+        {
+            lock (this.lockMutex)
+            {
+                if (oldTransaction == null)
+                {
+                    throw new ArgumentNullException("oldTransaction");
+                }
+
+                if (newTransaction == null)
+                {
+                    throw new ArgumentNullException("newTransaction");
+                }
+
+                if (oldTransaction.TransactionId != newTransaction.TransactionId)
+                {
+                    throw new InvalidOperationException("The new transaction given may not replace the old transaction, because they do not share the same TransactionId.");
+                }
+
+                TransactionLock oldTransactionLock;
+                if (!this.transactions.TryGetValue(oldTransaction, out oldTransactionLock))
+                {
+                    throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
+                }
+
+                TransactionLock newTransactionLock = null;
+
+                try
+                {
+                    newTransactionLock = newTransaction.Lock();
+
+                    if (!newTransaction.IsValid)
+                    {
+                        throw new InvalidOperationException("Could not replace the transaction in the book, because the new transaction is not valid.");
+                    }
+
+                    var splitsWithoutAccountsInBook = from s in newTransaction.Splits
+                                                      where !this.accounts.Contains(s.Account)
+                                                      select s;
+
+                    if (splitsWithoutAccountsInBook.Any())
+                    {
+                        throw new InvalidOperationException(
+                            "Could not replace the transaction in the book, because the new transaction contains at least one split whose account has not been added.");
+                    }
+
+                    var splitsWithoutSecurityInBook = from s in newTransaction.Splits
+                                                      where s.Account.Security == null
+                                                      where !this.securities.Contains(s.Security)
+                                                      select s;
+
+                    if (splitsWithoutSecurityInBook.Any())
+                    {
+                        throw new InvalidOperationException(
+                            "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
+                    }
+
+                    oldTransactionLock.Dispose();
+
+                    this.transactions.Remove(oldTransaction);
+                    this.transactions.Add(newTransaction, newTransactionLock);
+
+                    this.UpdateSaveTracks(st => st.RemoveTransaction(oldTransaction.TransactionId));
+                    this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(newTransaction)));
+
+                    newTransactionLock = null;
+                }
+                finally
+                {
+                    if (newTransactionLock != null)
+                    {
+                        newTransactionLock.Dispose();
+                    }
+                }
+
+                this.RemoveTransactionFromBalances(oldTransaction);
+                this.AddTransactionToBalances(newTransaction);
+            }
+        }
+
+        /// <summary>
         /// Returns a read-only wrapper for the current <see cref="Book"/>.
         /// </summary>
         /// <returns>A <see cref="ReadOnlyBook"/> that acts a wrapper for the current <see cref="Book"/>.</returns>
