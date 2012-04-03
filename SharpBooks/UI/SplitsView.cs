@@ -252,8 +252,8 @@ namespace SharpBooks.UI
                             "9999",
                             "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
                             split.Transaction.Splits.Where(sp => sp != split).Select(sp => sp.Account.Name).SingleOrDefault() ?? "-- Split --",
-                            split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
                             split.Amount >= 0 ? split.Security.FormatValue(split.Amount) : "",
+                            split.Amount <= 0 ? split.Security.FormatValue(-split.Amount) : "",
                             "TODO: Balance.",
                         };
 
