@@ -69,6 +69,8 @@
     <Compile Include="Events\SecurityRemovedEventArgs.cs" />
     <Compile Include="Events\PriceQuoteRemovedEventArgs.cs" />
     <Compile Include="Events\PriceQuoteAddedEventArgs.cs" />
+    <Compile Include="Events\TransactionAddedEventArgs.cs" />
+    <Compile Include="Events\TransactionRemovedEventArgs.cs" />
     <Compile Include="ILoader.cs" />
     <Compile Include="Integration\IRange`1.cs" />
     <Compile Include="Integration\RangeExtensions.cs" />

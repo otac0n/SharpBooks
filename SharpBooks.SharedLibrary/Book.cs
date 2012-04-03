@@ -53,6 +53,8 @@ namespace SharpBooks
         public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
         public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
         public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+        public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
+        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
         public ICollection<Security> Securities
         {
@@ -612,6 +614,8 @@ namespace SharpBooks
 
                 this.AddTransactionToBalances(transaction);
             }
+
+            this.TransactionAdded.SafeInvoke(this, new TransactionAddedEventArgs(transaction));
         }
 
         /// <summary>
@@ -640,6 +644,8 @@ namespace SharpBooks
 
                 this.RemoveTransactionFromBalances(transaction);
             }
+
+            this.TransactionRemoved.SafeInvoke(this, new TransactionRemovedEventArgs(transaction));
         }
 
         /// <summary>
@@ -725,6 +731,9 @@ namespace SharpBooks
                 this.RemoveTransactionFromBalances(oldTransaction);
                 this.AddTransactionToBalances(newTransaction);
             }
+
+            this.TransactionRemoved.SafeInvoke(this, new TransactionRemovedEventArgs(oldTransaction));
+            this.TransactionAdded.SafeInvoke(this, new TransactionAddedEventArgs(newTransaction));
         }
 
         /// <summary>
