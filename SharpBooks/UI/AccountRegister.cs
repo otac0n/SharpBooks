@@ -41,6 +41,7 @@ namespace SharpBooks.UI
         public void SetAccount(Account account, ReadOnlyBook book)
         {
             this.splitsView.SetAccount(account, book);
+            this.transactionEditor.SetBook(book);
         }
 
         internal Rectangle[] GetColumnBounds()
@@ -73,6 +74,11 @@ namespace SharpBooks.UI
         private void Splits_DesiresOffset(object sender, DesiresOffsetEventArgs e)
         {
             this.vScroll.Value = -e.DesiredOffset.Y;
+        }
+
+        private void Splits_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.transactionEditor.SetSplit(this.splitsView.SelectedSplit);
         }
     }
 }

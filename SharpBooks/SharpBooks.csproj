@@ -112,6 +112,12 @@
     <Compile Include="UI\SplitsView.Designer.cs">
       <DependentUpon>SplitsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TransactionEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TransactionEditor.Designer.cs">
+      <DependentUpon>TransactionEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SplitsView.resx">
       <DependentUpon>SplitsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TransactionEditor.resx">
+      <DependentUpon>TransactionEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\WidgetContainer.resx">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
