@@ -248,7 +248,7 @@ namespace SharpBooks.UI
                         var split = s[i];
                         var textParts = new[]
                         {
-                            (split.DateCleared ?? split.Transaction.Date).ToShortDateString(),
+                            (split.DateCleared ?? split.Transaction.Date).ToLocalTime().ToShortDateString(),
                             "9999",
                             "TODO: This is a placeholder description.  The real description should be loaded from the transaction metadata.",
                             split.Transaction.Splits.Where(sp => sp != split).Select(sp => sp.Account.Name).SingleOrDefault() ?? "-- Split --",
