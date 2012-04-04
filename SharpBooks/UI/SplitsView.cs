@@ -227,9 +227,23 @@ namespace SharpBooks.UI
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
             {
-                // TODO: We need to updated the selected index / selected item according to whether or not we insert the account in front of the currently selected item.
-                splits.ForEach(s => this.splits.Add(s));
+                bool indexChanged = false;
+
+                splits.ForEach(s =>
+                {
+                    var newIndex = this.splits.Add(s);
+                    if (newIndex <= this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex++;
+                    }
+                });
+
                 this.Invalidate();
+                if (indexChanged)
+                {
+                    this.OnSelectedIndexChanged();
+                }
             }
         }
 
@@ -238,9 +252,28 @@ namespace SharpBooks.UI
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
             {
-                // TODO: We need to updated the selected index / selected item according to whether or not we remove the account from in front of the currently selected item.
-                splits.ForEach(s => this.splits.Remove(s));
+                bool indexChanged = false;
+
+                splits.ForEach(s =>
+                {
+                    var oldIndex = this.splits.Remove(s);
+                    if (oldIndex < this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex--;
+                    }
+                    else if (oldIndex == this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex = -1;
+                    }
+                });
+
                 this.Invalidate();
+                if (indexChanged)
+                {
+                    this.OnSelectedIndexChanged();
+                }
             }
         }
 
