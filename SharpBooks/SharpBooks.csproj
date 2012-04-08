@@ -112,6 +112,7 @@
     <Compile Include="UI\SplitsView.Designer.cs">
       <DependentUpon>SplitsView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TransactionCreatedEventArgs.cs" />
     <Compile Include="UI\TransactionEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -11,12 +11,15 @@ namespace SharpBooks.UI
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using System.Windows.Forms.VisualStyles;
 
     public partial class AccountRegister : UserControl
     {
         private readonly HeaderControl.ColumnHeader descriptionColumn;
+        private ReadOnlyBook book;
+        private Account account;
 
         public AccountRegister()
         {
@@ -38,10 +41,14 @@ namespace SharpBooks.UI
             this.headers.Columns.Add("Balance", 110);
         }
 
+        private bool transactionIsNew;
         public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
+        public event EventHandler<TransactionCreatedEventArgs> TransactionCreated;
 
         public void SetAccount(Account account, ReadOnlyBook book)
         {
+            this.book = book;
+            this.account = account;
             this.splitsView.SetAccount(account, book);
             this.transactionEditor.SetBook(book);
         }
@@ -81,11 +88,37 @@ namespace SharpBooks.UI
         private void Splits_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.transactionEditor.SetSplit(this.splitsView.SelectedSplit);
+            this.transactionIsNew = false;
+        }
+
+        public void NewTransaction()
+        {
+            var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
+            using (var tLock = transaction.Lock())
+            {
+                transaction.SetDate(DateTime.Today.ToUniversalTime(), tLock);
+                var split1 = transaction.AddSplit(tLock);
+                var split2 = transaction.AddSplit(tLock);
+
+                split1.SetAccount(this.account, tLock);
+                split1.SetSecurity(transaction.BaseSecurity, tLock);
+                split2.SetSecurity(transaction.BaseSecurity, tLock);
+            }
+
+            this.transactionEditor.SetSplit(transaction.Splits[0]);
+            this.transactionIsNew = true;
         }
 
         private void transactionEditor_TransactionUpdated(object sender, TransactionUpdatedEventArgs e)
         {
-            this.TransactionUpdated.SafeInvoke(this, e);
+            if (this.transactionIsNew)
+            {
+                this.TransactionCreated.SafeInvoke(this, new TransactionCreatedEventArgs(e.NewTransaction));
+            }
+            else
+            {
+                this.TransactionUpdated.SafeInvoke(this, e);
+            }
         }
     }
 }
