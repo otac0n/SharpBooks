@@ -14,6 +14,7 @@ namespace SharpBooks.UI
     using System.Linq;
     using System.Windows.Forms;
     using System.Windows.Forms.VisualStyles;
+    using SharpBooks.Events;
 
     internal partial class SplitsView : UserControl
     {
@@ -149,8 +150,33 @@ namespace SharpBooks.UI
             {
                 this.splits.Clear();
                 this.account = account;
-                this.book = book;
+
+                if (this.book != book)
+                {
+                    DetachBook(this.book);
+                    this.book = book;
+                    AttachBook(this.book);
+                }
+
                 this.InitializeAccount();
+            }
+        }
+
+        private void AttachBook(ReadOnlyBook book)
+        {
+            if (book != null)
+            {
+                book.TransactionAdded += book_TransactionAdded;
+                book.TransactionRemoved += book_TransactionRemoved;
+            }
+        }
+
+        private void DetachBook(ReadOnlyBook book)
+        {
+            if (book != null)
+            {
+                book.TransactionAdded -= book_TransactionAdded;
+                book.TransactionRemoved -= book_TransactionRemoved;
             }
         }
 
@@ -193,6 +219,61 @@ namespace SharpBooks.UI
                 this.splits.AddRange(this.book.GetAccountSplits(this.account));
                 this.OnScrollableSizeChanged();
                 this.Invalidate();
+            }
+        }
+
+        private void book_TransactionAdded(object sender, TransactionAddedEventArgs e)
+        {
+            var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
+            if (splits.Count > 0)
+            {
+                bool indexChanged = false;
+
+                splits.ForEach(s =>
+                {
+                    var newIndex = this.splits.Add(s);
+                    if (newIndex <= this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex++;
+                    }
+                });
+
+                this.Invalidate();
+                if (indexChanged)
+                {
+                    this.OnSelectedIndexChanged();
+                }
+            }
+        }
+
+        private void book_TransactionRemoved(object sender, TransactionRemovedEventArgs e)
+        {
+            var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
+            if (splits.Count > 0)
+            {
+                bool indexChanged = false;
+
+                splits.ForEach(s =>
+                {
+                    var oldIndex = this.splits.Remove(s);
+                    if (oldIndex < this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex--;
+                    }
+                    else if (oldIndex == this.selectedIndex)
+                    {
+                        indexChanged = true;
+                        this.selectedIndex = -1;
+                    }
+                });
+
+                this.Invalidate();
+                if (indexChanged)
+                {
+                    this.OnSelectedIndexChanged();
+                }
             }
         }
 

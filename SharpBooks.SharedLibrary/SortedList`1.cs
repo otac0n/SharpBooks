@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="SortedList`1.cs" company="(none)">
-//  Copyright © 2010 John Gietzen. All rights reserved.
+//  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
 // <author>John Gietzen</author>
 //-----------------------------------------------------------------------
@@ -8,10 +8,10 @@
 namespace SharpBooks
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Collections;
 
     public class SortedList<T> : IList<T>
     {
@@ -69,7 +69,7 @@ namespace SharpBooks
         {
             var result = this.storage.BinarySearch(item, this.comparer);
 
-            return result > 0
+            return result >= 0
                 ? result
                 : -1;
         }
@@ -97,7 +97,7 @@ namespace SharpBooks
             }
         }
 
-        public void Add(T item)
+        public int Add(T item)
         {
             var result = this.storage.BinarySearch(item, this.comparer);
 
@@ -107,6 +107,13 @@ namespace SharpBooks
             }
 
             this.storage.Insert(result, item);
+
+            return result;
+        }
+
+        void ICollection<T>.Add(T item)
+        {
+            this.Add(item);
         }
 
         public void AddRange(IEnumerable<T> item)
@@ -142,19 +149,21 @@ namespace SharpBooks
             get { return false; }
         }
 
-        public bool Remove(T item)
+        public int Remove(T item)
         {
             var result = this.storage.BinarySearch(item, this.comparer);
 
-            if (result > 0)
+            if (result >= 0)
             {
                 this.storage.RemoveAt(result);
-                return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
+        }
+
+        bool ICollection<T>.Remove(T item)
+        {
+            return this.Remove(item) >= 0;
         }
 
         public IEnumerator<T> GetEnumerator()

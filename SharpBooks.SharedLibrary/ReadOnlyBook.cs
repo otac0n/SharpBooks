@@ -29,6 +29,8 @@ namespace SharpBooks
             this.book.PriceQuoteRemoved += (o, e) => this.PriceQuoteRemoved.SafeInvoke(this, e);
             this.book.SecurityAdded += (o, e) => this.SecurityAdded.SafeInvoke(this, e);
             this.book.SecurityRemoved += (o, e) => this.SecurityRemoved.SafeInvoke(this, e);
+            this.book.TransactionAdded += (o, e) => this.TransactionAdded.SafeInvoke(this, e);
+            this.book.TransactionRemoved += (o, e) => this.TransactionRemoved.SafeInvoke(this, e);
         }
 
         public event EventHandler<AccountAddedEventArgs> AccountAdded;
@@ -37,6 +39,8 @@ namespace SharpBooks
         public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
         public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
         public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+        public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
+        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
         public ICollection<Security> Securities
         {
