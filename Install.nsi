@@ -1,4 +1,4 @@
-Name "Example1"
+Name "SharpBooks"
 OutFile "SharpBooks-Install.exe"
 SetCompressor lzma
 InstallDir $PROGRAMFILES\SharpBooks
@@ -7,7 +7,7 @@ RequestExecutionLevel admin
 
 !include "MUI2.nsh"
 
-!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_INSTFILES
 
 !insertmacro MUI_LANGUAGE "English"
