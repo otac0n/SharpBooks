@@ -17,10 +17,16 @@ Section "SharpBooks"
     File SharpBooks.exe
     File *.dll
     WriteUninstaller "$INSTDIR\Uninstall.exe"
+    SetShellVarContext All
+    CreateDirectory $SMPROGRAMS\SharpBooks
+    CreateShortCut "$SMPROGRAMS\SharpBooks\SharpBooks.lnk" $INSTDIR\SharpBooks.exe
+    CreateShortCut "$SMPROGRAMS\SharpBooks\Uninstall SharpBooks.lnk" $INSTDIR\Uninstall.exe
 SectionEnd
 
 Section "Uninstall"
     Delete "$INSTDIR\Uninstall.exe"
     RMDir "$INSTDIR"
     DeleteRegKey HKLM "Software\SharpBooks"
+    SetShellVarContext All
+    RMDir $SMPROGRAMS\SharpBooks
 SectionEnd
