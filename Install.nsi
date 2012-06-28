@@ -25,8 +25,8 @@ SectionEnd
 
 Section "Uninstall"
     Delete "$INSTDIR\Uninstall.exe"
-    RMDir "$INSTDIR"
+    RMDir /r "$INSTDIR"
     DeleteRegKey HKLM "Software\SharpBooks"
     SetShellVarContext All
-    RMDir $SMPROGRAMS\SharpBooks
+    RMDir /r $SMPROGRAMS\SharpBooks
 SectionEnd
