@@ -8,8 +8,6 @@
 namespace SharpBooks
 {
     using System;
-    using System.ComponentModel;
-    using System.Linq;
     using System.Windows.Forms;
     using SharpBooks.Controllers;
     using SharpBooks.Plugins;

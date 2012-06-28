@@ -42,14 +42,14 @@
             this.OverviewTabPage = new System.Windows.Forms.TabPage();
             this.AccountsTabPage = new System.Windows.Forms.TabPage();
             this.accountViewContainer = new System.Windows.Forms.Panel();
+            this.accountRegister = new SharpBooks.UI.AccountRegister();
             this.accountViewActions = new System.Windows.Forms.Panel();
             this.newTransactionButton = new System.Windows.Forms.Button();
+            this.accountTree = new SharpBooks.UI.AccountTree();
             this.accountImages = new System.Windows.Forms.ImageList(this.components);
             this.AccountsList = new System.Windows.Forms.TreeView();
             this.PaymentsTabPage = new System.Windows.Forms.TabPage();
             this.InvestmentsTabItem = new System.Windows.Forms.TabPage();
-            this.accountRegister = new SharpBooks.UI.AccountRegister();
-            this.accountTree = new SharpBooks.UI.AccountTree();
             mainMenu = new System.Windows.Forms.MenuStrip();
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -185,6 +185,17 @@
             this.accountViewContainer.TabIndex = 3;
             this.accountViewContainer.Visible = false;
             // 
+            // accountRegister
+            // 
+            this.accountRegister.BackColor = System.Drawing.SystemColors.Window;
+            this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountRegister.Location = new System.Drawing.Point(0, 23);
+            this.accountRegister.Name = "accountRegister";
+            this.accountRegister.Size = new System.Drawing.Size(770, 333);
+            this.accountRegister.TabIndex = 3;
+            this.accountRegister.TransactionUpdated += new System.EventHandler<SharpBooks.UI.TransactionUpdatedEventArgs>(this.AccountRegister_TransactionUpdated);
+            this.accountRegister.TransactionCreated += new System.EventHandler<SharpBooks.UI.TransactionCreatedEventArgs>(this.AccountRegister_TransactionCreated);
+            // 
             // accountViewActions
             // 
             this.accountViewActions.Controls.Add(this.newTransactionButton);
@@ -205,6 +216,18 @@
             this.newTransactionButton.Text = "&New Transaction";
             this.newTransactionButton.UseVisualStyleBackColor = true;
             this.newTransactionButton.Click += new System.EventHandler(this.newTransactionButton_Click);
+            // 
+            // accountTree
+            // 
+            this.accountTree.Book = null;
+            this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.accountTree.ImageList = this.accountImages;
+            this.accountTree.Location = new System.Drawing.Point(3, 3);
+            this.accountTree.Name = "accountTree";
+            this.accountTree.Size = new System.Drawing.Size(770, 356);
+            this.accountTree.TabIndex = 1;
+            this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
+            this.accountTree.NewAccountRequested += new System.EventHandler<SharpBooks.Plugins.NewAccountRequestedEventArgs>(this.AccountTree_NewAccountRequested);
             // 
             // accountImages
             // 
@@ -239,28 +262,6 @@
             this.InvestmentsTabItem.TabIndex = 3;
             this.InvestmentsTabItem.Text = "Investments";
             this.InvestmentsTabItem.UseVisualStyleBackColor = true;
-            // 
-            // accountRegister
-            // 
-            this.accountRegister.BackColor = System.Drawing.SystemColors.Window;
-            this.accountRegister.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountRegister.Location = new System.Drawing.Point(0, 23);
-            this.accountRegister.Name = "accountRegister";
-            this.accountRegister.Size = new System.Drawing.Size(770, 333);
-            this.accountRegister.TabIndex = 3;
-            this.accountRegister.TransactionUpdated += new System.EventHandler<SharpBooks.UI.TransactionUpdatedEventArgs>(this.AccountRegister_TransactionUpdated);
-            this.accountRegister.TransactionCreated += new System.EventHandler<SharpBooks.UI.TransactionCreatedEventArgs>(this.AccountRegister_TransactionCreated);
-            // 
-            // accountTree
-            // 
-            this.accountTree.Book = null;
-            this.accountTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.accountTree.ImageList = this.accountImages;
-            this.accountTree.Location = new System.Drawing.Point(3, 3);
-            this.accountTree.Name = "accountTree";
-            this.accountTree.Size = new System.Drawing.Size(770, 356);
-            this.accountTree.TabIndex = 1;
-            this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
             // 
             // MainView
             // 
