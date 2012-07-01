@@ -438,7 +438,18 @@ namespace SharpBooks.Controllers
 
         public void DeleteAccount(Guid accountId)
         {
-            MessageBox.Show("Not supported.");
+            var account = this.book.Accounts.Where(a => a.AccountId == accountId).Single();
+            var existingSplits = this.book.GetAccountSplits(account).ToList();
+            var childAccounts = this.book.Accounts.Where(a => a.ParentAccount == account).ToList();
+
+            if (existingSplits.Count == 0 && childAccounts.Count == 0)
+            {
+                this.book.RemoveAccount(account);
+            }
+            else
+            {
+                MessageBox.Show("Not supported.");
+            }
         }
     }
 }
