@@ -228,6 +228,7 @@
             this.accountTree.TabIndex = 1;
             this.accountTree.AccountSelected += new System.EventHandler<SharpBooks.Plugins.AccountSelectedEventArgs>(this.AccountTree_AccountSelected);
             this.accountTree.NewAccountRequested += new System.EventHandler<SharpBooks.Plugins.NewAccountRequestedEventArgs>(this.AccountTree_NewAccountRequested);
+            this.accountTree.AccountDeleteRequested += new System.EventHandler<SharpBooks.Plugins.AccountDeleteRequestedEventArgs>(this.AccountTree_AccountDeleteRequested);
             // 
             // accountImages
             // 

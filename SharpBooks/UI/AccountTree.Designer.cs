@@ -33,6 +33,7 @@
             System.Windows.Forms.ToolStripMenuItem newAccountToolStripMenuItem;
             this.tree = new System.Windows.Forms.TreeView();
             this.nodeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             newAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nodeContextMenu.SuspendLayout();
@@ -44,6 +45,13 @@
             openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
+            // 
+            // newAccountToolStripMenuItem
+            // 
+            newAccountToolStripMenuItem.Name = "newAccountToolStripMenuItem";
+            newAccountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            newAccountToolStripMenuItem.Text = "New Account";
+            newAccountToolStripMenuItem.Click += new System.EventHandler(this.newAccount_Click);
             // 
             // tree
             // 
@@ -65,16 +73,17 @@
             // 
             this.nodeContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             openToolStripMenuItem,
+            this.deleteToolStripMenuItem,
             newAccountToolStripMenuItem});
             this.nodeContextMenu.Name = "nodeContextMenu";
-            this.nodeContextMenu.Size = new System.Drawing.Size(153, 70);
+            this.nodeContextMenu.Size = new System.Drawing.Size(153, 92);
             // 
-            // newAccountToolStripMenuItem
+            // deleteToolStripMenuItem
             // 
-            newAccountToolStripMenuItem.Name = "newAccountToolStripMenuItem";
-            newAccountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            newAccountToolStripMenuItem.Text = "New Account";
-            newAccountToolStripMenuItem.Click += new System.EventHandler(this.newAccount_Click);
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // AccountTree
             // 
@@ -91,5 +100,6 @@
 
         private System.Windows.Forms.TreeView tree;
         private System.Windows.Forms.ContextMenuStrip nodeContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

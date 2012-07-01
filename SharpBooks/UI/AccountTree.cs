@@ -12,7 +12,6 @@ namespace SharpBooks.UI
     using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
     using SharpBooks.Plugins;
 
@@ -30,6 +29,8 @@ namespace SharpBooks.UI
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
 
         public event EventHandler<NewAccountRequestedEventArgs> NewAccountRequested;
+
+        public event EventHandler<AccountDeleteRequestedEventArgs> AccountDeleteRequested;
 
         [Browsable(false)]
         public ReadOnlyBook Book
@@ -108,7 +109,7 @@ namespace SharpBooks.UI
             return nodes.ToArray();
         }
 
-        void book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
+        private void book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
         {
             var a = e.Account;
 
@@ -132,7 +133,7 @@ namespace SharpBooks.UI
             }
         }
 
-        void book_AccountRemoved(object sender, Events.AccountRemovedEventArgs e)
+        private void book_AccountRemoved(object sender, Events.AccountRemovedEventArgs e)
         {
             var node = this.nodeLookup[e.Account];
             this.nodeLookup.Remove(e.Account);
@@ -210,6 +211,13 @@ namespace SharpBooks.UI
             var parentAccount = (Account)this.tree.SelectedNode.Tag;
 
             this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var account = (Account)this.tree.SelectedNode.Tag;
+
+            this.AccountDeleteRequested.SafeInvoke(this, () => new AccountDeleteRequestedEventArgs { AccountId = account.AccountId });
         }
     }
 }

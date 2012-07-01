@@ -11,12 +11,8 @@ namespace SharpBooks.Controllers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
-    using Newtonsoft.Json;
-    using SharpBooks.Persistence;
     using SharpBooks.Plugins;
-    using SharpBooks.StandardPlugins;
 
     public class MainController
     {
@@ -438,6 +434,11 @@ namespace SharpBooks.Controllers
 
                 this.book.AddAccount(editor.NewAccount);
             }
+        }
+
+        public void DeleteAccount(Guid accountId)
+        {
+            MessageBox.Show("Not supported.");
         }
     }
 }

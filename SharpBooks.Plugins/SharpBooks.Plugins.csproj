@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountSelectedEventArgs.cs" />
+    <Compile Include="AccountDeleteRequestedEventArgs.cs" />
     <Compile Include="NewAccountRequestedEventArgs.cs" />
     <Compile Include="EventProxy.cs" />
     <Compile Include="IPersistenceStrategyFactory.cs" />

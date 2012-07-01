@@ -102,6 +102,11 @@ namespace SharpBooks
             this.owner.NewAccount(e.ParentAccountId);
         }
 
+        private void AccountTree_AccountDeleteRequested(object sender, AccountDeleteRequestedEventArgs e)
+        {
+            this.owner.DeleteAccount(e.AccountId);
+        }
+
         private void newTransactionButton_Click(object sender, EventArgs e)
         {
             this.accountRegister.NewTransaction();
