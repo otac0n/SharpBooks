@@ -90,7 +90,7 @@
             // 
             cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            cancelButton.Location = new System.Drawing.Point(236, 198);
+            cancelButton.Location = new System.Drawing.Point(247, 198);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new System.Drawing.Size(75, 23);
             cancelButton.TabIndex = 11;
@@ -135,7 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Location = new System.Drawing.Point(119, 54);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(192, 20);
+            this.nameTextBox.Size = new System.Drawing.Size(203, 20);
             this.nameTextBox.TabIndex = 2;
             this.nameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.nameTextBox_Validating);
             // 
@@ -147,7 +147,7 @@
             this.securityComboBox.FormattingEnabled = true;
             this.securityComboBox.Location = new System.Drawing.Point(119, 126);
             this.securityComboBox.Name = "securityComboBox";
-            this.securityComboBox.Size = new System.Drawing.Size(192, 21);
+            this.securityComboBox.Size = new System.Drawing.Size(203, 21);
             this.securityComboBox.TabIndex = 7;
             this.securityComboBox.SelectedValueChanged += new System.EventHandler(this.securityComboBox_SelectedValueChanged);
             // 
@@ -157,7 +157,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fractionTextBox.Location = new System.Drawing.Point(119, 153);
             this.fractionTextBox.Name = "fractionTextBox";
-            this.fractionTextBox.Size = new System.Drawing.Size(192, 20);
+            this.fractionTextBox.Size = new System.Drawing.Size(203, 20);
             this.fractionTextBox.TabIndex = 9;
             this.fractionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.fractionTextBox_Validating);
             // 
@@ -165,7 +165,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(155, 198);
+            this.okButton.Location = new System.Drawing.Point(166, 198);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 10;
@@ -181,7 +181,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 233);
+            this.ClientSize = new System.Drawing.Size(334, 233);
             this.Controls.Add(cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.fractionTextBox);
