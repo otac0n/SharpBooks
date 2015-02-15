@@ -19,6 +19,8 @@ namespace SharpBooks
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The 'currentLock' field of the transaction, may fall out of scope safely if the transaction itself is falling out of scope.")]
     public sealed class Transaction
     {
+        private readonly Dictionary<string, string> extensions = new Dictionary<string, string>();
+
         private readonly object lockMutex = new object();
 
         private readonly List<Split> splits = new List<Split>();
@@ -45,6 +47,16 @@ namespace SharpBooks
             this.BaseSecurity = baseSecurity;
             this.TransactionId = transactionId;
             this.Date = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+        }
+
+        public string this[string key]
+        {
+            get
+            {
+                string value;
+                this.extensions.TryGetValue(key, out value);
+                return value;
+            }
         }
 
         /// <summary>
@@ -194,6 +206,29 @@ namespace SharpBooks
                 this.ValidateLock(transactionLock);
 
                 this.Date = date;
+            }
+        }
+
+        /// <summary>
+        /// Sets an extension on the transaction.
+        /// </summary>
+        /// <param name="name">The name of the extension.</param>
+        /// <param name="value">The value of the extension.</param>
+        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
+        public void SetExtension(string name, string value, TransactionLock transactionLock)
+        {
+            lock (this.lockMutex)
+            {
+                this.ValidateLock(transactionLock);
+
+                if (value == null)
+                {
+                    this.extensions.Remove(name);
+                }
+                else
+                {
+                    this.extensions[name] = value;
+                }
             }
         }
 
