@@ -448,6 +448,7 @@ namespace SharpBooks.Controllers
             }
             else
             {
+                // TODO: Display a dialog indicating that there are splits or child accounts in this account.  Should they be moved to another account? Should we HIDE the account instead? Should we cancel?
                 MessageBox.Show("Not supported.");
             }
         }
