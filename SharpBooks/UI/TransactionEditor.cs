@@ -77,6 +77,7 @@ namespace SharpBooks.UI
 
             this.depositTextBox.Text = "";
             this.withdrawalTextBox.Text = "";
+            this.descriptionTextBox.Text = "";
             this.Enabled = (split != null);
 
             if (this.split == null)

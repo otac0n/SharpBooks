@@ -39,6 +39,7 @@
             this.clearDatePicker = new System.Windows.Forms.DateTimePicker();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.accountComboBox = new System.Windows.Forms.ComboBox();
+            this.descriptionTextBox = new System.Windows.Forms.TextBox();
             transactionDateLabel = new System.Windows.Forms.Label();
             clearedLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -143,11 +144,21 @@
             this.accountComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.accountComboBox_Validating);
             this.accountComboBox.Validated += new System.EventHandler(this.accountComboBox_Validated);
             // 
+            // descriptionTextBox
+            // 
+            this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.descriptionTextBox.Location = new System.Drawing.Point(222, 29);
+            this.descriptionTextBox.Name = "descriptionTextBox";
+            this.descriptionTextBox.Size = new System.Drawing.Size(188, 20);
+            this.descriptionTextBox.TabIndex = 9;
+            // 
             // TransactionEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(this.accountComboBox);
             this.Controls.Add(clearedLabel);
             this.Controls.Add(this.clearDatePicker);
@@ -175,5 +186,6 @@
         private System.Windows.Forms.DateTimePicker clearDatePicker;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ComboBox accountComboBox;
+        private System.Windows.Forms.TextBox descriptionTextBox;
     }
 }
