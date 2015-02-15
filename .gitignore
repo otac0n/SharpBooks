@@ -1,5 +1,6 @@
 [Bb]in/
 [Oo]bj/
+*.sln.ide/
 *.suo
 *.docstates
 *.user
