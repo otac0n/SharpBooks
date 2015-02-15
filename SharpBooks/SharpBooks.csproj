@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteAccountView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteAccountView.Designer.cs">
+      <DependentUpon>DeleteAccountView.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditAccountView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="DeleteAccountView.resx">
+      <DependentUpon>DeleteAccountView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditAccountView.resx">
       <DependentUpon>EditAccountView.cs</DependentUpon>
     </EmbeddedResource>
