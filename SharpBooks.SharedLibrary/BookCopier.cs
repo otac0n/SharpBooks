@@ -133,24 +133,21 @@ namespace SharpBooks
                     transaction.TransactionId,
                     baseSecurity);
 
-                using (var tlock = newTransaction.Lock())
+                newTransaction.SetDate(transaction.Date);
+
+                foreach (var split in transaction.Splits)
                 {
-                    newTransaction.SetDate(transaction.Date, tlock);
+                    var newSplit = newTransaction.AddSplit();
 
-                    foreach (var split in transaction.Splits)
-                    {
-                        var newSplit = newTransaction.AddSplit(tlock);
+                    var account = this.destinationBook.Accounts.Where(a => a.AccountId == split.AccountId).Single();
+                    var security = this.destinationBook.Securities.Where(s => s.SecurityId == split.SecurityId).Single();
 
-                        var account = this.destinationBook.Accounts.Where(a => a.AccountId == split.AccountId).Single();
-                        var security = this.destinationBook.Securities.Where(s => s.SecurityId == split.SecurityId).Single();
-
-                        newSplit.SetAccount(account, tlock);
-                        newSplit.SetSecurity(security, tlock);
-                        newSplit.SetAmount(split.Amount, tlock);
-                        newSplit.SetTransactionAmount(split.TransactionAmount, tlock);
-                        newSplit.SetDateCleared(split.DateCleared, tlock);
-                        newSplit.SetIsReconciled(split.IsReconciled, tlock);
-                    }
+                    newSplit.SetAccount(account);
+                    newSplit.SetSecurity(security);
+                    newSplit.SetAmount(split.Amount);
+                    newSplit.SetTransactionAmount(split.TransactionAmount);
+                    newSplit.SetDateCleared(split.DateCleared);
+                    newSplit.SetIsReconciled(split.IsReconciled);
                 }
 
                 this.destinationBook.AddTransaction(

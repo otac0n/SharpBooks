@@ -45,12 +45,9 @@ namespace SharpBooks.Tests
         {
             // Create a new transaction with a single, zero split assigned to splitAccount.
             var transaction = TestUtils.CreateEmptyTransaction();
-            using (var transactionLock = transaction.Lock())
-            {
-                var split = transaction.AddSplit(transactionLock);
-                split.SetAccount(splitAccouunt, transactionLock);
-                split.SetSecurity(splitAccouunt.Security, transactionLock);
-            }
+            var split = transaction.AddSplit();
+            split.SetAccount(splitAccouunt);
+            split.SetSecurity(splitAccouunt.Security);
 
             return transaction;
         }

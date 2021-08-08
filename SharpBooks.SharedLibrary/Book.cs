@@ -21,7 +21,7 @@ namespace SharpBooks
         private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
         private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
         private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
-        private readonly Dictionary<Transaction, TransactionLock> transactions = new Dictionary<Transaction, TransactionLock>();
+        private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
@@ -35,6 +35,7 @@ namespace SharpBooks
 
         // Indexes:
         private readonly Dictionary<Account, CompositeBalance> balances = new Dictionary<Account, CompositeBalance>();
+
         private readonly Dictionary<Account, CompositeBalance> totalBalances = new Dictionary<Account, CompositeBalance>();
 
         public Book()
@@ -48,12 +49,19 @@ namespace SharpBooks
         }
 
         public event EventHandler<AccountAddedEventArgs> AccountAdded;
+
         public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+
         public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+
         public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+
         public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+
         public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+
         public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
+
         public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
         public ICollection<Security> Securities
@@ -73,7 +81,7 @@ namespace SharpBooks
 
         public ICollection<Transaction> Transactions
         {
-            get { return this.transactions.Keys; }
+            get { return this.transactions; }
         }
 
         public ICollection<PriceQuote> PriceQuotes
@@ -102,7 +110,7 @@ namespace SharpBooks
 
                 var splits = new List<Split>();
 
-                foreach (var t in this.transactions.Keys)
+                foreach (var t in this.transactions)
                 {
                     splits.AddRange(t.Splits.Where(s => s.Account == account));
                 }
@@ -319,7 +327,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
                 }
 
-                var dependantSplits = from t in this.transactions.Keys
+                var dependantSplits = from t in this.transactions
                                       from s in t.Splits
                                       where s.Security == security
                                       select s;
@@ -434,7 +442,7 @@ namespace SharpBooks
                     throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
                 }
 
-                var involvedTransactions = from t in this.transactions.Keys
+                var involvedTransactions = from t in this.transactions
                                            where (from s in t.Splits
                                                   where s.Account == account
                                                   select s).Any()
@@ -556,7 +564,7 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                if (this.transactions.ContainsKey(transaction))
+                if (this.transactions.Contains(transaction))
                 {
                     throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
                 }
@@ -567,50 +575,35 @@ namespace SharpBooks
                         "Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.");
                 }
 
-                TransactionLock transactionLock = null;
-
-                try
+                if (!transaction.IsValid)
                 {
-                    transactionLock = transaction.Lock();
-
-                    if (!transaction.IsValid)
-                    {
-                        throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
-                    }
-
-                    var splitsWithoutAccountsInBook = from s in transaction.Splits
-                                                      where !this.accounts.Contains(s.Account)
-                                                      select s;
-
-                    if (splitsWithoutAccountsInBook.Any())
-                    {
-                        throw new InvalidOperationException(
-                            "Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added.");
-                    }
-
-                    var splitsWithoutSecurityInBook = from s in transaction.Splits
-                                                      where s.Account.Security == null
-                                                      where !this.securities.Contains(s.Security)
-                                                      select s;
-
-                    if (splitsWithoutSecurityInBook.Any())
-                    {
-                        throw new InvalidOperationException(
-                            "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
-                    }
-
-                    this.transactions.Add(transaction, transactionLock);
-                    this.transactionIds.Add(transaction.TransactionId);
-                    this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
-                    transactionLock = null;
+                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
                 }
-                finally
+
+                var splitsWithoutAccountsInBook = from s in transaction.Splits
+                                                  where !this.accounts.Contains(s.Account)
+                                                  select s;
+
+                if (splitsWithoutAccountsInBook.Any())
                 {
-                    if (transactionLock != null)
-                    {
-                        transactionLock.Dispose();
-                    }
+                    throw new InvalidOperationException(
+                        "Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added.");
                 }
+
+                var splitsWithoutSecurityInBook = from s in transaction.Splits
+                                                  where s.Account.Security == null
+                                                  where !this.securities.Contains(s.Security)
+                                                  select s;
+
+                if (splitsWithoutSecurityInBook.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
+                }
+
+                this.transactions.Add(transaction);
+                this.transactionIds.Add(transaction.TransactionId);
+                this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(transaction)));
 
                 this.AddTransactionToBalances(transaction);
             }
@@ -631,14 +624,11 @@ namespace SharpBooks
                     throw new ArgumentNullException("transaction");
                 }
 
-                TransactionLock transactionLock;
-                if (!this.transactions.TryGetValue(transaction, out transactionLock))
+                if (!this.transactions.Remove(transaction))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
-                transactionLock.Dispose();
-                this.transactions.Remove(transaction);
                 this.transactionIds.Remove(transaction.TransactionId);
                 this.UpdateSaveTracks(st => st.RemoveTransaction(transaction.TransactionId));
 
@@ -672,61 +662,42 @@ namespace SharpBooks
                     throw new InvalidOperationException("The new transaction given may not replace the old transaction, because they do not share the same TransactionId.");
                 }
 
-                TransactionLock oldTransactionLock;
-                if (!this.transactions.TryGetValue(oldTransaction, out oldTransactionLock))
+                if (!this.transactions.Contains(oldTransaction))
                 {
                     throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
                 }
 
-                TransactionLock newTransactionLock = null;
-
-                try
+                if (!newTransaction.IsValid)
                 {
-                    newTransactionLock = newTransaction.Lock();
-
-                    if (!newTransaction.IsValid)
-                    {
-                        throw new InvalidOperationException("Could not replace the transaction in the book, because the new transaction is not valid.");
-                    }
-
-                    var splitsWithoutAccountsInBook = from s in newTransaction.Splits
-                                                      where !this.accounts.Contains(s.Account)
-                                                      select s;
-
-                    if (splitsWithoutAccountsInBook.Any())
-                    {
-                        throw new InvalidOperationException(
-                            "Could not replace the transaction in the book, because the new transaction contains at least one split whose account has not been added.");
-                    }
-
-                    var splitsWithoutSecurityInBook = from s in newTransaction.Splits
-                                                      where s.Account.Security == null
-                                                      where !this.securities.Contains(s.Security)
-                                                      select s;
-
-                    if (splitsWithoutSecurityInBook.Any())
-                    {
-                        throw new InvalidOperationException(
-                            "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
-                    }
-
-                    oldTransactionLock.Dispose();
-
-                    this.transactions.Remove(oldTransaction);
-                    this.transactions.Add(newTransaction, newTransactionLock);
-
-                    this.UpdateSaveTracks(st => st.RemoveTransaction(oldTransaction.TransactionId));
-                    this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(newTransaction)));
-
-                    newTransactionLock = null;
+                    throw new InvalidOperationException("Could not replace the transaction in the book, because the new transaction is not valid.");
                 }
-                finally
+
+                var splitsWithoutAccountsInBook = from s in newTransaction.Splits
+                                                  where !this.accounts.Contains(s.Account)
+                                                  select s;
+
+                if (splitsWithoutAccountsInBook.Any())
                 {
-                    if (newTransactionLock != null)
-                    {
-                        newTransactionLock.Dispose();
-                    }
+                    throw new InvalidOperationException(
+                        "Could not replace the transaction in the book, because the new transaction contains at least one split whose account has not been added.");
                 }
+
+                var splitsWithoutSecurityInBook = from s in newTransaction.Splits
+                                                  where s.Account.Security == null
+                                                  where !this.securities.Contains(s.Security)
+                                                  select s;
+
+                if (splitsWithoutSecurityInBook.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
+                }
+
+                this.transactions.Remove(oldTransaction);
+                this.transactions.Add(newTransaction);
+
+                this.UpdateSaveTracks(st => st.RemoveTransaction(oldTransaction.TransactionId));
+                this.UpdateSaveTracks(st => st.AddTransaction(new TransactionData(newTransaction)));
 
                 this.RemoveTransactionFromBalances(oldTransaction);
                 this.AddTransactionToBalances(newTransaction);

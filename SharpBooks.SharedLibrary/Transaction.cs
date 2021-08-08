@@ -9,26 +9,19 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Threading;
 
     /// <summary>
     /// Encapsulates a financial transaction.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "The 'currentLock' field of the transaction, may fall out of scope safely if the transaction itself is falling out of scope.")]
     public sealed class Transaction
     {
         private readonly Dictionary<string, string> extensions = new Dictionary<string, string>();
 
-        private readonly object lockMutex = new object();
-
         private readonly List<Split> splits = new List<Split>();
 
-        private TransactionLock currentLock;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharpBooks.Transaction"/> class.
+        /// Initializes a new instance of the <see cref="Transaction"/> class.
         /// </summary>
         /// <param name="transactionId">The unique identifier of the transaction.</param>
         /// <param name="baseSecurity">The security in which the values of the transaction are expressed.</param>
@@ -93,24 +86,7 @@ namespace SharpBooks
         {
             get
             {
-                lock (this.lockMutex)
-                {
-                    return this.splits.AsReadOnly();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the transaction is currently locked for editing.
-        /// </summary>
-        public bool IsLocked
-        {
-            get
-            {
-                lock (this.lockMutex)
-                {
-                    return this.currentLock != null;
-                }
+                return this.splits.AsReadOnly();
             }
         }
 
@@ -126,66 +102,40 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets an enumerable collection of <see cref="SharpBooks.RuleViolation"/>s that describe features of the transaction that make it invalid.
+        /// Gets an enumerable collection of <see cref="RuleViolation"/>s that describe features of the transaction that make it invalid.
         /// </summary>
         public IEnumerable<RuleViolation> RuleViolations
         {
             get
             {
-                lock (this.lockMutex)
+                if (this.splits.Count == 0)
                 {
-                    if (this.splits.Count == 0)
+                    yield return new RuleViolation("Splits", Localization.Localization.TRANSACTION_MUST_HAVE_SPLIT);
+                }
+                else
+                {
+                    foreach (var split in this.splits)
                     {
-                        yield return new RuleViolation("Splits", Localization.Localization.TRANSACTION_MUST_HAVE_SPLIT);
-                    }
-                    else
-                    {
-                        foreach (var split in this.splits)
+                        foreach (var violation in split.RuleViolations)
                         {
-                            foreach (var violation in split.RuleViolations)
-                            {
-                                yield return violation;
-                            }
-                        }
-
-                        if (this.splits.Sum(s => s.TransactionAmount) != 0m)
-                        {
-                            yield return new RuleViolation("Sum", Localization.Localization.TRANSACTION_SUM_MUST_BE_ZERO);
-                        }
-
-                        var sameSecurity = from s in this.splits
-                                           where s.Security == this.BaseSecurity
-                                           select s;
-
-                        if (!sameSecurity.Any())
-                        {
-                            yield return new RuleViolation("BaseSecurity", Localization.Localization.TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT);
+                            yield return violation;
                         }
                     }
+
+                    if (this.splits.Sum(s => s.TransactionAmount) != 0m)
+                    {
+                        yield return new RuleViolation("Sum", Localization.Localization.TRANSACTION_SUM_MUST_BE_ZERO);
+                    }
+
+                    var sameSecurity = from s in this.splits
+                                       where s.Security == this.BaseSecurity
+                                       select s;
+
+                    if (!sameSecurity.Any())
+                    {
+                        yield return new RuleViolation("BaseSecurity", Localization.Localization.TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT);
+                    }
                 }
-
-                yield break;
-            }
-        }
-
-        /// <summary>
-        /// Locks the transaction for editing.
-        /// </summary>
-        /// <returns>A <see cref="SharpBooks.TransactionLock"/> that must be used for all modifications to the transaction.</returns>
-        /// <remarks>
-        /// The transaction will be unlocked when the <see cref="SharpBooks.TransactionLock"/> is disposed.
-        /// </remarks>
-        public TransactionLock Lock()
-        {
-            lock (this.lockMutex)
-            {
-                if (this.currentLock != null)
-                {
-                    throw new InvalidOperationException("Could not lock the transaction, because it is already locked.");
-                }
-
-                this.currentLock = new TransactionLock(this);
-                return this.currentLock;
             }
         }
 
@@ -193,20 +143,14 @@ namespace SharpBooks
         /// Sets the date and time at which the transaction took place.
         /// </summary>
         /// <param name="date">The date and time at which the transaction took place.</param>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
-        public void SetDate(DateTime date, TransactionLock transactionLock)
+        public void SetDate(DateTime date)
         {
             if (date.Kind != DateTimeKind.Utc)
             {
                 throw new ArgumentOutOfRangeException("date");
             }
 
-            lock (this.lockMutex)
-            {
-                this.ValidateLock(transactionLock);
-
-                this.Date = date;
-            }
+            this.Date = date;
         }
 
         /// <summary>
@@ -214,132 +158,67 @@ namespace SharpBooks
         /// </summary>
         /// <param name="name">The name of the extension.</param>
         /// <param name="value">The value of the extension.</param>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
-        public void SetExtension(string name, string value, TransactionLock transactionLock)
+        public void SetExtension(string name, string value)
         {
-            lock (this.lockMutex)
+            if (value == null)
             {
-                this.ValidateLock(transactionLock);
-
-                if (value == null)
-                {
-                    this.extensions.Remove(name);
-                }
-                else
-                {
-                    this.extensions[name] = value;
-                }
+                this.extensions.Remove(name);
+            }
+            else
+            {
+                this.extensions[name] = value;
             }
         }
 
         /// <summary>
         /// Creates a new split and adds it to the transaction.
         /// </summary>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="SharpBooks.Transaction.Lock" /> function.</param>
         /// <returns>The newly created split.</returns>
-        public Split AddSplit(TransactionLock transactionLock)
+        public Split AddSplit()
         {
-            lock (this.lockMutex)
-            {
-                this.ValidateLock(transactionLock);
+            var split = new Split(this);
 
-                var split = new Split(this);
-
-                this.splits.Add(split);
-                return split;
-            }
+            this.splits.Add(split);
+            return split;
         }
 
         /// <summary>
         /// Removes a previously added split from the transaction.
         /// </summary>
         /// <param name="split">The previously added split.</param>
-        /// <param name="transactionLock">A <see cref="SharpBooks.TransactionLock"/> obtained from the <see cref="Lock" /> function.</param>
-        public void RemoveSplit(Split split, TransactionLock transactionLock)
+        public void RemoveSplit(Split split)
         {
             if (split == null)
             {
                 throw new ArgumentNullException("split");
             }
 
-            lock (this.lockMutex)
+            if (!this.splits.Contains(split))
             {
-                this.ValidateLock(transactionLock);
-
-                if (!this.splits.Contains(split))
-                {
-                    throw new InvalidOperationException("Could not remove the split from the transaction, because the split is not a member of the transaction.");
-                }
-
-                this.splits.Remove(split);
-                split.Transaction = null;
-            }
-        }
-
-        internal void Unlock(TransactionLock transactionLock)
-        {
-            lock (this.lockMutex)
-            {
-                if (this.currentLock == null)
-                {
-                    throw new InvalidOperationException("Could not unlock the transaction, because it is not currently locked.");
-                }
-
-                if (this.currentLock != transactionLock)
-                {
-                    throw new InvalidOperationException("Could not unlock the transaction, because the lock provided was not valid.");
-                }
-
-                this.currentLock = null;
-            }
-        }
-
-        internal void EnterCriticalSection()
-        {
-            Monitor.Enter(this.lockMutex);
-        }
-
-        internal void ExitCriticalSection()
-        {
-            Monitor.Exit(this.lockMutex);
-        }
-
-        internal void ValidateLock(TransactionLock transactionLock)
-        {
-            if (this.currentLock == null)
-            {
-                throw new InvalidOperationException("Could not modify the transaction, because it is not currently locked for editing.");
+                throw new InvalidOperationException("Could not remove the split from the transaction, because the split is not a member of the transaction.");
             }
 
-            if (this.currentLock != transactionLock)
-            {
-                throw new InvalidOperationException("Could not modify the transaction, because the lock provided was not valid.");
-            }
+            this.splits.Remove(split);
+            split.Transaction = null;
         }
 
         public Transaction Copy()
         {
-            lock (this.lockMutex)
+            var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
+            tNew.SetDate(this.Date);
+
+            foreach (var split in this.splits)
             {
-                var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
-                using (var tLock = tNew.Lock())
-                {
-                    tNew.SetDate(this.Date, tLock);
-
-                    foreach (var split in this.splits)
-                    {
-                        var sNew = tNew.AddSplit(tLock);
-                        sNew.SetAccount(split.Account, tLock);
-                        sNew.SetAmount(split.Amount, tLock);
-                        sNew.SetDateCleared(split.DateCleared, tLock);
-                        sNew.SetIsReconciled(split.IsReconciled, tLock);
-                        sNew.SetSecurity(split.Security, tLock);
-                        sNew.SetTransactionAmount(split.TransactionAmount, tLock);
-                    }
-                }
-
-                return tNew;
+                var sNew = tNew.AddSplit();
+                sNew.SetAccount(split.Account);
+                sNew.SetAmount(split.Amount);
+                sNew.SetDateCleared(split.DateCleared);
+                sNew.SetIsReconciled(split.IsReconciled);
+                sNew.SetSecurity(split.Security);
+                sNew.SetTransactionAmount(split.TransactionAmount);
             }
+
+            return tNew;
         }
     }
 }

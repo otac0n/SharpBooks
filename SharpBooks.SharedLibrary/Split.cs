@@ -95,7 +95,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets an enumerable collection of <see cref="SharpBooks.RuleViolation"/>s that describe features of the split that make it invalid.
+        /// Gets an enumerable collection of <see cref="RuleViolation"/>s that describe features of the split that make it invalid.
         /// </summary>
         public IEnumerable<RuleViolation> RuleViolations
         {
@@ -140,105 +140,39 @@ namespace SharpBooks
             }
         }
 
-        public void SetAccount(Account account, TransactionLock transactionLock)
+        public void SetAccount(Account account)
         {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.Account = account;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.Account = account;
         }
 
-        public void SetSecurity(Security security, TransactionLock transactionLock)
+        public void SetSecurity(Security security)
         {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.Security = security;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.Security = security;
         }
 
-        public void SetAmount(long amount, TransactionLock transactionLock)
+        public void SetAmount(long amount)
         {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.Amount = amount;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.Amount = amount;
         }
 
-        public void SetTransactionAmount(long transactionAmount, TransactionLock transactionLock)
+        public void SetTransactionAmount(long transactionAmount)
         {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.TransactionAmount = transactionAmount;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.TransactionAmount = transactionAmount;
         }
 
-        public void SetDateCleared(DateTime? dateCleared, TransactionLock transactionLock)
+        public void SetDateCleared(DateTime? dateCleared)
         {
             if (dateCleared.HasValue && dateCleared.Value.Kind != DateTimeKind.Utc)
             {
                 throw new ArgumentOutOfRangeException("dateCleared");
             }
 
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.DateCleared = dateCleared;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.DateCleared = dateCleared;
         }
 
-        public void SetIsReconciled(bool isReconciled, TransactionLock transactionLock)
+        public void SetIsReconciled(bool isReconciled)
         {
-            this.Transaction.EnterCriticalSection();
-
-            try
-            {
-                this.Transaction.ValidateLock(transactionLock);
-
-                this.IsReconciled = isReconciled;
-            }
-            finally
-            {
-                this.Transaction.ExitCriticalSection();
-            }
+            this.IsReconciled = isReconciled;
         }
     }
 }

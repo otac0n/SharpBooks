@@ -265,13 +265,10 @@ namespace SharpBooks.Tests
 
             // Create a transaction that uses this split, but not as the
             var transaction = new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
-            using (var tLock = transaction.Lock())
-            {
-                var split1 = transaction.AddSplit(tLock);
-                split1.SetAccount(account, tLock);
-                split1.SetSecurity(TestUtils.TestCurrency, tLock);
-                split1.SetAmount(0, tLock);
-            }
+            var split1 = transaction.AddSplit();
+            split1.SetAccount(account);
+            split1.SetSecurity(TestUtils.TestCurrency);
+            split1.SetAmount(0);
 
             book.AddTransaction(transaction);
 
@@ -658,27 +655,6 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void AddTransaction_WhenTransactionIsLocked_ThrowsException()
-        {
-            // Create a new, valid book.
-            var book = TestUtils.CreateValidBook();
-
-            // Create a new, valid account and add it to the book.
-            var account = TestUtils.CreateValidAccount();
-            book.AddAccount(account);
-
-            // Create a new, valid transaction.
-            var transaction = TestUtils.CreateValidTransaction(account);
-
-            // Lock the transaction for editing.
-            using (transaction.Lock())
-            {
-                // Assert that trying to add a transaction while it is locked throws an InvalidOperationException.
-                Assert.That(() => book.AddTransaction(transaction), Throws.InstanceOf<InvalidOperationException>());
-            }
-        }
-
-        [Test]
         public void AddTransaction_WhenAnySplitAccountHasNotBeenAdded_ThrowsException()
         {
             // Create a new, valid book.
@@ -712,12 +688,9 @@ namespace SharpBooks.Tests
             var transaction2 = new Transaction(
                 transaction1.TransactionId,
                 TestUtils.TestCurrency); // OK
-            using (var transactionLock = transaction2.Lock())
-            {
-                var split = transaction2.AddSplit(transactionLock);
-                split.SetAccount(account, transactionLock);
-                split.SetSecurity(account.Security, transactionLock);
-            }
+            var split = transaction2.AddSplit();
+            split.SetAccount(account);
+            split.SetSecurity(account.Security);
 
             // Assert that trying to add the transaction throws an InvalidOperationException.
             Assert.That(() => book.AddTransaction(transaction2), Throws.InstanceOf<InvalidOperationException>());

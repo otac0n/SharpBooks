@@ -10,24 +10,6 @@
     [Binding]
     public class TransactionSteps
     {
-        [Then(@"transaction '(.*)' is locked")]
-        [Then(@"transaction '(.*)' should be locked")]
-        public void ThenTransactionShouldBeLocked(string transactionName)
-        {
-            var transaction = (Transaction)ScenarioContext.Current[transactionName];
-
-            Assert.That(transaction.IsLocked, Is.True);
-        }
-
-        [Then(@"transaction '(.*)' is unlocked")]
-        [Then(@"transaction '(.*)' should be unlocked")]
-        public void ThenTransactionShouldBeUnlocked(string transactionName)
-        {
-            var transaction = (Transaction)ScenarioContext.Current[transactionName];
-
-            Assert.That(transaction.IsLocked, Is.False);
-        }
-
         [Then(@"transaction '(.*)' is valid")]
         [Then(@"transaction '(.*)' should be valid")]
         public void ThenTransactionIsValid(string transactionName)
@@ -116,21 +98,18 @@
                 Assume.That(table.Header, Has.Member("Transaction Amount"));
             }
 
-            using (var @lock = transaction.Lock())
+            foreach (var row in table.Rows)
             {
-                foreach (var row in table.Rows)
-                {
-                    var account = accounts[row["Account"]];
-                    var security = securities[row["Security"]];
-                    var amount = long.Parse(row["Amount"]);
-                    var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
+                var account = accounts[row["Account"]];
+                var security = securities[row["Security"]];
+                var amount = long.Parse(row["Amount"]);
+                var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
-                    var split = transaction.AddSplit(@lock);
-                    split.SetAccount(account, @lock);
-                    split.SetSecurity(security, @lock);
-                    split.SetAmount(amount, @lock);
-                    split.SetTransactionAmount(transactionAmount, @lock);
-                }
+                var split = transaction.AddSplit();
+                split.SetAccount(account);
+                split.SetSecurity(security);
+                split.SetAmount(amount);
+                split.SetTransactionAmount(transactionAmount);
             }
 
             ScenarioContext.Current.Add(transactionName, transaction);
@@ -160,20 +139,17 @@
                 Assume.That(table.Header, Has.Member("Transaction Amount"));
             }
 
-            using (var @lock = transaction.Lock())
+            foreach (var row in table.Rows)
             {
-                foreach (var row in table.Rows)
-                {
-                    var account = accounts[row["Account"]];
-                    var amount = long.Parse(row["Amount"]);
-                    var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
+                var account = accounts[row["Account"]];
+                var amount = long.Parse(row["Amount"]);
+                var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
-                    var split = transaction.AddSplit(@lock);
-                    split.SetAccount(account, @lock);
-                    split.SetSecurity(account.Security, @lock);
-                    split.SetAmount(amount, @lock);
-                    split.SetTransactionAmount(transactionAmount, @lock);
-                }
+                var split = transaction.AddSplit();
+                split.SetAccount(account);
+                split.SetSecurity(account.Security);
+                split.SetAmount(amount);
+                split.SetTransactionAmount(transactionAmount);
             }
         }
     }

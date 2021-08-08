@@ -1,4 +1,4 @@
-﻿﻿//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="AccountRegister.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
@@ -42,7 +42,9 @@ namespace SharpBooks.UI
         }
 
         private bool transactionIsNew;
+
         public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
+
         public event EventHandler<TransactionCreatedEventArgs> TransactionCreated;
 
         public void SetAccount(Account account, ReadOnlyBook book)
@@ -94,16 +96,13 @@ namespace SharpBooks.UI
         public void NewTransaction()
         {
             var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
-            using (var tLock = transaction.Lock())
-            {
-                transaction.SetDate(DateTime.Today.ToUniversalTime(), tLock);
-                var split1 = transaction.AddSplit(tLock);
-                var split2 = transaction.AddSplit(tLock);
+            transaction.SetDate(DateTime.Today.ToUniversalTime());
+            var split1 = transaction.AddSplit();
+            var split2 = transaction.AddSplit();
 
-                split1.SetAccount(this.account, tLock);
-                split1.SetSecurity(transaction.BaseSecurity, tLock);
-                split2.SetSecurity(transaction.BaseSecurity, tLock);
-            }
+            split1.SetAccount(this.account);
+            split1.SetSecurity(transaction.BaseSecurity);
+            split2.SetSecurity(transaction.BaseSecurity);
 
             this.transactionEditor.SetSplit(transaction.Splits[0]);
             this.transactionIsNew = true;

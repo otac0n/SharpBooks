@@ -118,7 +118,6 @@
     <Compile Include="SplitData.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionData.cs" />
-    <Compile Include="TransactionLock.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

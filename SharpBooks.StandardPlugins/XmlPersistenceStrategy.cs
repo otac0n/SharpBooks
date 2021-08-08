@@ -79,34 +79,31 @@
                 var date = (DateTime)t.Attribute("date");
 
                 var transaction = new Transaction(transactionId, security);
-                using (var tlock = transaction.Lock())
+                transaction.SetDate(date);
+
+                foreach (var s in t.Elements("Split"))
                 {
-                    transaction.SetDate(date, tlock);
+                    var split = transaction.AddSplit();
 
-                    foreach (var s in t.Elements("Split"))
-                    {
-                        var split = transaction.AddSplit(tlock);
+                    var accountId = (Guid)s.Attribute("accountId");
+                    var account = accounts[accountId];
+                    split.SetAccount(account);
 
-                        var accountId = (Guid)s.Attribute("accountId");
-                        var account = accounts[accountId];
-                        split.SetAccount(account, tlock);
+                    var splitSecurityId = (Guid?)s.Attribute("securityId");
+                    var splitSecurity = securities[splitSecurityId ?? securityId];
+                    split.SetSecurity(splitSecurity);
 
-                        var splitSecurityId = (Guid?)s.Attribute("securityId");
-                        var splitSecurity = securities[splitSecurityId ?? securityId];
-                        split.SetSecurity(splitSecurity, tlock);
+                    var amount = (long)s.Attribute("amount");
+                    split.SetAmount(amount);
 
-                        var amount = (long)s.Attribute("amount");
-                        split.SetAmount(amount, tlock);
+                    var transactionAmount = (long?)s.Attribute("transactionAmount");
+                    split.SetTransactionAmount(splitSecurity != security ? transactionAmount.Value : transactionAmount ?? amount);
 
-                        var transactionAmount = (long)s.Attribute("transactionAmount");
-                        split.SetTransactionAmount(splitSecurity != security ? transactionAmount.Value : transactionAmount ?? amount, tlock);
+                    var dateCleared = (DateTime?)s.Attribute("dateCleared");
+                    split.SetDateCleared(dateCleared);
 
-                        var dateCleared = (DateTime?)s.Attribute("dateCleared");
-                        split.SetDateCleared(dateCleared, tlock);
-
-                        var reconciled = (bool)s.Attribute("reconciled");
-                        split.SetIsReconciled(reconciled, tlock);
-                    }
+                    var reconciled = (bool)s.Attribute("reconciled");
+                    split.SetIsReconciled(reconciled);
                 }
 
                 book.AddTransaction(transaction);
