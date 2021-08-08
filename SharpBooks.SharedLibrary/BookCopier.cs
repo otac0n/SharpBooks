@@ -19,6 +19,11 @@ namespace SharpBooks
         /// <inheritdoc/>
         public void AddAccount(AccountData account)
         {
+            if (account == null)
+            {
+                throw new ArgumentNullException(nameof(account));
+            }
+
             lock (this)
             {
                 var security = this.destinationBook.Securities.Where(s => s.SecurityId == account.SecurityId).Single();

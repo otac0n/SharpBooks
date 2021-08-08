@@ -168,6 +168,18 @@
   <data name="SECURITY_ID_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the security to the book, because another security has already been added with the same ID.</value>
   </data>
+  <data name="SECURITY_IN_USE_BY_ACCOUNT" xml:space="preserve">
+    <value>Could not remove the security from the book, because at least one account depends on it.</value>
+  </data>
+  <data name="SECURITY_IN_USE_BY_PRICE_QUOTE" xml:space="preserve">
+    <value>Could not remove the security from the book, because at least one price quote depends on it.</value>
+  </data>
+  <data name="SECURITY_IN_USE_BY_TRANSACTION" xml:space="preserve">
+    <value>Could not remove the security from the book, because at least one transaction depends on it.</value>
+  </data>
+  <data name="SECURITY_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not remove the security from the book, because the security is not a member of the book.</value>
+  </data>
   <data name="SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL" xml:space="preserve">
     <value>Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.</value>
   </data>
@@ -188,6 +200,9 @@
   </data>
   <data name="TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT" xml:space="preserve">
     <value>The transaction must share the same security as at least one of its splits.</value>
+  </data>
+  <data name="TRANSACTION_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not remove the transaction from the book, because the transaction is not a member of the book.</value>
   </data>
   <data name="TRANSACTION_SUM_MUST_BE_ZERO" xml:space="preserve">
     <value>The sum of the splits in the transaction must be equal to zero.</value>

@@ -59,19 +59,11 @@ namespace SharpBooks.StandardPlugins
             return JsonConvert.SerializeObject(config);
         }
 
-        public class AccountView
+        internal class AccountView
         {
-            public bool Favorite
-            {
-                get;
-                set;
-            }
+            public bool Favorite { get; set; }
 
-            public string Name
-            {
-                get;
-                set;
-            }
+            public string Name { get; set; }
         }
     }
 }

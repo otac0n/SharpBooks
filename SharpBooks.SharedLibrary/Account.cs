@@ -10,8 +10,6 @@ namespace SharpBooks
     {
         private readonly int? smallestFraction;
 
-        private Book book;
-
         public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
         {
             if (accountId == Guid.Empty)
@@ -75,7 +73,7 @@ namespace SharpBooks
 
         public AccountType AccountType { get; }
 
-        public CompositeBalance Balance => this.book?.GetAccountBalance(this);
+        public CompositeBalance Balance => this.Book?.GetAccountBalance(this);
 
         public string Name { get; }
 
@@ -85,20 +83,9 @@ namespace SharpBooks
 
         public int? SmallestFraction => this.smallestFraction;
 
-        public CompositeBalance TotalBalance => this.book?.GetAccountTotalBalance(this);
+        public CompositeBalance TotalBalance => this.Book?.GetAccountTotalBalance(this);
 
-        internal Book Book
-        {
-            get => this.book;
-
-            set
-            {
-                if (this.book != value)
-                {
-                    this.book = value;
-                }
-            }
-        }
+        internal Book Book { get; set; }
 
         public string GetPath(string separator)
         {
@@ -113,7 +100,7 @@ namespace SharpBooks
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.GetPath(Path.DirectorySeparatorChar.ToString());
+            return this.GetPath(new string(Path.DirectorySeparatorChar, 1));
         }
     }
 }

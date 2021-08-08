@@ -214,6 +214,42 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not remove the security from the book, because at least one account depends on it..
+        /// </summary>
+        internal static string SECURITY_IN_USE_BY_ACCOUNT {
+            get {
+                return ResourceManager.GetString("SECURITY_IN_USE_BY_ACCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the security from the book, because at least one price quote depends on it..
+        /// </summary>
+        internal static string SECURITY_IN_USE_BY_PRICE_QUOTE {
+            get {
+                return ResourceManager.GetString("SECURITY_IN_USE_BY_PRICE_QUOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the security from the book, because at least one transaction depends on it..
+        /// </summary>
+        internal static string SECURITY_IN_USE_BY_TRANSACTION {
+            get {
+                return ResourceManager.GetString("SECURITY_IN_USE_BY_TRANSACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the security from the book, because the security is not a member of the book..
+        /// </summary>
+        internal static string SECURITY_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("SECURITY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add the security to the book, because another security has already been added with the same Security Type and Symbol..
         /// </summary>
         internal static string SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL {
@@ -273,6 +309,15 @@ namespace SharpBooks.Localization {
         internal static string TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT {
             get {
                 return ResourceManager.GetString("TRANSACTION_MUST_SHARE_SECURITY_WITH_A_SPLIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the transaction from the book, because the transaction is not a member of the book..
+        /// </summary>
+        internal static string TRANSACTION_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("TRANSACTION_NOT_IN_BOOK", resourceCulture);
             }
         }
         

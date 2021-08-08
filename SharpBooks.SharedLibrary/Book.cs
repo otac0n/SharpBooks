@@ -477,7 +477,7 @@ namespace SharpBooks
 
                 if (!this.securities.Contains(security))
                 {
-                    throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_NOT_IN_BOOK);
                 }
 
                 var dependantAccounts = from a in this.accounts
@@ -486,7 +486,7 @@ namespace SharpBooks
 
                 if (dependantAccounts.Any())
                 {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_IN_USE_BY_ACCOUNT);
                 }
 
                 var dependantSplits = from t in this.transactions
@@ -496,7 +496,7 @@ namespace SharpBooks
 
                 if (dependantSplits.Any())
                 {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one transaction depends on it.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_IN_USE_BY_TRANSACTION);
                 }
 
                 var dependantPriceQuotes = from q in this.priceQuotes
@@ -505,7 +505,7 @@ namespace SharpBooks
 
                 if (dependantPriceQuotes.Any())
                 {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_IN_USE_BY_PRICE_QUOTE);
                 }
 
                 this.securities.Remove(security);
@@ -548,7 +548,7 @@ namespace SharpBooks
 
                 if (!this.transactions.Remove(transaction))
                 {
-                    throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_NOT_IN_BOOK);
                 }
 
                 this.transactionIds.Remove(transaction.TransactionId);
@@ -636,6 +636,11 @@ namespace SharpBooks
         /// <param name="savePoint">The <see cref="SavePoint"/> from which the changes should be replayed.  If null, the entirety of the current <see cref="Book"/> will be replayed.</param>
         public void Replay(ISaver dataAdapter, SavePoint savePoint = null)
         {
+            if (dataAdapter == null)
+            {
+                throw new ArgumentNullException(nameof(dataAdapter));
+            }
+
             SaveTrack track;
 
             lock (this.lockMutex)

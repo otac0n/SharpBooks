@@ -11,7 +11,7 @@ namespace SharpBooks
 
         public CompositeBalance()
         {
-            this.balances = new Balance[0];
+            this.balances = System.Array.Empty<Balance>();
         }
 
         public CompositeBalance(IEnumerable<Balance> balances)

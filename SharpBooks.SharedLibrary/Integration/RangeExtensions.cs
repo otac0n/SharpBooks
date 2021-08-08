@@ -470,8 +470,8 @@ namespace SharpBooks.Integration
         public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB)
             where T : IComparable<T>
         {
-            setA = setA ?? new IRange<T>[0];
-            setB = setB ?? new IRange<T>[0];
+            setA = setA ?? Array.Empty<IRange<T>>();
+            setB = setB ?? Array.Empty<IRange<T>>();
 
             return setA.Concat(setB).Simplify();
         }
