@@ -3,8 +3,8 @@
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections;
+    using System.Collections.Generic;
 
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
@@ -30,9 +30,9 @@ namespace SharpBooks
 
         public TValue this[TKey key]
         {
-            get { return this.dictionary[key]; }
+            get => this.dictionary[key];
 
-            set { throw new NotSupportedException(); }
+            set => throw new NotSupportedException();
         }
 
         public void Add(TKey key, TValue value)

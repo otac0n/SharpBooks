@@ -27,10 +27,7 @@ namespace SharpBooks.Controllers
 
         public Account ActiveAccount
         {
-            get
-            {
-                return this.activeAccount;
-            }
+            get => this.activeAccount;
 
             private set
             {

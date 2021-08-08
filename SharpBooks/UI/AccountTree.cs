@@ -30,10 +30,7 @@ namespace SharpBooks.UI
         [Browsable(false)]
         public ReadOnlyBook Book
         {
-            get
-            {
-                return this.book;
-            }
+            get => this.book;
 
             set
             {
@@ -53,8 +50,8 @@ namespace SharpBooks.UI
 
         public ImageList ImageList
         {
-            get { return this.tree.ImageList; }
-            set { this.tree.ImageList = value; }
+            get => this.tree.ImageList;
+            set => this.tree.ImageList = value;
         }
 
         private void AttachBookHandlers()

@@ -53,15 +53,9 @@ namespace SharpBooks
 
         public T this[int index]
         {
-            get
-            {
-                return this.storage[index];
-            }
+            get => this.storage[index];
 
-            set
-            {
-                throw new InvalidOperationException();
-            }
+            set => throw new InvalidOperationException();
         }
 
         public int Add(T item)

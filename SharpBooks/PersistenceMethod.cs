@@ -19,9 +19,9 @@ namespace SharpBooks
 
         public Uri Uri
         {
-            get { return this.uri; }
+            get => this.uri;
 
-            set { this.uri = value; }
+            set => this.uri = value;
         }
     }
 }

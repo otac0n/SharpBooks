@@ -3,12 +3,12 @@
 namespace SharpBooks.UI
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
     using System.Windows.Forms.VisualStyles;
-    using System.Collections;
 
     public partial class HeaderControl : UserControl
     {
@@ -298,10 +298,7 @@ namespace SharpBooks.UI
 
             public bool CanResize
             {
-                get
-                {
-                    return this.canResize;
-                }
+                get => this.canResize;
 
                 set
                 {
@@ -319,10 +316,7 @@ namespace SharpBooks.UI
 
             public int MinWidth
             {
-                get
-                {
-                    return this.minWidth;
-                }
+                get => this.minWidth;
 
                 set
                 {
@@ -343,10 +337,7 @@ namespace SharpBooks.UI
 
             public string Text
             {
-                get
-                {
-                    return this.text ?? "ColumnHeader";
-                }
+                get => this.text ?? "ColumnHeader";
 
                 set
                 {
@@ -358,10 +349,7 @@ namespace SharpBooks.UI
 
             public HorizontalAlign TextAlign
             {
-                get
-                {
-                    return this.textAlign;
-                }
+                get => this.textAlign;
 
                 set
                 {
@@ -378,10 +366,7 @@ namespace SharpBooks.UI
 
             public int Width
             {
-                get
-                {
-                    return this.width;
-                }
+                get => this.width;
 
                 set
                 {

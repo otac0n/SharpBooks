@@ -89,10 +89,7 @@ namespace SharpBooks
 
         internal Book Book
         {
-            get
-            {
-                return this.book;
-            }
+            get => this.book;
 
             set
             {

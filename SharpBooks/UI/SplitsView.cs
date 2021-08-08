@@ -46,10 +46,7 @@ namespace SharpBooks.UI
 
         public Point Offset
         {
-            get
-            {
-                return this.offset;
-            }
+            get => this.offset;
 
             set
             {
@@ -79,10 +76,7 @@ namespace SharpBooks.UI
         [Browsable(false)]
         public int SelectedIndex
         {
-            get
-            {
-                return this.selectedIndex;
-            }
+            get => this.selectedIndex;
 
             set
             {
@@ -211,8 +205,7 @@ namespace SharpBooks.UI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            var register = this.Parent as AccountRegister;
-            if (register == null)
+            if (!(this.Parent is AccountRegister register))
             {
                 base.OnPaint(e);
                 return;
