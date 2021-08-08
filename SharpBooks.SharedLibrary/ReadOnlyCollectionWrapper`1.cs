@@ -12,12 +12,7 @@ namespace SharpBooks
 
         public ReadOnlyCollectionWrapper(ICollection<T> wrappedCollection)
         {
-            if (wrappedCollection == null)
-            {
-                throw new ArgumentNullException(nameof(wrappedCollection));
-            }
-
-            this.collection = wrappedCollection;
+            this.collection = wrappedCollection ?? throw new ArgumentNullException(nameof(wrappedCollection));
         }
 
         public int Count => this.collection.Count;

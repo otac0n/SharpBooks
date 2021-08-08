@@ -13,14 +13,14 @@ namespace SharpBooks
 
         public MainView(MainController owner)
         {
-            this.owner = owner;
+            this.owner = owner ?? throw new ArgumentNullException(nameof(owner));
             this.owner.BookChanged += this.Owner_BookChanged;
             this.owner.ActiveAccountChanged += this.Owner_ActiveAccountChanged;
 
             this.InitializeComponent();
 
-            this.Owner_BookChanged(this.owner, new EventArgs());
-            this.Owner_ActiveAccountChanged(this.owner, new EventArgs());
+            this.Owner_BookChanged(this.owner, EventArgs.Empty);
+            this.Owner_ActiveAccountChanged(this.owner, EventArgs.Empty);
         }
 
         public event EventHandler<EventArgs> AccountDeselected;
@@ -31,7 +31,7 @@ namespace SharpBooks
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs
+                this.AccountSelected?.Invoke(this, new AccountSelectedEventArgs
                 {
                     AccountId = (Guid)((Control)sender).Tag,
                 });
@@ -55,7 +55,7 @@ namespace SharpBooks
 
         private void AccountTree_AccountSelected(object sender, AccountSelectedEventArgs e)
         {
-            this.AccountSelected.SafeInvoke(this, () => e);
+            this.AccountSelected?.Invoke(this, e);
         }
 
         private void AccountTree_NewAccountRequested(object sender, NewAccountRequestedEventArgs e)
@@ -104,7 +104,7 @@ namespace SharpBooks
 
         private void ReturnToAccounts_Click(object sender, EventArgs e)
         {
-            this.AccountDeselected.SafeInvoke(this, () => new EventArgs());
+            this.AccountDeselected?.Invoke(this, EventArgs.Empty);
         }
 
         private void Save_Click(object sender, EventArgs e)

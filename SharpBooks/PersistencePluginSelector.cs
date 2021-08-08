@@ -38,12 +38,7 @@ namespace SharpBooks
         {
             public FactoryDisplay(IPersistenceStrategyFactory factory)
             {
-                if (factory == null)
-                {
-                    throw new ArgumentNullException(nameof(factory));
-                }
-
-                this.Factory = factory;
+                this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
             }
 
             public IPersistenceStrategyFactory Factory { get; }

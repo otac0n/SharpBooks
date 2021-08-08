@@ -138,7 +138,7 @@ namespace SharpBooks.UI
             }
 
             desiredOffset.Offset(this.offset);
-            this.DesiresOffset.SafeInvoke(this, new DesiresOffsetEventArgs(desiredOffset));
+            this.DesiresOffset?.Invoke(this, new DesiresOffsetEventArgs(desiredOffset));
         }
 
         public void SetAccount(Account account, ReadOnlyBook book)
@@ -288,7 +288,7 @@ namespace SharpBooks.UI
 
         protected virtual void OnScrollableSizeChanged(EventArgs e)
         {
-            this.ScrollableSizeChanged.SafeInvoke(this, e);
+            this.ScrollableSizeChanged?.Invoke(this, e);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -487,17 +487,17 @@ namespace SharpBooks.UI
 
         private void OnScrollableSizeChanged()
         {
-            this.OnScrollableSizeChanged(new EventArgs());
+            this.OnScrollableSizeChanged(EventArgs.Empty);
         }
 
         private void OnSelectedIndexChanged()
         {
-            this.OnSelectedIndexChanged(new EventArgs());
+            this.OnSelectedIndexChanged(EventArgs.Empty);
         }
 
         private void OnSelectedIndexChanged(EventArgs e)
         {
-            this.SelectedIndexChanged.SafeInvoke(this, e);
+            this.SelectedIndexChanged?.Invoke(this, e);
         }
 
         private void UpdateHover(MouseEventArgs e)

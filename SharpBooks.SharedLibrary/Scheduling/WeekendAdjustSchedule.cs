@@ -9,12 +9,7 @@ namespace SharpBooks.Scheduling
     {
         public WeekendAdjustSchedule(ISchedule baseSchedule, WeekdayAdjustmentDirection saturdayAdjustment, WeekdayAdjustmentDirection sundayAdjustment)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
             this.SaturdayAdjustment = saturdayAdjustment;
             this.SundayAdjustment = sundayAdjustment;
         }

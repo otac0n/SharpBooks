@@ -16,18 +16,8 @@ namespace SharpBooks
 
         public EditAccountView(MainController owner, Account account)
         {
-            if (owner == null)
-            {
-                throw new ArgumentNullException(nameof(owner));
-            }
-
-            if (account == null)
-            {
-                throw new ArgumentNullException(nameof(account));
-            }
-
-            this.owner = owner;
-            this.originalAccount = account;
+            this.owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            this.originalAccount = account ?? throw new ArgumentNullException(nameof(account));
 
             this.InitializeComponent();
 

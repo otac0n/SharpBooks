@@ -98,11 +98,11 @@ namespace SharpBooks.UI
         {
             if (this.transactionIsNew)
             {
-                this.TransactionCreated.SafeInvoke(this, new TransactionCreatedEventArgs(e.NewTransaction));
+                this.TransactionCreated?.Invoke(this, new TransactionCreatedEventArgs(e.NewTransaction));
             }
             else
             {
-                this.TransactionUpdated.SafeInvoke(this, e);
+                this.TransactionUpdated?.Invoke(this, e);
             }
         }
 

@@ -23,17 +23,12 @@ namespace SharpBooks
         /// <param name="baseSecurity">The security in which the values of the transaction are expressed.</param>
         public Transaction(Guid transactionId, Security baseSecurity)
         {
-            if (baseSecurity == null)
-            {
-                throw new ArgumentNullException(nameof(baseSecurity));
-            }
-
             if (transactionId == Guid.Empty)
             {
                 throw new ArgumentOutOfRangeException(nameof(transactionId));
             }
 
-            this.BaseSecurity = baseSecurity;
+            this.BaseSecurity = baseSecurity ?? throw new ArgumentNullException(nameof(baseSecurity));
             this.TransactionId = transactionId;
             this.Date = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
         }

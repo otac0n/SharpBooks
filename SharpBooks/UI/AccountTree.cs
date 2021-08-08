@@ -128,7 +128,7 @@ namespace SharpBooks.UI
         {
             var account = (Account)this.tree.SelectedNode.Tag;
 
-            this.AccountDeleteRequested.SafeInvoke(this, () => new AccountDeleteRequestedEventArgs { AccountId = account.AccountId });
+            this.AccountDeleteRequested?.Invoke(this, new AccountDeleteRequestedEventArgs { AccountId = account.AccountId });
         }
 
         private void DetachBookHandlers()
@@ -154,14 +154,14 @@ namespace SharpBooks.UI
         {
             var parentAccount = (Account)this.tree.SelectedNode.Tag;
 
-            this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
+            this.NewAccountRequested?.Invoke(this, new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
         }
 
         private void Open_Click(object sender, EventArgs e)
         {
             var account = (Account)this.tree.SelectedNode.Tag;
 
-            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+            this.AccountSelected?.Invoke(this, new AccountSelectedEventArgs { AccountId = account.AccountId });
         }
 
         private void Tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -211,7 +211,7 @@ namespace SharpBooks.UI
             {
                 var account = (Account)e.Node.Tag;
 
-                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+                this.AccountSelected?.Invoke(this, new AccountSelectedEventArgs { AccountId = account.AccountId });
             }
         }
     }

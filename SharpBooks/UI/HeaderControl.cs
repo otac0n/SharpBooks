@@ -79,7 +79,7 @@ namespace SharpBooks.UI
             }
 
             header.width = width;
-            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.columns.IndexOf(header)));
+            this.ColumnWidthChanged?.Invoke(this, new ColumnWidthChangedEventArgs(this.columns.IndexOf(header)));
             this.Invalidate();
         }
 
@@ -178,7 +178,7 @@ namespace SharpBooks.UI
         {
             this.resizing = false;
             this.columns[this.hoverColumn].Width = this.originalWidth;
-            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
+            this.ColumnWidthChanged?.Invoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
         }
 
         private void ClearColumns()

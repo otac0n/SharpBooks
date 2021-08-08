@@ -165,7 +165,7 @@ namespace SharpBooks.UI
                 var split = this.split;
 
                 this.SetSplit(null);
-                this.TransactionUpdated.SafeInvoke(this, new TransactionUpdatedEventArgs(oldTransaction, newTransaction));
+                this.TransactionUpdated?.Invoke(this, new TransactionUpdatedEventArgs(oldTransaction, newTransaction));
             }
         }
 

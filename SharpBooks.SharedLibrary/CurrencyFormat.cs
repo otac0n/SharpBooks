@@ -91,11 +91,6 @@ namespace SharpBooks
                 }
             }
 
-            if (currencySymbol == null)
-            {
-                throw new ArgumentNullException(nameof(currencySymbol));
-            }
-
             if (!Enum.GetValues(typeof(PositiveFormat)).Cast<PositiveFormat>().Contains(positiveFormat))
             {
                 throw new ArgumentOutOfRangeException(nameof(positiveFormat));
@@ -112,7 +107,7 @@ namespace SharpBooks
             this.groupSizes = copy;
             this.PositiveFormat = positiveFormat;
             this.NegativeFormat = negativeFormat;
-            this.Symbol = currencySymbol;
+            this.Symbol = currencySymbol ?? throw new ArgumentNullException(nameof(currencySymbol));
 
             this.numberFormatInfo = new NumberFormatInfo
             {

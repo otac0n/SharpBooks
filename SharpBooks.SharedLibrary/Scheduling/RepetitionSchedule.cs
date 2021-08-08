@@ -19,17 +19,12 @@ namespace SharpBooks.Scheduling
 
         public RepetitionSchedule(ISchedule baseSchedule, DateUnit unit, int increment)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
             if (increment <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(increment));
             }
 
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
             this.Unit = unit;
             this.Increment = increment;
         }

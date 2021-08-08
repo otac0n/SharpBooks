@@ -8,12 +8,7 @@ namespace SharpBooks.Events
     {
         public AccountAddedEventArgs(Account account)
         {
-            if (account == null)
-            {
-                throw new ArgumentNullException(nameof(account));
-            }
-
-            this.Account = account;
+            this.Account = account ?? throw new ArgumentNullException(nameof(account));
         }
 
         public Account Account { get; }

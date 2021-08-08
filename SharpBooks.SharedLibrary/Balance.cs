@@ -10,12 +10,7 @@ namespace SharpBooks
 
         public Balance(Security security, long amount, bool isExact)
         {
-            if (security == null)
-            {
-                throw new ArgumentNullException(nameof(security));
-            }
-
-            this.security = security;
+            this.security = security ?? throw new ArgumentNullException(nameof(security));
             this.Amount = amount;
             this.IsExact = isExact;
         }

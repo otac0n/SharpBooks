@@ -10,11 +10,6 @@ namespace SharpBooks.Scheduling
     {
         public WeekdayFilter(ISchedule baseSchedule, IEnumerable<DayOfWeek> allowedWeekdays)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
             var weekdays = (from DayOfWeek wk in Enum.GetValues(typeof(DayOfWeek))
                             select wk).ToDictionary(w => w, w => false);
 
@@ -23,7 +18,7 @@ namespace SharpBooks.Scheduling
                 weekdays[wk] = true;
             }
 
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
             this.Weekdays = weekdays;
         }
 

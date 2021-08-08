@@ -8,12 +8,7 @@ namespace SharpBooks.UI
     {
         public TransactionCreatedEventArgs(Transaction newTransaction)
         {
-            if (newTransaction == null)
-            {
-                throw new ArgumentNullException(nameof(newTransaction));
-            }
-
-            this.NewTransaction = newTransaction;
+            this.NewTransaction = newTransaction ?? throw new ArgumentNullException(nameof(newTransaction));
         }
 
         public Transaction NewTransaction { get; }

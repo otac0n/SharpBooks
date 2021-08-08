@@ -10,17 +10,12 @@ namespace SharpBooks.Scheduling
     {
         public InstanceLimitSchedule(ISchedule baseSchedule, int count)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
             if (count < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
             this.Count = count;
         }
 

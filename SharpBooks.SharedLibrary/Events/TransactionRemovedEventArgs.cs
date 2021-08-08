@@ -8,12 +8,7 @@ namespace SharpBooks.Events
     {
         public TransactionRemovedEventArgs(Transaction transaction)
         {
-            if (transaction == null)
-            {
-                throw new ArgumentNullException(nameof(transaction));
-            }
-
-            this.Transaction = transaction;
+            this.Transaction = transaction ?? throw new ArgumentNullException(nameof(transaction));
         }
 
         public Transaction Transaction { get; }

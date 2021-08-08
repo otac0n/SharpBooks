@@ -8,12 +8,7 @@ namespace SharpBooks.Events
     {
         public PriceQuoteAddedEventArgs(PriceQuote priceQuote)
         {
-            if (priceQuote == null)
-            {
-                throw new ArgumentNullException(nameof(priceQuote));
-            }
-
-            this.PriceQuote = priceQuote;
+            this.PriceQuote = priceQuote ?? throw new ArgumentNullException(nameof(priceQuote));
         }
 
         public PriceQuote PriceQuote { get; }

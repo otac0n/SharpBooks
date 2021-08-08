@@ -148,12 +148,7 @@ namespace SharpBooks
 
         public void SetComparer(IComparer<T> comparer)
         {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException(nameof(comparer));
-            }
-
-            this.comparer = comparer;
+            this.comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
             this.storage.Sort(comparer);
         }
     }

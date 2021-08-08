@@ -9,12 +9,7 @@ namespace SharpBooks.Scheduling
     {
         public DateLimitSchedule(ISchedule baseSchedule, DateTime onOrBefore)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
             this.OnOrBefore = onOrBefore;
         }
 

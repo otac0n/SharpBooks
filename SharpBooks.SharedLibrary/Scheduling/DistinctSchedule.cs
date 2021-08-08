@@ -9,12 +9,7 @@ namespace SharpBooks.Scheduling
     {
         public DistinctSchedule(ISchedule baseSchedule)
         {
-            if (baseSchedule == null)
-            {
-                throw new ArgumentNullException(nameof(baseSchedule));
-            }
-
-            this.BaseSchedule = baseSchedule;
+            this.BaseSchedule = baseSchedule ?? throw new ArgumentNullException(nameof(baseSchedule));
         }
 
         private ISchedule BaseSchedule

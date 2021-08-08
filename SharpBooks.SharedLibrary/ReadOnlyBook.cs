@@ -12,20 +12,15 @@ namespace SharpBooks
 
         internal ReadOnlyBook(Book book)
         {
-            if (book == null)
-            {
-                throw new ArgumentNullException(nameof(book));
-            }
-
-            this.book = book;
-            this.book.AccountAdded += (o, e) => this.AccountAdded.SafeInvoke(this, e);
-            this.book.AccountRemoved += (o, e) => this.AccountRemoved.SafeInvoke(this, e);
-            this.book.PriceQuoteAdded += (o, e) => this.PriceQuoteAdded.SafeInvoke(this, e);
-            this.book.PriceQuoteRemoved += (o, e) => this.PriceQuoteRemoved.SafeInvoke(this, e);
-            this.book.SecurityAdded += (o, e) => this.SecurityAdded.SafeInvoke(this, e);
-            this.book.SecurityRemoved += (o, e) => this.SecurityRemoved.SafeInvoke(this, e);
-            this.book.TransactionAdded += (o, e) => this.TransactionAdded.SafeInvoke(this, e);
-            this.book.TransactionRemoved += (o, e) => this.TransactionRemoved.SafeInvoke(this, e);
+            this.book = book ?? throw new ArgumentNullException(nameof(book));
+            this.book.AccountAdded += (o, e) => this.AccountAdded?.Invoke(this, e);
+            this.book.AccountRemoved += (o, e) => this.AccountRemoved?.Invoke(this, e);
+            this.book.PriceQuoteAdded += (o, e) => this.PriceQuoteAdded?.Invoke(this, e);
+            this.book.PriceQuoteRemoved += (o, e) => this.PriceQuoteRemoved?.Invoke(this, e);
+            this.book.SecurityAdded += (o, e) => this.SecurityAdded?.Invoke(this, e);
+            this.book.SecurityRemoved += (o, e) => this.SecurityRemoved?.Invoke(this, e);
+            this.book.TransactionAdded += (o, e) => this.TransactionAdded?.Invoke(this, e);
+            this.book.TransactionRemoved += (o, e) => this.TransactionRemoved?.Invoke(this, e);
         }
 
         public event EventHandler<AccountAddedEventArgs> AccountAdded;

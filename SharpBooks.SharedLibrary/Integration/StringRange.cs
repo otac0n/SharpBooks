@@ -11,12 +11,7 @@ namespace SharpBooks.Integration
 
         public StringRange(string source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            this.source = source;
+            this.source = source ?? throw new ArgumentNullException(nameof(source));
             this.Start = 0;
             this.Length = source.Length;
             this.value = source.Substring(this.Start, this.Length);

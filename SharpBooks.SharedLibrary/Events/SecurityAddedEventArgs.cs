@@ -8,12 +8,7 @@ namespace SharpBooks.Events
     {
         public SecurityAddedEventArgs(Security security)
         {
-            if (security == null)
-            {
-                throw new ArgumentNullException(nameof(security));
-            }
-
-            this.Security = security;
+            this.Security = security ?? throw new ArgumentNullException(nameof(security));
         }
 
         public Security Security { get; }

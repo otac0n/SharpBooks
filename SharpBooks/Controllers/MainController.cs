@@ -35,7 +35,7 @@ namespace SharpBooks.Controllers
                 {
                     this.activeAccount = value;
 
-                    this.ActiveAccountChanged.SafeInvoke(this, () => new EventArgs());
+                    this.ActiveAccountChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -432,7 +432,7 @@ namespace SharpBooks.Controllers
                 this.ActiveAccount = null;
 
                 this.book = book;
-                this.BookChanged.SafeInvoke(this, () => new EventArgs());
+                this.BookChanged?.Invoke(this, EventArgs.Empty);
             }
         }
     }

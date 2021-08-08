@@ -12,12 +12,7 @@ namespace SharpBooks
 
         public ReadOnlyDictionary(IDictionary<TKey, TValue> dictionary)
         {
-            if (dictionary == null)
-            {
-                throw new ArgumentNullException(nameof(dictionary));
-            }
-
-            this.dictionary = dictionary;
+            this.dictionary = dictionary ?? throw new ArgumentNullException(nameof(dictionary));
         }
 
         public int Count => this.dictionary.Count;

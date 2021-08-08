@@ -123,7 +123,7 @@ namespace SharpBooks
                 this.balances.Add(account, new CompositeBalance());
             }
 
-            this.AccountAdded.SafeInvoke(this, new AccountAddedEventArgs(account));
+            this.AccountAdded?.Invoke(this, new AccountAddedEventArgs(account));
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace SharpBooks
                 this.UpdateSaveTracks(st => st.AddPriceQuote(new PriceQuoteData(priceQuote)));
             }
 
-            this.PriceQuoteAdded.SafeInvoke(this, new PriceQuoteAddedEventArgs(priceQuote));
+            this.PriceQuoteAdded?.Invoke(this, new PriceQuoteAddedEventArgs(priceQuote));
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace SharpBooks
                 this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
             }
 
-            this.SecurityAdded.SafeInvoke(this, new SecurityAddedEventArgs(security));
+            this.SecurityAdded?.Invoke(this, new SecurityAddedEventArgs(security));
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace SharpBooks
                 this.AddTransactionToBalances(transaction);
             }
 
-            this.TransactionAdded.SafeInvoke(this, new TransactionAddedEventArgs(transaction));
+            this.TransactionAdded?.Invoke(this, new TransactionAddedEventArgs(transaction));
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace SharpBooks
                 this.totalBalances.Remove(account);
             }
 
-            this.AccountRemoved.SafeInvoke(this, new AccountRemovedEventArgs(account));
+            this.AccountRemoved?.Invoke(this, new AccountRemovedEventArgs(account));
         }
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace SharpBooks
                 this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
             }
 
-            this.PriceQuoteRemoved.SafeInvoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
+            this.PriceQuoteRemoved?.Invoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
         }
 
         /// <summary>
@@ -514,7 +514,7 @@ namespace SharpBooks
                 this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
             }
 
-            this.SecurityRemoved.SafeInvoke(this, new SecurityRemovedEventArgs(security));
+            this.SecurityRemoved?.Invoke(this, new SecurityRemovedEventArgs(security));
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace SharpBooks
                 this.RemoveTransactionFromBalances(transaction);
             }
 
-            this.TransactionRemoved.SafeInvoke(this, new TransactionRemovedEventArgs(transaction));
+            this.TransactionRemoved?.Invoke(this, new TransactionRemovedEventArgs(transaction));
         }
 
         /// <summary>
@@ -627,8 +627,8 @@ namespace SharpBooks
                 this.AddTransactionToBalances(newTransaction);
             }
 
-            this.TransactionRemoved.SafeInvoke(this, new TransactionRemovedEventArgs(oldTransaction));
-            this.TransactionAdded.SafeInvoke(this, new TransactionAddedEventArgs(newTransaction));
+            this.TransactionRemoved?.Invoke(this, new TransactionRemovedEventArgs(oldTransaction));
+            this.TransactionAdded?.Invoke(this, new TransactionAddedEventArgs(newTransaction));
         }
 
         /// <summary>
