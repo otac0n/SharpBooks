@@ -1,9 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="FavoriteAccountConfiguration.cs" company="(none)">
-//  Copyright © 2012 John Gietzen. All rights reserved.
-// </copyright>
-// <author>otac0n</author>
-//-----------------------------------------------------------------------
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace SharpBooks.StandardPlugins
 {
