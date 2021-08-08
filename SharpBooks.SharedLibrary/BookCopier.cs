@@ -16,6 +16,7 @@ namespace SharpBooks
             this.bookToCopy = bookToCopy;
         }
 
+        /// <inheritdoc/>
         public void AddAccount(AccountData account)
         {
             lock (this)
@@ -41,6 +42,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void AddPriceQuote(PriceQuoteData priceQuote)
         {
             lock (this)
@@ -63,6 +65,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void AddSecurity(SecurityData security)
         {
             if (security == null)
@@ -84,6 +87,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void AddTransaction(TransactionData transaction)
         {
             lock (this)
@@ -92,9 +96,10 @@ namespace SharpBooks
 
                 var newTransaction = new Transaction(
                     transaction.TransactionId,
-                    baseSecurity);
-
-                newTransaction.Date = transaction.Date;
+                    baseSecurity)
+                {
+                    Date = transaction.Date,
+                };
 
                 foreach (var split in transaction.Splits)
                 {
@@ -116,6 +121,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public Book Load()
         {
             lock (this)
@@ -134,6 +140,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void RemoveAccount(Guid accountId)
         {
             lock (this)
@@ -145,6 +152,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void RemovePriceQuote(Guid priceQuoteId)
         {
             lock (this)
@@ -156,6 +164,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void RemoveSecurity(Guid securityId)
         {
             lock (this)
@@ -167,6 +176,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void RemoveSetting(string key)
         {
             lock (this)
@@ -175,6 +185,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void RemoveTransaction(Guid transactionId)
         {
             lock (this)
@@ -186,6 +197,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public void SetSetting(string key, string value)
         {
             lock (this)

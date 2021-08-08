@@ -8,6 +8,7 @@ namespace SharpBooks.Scheduling
 
     public abstract class ScheduleBase : ISchedule
     {
+        /// <inheritdoc/>
         public virtual DateTime? GetInstance(int index)
         {
             if (index < 0)
@@ -18,6 +19,7 @@ namespace SharpBooks.Scheduling
             return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).FirstOrDefault();
         }
 
+        /// <inheritdoc/>
         public abstract IEnumerable<DateTime> YieldAllInstances();
     }
 }

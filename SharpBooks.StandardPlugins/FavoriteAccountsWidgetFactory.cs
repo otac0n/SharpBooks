@@ -6,8 +6,10 @@ namespace SharpBooks.StandardPlugins
 
     internal class FavoriteAccountsWidgetFactory : IWidgetFactory
     {
+        /// <inheritdoc/>
         public string Name => "Favorite Accounts";
 
+        /// <inheritdoc/>
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
             var view = new FavoriteAccountsConfiguration();
@@ -16,6 +18,7 @@ namespace SharpBooks.StandardPlugins
             return currentSettings;
         }
 
+        /// <inheritdoc/>
         public IWidget CreateInstance(ReadOnlyBook book, string settings)
         {
             return new FavoriteAccountsWidget(settings);

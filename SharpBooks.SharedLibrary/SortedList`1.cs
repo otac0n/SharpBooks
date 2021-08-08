@@ -47,10 +47,13 @@ namespace SharpBooks
             this.storage.Sort(this.comparer);
         }
 
+        /// <inheritdoc/>
         public int Count => this.storage.Count;
 
+        /// <inheritdoc/>
         public bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public T this[int index]
         {
             get => this.storage[index];
@@ -72,6 +75,7 @@ namespace SharpBooks
             return result;
         }
 
+        /// <inheritdoc/>
         void ICollection<T>.Add(T item)
         {
             this.Add(item);
@@ -83,11 +87,13 @@ namespace SharpBooks
             this.storage.Sort(this.comparer);
         }
 
+        /// <inheritdoc/>
         public void Clear()
         {
             this.storage.Clear();
         }
 
+        /// <inheritdoc/>
         public bool Contains(T item)
         {
             var result = this.storage.BinarySearch(item, this.comparer);
@@ -95,21 +101,25 @@ namespace SharpBooks
             return result >= 0;
         }
 
+        /// <inheritdoc/>
         public void CopyTo(T[] array, int arrayIndex)
         {
             this.storage.CopyTo(array, arrayIndex);
         }
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             return this.storage.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.storage.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         public int IndexOf(T item)
         {
             var result = this.storage.BinarySearch(item, this.comparer);
@@ -119,6 +129,7 @@ namespace SharpBooks
                 : -1;
         }
 
+        /// <inheritdoc/>
         public void Insert(int index, T item)
         {
             throw new InvalidOperationException();
@@ -136,11 +147,13 @@ namespace SharpBooks
             return result;
         }
 
+        /// <inheritdoc/>
         bool ICollection<T>.Remove(T item)
         {
             return this.Remove(item) >= 0;
         }
 
+        /// <inheritdoc/>
         public void RemoveAt(int index)
         {
             this.storage.RemoveAt(index);

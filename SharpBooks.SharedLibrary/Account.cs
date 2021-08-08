@@ -110,6 +110,7 @@ namespace SharpBooks
             return this.ParentAccount.GetPath(separator) + separator + this.Name;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return this.GetPath(Path.DirectorySeparatorChar.ToString());

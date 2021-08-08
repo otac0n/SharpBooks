@@ -19,8 +19,8 @@ namespace SharpBooks.Integration
             var start = range.Start.CompareTo(value);
             var end = range.End.CompareTo(value);
 
-            if (range.StartInclusive && start == 0 ||
-                range.EndInclusive && end == 0)
+            if ((range.StartInclusive && start == 0) ||
+                (range.EndInclusive && end == 0))
             {
                 return true;
             }

@@ -141,8 +141,10 @@ namespace SharpBooks
 
         public Transaction Copy()
         {
-            var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
-            tNew.Date = this.Date;
+            var tNew = new Transaction(this.TransactionId, this.BaseSecurity)
+            {
+                Date = this.Date,
+            };
 
             foreach (var split in this.splits)
             {

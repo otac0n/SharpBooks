@@ -12,12 +12,14 @@ namespace SharpBooks.Plugins
             this.Name = name;
         }
 
+        /// <inheritdoc/>
         public string Name
         {
             get;
             private set;
         }
 
+        /// <inheritdoc/>
         public IPersistenceStrategy CreateInstance()
         {
             return new T();

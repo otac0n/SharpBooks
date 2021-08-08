@@ -12,20 +12,25 @@ namespace SharpBooks.Persistence
 
         protected abstract void Save(Book book, Uri uri);
 
+        /// <inheritdoc/>
         public abstract Uri Open(Uri recentUri);
 
+        /// <inheritdoc/>
         public abstract Uri SaveAs(Uri recentUri);
 
+        /// <inheritdoc/>
         public void SetDestination(Uri destination)
         {
             this.currentUri = destination;
         }
 
+        /// <inheritdoc/>
         public void Save(Book book)
         {
             this.Save(book, this.currentUri);
         }
 
+        /// <inheritdoc/>
         public Book Load()
         {
             return this.Load(this.currentUri);
@@ -36,6 +41,7 @@ namespace SharpBooks.Persistence
             this.Dispose(false);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);

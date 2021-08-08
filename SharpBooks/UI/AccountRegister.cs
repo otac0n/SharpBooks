@@ -40,8 +40,10 @@ namespace SharpBooks.UI
 
         public void NewTransaction()
         {
-            var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
-            transaction.Date = DateTime.Today.ToUniversalTime();
+            var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First())
+            {
+                Date = DateTime.Today.ToUniversalTime(),
+            };
             var split1 = transaction.AddSplit();
             var split2 = transaction.AddSplit();
 

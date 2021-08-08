@@ -21,6 +21,7 @@ namespace SharpBooks
 
         public Security Security => this.security;
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return (this.IsExact ? string.Empty : "\u2248") + this.security.FormatValue(this.Amount);

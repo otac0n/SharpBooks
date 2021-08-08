@@ -289,12 +289,12 @@ namespace SharpBooks.UI
 
         public class ColumnHeader
         {
-            internal HeaderControl headerControl;
-            internal int width = 60;
             private bool canResize = true;
+            private HeaderControl headerControl;
             private int minWidth = 10;
             private string text;
             private HorizontalAlign textAlign = HorizontalAlign.Left;
+            private int width = 60;
 
             public bool CanResize
             {
@@ -341,7 +341,7 @@ namespace SharpBooks.UI
 
                 set
                 {
-                    this.text = value ?? "";
+                    this.text = value ?? string.Empty;
 
                     this.ColumnContentChanged();
                 }
@@ -426,13 +426,7 @@ namespace SharpBooks.UI
 
             public bool IsReadOnly => false;
 
-            public ColumnHeader this[int index]
-            {
-                get
-                {
-                    return this.owner.columns[index];
-                }
-            }
+            public ColumnHeader this[int index] => this.owner.columns[index];
 
             public void Add(ColumnHeader header)
             {

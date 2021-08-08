@@ -18,6 +18,7 @@ namespace SharpBooks.Scheduling
             set;
         }
 
+        /// <inheritdoc/>
         public override IEnumerable<DateTime> YieldAllInstances()
         {
             var previousDate = (DateTime?)null;

@@ -31,6 +31,7 @@ namespace SharpBooks.Scheduling
             set;
         }
 
+        /// <inheritdoc/>
         public override IEnumerable<DateTime> YieldAllInstances()
         {
             return this.BaseSchedule.YieldAllInstances().Take(this.Count);

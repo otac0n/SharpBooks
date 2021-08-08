@@ -1,4 +1,4 @@
-﻿// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace SharpBooks.Persistence
 {
@@ -7,9 +7,11 @@ namespace SharpBooks.Persistence
     public interface IPersistenceStrategy : ILoader, IDisposable
     {
         Uri Open(Uri recentUri);
+
+        void Save(Book book);
+
         Uri SaveAs(Uri recentUri);
 
         void SetDestination(Uri destination);
-        void Save(Book book);
     }
 }

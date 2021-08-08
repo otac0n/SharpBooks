@@ -34,6 +34,7 @@ namespace SharpBooks.Scheduling
             set;
         }
 
+        /// <inheritdoc/>
         public override IEnumerable<DateTime> YieldAllInstances()
         {
             foreach (var d in this.BaseSchedule.YieldAllInstances())

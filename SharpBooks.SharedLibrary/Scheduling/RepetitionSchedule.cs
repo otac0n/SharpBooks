@@ -47,6 +47,7 @@ namespace SharpBooks.Scheduling
             set;
         }
 
+        /// <inheritdoc/>
         public override IEnumerable<DateTime> YieldAllInstances()
         {
             var lookup = Lookups[this.Unit];

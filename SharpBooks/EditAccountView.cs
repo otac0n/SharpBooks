@@ -87,7 +87,7 @@ namespace SharpBooks
             if (item.Security == null)
             {
                 this.fractionTextBox.Enabled = false;
-                this.fractionTextBox.Text = "";
+                this.fractionTextBox.Text = string.Empty;
             }
             else
             {

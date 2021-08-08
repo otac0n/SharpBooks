@@ -192,7 +192,8 @@ namespace SharpBooks.Controllers
 
         public bool Close()
         {
-            if (this.book != null) // TODO: If the book has unsaved changes.
+            // TODO: If the book has unsaved changes.
+            if (this.book != null)
             {
                 var result = MessageBox.Show("Save changes to your current book?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 

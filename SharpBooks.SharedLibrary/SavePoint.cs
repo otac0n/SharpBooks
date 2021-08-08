@@ -17,6 +17,7 @@ namespace SharpBooks
             private set;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.Book == null)

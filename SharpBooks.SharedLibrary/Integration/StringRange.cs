@@ -40,18 +40,23 @@ namespace SharpBooks.Integration
             this.value = source.Substring(start, length);
         }
 
+        /// <inheritdoc/>
         public int End => this.Start + this.Length;
 
+        /// <inheritdoc/>
         bool IRange<int>.EndInclusive => false;
 
         public int Length { get; }
 
+        /// <inheritdoc/>
         public int Start { get; }
 
+        /// <inheritdoc/>
         bool IRange<int>.StartInclusive => true;
 
         public string Value => this.value;
 
+        /// <inheritdoc/>
         IRange<int> IRange<int>.Clone(int start, bool startInclusive, int end, bool endInclusive)
         {
             return new StringRange(this.source, start, end - start);

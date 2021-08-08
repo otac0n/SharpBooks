@@ -37,6 +37,7 @@ namespace SharpBooks.StandardPlugins
             return config;
         }
 
+        /// <inheritdoc/>
         public Control Create(ReadOnlyBook book, EventProxy events)
         {
             if (this.control != null)
@@ -52,6 +53,7 @@ namespace SharpBooks.StandardPlugins
             return this.control;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.control != null)
@@ -60,6 +62,7 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
+        /// <inheritdoc/>
         public void Refresh(ReadOnlyBook book, EventProxy events)
         {
             if (this.control == null)

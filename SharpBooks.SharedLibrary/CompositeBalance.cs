@@ -95,6 +95,7 @@ namespace SharpBooks
             return new CompositeBalance(newBalances.AsReadOnly());
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             if (this.balances.Count > 0)

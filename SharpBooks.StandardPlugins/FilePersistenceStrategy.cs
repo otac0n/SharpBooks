@@ -13,12 +13,14 @@ namespace SharpBooks.StandardPlugins
             get;
         }
 
+        /// <inheritdoc/>
         public override Uri Open(Uri recentUri)
         {
             var dialog = new OpenFileDialog();
             return this.GetFileUrl(dialog, recentUri);
         }
 
+        /// <inheritdoc/>
         public override Uri SaveAs(Uri recentUri)
         {
             var dialog = new SaveFileDialog();

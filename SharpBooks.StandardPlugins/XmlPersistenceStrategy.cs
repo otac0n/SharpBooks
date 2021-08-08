@@ -1,4 +1,4 @@
-﻿// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace SharpBooks.StandardPlugins
 {
@@ -9,8 +9,10 @@ namespace SharpBooks.StandardPlugins
 
     public class XmlPersistenceStrategy : FilePersistenceStrategy
     {
+        /// <inheritdoc/>
         protected override string FileFilter => "XML Files (*.xml)|*.xml";
 
+        /// <inheritdoc/>
         protected override Book Load(Uri uri)
         {
             var book = new Book();
@@ -77,8 +79,10 @@ namespace SharpBooks.StandardPlugins
                 var security = securities[securityId];
                 var date = (DateTime)t.Attribute("date");
 
-                var transaction = new Transaction(transactionId, security);
-                transaction.Date = date;
+                var transaction = new Transaction(transactionId, security)
+                {
+                    Date = date,
+                };
 
                 foreach (var s in t.Elements("Split"))
                 {
@@ -135,6 +139,7 @@ namespace SharpBooks.StandardPlugins
             return book;
         }
 
+        /// <inheritdoc/>
         protected override void Save(Book book, Uri uri)
         {
             var root =
@@ -154,10 +159,7 @@ namespace SharpBooks.StandardPlugins
                                 new XAttribute("groupSizes", string.Join(",", s.Format.GroupSizes)),
                                 new XAttribute("negativeFormat", s.Format.NegativeFormat),
                                 new XAttribute("positiveFormat", s.Format.PositiveFormat),
-                                new XAttribute("symbol", s.Format.Symbol)
-                            )
-                        )
-                    ),
+                                new XAttribute("symbol", s.Format.Symbol)))),
                     new XElement("Accounts",
                         from a in book.Accounts
                         select new XElement("Account",
@@ -166,9 +168,7 @@ namespace SharpBooks.StandardPlugins
                             a.Security == null ? null : new XAttribute("securityId", a.Security.SecurityId),
                             a.ParentAccount == null ? null : new XAttribute("parentAccountId", a.ParentAccount.AccountId),
                             new XAttribute("name", a.Name),
-                            a.Security == null ? null : new XAttribute("smallestFraction", a.SmallestFraction)
-                        )
-                    ),
+                            a.Security == null ? null : new XAttribute("smallestFraction", a.SmallestFraction))),
                     new XElement("Transactions",
                         from t in book.Transactions
                         select new XElement("Transaction",
@@ -182,10 +182,7 @@ namespace SharpBooks.StandardPlugins
                                 new XAttribute("amount", s.Amount),
                                 s.Security != t.BaseSecurity || s.Amount != s.TransactionAmount ? new XAttribute("transactionAmount", s.TransactionAmount) : null,
                                 s.DateCleared.HasValue ? new XAttribute("dateCleared", s.DateCleared) : null,
-                                new XAttribute("reconciled", s.IsReconciled)
-                            )
-                        )
-                    ),
+                                new XAttribute("reconciled", s.IsReconciled)))),
                     new XElement("PriceQuotes",
                         from p in book.PriceQuotes
                         select new XElement("PriceQuote",
@@ -195,17 +192,12 @@ namespace SharpBooks.StandardPlugins
                             new XAttribute("quantity", p.Quantity),
                             new XAttribute("currencyId", p.Currency.SecurityId),
                             new XAttribute("price", p.Price),
-                            new XAttribute("source", p.Source)
-                        )
-                    ),
+                            new XAttribute("source", p.Source))),
                     new XElement("Settings",
                         from s in book.Settings
                         select new XElement("Setting",
                             new XAttribute("key", s.Key),
-                            new XAttribute("value", s.Value)
-                        )
-                    )
-                );
+                            new XAttribute("value", s.Value))));
 
             var doc = new XDocument(root);
 

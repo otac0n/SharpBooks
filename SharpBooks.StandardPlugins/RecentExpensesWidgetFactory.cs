@@ -6,8 +6,10 @@ namespace SharpBooks.StandardPlugins
 
     internal class RecentExpensesWidgetFactory : IWidgetFactory
     {
+        /// <inheritdoc/>
         public string Name => "Recent Expenses";
 
+        /// <inheritdoc/>
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
             ////var view = new RecentExpensesConfiguration();
@@ -16,6 +18,7 @@ namespace SharpBooks.StandardPlugins
             return currentSettings;
         }
 
+        /// <inheritdoc/>
         public IWidget CreateInstance(ReadOnlyBook book, string settings)
         {
             return new RecentExpensesWidget(settings);

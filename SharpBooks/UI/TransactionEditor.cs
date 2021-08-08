@@ -117,10 +117,10 @@ namespace SharpBooks.UI
         {
             this.suppressUpdates = true;
 
-            this.depositTextBox.Text = "";
-            this.withdrawalTextBox.Text = "";
-            this.descriptionTextBox.Text = "";
-            this.Enabled = (this.split != null);
+            this.depositTextBox.Text = string.Empty;
+            this.withdrawalTextBox.Text = string.Empty;
+            this.descriptionTextBox.Text = string.Empty;
+            this.Enabled = this.split != null;
 
             if (this.split == null)
             {

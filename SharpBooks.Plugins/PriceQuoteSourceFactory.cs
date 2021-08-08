@@ -10,12 +10,14 @@ namespace SharpBooks.Plugins
             this.Name = name;
         }
 
+        /// <inheritdoc/>
         public string Name
         {
             get;
             private set;
         }
 
+        /// <inheritdoc/>
         public IPriceQuoteSource CreateInstance()
         {
             return new T();
