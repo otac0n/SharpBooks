@@ -4,17 +4,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("SharpBooks.Plugins")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("SharpBooks.Plugins")]
-[assembly: AssemblyCopyright("Copyright © John Gietzen 2010")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
 [assembly: ComVisible(false)]
 
 [assembly: Guid("ef3c7d4e-af3f-4af9-b4ed-ca7c98025d32")]
-
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

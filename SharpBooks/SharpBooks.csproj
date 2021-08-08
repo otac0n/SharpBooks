@@ -1,102 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpBooks</RootNamespace>
-    <AssemblyName>SharpBooks</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
     <StartupObject>SharpBooks.Program</StartupObject>
+    <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
+  <Target Name="AfterBuildMigrated">
+    <Exec WorkingDirectory="$(TargetDir)" Command="&quot;%programfiles(x86)%\NSIS\makensis.exe&quot; /NOCD /V4 &quot;$(SolutionDir)Install.nsi&quot;" ContinueOnError="true" />
+  </Target>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GooglePriceQuoteSource\GooglePriceQuoteSource.csproj">
-      <Project>{BFD8417E-2984-48D9-AFD8-C550550E6536}</Project>
-      <Name>GooglePriceQuoteSource</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpBooks.Charts\SharpBooks.Charts.csproj">
-      <Project>{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}</Project>
-      <Name>SharpBooks.Charts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj">
-      <Project>{68183E1E-2038-42DD-81CC-7B757A240C1C}</Project>
-      <Name>SharpBooks.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj">
-      <Project>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</Project>
-      <Name>SharpBooks.SharedLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpBooks.StandardPlugins\SharpBooks.StandardPlugins.csproj">
-      <Project>{C344BABA-2F2C-4DCC-AD9B-146641D148C3}</Project>
-      <Name>SharpBooks.StandardPlugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\YahooPriceQuoteSource\YahooPriceQuoteSource.csproj">
-      <Project>{773124A5-7D80-487F-986F-B8FFCD6F17CB}</Project>
-      <Name>YahooPriceQuoteSource</Name>
-    </ProjectReference>
+    <PackageReference Include="Newtonsoft.Json" Version="4.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <ProjectReference Include="..\GooglePriceQuoteSource\GooglePriceQuoteSource.csproj" />
+    <ProjectReference Include="..\SharpBooks.Charts\SharpBooks.Charts.csproj" />
+    <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj" />
+    <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj" />
+    <ProjectReference Include="..\SharpBooks.StandardPlugins\SharpBooks.StandardPlugins.csproj" />
+    <ProjectReference Include="..\YahooPriceQuoteSource\YahooPriceQuoteSource.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Update="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -111,155 +48,108 @@
     <EmbeddedResource Include="Resources\ISO4217.xml" />
     <Resource Include="Resources\Money.png" />
     <EmbeddedResource Include="Resources\NewBookAccounts.xml" />
-    <Compile Include="UI\AccountRegister.cs">
+    <Compile Update="UI\AccountRegister.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\AccountRegister.Designer.cs">
+    <Compile Update="UI\AccountRegister.Designer.cs">
       <DependentUpon>AccountRegister.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\AccountRegister.resx">
+    <EmbeddedResource Update="UI\AccountRegister.resx">
       <DependentUpon>AccountRegister.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="UI\AccountTree.cs">
+    <Compile Update="UI\AccountTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\AccountTree.Designer.cs">
+    <Compile Update="UI\AccountTree.Designer.cs">
       <DependentUpon>AccountTree.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\AccountTree.resx">
+    <EmbeddedResource Update="UI\AccountTree.resx">
       <DependentUpon>AccountTree.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="UI\DesiresOffsetEventArgs.cs" />
-    <Compile Include="UI\HeaderControl.cs">
+    <Compile Update="UI\HeaderControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\HeaderControl.Designer.cs">
+    <Compile Update="UI\HeaderControl.Designer.cs">
       <DependentUpon>HeaderControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\HeaderControl.resx">
+    <EmbeddedResource Update="UI\HeaderControl.resx">
       <DependentUpon>HeaderControl.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="UI\HeaderRenderer.cs" />
-    <Compile Include="UI\ListItemRenderer.cs" />
-    <Compile Include="UI\SplitsView.cs">
+    <Compile Update="UI\SplitsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\SplitsView.Designer.cs">
+    <Compile Update="UI\SplitsView.Designer.cs">
       <DependentUpon>SplitsView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\SplitsView.resx">
+    <EmbeddedResource Update="UI\SplitsView.resx">
       <DependentUpon>SplitsView.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="UI\TransactionCreatedEventArgs.cs" />
-    <Compile Include="UI\TransactionEditor.cs">
+    <Compile Update="UI\TransactionEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\TransactionEditor.Designer.cs">
+    <Compile Update="UI\TransactionEditor.Designer.cs">
       <DependentUpon>TransactionEditor.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\TransactionEditor.resx">
+    <EmbeddedResource Update="UI\TransactionEditor.resx">
       <DependentUpon>TransactionEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="UI\TransactionUpdatedEventArgs.cs" />
-    <Compile Include="UI\WidgetContainer.cs">
+    <Compile Update="UI\WidgetContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\WidgetContainer.Designer.cs">
+    <Compile Update="UI\WidgetContainer.Designer.cs">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UI\WidgetContainer.resx">
+    <EmbeddedResource Update="UI\WidgetContainer.resx">
       <DependentUpon>WidgetContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
-    <Compile Include="DeleteAccountView.cs">
+    <Compile Update="DeleteAccountView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeleteAccountView.Designer.cs">
+    <Compile Update="DeleteAccountView.Designer.cs">
       <DependentUpon>DeleteAccountView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DeleteAccountView.resx">
+    <EmbeddedResource Update="DeleteAccountView.resx">
       <DependentUpon>DeleteAccountView.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="EditAccountView.cs">
+    <Compile Update="EditAccountView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditAccountView.Designer.cs">
+    <Compile Update="EditAccountView.Designer.cs">
       <DependentUpon>EditAccountView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="EditAccountView.resx">
+    <EmbeddedResource Update="EditAccountView.resx">
       <DependentUpon>EditAccountView.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="FormsHelpers.cs" />
-    <Compile Include="MainView.cs">
+    <Compile Update="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainView.Designer.cs">
+    <Compile Update="MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainView.resx">
+    <EmbeddedResource Update="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="NewBookWizard.cs">
+    <Compile Update="NewBookWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewBookWizard.Designer.cs">
+    <Compile Update="NewBookWizard.Designer.cs">
       <DependentUpon>NewBookWizard.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="NewBookWizard.resx">
+    <EmbeddedResource Update="NewBookWizard.resx">
       <DependentUpon>NewBookWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
-    <Compile Include="PersistenceMethod.cs" />
-    <Compile Include="PersistencePluginSelector.cs">
+    <Compile Update="PersistencePluginSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PersistencePluginSelector.Designer.cs">
+    <Compile Update="PersistencePluginSelector.Designer.cs">
       <DependentUpon>PersistencePluginSelector.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="PersistencePluginSelector.resx">
+    <EmbeddedResource Update="PersistencePluginSelector.resx">
       <DependentUpon>PersistencePluginSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Program.cs" />
-    <AppDesigner Include="Properties\" />
     <None Include="TestBook.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
-    <Exec WorkingDirectory="$(TargetDir)" Command="&quot;%programfiles(x86)%\NSIS\makensis.exe&quot; /NOCD /V4 &quot;$(SolutionDir)Install.nsi&quot;" ContinueOnError="true" />
-  </Target>
 </Project>

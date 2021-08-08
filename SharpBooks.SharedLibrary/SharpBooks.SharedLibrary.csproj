@@ -1,123 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F480083F-7CBA-43AB-94C9-08E834A68EEF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RootNamespace>SharpBooks</RootNamespace>
-    <AssemblyName>SharpBooks.SharedLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net472</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
-    <OldToolsVersion>3.5</OldToolsVersion>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\AccountAddedEventArgs.cs" />
-    <Compile Include="Events\AccountRemovedEventArgs.cs" />
-    <Compile Include="Events\PriceQuoteAddedEventArgs.cs" />
-    <Compile Include="Events\PriceQuoteRemovedEventArgs.cs" />
-    <Compile Include="Events\SecurityAddedEventArgs.cs" />
-    <Compile Include="Events\SecurityRemovedEventArgs.cs" />
-    <Compile Include="Events\TransactionAddedEventArgs.cs" />
-    <Compile Include="Events\TransactionRemovedEventArgs.cs" />
-    <Compile Include="Integration\IRange`1.cs" />
-    <Compile Include="Integration\RangeExtensions.cs" />
-    <Compile Include="Integration\StringRange.cs" />
-    <Compile Include="Localization\Localization.Designer.cs">
+    <Compile Update="Localization\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Localization\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Include="Persistence\IPersistenceStrategy.cs" />
-    <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scheduling\DateLimitSchedule.cs" />
-    <Compile Include="Scheduling\DateUnit.cs" />
-    <Compile Include="Scheduling\DistinctSchedule.cs" />
-    <Compile Include="Scheduling\InstanceLimitSchedule.cs" />
-    <Compile Include="Scheduling\ISchedule.cs" />
-    <Compile Include="Scheduling\RepetitionSchedule.cs" />
-    <Compile Include="Scheduling\ScheduleBase.cs" />
-    <Compile Include="Scheduling\SingleDaySchedule.cs" />
-    <Compile Include="Scheduling\WeekdayFilter.cs" />
-    <Compile Include="Scheduling\WeekendAdjustSchedule.cs" />
-    <Compile Include="Account.cs" />
-    <Compile Include="AccountData.cs" />
-    <Compile Include="AccountType.cs" />
-    <Compile Include="Balance.cs" />
-    <Compile Include="Book.cs" />
-    <Compile Include="BookCopier.cs" />
-    <Compile Include="CompositeBalance.cs" />
-    <Compile Include="CurrencyFormat.cs" />
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-    <Compile Include="EventsHelpers.cs" />
-    <Compile Include="ILoader.cs" />
-    <Compile Include="ISaver.cs" />
-    <Compile Include="MathExtensions.cs" />
-    <Compile Include="PriceQuote.cs" />
-    <Compile Include="PriceQuoteData.cs" />
-    <Compile Include="PriceRetrievalFailureException.cs" />
-    <Compile Include="ReadOnlyBook.cs" />
-    <Compile Include="ReadOnlyCollectionWrapper`1.cs" />
-    <Compile Include="ReadOnlyDictionary`2.cs" />
-    <Compile Include="RuleViolation.cs" />
-    <Compile Include="SavePoint.cs" />
-    <Compile Include="SaveTrack.cs" />
-    <Compile Include="Security.cs" />
-    <Compile Include="SecurityData.cs" />
-    <Compile Include="SecurityType.cs" />
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
-    <Compile Include="SortedList`1.cs" />
-    <Compile Include="Split.cs" />
-    <Compile Include="SplitData.cs" />
-    <Compile Include="Transaction.cs" />
-    <Compile Include="TransactionData.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
