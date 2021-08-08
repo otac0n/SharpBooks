@@ -38,7 +38,7 @@ namespace SharpBooks.StandardPlugins
         }
 
         /// <inheritdoc/>
-        public Control Create(ReadOnlyBook book, EventProxy events)
+        public Control Create(IReadOnlyBook book, EventProxy events)
         {
             if (this.control != null)
             {
@@ -63,7 +63,7 @@ namespace SharpBooks.StandardPlugins
         }
 
         /// <inheritdoc/>
-        public void Refresh(ReadOnlyBook book, EventProxy events)
+        public void Refresh(IReadOnlyBook book, EventProxy events)
         {
             if (this.control == null)
             {
@@ -85,7 +85,7 @@ namespace SharpBooks.StandardPlugins
             this.events.RaiseAccountSelected(sender, args);
         }
 
-        private void PopulateControl(ReadOnlyBook book)
+        private void PopulateControl(IReadOnlyBook book)
         {
             ////var accounts = from a in book.Accounts
             ////               let path = Account.GetAccountPath(a, this.settings.PathSeperator)

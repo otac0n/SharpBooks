@@ -123,14 +123,32 @@
   <data name="ACCOUNT_FRACTION_MUST_BE_CONGRUENT_TO_SECURITY" xml:space="preserve">
     <value>An account's smallest fraction must represent a whole number multiple of the units used by its security.</value>
   </data>
+  <data name="ACCOUNT_ID_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the account to the book, because another account has already been added with the same ID.</value>
+  </data>
   <data name="ACCOUNT_ID_MUST_BE_UNIQUE" xml:space="preserve">
     <value>An account may not share its ID with any of its ancestors.</value>
+  </data>
+  <data name="ACCOUNT_IN_USE_BY_CHILDREN" xml:space="preserve">
+    <value>Could not remove the account from the book, because the account currently has children.</value>
+  </data>
+  <data name="ACCOUNT_IN_USE_BY_SPLITS" xml:space="preserve">
+    <value>Could not remove the account from the book, because the account currently has splits.</value>
+  </data>
+  <data name="ACCOUNT_NOT_FOUND_IN_BOOK" xml:space="preserve">
+    <value>Could not remove the account from the book, because the account is not a member of the book.</value>
   </data>
   <data name="ACCOUNT_PARENT_NOT_IN_BOOK" xml:space="preserve">
     <value>Could not add the account to the book, because the account's parent has not been added.</value>
   </data>
+  <data name="ACCOUNT_REDUNDANT_BY_NAME_AND_PARENT" xml:space="preserve">
+    <value>Could not add the account to the book, because another account has already been added with the same Name and Parent.</value>
+  </data>
   <data name="ACCOUNT_SECURITY_NOT_IN_BOOK" xml:space="preserve">
     <value>Could not add the account to the book, because the account's security has not been added.</value>
+  </data>
+  <data name="ACCOUNT_SPECIFIED_NOT_IN_BOOK" xml:space="preserve">
+    <value>The account specified is not a member of the book.</value>
   </data>
   <data name="AMOUNT_AND_TRANSACTION_AMOUNT_MUST_BE_EQUAL" xml:space="preserve">
     <value>The amount and the transaction amount of a split must have the same value, if they are of the same security.</value>
@@ -150,6 +168,9 @@
   <data name="PRICE_QUOTE_ID_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the price quote to the book, because another price quote has already been added with the same ID.</value>
   </data>
+  <data name="PRICE_QUOTE_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not remove the price quote from the book, because the price quote is not a member of the book.</value>
+  </data>
   <data name="PRICE_QUOTE_REDUNDANT_BY_SOURCE" xml:space="preserve">
     <value>Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source.</value>
   </data>
@@ -158,6 +179,9 @@
   </data>
   <data name="SAVE_POINT_NOT_FOUND" xml:space="preserve">
     <value>Could replay the book's modifications, because the save point could not be found.</value>
+  </data>
+  <data name="SAVE_POINT_NOT_IN_BOOK" xml:space="preserve">
+    <value>"Could not remove the save point, because it does not exist in the book.</value>
   </data>
   <data name="SECURITY_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the security to the book, because the security already belongs to the book.</value>
@@ -195,6 +219,12 @@
   <data name="SPLIT_SECURITY_MUST_MATCH_ACCOUNT" xml:space="preserve">
     <value>The security of a split must match the security of its account, if the account has a security specified.</value>
   </data>
+  <data name="TRANSACTION_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the transaction to the book, because the transaction already belongs to the book.</value>
+  </data>
+  <data name="TRANSACTION_ID_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.</value>
+  </data>
   <data name="TRANSACTION_MUST_HAVE_SPLIT" xml:space="preserve">
     <value>The transaction must have at least one split.</value>
   </data>
@@ -203,6 +233,15 @@
   </data>
   <data name="TRANSACTION_NOT_IN_BOOK" xml:space="preserve">
     <value>Could not remove the transaction from the book, because the transaction is not a member of the book.</value>
+  </data>
+  <data name="TRANSACTION_NOT_VALID" xml:space="preserve">
+    <value>Could not add the transaction to the book, because the transaction is not valid.</value>
+  </data>
+  <data name="TRANSACTION_SPIT_SECURITY_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.</value>
+  </data>
+  <data name="TRANSACTION_SPLIT_ACCOUNT_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added.</value>
   </data>
   <data name="TRANSACTION_SUM_MUST_BE_ZERO" xml:space="preserve">
     <value>The sum of the splits in the transaction must be equal to zero.</value>

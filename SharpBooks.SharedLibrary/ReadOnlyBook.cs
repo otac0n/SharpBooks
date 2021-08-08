@@ -6,54 +6,107 @@ namespace SharpBooks
     using System.Collections.Generic;
     using SharpBooks.Events;
 
-    public class ReadOnlyBook
+    public class ReadOnlyBook : IReadOnlyBook
     {
         private readonly Book book;
 
         internal ReadOnlyBook(Book book)
         {
             this.book = book ?? throw new ArgumentNullException(nameof(book));
-            this.book.AccountAdded += (o, e) => this.AccountAdded?.Invoke(this, e);
-            this.book.AccountRemoved += (o, e) => this.AccountRemoved?.Invoke(this, e);
-            this.book.PriceQuoteAdded += (o, e) => this.PriceQuoteAdded?.Invoke(this, e);
-            this.book.PriceQuoteRemoved += (o, e) => this.PriceQuoteRemoved?.Invoke(this, e);
-            this.book.SecurityAdded += (o, e) => this.SecurityAdded?.Invoke(this, e);
-            this.book.SecurityRemoved += (o, e) => this.SecurityRemoved?.Invoke(this, e);
-            this.book.TransactionAdded += (o, e) => this.TransactionAdded?.Invoke(this, e);
-            this.book.TransactionRemoved += (o, e) => this.TransactionRemoved?.Invoke(this, e);
         }
 
-        public event EventHandler<AccountAddedEventArgs> AccountAdded;
+        /// <inheritdoc/>
+        public event EventHandler<AccountAddedEventArgs> AccountAdded
+        {
+            add => this.book.AccountAdded += value;
+            remove => this.book.AccountAdded -= value;
+        }
 
-        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+        /// <inheritdoc/>
+        public event EventHandler<AccountRemovedEventArgs> AccountRemoved
+        {
+            add => this.book.AccountRemoved += value;
+            remove => this.book.AccountRemoved -= value;
+        }
 
-        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+        /// <inheritdoc/>
+        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded
+        {
+            add => this.book.PriceQuoteAdded += value;
+            remove => this.book.PriceQuoteAdded -= value;
+        }
 
-        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+        /// <inheritdoc/>
+        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved
+        {
+            add => this.book.PriceQuoteRemoved += value;
+            remove => this.book.PriceQuoteRemoved -= value;
+        }
 
-        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+        /// <inheritdoc/>
+        public event EventHandler<SecurityAddedEventArgs> SecurityAdded
+        {
+            add => this.book.SecurityAdded += value;
+            remove => this.book.SecurityAdded -= value;
+        }
 
-        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+        /// <inheritdoc/>
+        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved
+        {
+            add => this.book.SecurityRemoved += value;
+            remove => this.book.SecurityRemoved -= value;
+        }
 
-        public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
+        /// <inheritdoc/>
+        public event EventHandler<TransactionAddedEventArgs> TransactionAdded
+        {
+            add => this.book.TransactionAdded += value;
+            remove => this.book.TransactionAdded -= value;
+        }
 
-        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
+        /// <inheritdoc/>
+        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved
+        {
+            add => this.book.TransactionRemoved += value;
+            remove => this.book.TransactionRemoved -= value;
+        }
 
+        /// <inheritdoc/>
         public ICollection<Account> Accounts => this.book.Accounts;
 
+        /// <inheritdoc/>
         public ICollection<PriceQuote> PriceQuotes => this.book.PriceQuotes;
 
+        /// <inheritdoc/>
         public ICollection<Account> RootAccounts => this.book.RootAccounts;
 
+        /// <inheritdoc/>
         public ICollection<Security> Securities => this.book.Securities;
 
         public IDictionary<string, string> Settings => this.book.Settings;
 
+        /// <inheritdoc/>
+        ReadOnlyDictionary<string, string> IReadOnlyBook.Settings => this.book.Settings;
+
+        /// <inheritdoc/>
         public ICollection<Transaction> Transactions => this.book.Transactions;
 
-        public ICollection<Split> GetAccountSplits(Account account)
-        {
-            return this.book.GetAccountSplits(account);
-        }
+        /// <inheritdoc/>
+        public IReadOnlyBook AsReadOnly() => this.book.AsReadOnly();
+
+        /// <inheritdoc/>
+        public SavePoint CreateSavePoint() => this.book.CreateSavePoint();
+
+        /// <inheritdoc/>
+        public CompositeBalance GetAccountBalance(Account account) => this.book.GetAccountBalance(account);
+
+        /// <inheritdoc/>
+        public ICollection<Split> GetAccountSplits(Account account) => this.book.GetAccountSplits(account);
+
+        /// <inheritdoc/>
+        public CompositeBalance GetAccountTotalBalance(Account account) => this.book.GetAccountTotalBalance(account);
+
+        /// <inheritdoc/>
+        public void Replay(ISaver dataAdapter, SavePoint savePoint = null) => this.book.Replay(dataAdapter, savePoint);
     }
 }

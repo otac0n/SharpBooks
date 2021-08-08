@@ -7,8 +7,8 @@ namespace SharpBooks.Plugins
 
     public interface IWidget : IDisposable
     {
-        Control Create(ReadOnlyBook book, EventProxy events);
+        Control Create(IReadOnlyBook book, EventProxy events);
 
-        void Refresh(ReadOnlyBook book, EventProxy events);
+        void Refresh(IReadOnlyBook book, EventProxy events);
     }
 }

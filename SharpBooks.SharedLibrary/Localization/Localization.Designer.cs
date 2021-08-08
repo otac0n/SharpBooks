@@ -79,11 +79,47 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add the account to the book, because another account has already been added with the same ID..
+        /// </summary>
+        internal static string ACCOUNT_ID_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_ID_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An account may not share its ID with any of its ancestors..
         /// </summary>
         internal static string ACCOUNT_ID_MUST_BE_UNIQUE {
             get {
                 return ResourceManager.GetString("ACCOUNT_ID_MUST_BE_UNIQUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the account from the book, because the account currently has children..
+        /// </summary>
+        internal static string ACCOUNT_IN_USE_BY_CHILDREN {
+            get {
+                return ResourceManager.GetString("ACCOUNT_IN_USE_BY_CHILDREN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the account from the book, because the account currently has splits..
+        /// </summary>
+        internal static string ACCOUNT_IN_USE_BY_SPLITS {
+            get {
+                return ResourceManager.GetString("ACCOUNT_IN_USE_BY_SPLITS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not remove the account from the book, because the account is not a member of the book..
+        /// </summary>
+        internal static string ACCOUNT_NOT_FOUND_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_NOT_FOUND_IN_BOOK", resourceCulture);
             }
         }
         
@@ -97,11 +133,29 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add the account to the book, because another account has already been added with the same Name and Parent..
+        /// </summary>
+        internal static string ACCOUNT_REDUNDANT_BY_NAME_AND_PARENT {
+            get {
+                return ResourceManager.GetString("ACCOUNT_REDUNDANT_BY_NAME_AND_PARENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add the account to the book, because the account&apos;s security has not been added..
         /// </summary>
         internal static string ACCOUNT_SECURITY_NOT_IN_BOOK {
             get {
                 return ResourceManager.GetString("ACCOUNT_SECURITY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account specified is not a member of the book..
+        /// </summary>
+        internal static string ACCOUNT_SPECIFIED_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_SPECIFIED_NOT_IN_BOOK", resourceCulture);
             }
         }
         
@@ -160,6 +214,15 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not remove the price quote from the book, because the price quote is not a member of the book..
+        /// </summary>
+        internal static string PRICE_QUOTE_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source..
         /// </summary>
         internal static string PRICE_QUOTE_REDUNDANT_BY_SOURCE {
@@ -183,6 +246,15 @@ namespace SharpBooks.Localization {
         internal static string SAVE_POINT_NOT_FOUND {
             get {
                 return ResourceManager.GetString("SAVE_POINT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Could not remove the save point, because it does not exist in the book..
+        /// </summary>
+        internal static string SAVE_POINT_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("SAVE_POINT_NOT_IN_BOOK", resourceCulture);
             }
         }
         
@@ -295,6 +367,24 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add the transaction to the book, because the transaction already belongs to the book..
+        /// </summary>
+        internal static string TRANSACTION_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("TRANSACTION_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id..
+        /// </summary>
+        internal static string TRANSACTION_ID_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("TRANSACTION_ID_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The transaction must have at least one split..
         /// </summary>
         internal static string TRANSACTION_MUST_HAVE_SPLIT {
@@ -318,6 +408,33 @@ namespace SharpBooks.Localization {
         internal static string TRANSACTION_NOT_IN_BOOK {
             get {
                 return ResourceManager.GetString("TRANSACTION_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the transaction to the book, because the transaction is not valid..
+        /// </summary>
+        internal static string TRANSACTION_NOT_VALID {
+            get {
+                return ResourceManager.GetString("TRANSACTION_NOT_VALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added..
+        /// </summary>
+        internal static string TRANSACTION_SPIT_SECURITY_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("TRANSACTION_SPIT_SECURITY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added..
+        /// </summary>
+        internal static string TRANSACTION_SPLIT_ACCOUNT_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("TRANSACTION_SPLIT_ACCOUNT_NOT_IN_BOOK", resourceCulture);
             }
         }
         

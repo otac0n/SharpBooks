@@ -7,6 +7,6 @@ namespace SharpBooks.Plugins
 
     public interface IReport : IDisposable
     {
-        void Render(ReadOnlyBook book, Graphics g);
+        void Render(IReadOnlyBook book, Graphics g);
     }
 }

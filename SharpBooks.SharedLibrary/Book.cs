@@ -7,7 +7,7 @@ namespace SharpBooks
     using System.Linq;
     using SharpBooks.Events;
 
-    public class Book
+    public class Book : IBook
     {
         private readonly HashSet<Account> accounts = new HashSet<Account>();
 
@@ -36,32 +36,46 @@ namespace SharpBooks
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
+        /// <inheritdoc/>
         public event EventHandler<AccountAddedEventArgs> AccountAdded;
 
+        /// <inheritdoc/>
         public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
 
+        /// <inheritdoc/>
         public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
 
+        /// <inheritdoc/>
         public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
 
+        /// <inheritdoc/>
         public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
 
+        /// <inheritdoc/>
         public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
 
+        /// <inheritdoc/>
         public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
 
+        /// <inheritdoc/>
         public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
+        /// <inheritdoc/>
         public ICollection<Account> Accounts { get; }
 
+        /// <inheritdoc/>
         public ICollection<PriceQuote> PriceQuotes { get; }
 
+        /// <inheritdoc/>
         public ICollection<Account> RootAccounts { get; }
 
+        /// <inheritdoc/>
         public ICollection<Security> Securities { get; }
 
+        /// <inheritdoc/>
         public ReadOnlyDictionary<string, string> Settings { get; }
 
+        /// <inheritdoc/>
         public ICollection<Transaction> Transactions => this.transactions;
 
         /// <summary>
@@ -98,7 +112,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Account Id.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_ID_ALREADY_IN_BOOK);
                 }
 
                 var duplicateNames = from a in this.accounts
@@ -108,7 +122,7 @@ namespace SharpBooks
 
                 if (duplicateNames.Any())
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because another account has already been added with the same Name and Parent.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_REDUNDANT_BY_NAME_AND_PARENT);
                 }
 
                 this.accounts.Add(account);
@@ -241,18 +255,17 @@ namespace SharpBooks
 
                 if (this.transactions.Contains(transaction))
                 {
-                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction already belongs to the book.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_ALREADY_IN_BOOK);
                 }
 
                 if (this.transactionIds.Contains(transaction.TransactionId))
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_ID_ALREADY_IN_BOOK);
                 }
 
                 if (!transaction.IsValid)
                 {
-                    throw new InvalidOperationException("Could not add the transaction to the book, because the transaction is not valid.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_NOT_VALID);
                 }
 
                 var splitsWithoutAccountsInBook = from s in transaction.Splits
@@ -261,8 +274,7 @@ namespace SharpBooks
 
                 if (splitsWithoutAccountsInBook.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the transaction to the book, because the transaction contains at least one split whose account has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_SPLIT_ACCOUNT_NOT_IN_BOOK);
                 }
 
                 var splitsWithoutSecurityInBook = from s in transaction.Splits
@@ -272,8 +284,7 @@ namespace SharpBooks
 
                 if (splitsWithoutSecurityInBook.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_SPIT_SECURITY_NOT_IN_BOOK);
                 }
 
                 this.transactions.Add(transaction);
@@ -295,6 +306,12 @@ namespace SharpBooks
             return this.readOnlyFacade;
         }
 
+        /// <inheritdoc/>
+        IReadOnlyBook IReadOnlyBook.AsReadOnly() => this.AsReadOnly();
+
+        /// <inheritdoc/>
+        IReadOnlyBook IBook.AsReadOnly() => this.AsReadOnly();
+
         /// <summary>
         /// Creates a <see cref="SavePoint"/> that can be used to keep track of changes in the current <see cref="Book"/>.
         /// </summary>
@@ -311,6 +328,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public CompositeBalance GetAccountBalance(Account account)
         {
             lock (this.lockMutex)
@@ -322,13 +340,14 @@ namespace SharpBooks
 
                 if (!this.balances.TryGetValue(account, out var balance))
                 {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_SPECIFIED_NOT_IN_BOOK);
                 }
 
                 return balance;
             }
         }
 
+        /// <inheritdoc/>
         public ICollection<Split> GetAccountSplits(Account account)
         {
             lock (this.lockMutex)
@@ -340,7 +359,7 @@ namespace SharpBooks
 
                 if (!this.accounts.Contains(account))
                 {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_SPECIFIED_NOT_IN_BOOK);
                 }
 
                 var splits = new List<Split>();
@@ -354,6 +373,7 @@ namespace SharpBooks
             }
         }
 
+        /// <inheritdoc/>
         public CompositeBalance GetAccountTotalBalance(Account account)
         {
             lock (this.lockMutex)
@@ -370,7 +390,7 @@ namespace SharpBooks
 
                 if (!this.balances.TryGetValue(account, out balance))
                 {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_SPECIFIED_NOT_IN_BOOK);
                 }
 
                 var subAccountBalances = from a in this.accounts
@@ -398,7 +418,7 @@ namespace SharpBooks
 
                 if (!this.accounts.Contains(account))
                 {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_NOT_FOUND_IN_BOOK);
                 }
 
                 var childAccounts = from a in this.accounts
@@ -407,7 +427,7 @@ namespace SharpBooks
 
                 if (childAccounts.Any())
                 {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_IN_USE_BY_CHILDREN);
                 }
 
                 var involvedTransactions = from t in this.transactions
@@ -418,7 +438,7 @@ namespace SharpBooks
 
                 if (involvedTransactions.Any())
                 {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_IN_USE_BY_SPLITS);
                 }
 
                 this.accounts.Remove(account);
@@ -452,7 +472,7 @@ namespace SharpBooks
 
                 if (!this.priceQuotes.Contains(priceQuote))
                 {
-                    throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_NOT_IN_BOOK);
                 }
 
                 this.priceQuotes.Remove(priceQuote);
@@ -691,7 +711,7 @@ namespace SharpBooks
             {
                 if (!this.saveTracks.ContainsKey(savePoint))
                 {
-                    throw new InvalidOperationException("Could not remove the save point, because it does not exist in the book.");
+                    throw new InvalidOperationException(Localization.Localization.SAVE_POINT_NOT_IN_BOOK);
                 }
 
                 this.saveTracks.Remove(savePoint);
