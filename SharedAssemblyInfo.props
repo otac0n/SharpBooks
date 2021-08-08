@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <Authors>John Gietzen</Authors>
+    <Copyright>Copyright © 2021 $(Authors)</Copyright>
+    <Product>SharpBooks</Product>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+</Project>

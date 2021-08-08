@@ -18,8 +18,7 @@ namespace SharpBooks.Tests.IntegrationTests
     {
         private readonly Dictionary<string, Security> securities = new Dictionary<string, Security>();
 
-        [TestFixtureSetUp]
-        public void Setup()
+        public GoogleCurrencyPriceQuoteSourceTests()
         {
             var usd = new Security(
                 Guid.NewGuid(),
