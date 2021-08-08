@@ -25,7 +25,6 @@ namespace SharpBooks
                 throw new ArgumentNullException("split");
             }
 
-            this.TransactionId = split.Transaction.TransactionId;
             this.AccountId = split.Account.AccountId;
             this.SecurityId = split.Security.SecurityId;
             this.Amount = split.Amount;
@@ -35,66 +34,33 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the Id of the transaction to which the split belongs.
+        /// Gets the ID of the account to which the split belongs.
         /// </summary>
-        public Guid TransactionId
-        {
-            get;
-            internal set;
-        }
+        public Guid AccountId { get; }
 
         /// <summary>
-        /// Gets the Id of the account to which the split belongs.
+        /// Gets the ID of the security of which the split is made up.
         /// </summary>
-        public Guid AccountId
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the Id of the security of which the split is made up.
-        /// </summary>
-        public Guid SecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid SecurityId { get; }
 
         /// <summary>
         /// Gets the date and time at which the split cleared its account.
         /// </summary>
-        public DateTime? DateCleared
-        {
-            get;
-            private set;
-        }
+        public DateTime? DateCleared { get; }
 
         /// <summary>
         /// Gets a value indicating whether the split has been reconciled against its account.
         /// </summary>
-        public bool IsReconciled
-        {
-            get;
-            private set;
-        }
+        public bool IsReconciled { get; }
 
         /// <summary>
         /// Gets the amount by which the split affects its account.
         /// </summary>
-        public long Amount
-        {
-            get;
-            private set;
-        }
+        public long Amount { get; }
 
         /// <summary>
         /// Gets the amount by which the split affects its transaction.
         /// </summary>
-        public long TransactionAmount
-        {
-            get;
-            private set;
-        }
+        public long TransactionAmount { get; }
     }
 }

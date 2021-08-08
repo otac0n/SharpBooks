@@ -17,9 +17,9 @@ namespace SharpBooks
     public sealed class TransactionData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharpBooks.TransactionData"/> class.
+        /// Initializes a new instance of the <see cref="TransactionData"/> class.
         /// </summary>
-        /// <param name="transaction">The <see cref="SharpBooks.Transaction"/> from which to copy.</param>
+        /// <param name="transaction">The <see cref="Transaction"/> from which to copy.</param>
         public TransactionData(Transaction transaction)
         {
             if (transaction == null)
@@ -35,39 +35,23 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the transaction's Transaction Id.
+        /// Gets the transaction's ID.
         /// </summary>
-        public Guid TransactionId
-        {
-            get;
-            private set;
-        }
+        public Guid TransactionId { get; }
 
         /// <summary>
         /// Gets the point in time at which the transaction took place.
         /// </summary>
-        public DateTime Date
-        {
-            get;
-            private set;
-        }
+        public DateTime Date { get; }
 
         /// <summary>
-        /// Gets the Security Id of the transaction's base security.
+        /// Gets the ID of the transaction's base security.
         /// </summary>
-        public Guid BaseSecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid BaseSecurityId { get; }
 
         /// <summary>
         /// Gets a read-only list of the splits that make up the transaction.
         /// </summary>
-        public ICollection<SplitData> Splits
-        {
-            get;
-            private set;
-        }
+        public ICollection<SplitData> Splits { get; }
     }
 }
