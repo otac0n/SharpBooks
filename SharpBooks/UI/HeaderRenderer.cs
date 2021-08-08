@@ -11,7 +11,7 @@ namespace SharpBooks.UI
     {
         Normal = 1,
         Hot = 2,
-        Pressed = 3
+        Pressed = 3,
     }
 
     public static class HeaderRenderer

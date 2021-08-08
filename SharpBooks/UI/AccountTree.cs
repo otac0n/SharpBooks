@@ -61,12 +61,12 @@ namespace SharpBooks.UI
         {
             if (this.book != null)
             {
-                this.book.AccountAdded += this.book_AccountAdded;
-                this.book.AccountRemoved += this.book_AccountRemoved;
+                this.book.AccountAdded += this.Book_AccountAdded;
+                this.book.AccountRemoved += this.Book_AccountRemoved;
             }
         }
 
-        private void book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
+        private void Book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
         {
             var a = e.Account;
 
@@ -90,7 +90,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void book_AccountRemoved(object sender, Events.AccountRemovedEventArgs e)
+        private void Book_AccountRemoved(object sender, Events.AccountRemovedEventArgs e)
         {
             var node = this.nodeLookup[e.Account];
             this.nodeLookup.Remove(e.Account);
@@ -127,7 +127,7 @@ namespace SharpBooks.UI
             return nodes.ToArray();
         }
 
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var account = (Account)this.tree.SelectedNode.Tag;
 
@@ -138,8 +138,8 @@ namespace SharpBooks.UI
         {
             if (this.book != null)
             {
-                this.book.AccountAdded -= this.book_AccountAdded;
-                this.book.AccountRemoved -= this.book_AccountRemoved;
+                this.book.AccountAdded -= this.Book_AccountAdded;
+                this.book.AccountRemoved -= this.Book_AccountRemoved;
             }
         }
 
@@ -153,21 +153,21 @@ namespace SharpBooks.UI
             }
         }
 
-        private void newAccount_Click(object sender, EventArgs e)
+        private void NewAccount_Click(object sender, EventArgs e)
         {
             var parentAccount = (Account)this.tree.SelectedNode.Tag;
 
             this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
         }
 
-        private void open_Click(object sender, EventArgs e)
+        private void Open_Click(object sender, EventArgs e)
         {
             var account = (Account)this.tree.SelectedNode.Tag;
 
             this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
         }
 
-        private void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        private void Tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             var g = e.Graphics;
             var node = e.Node;
@@ -179,7 +179,7 @@ namespace SharpBooks.UI
 
             var isFocused = (state & TreeNodeStates.Focused) == TreeNodeStates.Focused;
             var thisFocused = node.TreeView.Focused;
-            var font = (node.NodeFont != null) ? node.NodeFont : node.TreeView.Font;
+            var font = node.NodeFont ?? node.TreeView.Font;
 
             var textSize = TextRenderer.MeasureText(amountText, font);
             var amountBounds = new Rectangle(this.tree.ClientSize.Width - textSize.Width, bounds.Top, textSize.Width, bounds.Height);
@@ -199,7 +199,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void tree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void Tree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -208,7 +208,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void Tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {

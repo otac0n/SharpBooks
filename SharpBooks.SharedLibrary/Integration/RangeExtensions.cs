@@ -8,7 +8,8 @@ namespace SharpBooks.Integration
 
     public static class RangeExtensions
     {
-        public static bool Contains<T>(this IRange<T> range, T value) where T : IComparable<T>
+        public static bool Contains<T>(this IRange<T> range, T value)
+            where T : IComparable<T>
         {
             if (range.IsEmpty())
             {
@@ -33,7 +34,8 @@ namespace SharpBooks.Integration
             return true;
         }
 
-        public static bool Contains<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        public static bool Contains<T>(this IRange<T> range, IRange<T> other)
+            where T : IComparable<T>
         {
             if (other.IsEmpty())
             {
@@ -46,7 +48,8 @@ namespace SharpBooks.Integration
                     intersection == other;
         }
 
-        public static bool Contains<T>(this IEnumerable<IRange<T>> set, T value) where T : IComparable<T>
+        public static bool Contains<T>(this IEnumerable<IRange<T>> set, T value)
+            where T : IComparable<T>
         {
             foreach (var range in set)
             {
@@ -59,7 +62,8 @@ namespace SharpBooks.Integration
             return false;
         }
 
-        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IRange<T> other)
+            where T : IComparable<T>
         {
             if (range.IsEmpty())
             {
@@ -106,17 +110,20 @@ namespace SharpBooks.Integration
             return ranges;
         }
 
-        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range)
+            where T : IComparable<T>
         {
             return set.DifferenceWith(new[] { range });
         }
 
-        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set)
+            where T : IComparable<T>
         {
             return set.DifferenceWith(new[] { range });
         }
 
-        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB)
+            where T : IComparable<T>
         {
             if (setA.IsEmpty())
             {
@@ -153,7 +160,8 @@ namespace SharpBooks.Integration
             return results;
         }
 
-        public static IRange<T> IntersectWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        public static IRange<T> IntersectWith<T>(this IRange<T> range, IRange<T> other)
+            where T : IComparable<T>
         {
             if (range.IsEmpty() ||
                 other.IsEmpty())
@@ -237,7 +245,8 @@ namespace SharpBooks.Integration
                 endInclusive);
         }
 
-        public static bool IsEmpty<T>(this IRange<T> range) where T : IComparable<T>
+        public static bool IsEmpty<T>(this IRange<T> range)
+            where T : IComparable<T>
         {
             if (range == null)
             {
@@ -259,7 +268,8 @@ namespace SharpBooks.Integration
             }
         }
 
-        public static bool IsEmpty<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
+        public static bool IsEmpty<T>(this IEnumerable<IRange<T>> set)
+            where T : IComparable<T>
         {
             if (set == null)
             {
@@ -277,7 +287,8 @@ namespace SharpBooks.Integration
             return true;
         }
 
-        public static IList<IRange<T>> Simplify<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
+        public static IList<IRange<T>> Simplify<T>(this IEnumerable<IRange<T>> set)
+            where T : IComparable<T>
         {
             var list = (from r in set
                         where !r.IsEmpty()
@@ -313,7 +324,8 @@ namespace SharpBooks.Integration
             return results.ToArray();
         }
 
-        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IRange<T> other)
+            where T : IComparable<T>
         {
             var rangeEmpty = range.IsEmpty();
             var otherEmpty = other.IsEmpty();
@@ -439,21 +451,24 @@ namespace SharpBooks.Integration
                     start,
                     startInclusive,
                     end,
-                    endInclusive)
+                    endInclusive),
             };
         }
 
-        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
+        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range)
+            where T : IComparable<T>
         {
             return set.UnionWith(new[] { range });
         }
 
-        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
+        public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set)
+            where T : IComparable<T>
         {
             return set.UnionWith(new[] { range });
         }
 
-        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
+        public static IList<IRange<T>> UnionWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB)
+            where T : IComparable<T>
         {
             setA = setA ?? new IRange<T>[0];
             setB = setB ?? new IRange<T>[0];

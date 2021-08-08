@@ -215,7 +215,7 @@
             this.newTransactionButton.TabIndex = 1;
             this.newTransactionButton.Text = "&New Transaction";
             this.newTransactionButton.UseVisualStyleBackColor = true;
-            this.newTransactionButton.Click += new System.EventHandler(this.newTransactionButton_Click);
+            this.newTransactionButton.Click += new System.EventHandler(this.NewTransactionButton_Click);
             // 
             // accountTree
             // 

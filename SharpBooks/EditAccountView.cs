@@ -43,7 +43,7 @@ namespace SharpBooks
 
         public Account NewAccount { get; private set; }
 
-        private void fractionTextBox_Validating(object sender, CancelEventArgs e)
+        private void FractionTextBox_Validating(object sender, CancelEventArgs e)
         {
             var box = (TextBox)sender;
             this.errorProvider.SetError(box, null);
@@ -65,7 +65,7 @@ namespace SharpBooks
             }
         }
 
-        private void nameTextBox_Validating(object sender, CancelEventArgs e)
+        private void NameTextBox_Validating(object sender, CancelEventArgs e)
         {
             var box = (TextBox)sender;
             this.errorProvider.SetError(box, null);
@@ -77,7 +77,7 @@ namespace SharpBooks
             }
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
 
@@ -90,7 +90,7 @@ namespace SharpBooks
                 security != null ? (int)(security.FractionTraded / security.ParseValue(this.fractionTextBox.Text)) : (int?)null);
         }
 
-        private void securityComboBox_SelectedValueChanged(object sender, EventArgs e)
+        private void SecurityComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             var item = (SecurityOption)this.securityComboBox.SelectedItem;
 

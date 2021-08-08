@@ -68,7 +68,7 @@ namespace SharpBooks
             /// <summary>
             /// Corresponds to a call to RemoveTransaction.
             /// </summary>
-            RemoveTransaction
+            RemoveTransaction,
         }
 
         /// <summary>

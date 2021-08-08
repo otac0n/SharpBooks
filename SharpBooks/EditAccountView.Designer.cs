@@ -137,7 +137,7 @@
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(203, 20);
             this.nameTextBox.TabIndex = 2;
-            this.nameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.nameTextBox_Validating);
+            this.nameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.NameTextBox_Validating);
             // 
             // securityComboBox
             // 
@@ -149,7 +149,7 @@
             this.securityComboBox.Name = "securityComboBox";
             this.securityComboBox.Size = new System.Drawing.Size(203, 21);
             this.securityComboBox.TabIndex = 7;
-            this.securityComboBox.SelectedValueChanged += new System.EventHandler(this.securityComboBox_SelectedValueChanged);
+            this.securityComboBox.SelectedValueChanged += new System.EventHandler(this.SecurityComboBox_SelectedValueChanged);
             // 
             // fractionTextBox
             // 
@@ -159,7 +159,7 @@
             this.fractionTextBox.Name = "fractionTextBox";
             this.fractionTextBox.Size = new System.Drawing.Size(203, 20);
             this.fractionTextBox.TabIndex = 9;
-            this.fractionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.fractionTextBox_Validating);
+            this.fractionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.FractionTextBox_Validating);
             // 
             // okButton
             // 
@@ -171,7 +171,7 @@
             this.okButton.TabIndex = 10;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            this.okButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // errorProvider
             // 

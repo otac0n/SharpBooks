@@ -367,12 +367,12 @@ namespace SharpBooks.UI
         {
             if (book != null)
             {
-                book.TransactionAdded += this.book_TransactionAdded;
-                book.TransactionRemoved += this.book_TransactionRemoved;
+                book.TransactionAdded += this.Book_TransactionAdded;
+                book.TransactionRemoved += this.Book_TransactionRemoved;
             }
         }
 
-        private void book_TransactionAdded(object sender, TransactionAddedEventArgs e)
+        private void Book_TransactionAdded(object sender, TransactionAddedEventArgs e)
         {
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
@@ -397,7 +397,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void book_TransactionRemoved(object sender, TransactionRemovedEventArgs e)
+        private void Book_TransactionRemoved(object sender, TransactionRemovedEventArgs e)
         {
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
@@ -431,8 +431,8 @@ namespace SharpBooks.UI
         {
             if (book != null)
             {
-                book.TransactionAdded -= this.book_TransactionAdded;
-                book.TransactionRemoved -= this.book_TransactionRemoved;
+                book.TransactionAdded -= this.Book_TransactionAdded;
+                book.TransactionRemoved -= this.Book_TransactionRemoved;
             }
         }
 
@@ -533,12 +533,18 @@ namespace SharpBooks.UI
                 var date2 = y.DateCleared ?? y.Transaction.Date;
 
                 c = date1.CompareTo(date2);
-                if (c != 0) return c;
+                if (c != 0)
+                {
+                    return c;
+                }
 
                 if (x.Security != y.Security)
                 {
                     c = x.Security.Symbol.CompareTo(y.Security.Symbol);
-                    if (c != 0) return c;
+                    if (c != 0)
+                    {
+                        return c;
+                    }
                 }
 
                 return x.Amount.CompareTo(y.Amount);

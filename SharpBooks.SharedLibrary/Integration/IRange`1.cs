@@ -4,7 +4,8 @@ namespace SharpBooks.Integration
 {
     using System;
 
-    public interface IRange<T> where T : IComparable<T>
+    public interface IRange<T>
+        where T : IComparable<T>
     {
         T End { get; }
 

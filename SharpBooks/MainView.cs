@@ -73,7 +73,7 @@ namespace SharpBooks
             this.owner.New();
         }
 
-        private void newTransactionButton_Click(object sender, EventArgs e)
+        private void NewTransactionButton_Click(object sender, EventArgs e)
         {
             this.accountRegister.NewTransaction();
         }

@@ -44,14 +44,14 @@
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             openToolStripMenuItem.Text = "Open";
-            openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
+            openToolStripMenuItem.Click += new System.EventHandler(this.Open_Click);
             // 
             // newAccountToolStripMenuItem
             // 
             newAccountToolStripMenuItem.Name = "newAccountToolStripMenuItem";
             newAccountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             newAccountToolStripMenuItem.Text = "New Account";
-            newAccountToolStripMenuItem.Click += new System.EventHandler(this.newAccount_Click);
+            newAccountToolStripMenuItem.Click += new System.EventHandler(this.NewAccount_Click);
             // 
             // tree
             // 
@@ -65,9 +65,9 @@
             this.tree.ShowLines = false;
             this.tree.Size = new System.Drawing.Size(150, 150);
             this.tree.TabIndex = 0;
-            this.tree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tree_DrawNode);
-            this.tree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_NodeMouseClick);
-            this.tree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_NodeMouseDoubleClick);
+            this.tree.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.Tree_DrawNode);
+            this.tree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Tree_NodeMouseClick);
+            this.tree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Tree_NodeMouseDoubleClick);
             // 
             // nodeContextMenu
             // 
@@ -83,7 +83,7 @@
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // AccountTree
             // 

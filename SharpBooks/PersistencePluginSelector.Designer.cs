@@ -78,7 +78,7 @@
             okButton.TabIndex = 9;
             okButton.Text = "&OK";
             okButton.UseVisualStyleBackColor = true;
-            okButton.Click += new System.EventHandler(this.okButton_Click);
+            okButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // PersistencePluginSelector
             // 

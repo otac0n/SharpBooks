@@ -58,13 +58,13 @@ namespace SharpBooks.UI
             this.ResetControls();
         }
 
-        private void accountComboBox_Validated(object sender, EventArgs e)
+        private void AccountComboBox_Validated(object sender, EventArgs e)
         {
             this.otherSplit.Account = (Account)this.accountComboBox.SelectedItem;
             this.ResetControls();
         }
 
-        private void accountComboBox_Validating(object sender, CancelEventArgs e)
+        private void AccountComboBox_Validating(object sender, CancelEventArgs e)
         {
             this.errorProvider.SetError(this.accountComboBox, null);
 
@@ -84,7 +84,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void amountBox_Validated(object sender, EventArgs e)
+        private void AmountBox_Validated(object sender, EventArgs e)
         {
             var total = this.split.Security.ParseValue(this.depositTextBox.Text) - this.split.Security.ParseValue(this.withdrawalTextBox.Text);
 
@@ -94,7 +94,7 @@ namespace SharpBooks.UI
             this.ResetControls();
         }
 
-        private void amountBox_Validating(object sender, CancelEventArgs e)
+        private void AmountBox_Validating(object sender, CancelEventArgs e)
         {
             var box = (TextBox)sender;
 
@@ -105,7 +105,7 @@ namespace SharpBooks.UI
             }
         }
 
-        private void clearDatePicker_ValueChanged(object sender, EventArgs e)
+        private void ClearDatePicker_ValueChanged(object sender, EventArgs e)
         {
             if (!this.suppressUpdates)
             {
@@ -151,7 +151,7 @@ namespace SharpBooks.UI
             this.suppressUpdates = false;
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             var errors = this.transaction.RuleViolations.ToList();
             if (errors.Any())
@@ -169,12 +169,12 @@ namespace SharpBooks.UI
             }
         }
 
-        private void textBox_Enter(object sender, EventArgs e)
+        private void TextBox_Enter(object sender, EventArgs e)
         {
             ((TextBox)sender).SelectAll();
         }
 
-        private void transactionDatePicker_ValueChanged(object sender, EventArgs e)
+        private void TransactionDatePicker_ValueChanged(object sender, EventArgs e)
         {
             if (!this.suppressUpdates)
             {

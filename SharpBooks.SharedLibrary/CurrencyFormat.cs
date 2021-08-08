@@ -25,7 +25,7 @@ namespace SharpBooks
 
     public class CurrencyFormat
     {
-        private static readonly Dictionary<Tuple<PositiveFormat, NegativeFormat>, int> negativePatternMapping = new Dictionary<Tuple<PositiveFormat, NegativeFormat>, int>
+        private static readonly Dictionary<Tuple<PositiveFormat, NegativeFormat>, int> NegativePatternMapping = new Dictionary<Tuple<PositiveFormat, NegativeFormat>, int>
         {
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Parentheses), 0 },
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Prefix),      1 },
@@ -45,7 +45,7 @@ namespace SharpBooks
             { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Suffix),      10 },
         };
 
-        private static readonly Dictionary<PositiveFormat, int> positivePatternMapping = new Dictionary<PositiveFormat, int>
+        private static readonly Dictionary<PositiveFormat, int> PositivePatternMapping = new Dictionary<PositiveFormat, int>
         {
             { PositiveFormat.Prefix, 0 },
             { PositiveFormat.Suffix, 1 },
@@ -120,8 +120,8 @@ namespace SharpBooks
                 CurrencyDecimalSeparator = this.DecimalSeparator,
                 CurrencyGroupSeparator = this.groupSeparator,
                 CurrencyGroupSizes = this.groupSizes,
-                CurrencyPositivePattern = positivePatternMapping[this.PositiveFormat],
-                CurrencyNegativePattern = negativePatternMapping[Tuple.Create(this.PositiveFormat, this.NegativeFormat)],
+                CurrencyPositivePattern = PositivePatternMapping[this.PositiveFormat],
+                CurrencyNegativePattern = NegativePatternMapping[Tuple.Create(this.PositiveFormat, this.NegativeFormat)],
                 CurrencySymbol = this.Symbol,
 
                 NumberDecimalDigits = this.DecimalDigits,

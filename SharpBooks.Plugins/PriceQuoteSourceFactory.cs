@@ -2,7 +2,8 @@
 
 namespace SharpBooks.Plugins
 {
-    public class PriceQuoteSourceFactory<T> : IPriceQuoteSourceFactory where T : IPriceQuoteSource, new()
+    public class PriceQuoteSourceFactory<T> : IPriceQuoteSourceFactory
+        where T : IPriceQuoteSource, new()
     {
         public PriceQuoteSourceFactory(string name)
         {

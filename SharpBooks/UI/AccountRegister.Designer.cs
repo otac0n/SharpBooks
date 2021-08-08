@@ -81,7 +81,7 @@
             this.transactionEditor.Name = "transactionEditor";
             this.transactionEditor.Size = new System.Drawing.Size(600, 52);
             this.transactionEditor.TabIndex = 3;
-            this.transactionEditor.TransactionUpdated += new System.EventHandler<SharpBooks.UI.TransactionUpdatedEventArgs>(this.transactionEditor_TransactionUpdated);
+            this.transactionEditor.TransactionUpdated += new System.EventHandler<SharpBooks.UI.TransactionUpdatedEventArgs>(this.TransactionEditor_TransactionUpdated);
             // 
             // AccountRegister
             // 

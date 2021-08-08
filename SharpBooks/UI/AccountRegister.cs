@@ -94,7 +94,7 @@ namespace SharpBooks.UI
             this.transactionIsNew = false;
         }
 
-        private void transactionEditor_TransactionUpdated(object sender, TransactionUpdatedEventArgs e)
+        private void TransactionEditor_TransactionUpdated(object sender, TransactionUpdatedEventArgs e)
         {
             if (this.transactionIsNew)
             {

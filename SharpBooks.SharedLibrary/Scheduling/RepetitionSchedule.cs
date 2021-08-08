@@ -72,7 +72,7 @@ namespace SharpBooks.Scheduling
                         BaseDate = enumerator.Current,
                         CurrentOffset = 0,
                         CurrentDate = enumerator.Current,
-                    }
+                    },
                 };
 
                 var finished = !enumerator.MoveNext();

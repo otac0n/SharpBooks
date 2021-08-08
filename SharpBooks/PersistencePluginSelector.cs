@@ -27,7 +27,7 @@ namespace SharpBooks
 
         public IPersistenceStrategyFactory StrategyFactory { get; private set; } = null;
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OkButton_Click(object sender, EventArgs e)
         {
             this.StrategyFactory = (this.comboBox1.SelectedItem as FactoryDisplay).Factory;
 

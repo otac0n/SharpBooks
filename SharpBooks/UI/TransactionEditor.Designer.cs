@@ -72,7 +72,7 @@
             this.saveButton.TabIndex = 5;
             this.saveButton.Text = "&Save";
             this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // discardButton
             // 
@@ -92,7 +92,7 @@
             this.transactionDatePicker.Name = "transactionDatePicker";
             this.transactionDatePicker.Size = new System.Drawing.Size(117, 20);
             this.transactionDatePicker.TabIndex = 1;
-            this.transactionDatePicker.ValueChanged += new System.EventHandler(this.transactionDatePicker_ValueChanged);
+            this.transactionDatePicker.ValueChanged += new System.EventHandler(this.TransactionDatePicker_ValueChanged);
             // 
             // depositTextBox
             // 
@@ -101,9 +101,9 @@
             this.depositTextBox.Name = "depositTextBox";
             this.depositTextBox.Size = new System.Drawing.Size(72, 20);
             this.depositTextBox.TabIndex = 3;
-            this.depositTextBox.Enter += new System.EventHandler(this.textBox_Enter);
-            this.depositTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.amountBox_Validating);
-            this.depositTextBox.Validated += new System.EventHandler(this.amountBox_Validated);
+            this.depositTextBox.Enter += new System.EventHandler(this.TextBox_Enter);
+            this.depositTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.AmountBox_Validating);
+            this.depositTextBox.Validated += new System.EventHandler(this.AmountBox_Validated);
             // 
             // withdrawalTextBox
             // 
@@ -112,9 +112,9 @@
             this.withdrawalTextBox.Name = "withdrawalTextBox";
             this.withdrawalTextBox.Size = new System.Drawing.Size(72, 20);
             this.withdrawalTextBox.TabIndex = 4;
-            this.withdrawalTextBox.Enter += new System.EventHandler(this.textBox_Enter);
-            this.withdrawalTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.amountBox_Validating);
-            this.withdrawalTextBox.Validated += new System.EventHandler(this.amountBox_Validated);
+            this.withdrawalTextBox.Enter += new System.EventHandler(this.TextBox_Enter);
+            this.withdrawalTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.AmountBox_Validating);
+            this.withdrawalTextBox.Validated += new System.EventHandler(this.AmountBox_Validated);
             // 
             // clearDatePicker
             // 
@@ -125,7 +125,7 @@
             this.clearDatePicker.ShowCheckBox = true;
             this.clearDatePicker.Size = new System.Drawing.Size(117, 20);
             this.clearDatePicker.TabIndex = 7;
-            this.clearDatePicker.ValueChanged += new System.EventHandler(this.clearDatePicker_ValueChanged);
+            this.clearDatePicker.ValueChanged += new System.EventHandler(this.ClearDatePicker_ValueChanged);
             // 
             // errorProvider
             // 
@@ -141,8 +141,8 @@
             this.accountComboBox.Name = "accountComboBox";
             this.accountComboBox.Size = new System.Drawing.Size(188, 21);
             this.accountComboBox.TabIndex = 2;
-            this.accountComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.accountComboBox_Validating);
-            this.accountComboBox.Validated += new System.EventHandler(this.accountComboBox_Validated);
+            this.accountComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.AccountComboBox_Validating);
+            this.accountComboBox.Validated += new System.EventHandler(this.AccountComboBox_Validated);
             // 
             // descriptionTextBox
             // 

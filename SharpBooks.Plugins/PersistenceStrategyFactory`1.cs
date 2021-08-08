@@ -4,7 +4,8 @@ namespace SharpBooks.Plugins
 {
     using SharpBooks.Persistence;
 
-    public class PersistenceStrategyFactory<T> : IPersistenceStrategyFactory where T : IPersistenceStrategy, new()
+    public class PersistenceStrategyFactory<T> : IPersistenceStrategyFactory
+        where T : IPersistenceStrategy, new()
     {
         public PersistenceStrategyFactory(string name)
         {

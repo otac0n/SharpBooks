@@ -6,7 +6,8 @@ namespace SharpBooks
 
     public static class EventsHelpers
     {
-        public static void SafeInvoke<TEventArgs>(this EventHandler<TEventArgs> foo, object @this, Func<TEventArgs> getArgs) where TEventArgs : EventArgs
+        public static void SafeInvoke<TEventArgs>(this EventHandler<TEventArgs> foo, object @this, Func<TEventArgs> getArgs)
+            where TEventArgs : EventArgs
         {
             if (foo != null)
             {
@@ -15,7 +16,8 @@ namespace SharpBooks
             }
         }
 
-        public static void SafeInvoke<TEventArgs>(this EventHandler<TEventArgs> foo, object @this, TEventArgs eArgs) where TEventArgs : EventArgs
+        public static void SafeInvoke<TEventArgs>(this EventHandler<TEventArgs> foo, object @this, TEventArgs eArgs)
+            where TEventArgs : EventArgs
         {
             if (foo != null)
             {

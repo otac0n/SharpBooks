@@ -15,6 +15,6 @@ namespace SharpBooks
         /// <summary>
         /// Indicates an account that may not have transaction splits assigned to it.
         /// </summary>
-        Grouping
+        Grouping,
     }
 }
