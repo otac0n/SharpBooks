@@ -16,7 +16,7 @@ namespace SharpBooks.UI
 
         public AccountRegister()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.descriptionColumn = new HeaderControl.ColumnHeader
             {
@@ -27,7 +27,7 @@ namespace SharpBooks.UI
 
             this.headers.Columns.Add("Date", 100);
             this.headers.Columns.Add("Number", 50);
-            this.headers.Columns.Add(descriptionColumn);
+            this.headers.Columns.Add(this.descriptionColumn);
             this.headers.Columns.Add("Account", 100);
             this.headers.Columns.Add("Deposit", 60);
             this.headers.Columns.Add("Withdrawal", 60);

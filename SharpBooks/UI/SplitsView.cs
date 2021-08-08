@@ -24,7 +24,7 @@ namespace SharpBooks.UI
         {
             this.splits = new SortedList<Split>(new SplitComparer());
             this.AlternatingBackColor = Color.WhiteSmoke;
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public event EventHandler<DesiresOffsetEventArgs> DesiresOffset;
@@ -156,9 +156,9 @@ namespace SharpBooks.UI
 
                 if (this.book != book)
                 {
-                    DetachBook(this.book);
+                    this.DetachBook(this.book);
                     this.book = book;
-                    AttachBook(this.book);
+                    this.AttachBook(this.book);
                 }
 
                 this.InitializeAccount();
@@ -367,8 +367,8 @@ namespace SharpBooks.UI
         {
             if (book != null)
             {
-                book.TransactionAdded += book_TransactionAdded;
-                book.TransactionRemoved += book_TransactionRemoved;
+                book.TransactionAdded += this.book_TransactionAdded;
+                book.TransactionRemoved += this.book_TransactionRemoved;
             }
         }
 
@@ -431,8 +431,8 @@ namespace SharpBooks.UI
         {
             if (book != null)
             {
-                book.TransactionAdded -= book_TransactionAdded;
-                book.TransactionRemoved -= book_TransactionRemoved;
+                book.TransactionAdded -= this.book_TransactionAdded;
+                book.TransactionRemoved -= this.book_TransactionRemoved;
             }
         }
 

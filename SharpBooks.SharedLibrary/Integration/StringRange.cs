@@ -21,7 +21,7 @@ namespace SharpBooks.Integration
             this.source = source;
             this.start = 0;
             this.length = source.Length;
-            this.value = source.Substring(start, length);
+            this.value = source.Substring(this.start, this.length);
         }
 
         public StringRange(string source, int start, int length)

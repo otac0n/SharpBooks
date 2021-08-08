@@ -16,7 +16,7 @@ namespace SharpBooks
         {
             this.plugins = plugins;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             foreach (var plugin in plugins)
             {

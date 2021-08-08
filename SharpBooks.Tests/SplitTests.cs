@@ -97,7 +97,7 @@ namespace SharpBooks.Tests
             // Add a split to the transaction.
             var split = transaction.AddSplit();
             split.Account = account;
-            split.Security = noCurrency;
+            split.Security = this.noCurrency;
 
             // Assert that the split is invalid without assigning an account.
             Assert.True(split.IsValid);
@@ -225,7 +225,7 @@ namespace SharpBooks.Tests
             // Add a split to the transaction.
             var split = transaction.AddSplit();
             split.Account = account;
-            split.Security = noCurrency;
+            split.Security = this.noCurrency;
 
             // assert that the split is invalid when the security is different from the account's.
             Assert.False(split.IsValid);

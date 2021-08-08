@@ -773,11 +773,11 @@ namespace SharpBooks.Tests
             public override string ToString()
             {
                 return
-                    (StartInclusive ? "[" : "(") +
-                    Start +
+                    (this.StartInclusive ? "[" : "(") +
+                    this.Start +
                     "," +
-                    End +
-                    (EndInclusive ? "]" : ")");
+                    this.End +
+                    (this.EndInclusive ? "]" : ")");
             }
         }
     }

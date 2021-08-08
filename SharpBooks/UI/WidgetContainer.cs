@@ -8,7 +8,7 @@ namespace SharpBooks.UI
     {
         public WidgetContainer()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

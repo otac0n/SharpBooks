@@ -18,7 +18,7 @@ namespace SharpBooks.UI
 
         public AccountTree()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public event EventHandler<AccountDeleteRequestedEventArgs> AccountDeleteRequested;
@@ -61,8 +61,8 @@ namespace SharpBooks.UI
         {
             if (this.book != null)
             {
-                this.book.AccountAdded += book_AccountAdded;
-                this.book.AccountRemoved += book_AccountRemoved;
+                this.book.AccountAdded += this.book_AccountAdded;
+                this.book.AccountRemoved += this.book_AccountRemoved;
             }
         }
 
@@ -119,7 +119,7 @@ namespace SharpBooks.UI
                 };
                 this.nodeLookup.Add(a, node);
 
-                node.Nodes.AddRange(BuildTreeNodes(a, accounts));
+                node.Nodes.AddRange(this.BuildTreeNodes(a, accounts));
 
                 nodes.Add(node);
             }
@@ -138,8 +138,8 @@ namespace SharpBooks.UI
         {
             if (this.book != null)
             {
-                this.book.AccountAdded -= book_AccountAdded;
-                this.book.AccountRemoved -= book_AccountRemoved;
+                this.book.AccountAdded -= this.book_AccountAdded;
+                this.book.AccountRemoved -= this.book_AccountRemoved;
             }
         }
 
@@ -149,7 +149,7 @@ namespace SharpBooks.UI
             {
                 var accounts = this.book.Accounts.ToLookup(a => a.ParentAccount);
 
-                this.tree.Nodes.AddRange(BuildTreeNodes(null, accounts));
+                this.tree.Nodes.AddRange(this.BuildTreeNodes(null, accounts));
             }
         }
 

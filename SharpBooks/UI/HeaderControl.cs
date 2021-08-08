@@ -27,7 +27,7 @@ namespace SharpBooks.UI
         {
             this.CellPadding = 3;
             this.columnHeaders = new ColumnHeaderCollection(this);
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public event EventHandler<ColumnWidthChangedEventArgs> ColumnWidthChanged;
@@ -115,7 +115,7 @@ namespace SharpBooks.UI
 
             if (!this.resizing)
             {
-                var column = FindHoveredColumn(e, out var showResize);
+                var column = this.FindHoveredColumn(e, out var showResize);
 
                 this.UpdateHover(column, showResize);
             }

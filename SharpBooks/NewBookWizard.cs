@@ -61,7 +61,7 @@ namespace SharpBooks
         {
             var ck = e.Node.Checked;
 
-            SetNodeChildrenChecked(e.Node, ck);
+            this.SetNodeChildrenChecked(e.Node, ck);
         }
 
         private TreeNode[] GetTreeNodes(XElement element)
@@ -85,7 +85,7 @@ namespace SharpBooks
                     Tag = type,
                 };
 
-                node.Nodes.AddRange(GetTreeNodes(a));
+                node.Nodes.AddRange(this.GetTreeNodes(a));
 
                 nodes.Add(node);
             }
@@ -129,7 +129,7 @@ namespace SharpBooks
         {
             var doc = LoadResourceDocument("NewBookAccounts.xml");
 
-            this.accountsTree.Nodes.AddRange(GetTreeNodes(doc.Element("Accounts")));
+            this.accountsTree.Nodes.AddRange(this.GetTreeNodes(doc.Element("Accounts")));
             this.accountsTree.ExpandAll();
         }
 
@@ -175,7 +175,7 @@ namespace SharpBooks
             foreach (TreeNode child in treeNode.Nodes)
             {
                 child.Checked = ck;
-                SetNodeChildrenChecked(child, ck);
+                this.SetNodeChildrenChecked(child, ck);
             }
         }
     }

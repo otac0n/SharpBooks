@@ -19,7 +19,7 @@ namespace SharpBooks.UI
 
         public TransactionEditor()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
@@ -55,13 +55,13 @@ namespace SharpBooks.UI
                 this.otherSplit = this.transaction.Splits.Where(s => s != this.split).Single();
             }
 
-            ResetControls();
+            this.ResetControls();
         }
 
         private void accountComboBox_Validated(object sender, EventArgs e)
         {
             this.otherSplit.Account = (Account)this.accountComboBox.SelectedItem;
-            ResetControls();
+            this.ResetControls();
         }
 
         private void accountComboBox_Validating(object sender, CancelEventArgs e)
@@ -91,7 +91,7 @@ namespace SharpBooks.UI
             this.split.TransactionAmount = this.split.Amount = total;
             this.otherSplit.TransactionAmount = this.otherSplit.Amount = -total;
 
-            ResetControls();
+            this.ResetControls();
         }
 
         private void amountBox_Validating(object sender, CancelEventArgs e)
@@ -120,7 +120,7 @@ namespace SharpBooks.UI
             this.depositTextBox.Text = "";
             this.withdrawalTextBox.Text = "";
             this.descriptionTextBox.Text = "";
-            this.Enabled = (split != null);
+            this.Enabled = (this.split != null);
 
             if (this.split == null)
             {
@@ -138,11 +138,11 @@ namespace SharpBooks.UI
 
                 if (this.split.Amount > 0)
                 {
-                    this.depositTextBox.Text = this.split.Security.FormatValue(split.Amount);
+                    this.depositTextBox.Text = this.split.Security.FormatValue(this.split.Amount);
                 }
                 else if (this.split.Amount < 0)
                 {
-                    this.withdrawalTextBox.Text = this.split.Security.FormatValue(-split.Amount);
+                    this.withdrawalTextBox.Text = this.split.Security.FormatValue(-this.split.Amount);
                 }
 
                 this.accountComboBox.SelectedItem = this.otherSplit.Account;

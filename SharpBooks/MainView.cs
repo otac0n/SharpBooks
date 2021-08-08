@@ -14,8 +14,8 @@ namespace SharpBooks
         public MainView(MainController owner)
         {
             this.owner = owner;
-            this.owner.BookChanged += Owner_BookChanged;
-            this.owner.ActiveAccountChanged += Owner_ActiveAccountChanged;
+            this.owner.BookChanged += this.Owner_BookChanged;
+            this.owner.ActiveAccountChanged += this.Owner_ActiveAccountChanged;
 
             this.InitializeComponent();
 

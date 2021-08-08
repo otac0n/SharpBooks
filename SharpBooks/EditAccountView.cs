@@ -30,7 +30,7 @@ namespace SharpBooks
             this.owner = owner;
             this.originalAccount = account;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.securityComboBox.Items.Add(new SecurityOption(null));
             this.securityComboBox.Items.AddRange(this.owner.Book.Securities.Select(s => new SecurityOption(s)).ToArray());

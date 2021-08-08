@@ -336,8 +336,8 @@ namespace SharpBooks.Controllers
         public void Run()
         {
             var view = new MainView(this);
-            view.AccountSelected += AccountSelected;
-            view.AccountDeselected += AccountDeselected;
+            view.AccountSelected += this.AccountSelected;
+            view.AccountDeselected += this.AccountDeselected;
 
             Application.Run(view);
         }

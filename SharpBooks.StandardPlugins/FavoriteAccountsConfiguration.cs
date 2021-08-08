@@ -17,7 +17,7 @@ namespace SharpBooks.StandardPlugins
         /// </summary>
         public FavoriteAccountsConfiguration()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         /// <summary>

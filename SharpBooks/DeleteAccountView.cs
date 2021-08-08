@@ -8,7 +8,7 @@ namespace SharpBooks
     {
         public DeleteAccountView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
