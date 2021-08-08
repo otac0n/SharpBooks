@@ -1,4 +1,6 @@
-﻿namespace SharpBooks.StandardPlugins
+﻿// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+
+namespace SharpBooks.StandardPlugins
 {
     using System;
     using System.Collections.Generic;
