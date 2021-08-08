@@ -49,7 +49,7 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithEmptyRange_ReturnsTrue(int aStart, bool aStartInclusive, int aEnd, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
+        public void Contains_WithEmptyRange_ReturnsTrue(int aStart, bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusive)
         {
             var rangeA = new NumberRange { Start = aStart, StartInclusive = aStartInclusive, End = aStart, EndInclusive = aEndInclusive };
             var rangeB = new NumberRange { Start = 1, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusive };
@@ -246,7 +246,7 @@ namespace SharpBooks.Tests
         }
 
         [Theory]
-        public void Contains_WithZeroRangeExclusive_ReturnsFalse(bool aStartInclusive, bool aEndInclusive, bool bStartInclusive, bool bEndInclusively)
+        public void Contains_WithZeroRangeExclusive_ReturnsFalse(bool bStartInclusive, bool bEndInclusively)
         {
             var rangeA = new NumberRange { Start = 0, StartInclusive = false, End = 0, EndInclusive = false };
             var rangeB = new NumberRange { Start = 0, StartInclusive = bStartInclusive, End = 0, EndInclusive = bEndInclusively };

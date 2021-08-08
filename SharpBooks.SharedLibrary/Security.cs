@@ -5,7 +5,6 @@ namespace SharpBooks
     using System;
     using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "'Security' is a standard term for the financial instrument represented by this class.")]
     public sealed class Security
     {
         public Security(Guid securityId, SecurityType securityType, string name, string symbol, CurrencyFormat format, int fractionTraded)
