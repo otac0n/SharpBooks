@@ -345,8 +345,7 @@ namespace SharpBooks
                     throw new ArgumentNullException(nameof(account));
                 }
 
-                CompositeBalance balance;
-                if (!this.balances.TryGetValue(account, out balance))
+                if (!this.balances.TryGetValue(account, out var balance))
                 {
                     throw new InvalidOperationException("The account specified is not a member of the book.");
                 }
@@ -389,8 +388,7 @@ namespace SharpBooks
                     throw new ArgumentNullException(nameof(account));
                 }
 
-                CompositeBalance balance;
-                if (this.totalBalances.TryGetValue(account, out balance))
+                if (this.totalBalances.TryGetValue(account, out var balance))
                 {
                     return balance;
                 }

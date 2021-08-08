@@ -56,8 +56,7 @@ namespace SharpBooks
             this.errorProvider.SetError(box, null);
 
             var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
-            long fraction;
-            if (!security.TryParseValue(box.Text, out fraction))
+            if (!security.TryParseValue(box.Text, out var fraction))
             {
                 this.errorProvider.SetError(box, "You must enter a valid value.");
                 e.Cancel = true;

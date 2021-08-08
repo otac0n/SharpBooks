@@ -88,7 +88,7 @@ namespace SharpBooks
             var activeAccount = this.owner.ActiveAccount;
             this.accountRegister.SetAccount(activeAccount, this.owner.Book);
 
-            bool isNull = activeAccount == null;
+            var isNull = activeAccount == null;
             this.accountViewContainer.Visible = !isNull;
             this.accountTree.Visible = isNull;
         }
@@ -98,7 +98,7 @@ namespace SharpBooks
             var book = this.owner.Book;
             this.accountTree.Book = book;
 
-            bool isNull = book == null;
+            var isNull = book == null;
             this.tabView.Visible = !isNull;
         }
 

@@ -68,7 +68,7 @@ namespace SharpBooks
             var newBalances = new List<Balance>(this.balances.Count + 1);
 
             // Go through the list of current balances.
-            bool combined = false;
+            var combined = false;
             foreach (var bal in this.balances)
             {
                 // Reuse the existing balance, if possible.

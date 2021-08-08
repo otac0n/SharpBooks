@@ -177,8 +177,8 @@ namespace SharpBooks.UI
             var balance = ((Account)node.Tag).TotalBalance;
             var amountText = balance.ToString();
 
-            bool isFocused = (state & TreeNodeStates.Focused) == TreeNodeStates.Focused;
-            bool thisFocused = node.TreeView.Focused;
+            var isFocused = (state & TreeNodeStates.Focused) == TreeNodeStates.Focused;
+            var thisFocused = node.TreeView.Focused;
             var font = (node.NodeFont != null) ? node.NodeFont : node.TreeView.Font;
 
             var textSize = TextRenderer.MeasureText(amountText, font);

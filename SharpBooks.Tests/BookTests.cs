@@ -175,7 +175,7 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.AccountAdded += (sender, e) => { called = true; };
 
             // Add the account to the book.
@@ -292,7 +292,7 @@ namespace SharpBooks.Tests
             var priceQuote = TestUtils.CreateValidPriceQuote();
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.PriceQuoteAdded += (sender, e) => { called = true; };
 
             // Attempt to add the price quote to the book.
@@ -412,7 +412,7 @@ namespace SharpBooks.Tests
             var book = new Book();
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.SecurityAdded += (sender, e) => { called = true; };
 
             // Add the test security to the book.
@@ -672,7 +672,7 @@ namespace SharpBooks.Tests
             book.AddAccount(account);
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.AccountRemoved += (sender, e) => { called = true; };
 
             // Remove the account from the book.
@@ -745,7 +745,7 @@ namespace SharpBooks.Tests
             book.AddPriceQuote(priceQuote);
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.PriceQuoteRemoved += (sender, e) => { called = true; };
 
             // Remove the price quote from the book.
@@ -903,7 +903,7 @@ namespace SharpBooks.Tests
             book.AddSecurity(TestUtils.TestCurrency);
 
             // Wire-up the CollectionChanged event to flag the change.
-            bool called = false;
+            var called = false;
             book.SecurityRemoved += (sender, e) => { called = true; };
 
             // Remove the security from the book.

@@ -24,7 +24,7 @@ namespace GooglePriceQuoteSource
             int i;
             for (i = 0; i < lines.Length; i++)
             {
-                int width = 1;
+                var width = 1;
                 var index = lines[i].IndexOf("=");
                 if (index == -1)
                 {

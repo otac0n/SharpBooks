@@ -44,9 +44,9 @@ namespace SharpBooks.UI
             var bounds = new Rectangle[this.columns.Count];
 
             var height = this.ClientSize.Height;
-            int left = 0;
+            var left = 0;
 
-            for (int i = 0; i < this.columns.Count; i++)
+            for (var i = 0; i < this.columns.Count; i++)
             {
                 var w = this.columns[i].Width;
                 bounds[i] = new Rectangle(left, 0, w, height);
@@ -115,8 +115,7 @@ namespace SharpBooks.UI
 
             if (!this.resizing)
             {
-                bool showResize;
-                var column = FindHoveredColumn(e, out showResize);
+                var column = FindHoveredColumn(e, out var showResize);
 
                 this.UpdateHover(column, showResize);
             }
@@ -146,8 +145,8 @@ namespace SharpBooks.UI
             var height = this.ClientSize.Height;
             var width = this.ClientSize.Width;
 
-            int left = 0;
-            for (int i = 0; i < this.columns.Count; i++)
+            var left = 0;
+            for (var i = 0; i < this.columns.Count; i++)
             {
                 var col = this.columns[i];
                 var w = col.Width;
@@ -216,7 +215,7 @@ namespace SharpBooks.UI
             var bounds = this.GetColumnBounds();
             var padding = this.CellPadding;
 
-            for (int i = 0; i < bounds.Length; i++)
+            for (var i = 0; i < bounds.Length; i++)
             {
                 var rect = bounds[i];
                 var loc = e.Location;

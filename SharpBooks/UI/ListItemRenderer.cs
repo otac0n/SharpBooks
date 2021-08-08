@@ -215,7 +215,7 @@ namespace SharpBooks.UI
 
             if (flags == null)
             {
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
                     RenderItemText(g, textRectangles[i], itemsText[i], font, StandardFlags);
                 }
@@ -227,7 +227,7 @@ namespace SharpBooks.UI
                     throw new ArgumentOutOfRangeException(nameof(flags));
                 }
 
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
                     RenderItemText(g, textRectangles[i], itemsText[i], font, flags[i]);
                 }
@@ -264,7 +264,7 @@ namespace SharpBooks.UI
 
             if (flags == null)
             {
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
                     RenderItemText(g, textRectangles[i], itemsText[i], fonts[i], StandardFlags);
                 }
@@ -276,7 +276,7 @@ namespace SharpBooks.UI
                     throw new ArgumentOutOfRangeException(nameof(flags));
                 }
 
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
                     RenderItemText(g, textRectangles[i], itemsText[i], fonts[i], flags[i]);
                 }

@@ -81,8 +81,7 @@ namespace SharpBooks
 
         public long ParseValue(string s)
         {
-            long amount;
-            if (!this.TryParseValue(s, out amount))
+            if (!this.TryParseValue(s, out var amount))
             {
                 throw new FormatException("The value was not in an acceptable format.");
             }

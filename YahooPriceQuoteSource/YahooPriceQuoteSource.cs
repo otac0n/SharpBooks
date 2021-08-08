@@ -87,8 +87,7 @@ namespace YahooPriceQuoteSource
                 throw BuildError(symbol, "The symbol could not be found.");
             }
 
-            DateTime utcDate;
-            if (!DateTime.TryParse(date, out utcDate))
+            if (!DateTime.TryParse(date, out var utcDate))
             {
                 throw BuildError(symbol, "The data returned was not in a recognized format.");
             }
@@ -97,8 +96,7 @@ namespace YahooPriceQuoteSource
 
             var minDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, yahooTimeZone);
 
-            DateTime dateTime;
-            if (!DateTime.TryParse(minDate.ToShortDateString() + " " + time, out dateTime))
+            if (!DateTime.TryParse(minDate.ToShortDateString() + " " + time, out var dateTime))
             {
                 throw BuildError(symbol, "The data returned was not in a recognized format.");
             }
@@ -110,8 +108,7 @@ namespace YahooPriceQuoteSource
 
             dateTime = TimeZoneInfo.ConvertTimeToUtc(dateTime, yahooTimeZone);
 
-            decimal price;
-            if (!decimal.TryParse(value, out price))
+            if (!decimal.TryParse(value, out var price))
             {
                 throw BuildError(symbol, "The data returned was not in a recognized format.");
             }

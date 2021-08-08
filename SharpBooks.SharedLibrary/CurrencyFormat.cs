@@ -87,7 +87,7 @@ namespace SharpBooks
             }
 
             var copy = (groupSizes ?? new[] { 3 }).ToArray();
-            for (int i = 0; i < copy.Length; i++)
+            for (var i = 0; i < copy.Length; i++)
             {
                 var v = copy[i];
                 if (v < 0 || (v == 0 && i != copy.Length - 1))
@@ -173,9 +173,9 @@ namespace SharpBooks
 
         public string Format(long value, int fractionTraded)
         {
-            decimal actualValue = (decimal)value / (decimal)fractionTraded;
+            var actualValue = (decimal)value / fractionTraded;
 
-            int count = CountDecimalDigits(actualValue);
+            var count = CountDecimalDigits(actualValue);
             count = Math.Max(
                 this.numberFormatInfo.CurrencyDecimalDigits,
                 count);
@@ -191,8 +191,7 @@ namespace SharpBooks
                 return true;
             }
 
-            decimal actualValue;
-            if (!decimal.TryParse(s, NumberStyles.Currency, this.numberFormatInfo, out actualValue))
+            if (!decimal.TryParse(s, NumberStyles.Currency, this.numberFormatInfo, out var actualValue))
             {
                 return false;
             }
@@ -209,7 +208,7 @@ namespace SharpBooks
 
         private static int CountDecimalDigits(decimal value)
         {
-            int count = 0;
+            var count = 0;
             while (decimal.Truncate(value) != value)
             {
                 value *= 10;

@@ -240,7 +240,7 @@ namespace SharpBooks.UI
                     var lastVisible = this.GetVirtualRow(e.ClipRectangle.Bottom - 1);
                     lastVisible = lastVisible >= c ? c - 1 : lastVisible;
 
-                    for (int i = firstVisible; i <= lastVisible; i++)
+                    for (var i = firstVisible; i <= lastVisible; i++)
                     {
                         var alternatingRow = i % 2 == 1;
 
@@ -259,7 +259,7 @@ namespace SharpBooks.UI
                         };
 
                         var textRectangles = new Rectangle[textParts.Length];
-                        for (int j = 0; j < columnBounds.Length; j++)
+                        for (var j = 0; j < columnBounds.Length; j++)
                         {
                             var col = columnBounds[j];
                             textRectangles[j] = new Rectangle(offsetX + col.X, rowRectangle.Top, col.Width, itemHeight);
@@ -377,7 +377,7 @@ namespace SharpBooks.UI
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
             {
-                bool indexChanged = false;
+                var indexChanged = false;
 
                 splits.ForEach(s =>
                 {
@@ -402,7 +402,7 @@ namespace SharpBooks.UI
             var splits = e.Transaction.Splits.Where(s => s.Account == this.account).ToList();
             if (splits.Count > 0)
             {
-                bool indexChanged = false;
+                var indexChanged = false;
 
                 splits.ForEach(s =>
                 {
@@ -482,7 +482,7 @@ namespace SharpBooks.UI
 
         private void InvalidateRows(params int[] rows)
         {
-            for (int i = 0; i < rows.Length; i++)
+            for (var i = 0; i < rows.Length; i++)
             {
                 var r = rows[i];
                 if (r != -1)

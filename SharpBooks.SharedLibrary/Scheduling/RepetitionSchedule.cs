@@ -98,7 +98,7 @@ namespace SharpBooks.Scheduling
                     var minIndex = 0;
                     var minDate = items[minIndex].CurrentDate;
 
-                    for (int i = 1; i < items.Count; i++)
+                    for (var i = 1; i < items.Count; i++)
                     {
                         if (items[i].CurrentDate < minDate)
                         {

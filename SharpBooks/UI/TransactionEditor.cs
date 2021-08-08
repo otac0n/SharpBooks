@@ -98,8 +98,7 @@ namespace SharpBooks.UI
         {
             var box = (TextBox)sender;
 
-            long value;
-            if (!this.split.Security.TryParseValue(box.Text, out value))
+            if (!this.split.Security.TryParseValue(box.Text, out var value))
             {
                 this.errorProvider.SetError(box, "You must enter a valid amount in " + this.split.Security.Name + ".");
                 e.Cancel = true;

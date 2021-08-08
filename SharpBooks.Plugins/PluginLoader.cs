@@ -26,7 +26,7 @@ namespace SharpBooks.Plugins
 
             if (Directory.Exists(pluginsDirectory))
             {
-                foreach (string path in Directory.GetFiles(pluginsDirectory, "*.dll"))
+                foreach (var path in Directory.GetFiles(pluginsDirectory, "*.dll"))
                 {
                     try
                     {
