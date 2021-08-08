@@ -102,8 +102,7 @@ namespace SharpBooks
                                  name,
                                  code,
                                  new CurrencyFormat(currencySymbol: symbol),
-                                 fraction
-                             );
+                                 fraction);
 
             foreach (var sec in currencies)
             {

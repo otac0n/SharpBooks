@@ -67,7 +67,8 @@ namespace SharpBooks.UI
         {
             var a = e.Account;
 
-            var node = new TreeNode  // TODO: Determine the icon from the metadata.
+            // TODO: Determine the icon from the metadata.
+            var node = new TreeNode
             {
                 Text = a.Name,
                 Name = a.Name,
@@ -106,9 +107,11 @@ namespace SharpBooks.UI
         {
             var nodes = new List<TreeNode>();
 
-            foreach (var a in accounts[parentAccount])  // TODO: Order by "order" in the metadata.
+            // TODO: Order by "order" in the metadata.
+            foreach (var a in accounts[parentAccount])
             {
-                var node = new TreeNode  // TODO: Determine the icon from the metadata.
+                // TODO: Determine the icon from the metadata.
+                var node = new TreeNode
                 {
                     Text = a.Name,
                     Name = a.Name,
