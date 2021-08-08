@@ -53,14 +53,9 @@ namespace SharpBooks
             { PositiveFormat.SuffixSpaced, 3 },
         };
 
-        private readonly string currencySymbol;
-        private readonly int decimalDigits;
-        private readonly string decimalSeparator;
         private readonly string groupSeparator;
         private readonly int[] groupSizes;
-        private readonly NegativeFormat negativeFormat;
         private readonly NumberFormatInfo numberFormatInfo;
-        private readonly PositiveFormat positiveFormat;
 
         public CurrencyFormat(
             int decimalDigits = 2,
@@ -111,65 +106,44 @@ namespace SharpBooks
                 throw new ArgumentOutOfRangeException(nameof(negativeFormat));
             }
 
-            this.decimalDigits = decimalDigits;
-            this.decimalSeparator = decimalSeparator;
+            this.DecimalDigits = decimalDigits;
+            this.DecimalSeparator = decimalSeparator;
             this.groupSeparator = groupSeparator;
             this.groupSizes = copy;
-            this.positiveFormat = positiveFormat;
-            this.negativeFormat = negativeFormat;
-            this.currencySymbol = currencySymbol;
+            this.PositiveFormat = positiveFormat;
+            this.NegativeFormat = negativeFormat;
+            this.Symbol = currencySymbol;
 
             this.numberFormatInfo = new NumberFormatInfo
             {
-                CurrencyDecimalDigits = this.decimalDigits,
-                CurrencyDecimalSeparator = this.decimalSeparator,
+                CurrencyDecimalDigits = this.DecimalDigits,
+                CurrencyDecimalSeparator = this.DecimalSeparator,
                 CurrencyGroupSeparator = this.groupSeparator,
                 CurrencyGroupSizes = this.groupSizes,
-                CurrencyPositivePattern = positivePatternMapping[this.positiveFormat],
-                CurrencyNegativePattern = negativePatternMapping[Tuple.Create(this.positiveFormat, this.negativeFormat)],
-                CurrencySymbol = this.currencySymbol,
+                CurrencyPositivePattern = positivePatternMapping[this.PositiveFormat],
+                CurrencyNegativePattern = negativePatternMapping[Tuple.Create(this.PositiveFormat, this.NegativeFormat)],
+                CurrencySymbol = this.Symbol,
 
                 NumberDecimalDigits = this.DecimalDigits,
-                NumberDecimalSeparator = this.decimalSeparator,
+                NumberDecimalSeparator = this.DecimalSeparator,
                 NumberGroupSeparator = this.groupSeparator,
                 NumberGroupSizes = this.groupSizes,
             };
         }
 
-        public int DecimalDigits
-        {
-            get { return this.decimalDigits; }
-        }
+        public int DecimalDigits { get; }
 
-        public string DecimalSeparator
-        {
-            get { return this.decimalSeparator; }
-        }
+        public string DecimalSeparator { get; }
 
-        public string GroupSeparator
-        {
-            get { return this.groupSeparator; }
-        }
+        public string GroupSeparator => this.groupSeparator;
 
-        public int[] GroupSizes
-        {
-            get { return this.groupSizes.ToArray(); }
-        }
+        public int[] GroupSizes => this.groupSizes.ToArray();
 
-        public NegativeFormat NegativeFormat
-        {
-            get { return this.negativeFormat; }
-        }
+        public NegativeFormat NegativeFormat { get; }
 
-        public PositiveFormat PositiveFormat
-        {
-            get { return this.positiveFormat; }
-        }
+        public PositiveFormat PositiveFormat { get; }
 
-        public string Symbol
-        {
-            get { return this.currencySymbol; }
-        }
+        public string Symbol { get; }
 
         public string Format(long value, int fractionTraded)
         {

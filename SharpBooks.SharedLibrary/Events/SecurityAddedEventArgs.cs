@@ -6,8 +6,6 @@ namespace SharpBooks.Events
 
     public class SecurityAddedEventArgs : EventArgs
     {
-        private readonly Security security;
-
         public SecurityAddedEventArgs(Security security)
         {
             if (security == null)
@@ -15,15 +13,9 @@ namespace SharpBooks.Events
                 throw new ArgumentNullException(nameof(security));
             }
 
-            this.security = security;
+            this.Security = security;
         }
 
-        public Security Security
-        {
-            get
-            {
-                return this.security;
-            }
-        }
+        public Security Security { get; }
     }
 }

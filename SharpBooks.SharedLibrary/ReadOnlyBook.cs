@@ -44,53 +44,17 @@ namespace SharpBooks
 
         public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
-        public ICollection<Account> Accounts
-        {
-            get
-            {
-                return this.book.Accounts;
-            }
-        }
+        public ICollection<Account> Accounts => this.book.Accounts;
 
-        public ICollection<PriceQuote> PriceQuotes
-        {
-            get
-            {
-                return this.book.PriceQuotes;
-            }
-        }
+        public ICollection<PriceQuote> PriceQuotes => this.book.PriceQuotes;
 
-        public ICollection<Account> RootAccounts
-        {
-            get
-            {
-                return this.book.RootAccounts;
-            }
-        }
+        public ICollection<Account> RootAccounts => this.book.RootAccounts;
 
-        public ICollection<Security> Securities
-        {
-            get
-            {
-                return this.book.Securities;
-            }
-        }
+        public ICollection<Security> Securities => this.book.Securities;
 
-        public IDictionary<string, string> Settings
-        {
-            get
-            {
-                return this.book.Settings;
-            }
-        }
+        public IDictionary<string, string> Settings => this.book.Settings;
 
-        public ICollection<Transaction> Transactions
-        {
-            get
-            {
-                return this.book.Transactions;
-            }
-        }
+        public ICollection<Transaction> Transactions => this.book.Transactions;
 
         public ICollection<Split> GetAccountSplits(Account account)
         {

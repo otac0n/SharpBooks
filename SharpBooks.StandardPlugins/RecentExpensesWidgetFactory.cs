@@ -6,13 +6,7 @@ namespace SharpBooks.StandardPlugins
 
     internal class RecentExpensesWidgetFactory : IWidgetFactory
     {
-        public string Name
-        {
-            get
-            {
-                return "Recent Expenses";
-            }
-        }
+        public string Name => "Recent Expenses";
 
         public string Configure(ReadOnlyBook book, string currentSettings)
         {

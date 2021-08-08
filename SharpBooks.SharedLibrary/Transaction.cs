@@ -111,13 +111,7 @@ namespace SharpBooks
         /// <summary>
         /// Gets an enumerable collection of the splits that make up the transaction.
         /// </summary>
-        public IList<Split> Splits
-        {
-            get
-            {
-                return this.splits.AsReadOnly();
-            }
-        }
+        public IList<Split> Splits => this.splits.AsReadOnly();
 
         /// <summary>
         /// Gets the unique identifier of the transaction.

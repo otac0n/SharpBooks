@@ -6,8 +6,6 @@ namespace SharpBooks.Events
 
     public class PriceQuoteAddedEventArgs : EventArgs
     {
-        private readonly PriceQuote priceQuote;
-
         public PriceQuoteAddedEventArgs(PriceQuote priceQuote)
         {
             if (priceQuote == null)
@@ -15,15 +13,9 @@ namespace SharpBooks.Events
                 throw new ArgumentNullException(nameof(priceQuote));
             }
 
-            this.priceQuote = priceQuote;
+            this.PriceQuote = priceQuote;
         }
 
-        public PriceQuote PriceQuote
-        {
-            get
-            {
-                return this.priceQuote;
-            }
-        }
+        public PriceQuote PriceQuote { get; }
     }
 }

@@ -14,7 +14,6 @@ namespace SharpBooks
     public partial class NewBookWizard : Form
     {
         private readonly MainController owner;
-        private Book newBook;
 
         public NewBookWizard(MainController owner)
         {
@@ -27,13 +26,7 @@ namespace SharpBooks
             this.LoadDefaultAccounts();
         }
 
-        public Book NewBook
-        {
-            get
-            {
-                return this.newBook;
-            }
-        }
+        public Book NewBook { get; private set; }
 
         private static void AddBookAccounts(TreeNode node, Book book, Account parent)
         {
@@ -151,7 +144,7 @@ namespace SharpBooks
                 AddBookAccounts(node, book, null);
             }
 
-            this.newBook = book;
+            this.NewBook = book;
         }
 
         private void SetDefaultCurrency()

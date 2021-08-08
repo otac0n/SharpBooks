@@ -20,15 +20,9 @@ namespace SharpBooks
             this.collection = wrappedCollection;
         }
 
-        public int Count
-        {
-            get { return this.collection.Count; }
-        }
+        public int Count => this.collection.Count;
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public bool IsReadOnly => true;
 
         public void Add(T item)
         {

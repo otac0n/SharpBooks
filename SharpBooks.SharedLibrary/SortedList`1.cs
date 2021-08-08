@@ -47,15 +47,9 @@ namespace SharpBooks
             this.storage.Sort(this.comparer);
         }
 
-        public int Count
-        {
-            get { return this.storage.Count; }
-        }
+        public int Count => this.storage.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public T this[int index]
         {

@@ -24,8 +24,6 @@ namespace SharpBooks.UI
 
         private static bool isSupported;
 
-        private static bool renderMatchingApplicationState = true;
-
         [ThreadStatic]
         private static VisualStyleRenderer visualStyleRenderer;
 
@@ -75,20 +73,9 @@ namespace SharpBooks.UI
             }
         }
 
-        public static bool RenderMatchingApplicationState
-        {
-            get { return renderMatchingApplicationState; }
+        public static bool RenderMatchingApplicationState { get; set; } = true;
 
-            set { renderMatchingApplicationState = value; }
-        }
-
-        private static bool RenderWithVisualStyles
-        {
-            get
-            {
-                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
-            }
-        }
+        private static bool RenderWithVisualStyles => (!RenderMatchingApplicationState || Application.RenderWithVisualStyles) && isSupported;
 
         public static void RenderBackground(Graphics g, Rectangle bounds, Brush background, ListViewItemState state)
         {

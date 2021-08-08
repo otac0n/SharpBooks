@@ -6,8 +6,6 @@ namespace SharpBooks.Events
 
     public class AccountRemovedEventArgs : EventArgs
     {
-        private readonly Account account;
-
         public AccountRemovedEventArgs(Account account)
         {
             if (account == null)
@@ -15,15 +13,9 @@ namespace SharpBooks.Events
                 throw new ArgumentNullException(nameof(account));
             }
 
-            this.account = account;
+            this.Account = account;
         }
 
-        public Account Account
-        {
-            get
-            {
-                return this.account;
-            }
-        }
+        public Account Account { get; }
     }
 }

@@ -10,7 +10,6 @@ namespace SharpBooks
     public class Book
     {
         private readonly HashSet<Account> accounts = new HashSet<Account>();
-        private readonly ICollection<Account> accountsReadOnly;
 
         // Indexes:
         private readonly Dictionary<Account, CompositeBalance> balances = new Dictionary<Account, CompositeBalance>();
@@ -18,26 +17,22 @@ namespace SharpBooks
         private readonly SaveTrack baseSaveTrack = new SaveTrack();
         private readonly object lockMutex = new object();
         private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
-        private readonly ICollection<PriceQuote> priceQuotesReadOnly;
         private readonly ReadOnlyBook readOnlyFacade;
         private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
-        private readonly ICollection<Account> rootAccountsReadOnly;
         private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
         private readonly HashSet<Security> securities = new HashSet<Security>();
-        private readonly ICollection<Security> securitiesReadOnly;
         private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
-        private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
         private readonly Dictionary<Account, CompositeBalance> totalBalances = new Dictionary<Account, CompositeBalance>();
         private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
         private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
 
         public Book()
         {
-            this.securitiesReadOnly = new ReadOnlyCollectionWrapper<Security>(this.securities);
-            this.accountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.accounts);
-            this.rootAccountsReadOnly = new ReadOnlyCollectionWrapper<Account>(this.rootAccounts);
-            this.priceQuotesReadOnly = new ReadOnlyCollectionWrapper<PriceQuote>(this.priceQuotes);
-            this.settingsReadOnly = new ReadOnlyDictionary<string, string>(this.settings);
+            this.Securities = new ReadOnlyCollectionWrapper<Security>(this.securities);
+            this.Accounts = new ReadOnlyCollectionWrapper<Account>(this.accounts);
+            this.RootAccounts = new ReadOnlyCollectionWrapper<Account>(this.rootAccounts);
+            this.PriceQuotes = new ReadOnlyCollectionWrapper<PriceQuote>(this.priceQuotes);
+            this.Settings = new ReadOnlyDictionary<string, string>(this.settings);
             this.readOnlyFacade = new ReadOnlyBook(this);
         }
 
@@ -57,35 +52,17 @@ namespace SharpBooks
 
         public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
-        public ICollection<Account> Accounts
-        {
-            get { return this.accountsReadOnly; }
-        }
+        public ICollection<Account> Accounts { get; }
 
-        public ICollection<PriceQuote> PriceQuotes
-        {
-            get { return this.priceQuotesReadOnly; }
-        }
+        public ICollection<PriceQuote> PriceQuotes { get; }
 
-        public ICollection<Account> RootAccounts
-        {
-            get { return this.rootAccountsReadOnly; }
-        }
+        public ICollection<Account> RootAccounts { get; }
 
-        public ICollection<Security> Securities
-        {
-            get { return this.securitiesReadOnly; }
-        }
+        public ICollection<Security> Securities { get; }
 
-        public ReadOnlyDictionary<string, string> Settings
-        {
-            get { return this.settingsReadOnly; }
-        }
+        public ReadOnlyDictionary<string, string> Settings { get; }
 
-        public ICollection<Transaction> Transactions
-        {
-            get { return this.transactions; }
-        }
+        public ICollection<Transaction> Transactions => this.transactions;
 
         /// <summary>
         /// Adds an account to the <see cref="Book"/>.

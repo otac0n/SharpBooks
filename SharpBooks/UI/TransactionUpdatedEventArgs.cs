@@ -6,7 +6,6 @@ namespace SharpBooks.UI
 
     public class TransactionUpdatedEventArgs : EventArgs
     {
-        private readonly Transaction newTransaction;
         private readonly Transaction oldTransaction;
 
         public TransactionUpdatedEventArgs(Transaction oldTransaction, Transaction newTransaction)
@@ -22,17 +21,11 @@ namespace SharpBooks.UI
             }
 
             this.oldTransaction = oldTransaction;
-            this.newTransaction = newTransaction;
+            this.NewTransaction = newTransaction;
         }
 
-        public Transaction NewTransaction
-        {
-            get { return this.newTransaction; }
-        }
+        public Transaction NewTransaction { get; }
 
-        public Transaction OldTransaction
-        {
-            get { return this.oldTransaction; }
-        }
+        public Transaction OldTransaction => this.oldTransaction;
     }
 }

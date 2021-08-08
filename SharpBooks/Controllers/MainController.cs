@@ -43,15 +43,7 @@ namespace SharpBooks.Controllers
             }
         }
 
-        public ReadOnlyBook Book
-        {
-            get
-            {
-                return this.book == null
-                    ? null
-                    : this.book.AsReadOnly();
-            }
-        }
+        public ReadOnlyBook Book => this.book?.AsReadOnly();
 
         public void AddAccount(Account account)
         {
@@ -266,10 +258,10 @@ namespace SharpBooks.Controllers
             var newAccount = new Account(
                 Guid.NewGuid(),
                 AccountType.Balance,
-                parent == null ? null : parent.Security,
+                parent?.Security,
                 parent,
                 "New Account",
-                parent == null ? null : parent.SmallestFraction);
+                parent?.SmallestFraction);
 
             using (var editor = new EditAccountView(this, newAccount))
             {

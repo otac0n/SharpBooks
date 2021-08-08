@@ -8,11 +8,6 @@ namespace SharpBooks
 
     public class Account
     {
-        private readonly Guid accountId;
-        private readonly AccountType accountType;
-        private readonly string name;
-        private readonly Account parentAccount;
-        private readonly Security security;
         private readonly int? smallestFraction;
 
         private Book book;
@@ -68,81 +63,29 @@ namespace SharpBooks
                 parent = parent.ParentAccount;
             }
 
-            this.accountId = accountId;
-            this.accountType = accountType;
-            this.security = security;
-            this.parentAccount = parentAccount;
-            this.name = name;
+            this.AccountId = accountId;
+            this.AccountType = accountType;
+            this.Security = security;
+            this.ParentAccount = parentAccount;
+            this.Name = name;
             this.smallestFraction = smallestFraction;
         }
 
-        public Guid AccountId
-        {
-            get
-            {
-                return this.accountId;
-            }
-        }
+        public Guid AccountId { get; }
 
-        public AccountType AccountType
-        {
-            get
-            {
-                return this.accountType;
-            }
-        }
+        public AccountType AccountType { get; }
 
-        public CompositeBalance Balance
-        {
-            get
-            {
-                return this.book == null
-                    ? null
-                    : this.book.GetAccountBalance(this);
-            }
-        }
+        public CompositeBalance Balance => this.book?.GetAccountBalance(this);
 
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-        }
+        public string Name { get; }
 
-        public Account ParentAccount
-        {
-            get
-            {
-                return this.parentAccount;
-            }
-        }
+        public Account ParentAccount { get; }
 
-        public Security Security
-        {
-            get
-            {
-                return this.security;
-            }
-        }
+        public Security Security { get; }
 
-        public int? SmallestFraction
-        {
-            get
-            {
-                return this.smallestFraction;
-            }
-        }
+        public int? SmallestFraction => this.smallestFraction;
 
-        public CompositeBalance TotalBalance
-        {
-            get
-            {
-                return this.book == null
-                    ? null
-                    : this.book.GetAccountTotalBalance(this);
-            }
-        }
+        public CompositeBalance TotalBalance => this.book?.GetAccountTotalBalance(this);
 
         internal Book Book
         {

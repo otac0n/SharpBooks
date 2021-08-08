@@ -9,10 +9,7 @@ namespace SharpBooks.StandardPlugins
 
     public class XmlPersistenceStrategy : FilePersistenceStrategy
     {
-        protected override string FileFilter
-        {
-            get { return "XML Files (*.xml)|*.xml"; }
-        }
+        protected override string FileFilter => "XML Files (*.xml)|*.xml";
 
         protected override Book Load(Uri uri)
         {

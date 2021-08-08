@@ -6,8 +6,6 @@ namespace SharpBooks.UI
 
     public class TransactionCreatedEventArgs : EventArgs
     {
-        private readonly Transaction newTransaction;
-
         public TransactionCreatedEventArgs(Transaction newTransaction)
         {
             if (newTransaction == null)
@@ -15,12 +13,9 @@ namespace SharpBooks.UI
                 throw new ArgumentNullException(nameof(newTransaction));
             }
 
-            this.newTransaction = newTransaction;
+            this.NewTransaction = newTransaction;
         }
 
-        public Transaction NewTransaction
-        {
-            get { return this.newTransaction; }
-        }
+        public Transaction NewTransaction { get; }
     }
 }

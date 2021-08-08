@@ -21,69 +21,21 @@ namespace SharpBooks.Tests.Fakes
 
         private long orderIndex;
 
-        public ReadOnlyCollection<OrderedGuid> AccountAdditions
-        {
-            get
-            {
-                return this.accountAdditions.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> AccountAdditions => this.accountAdditions.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> AccountRemovals
-        {
-            get
-            {
-                return this.accountRemovals.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> AccountRemovals => this.accountRemovals.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> PriceQuoteAdditions
-        {
-            get
-            {
-                return this.priceQuoteAdditions.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> PriceQuoteAdditions => this.priceQuoteAdditions.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> PriceQuoteRemovals
-        {
-            get
-            {
-                return this.priceQuoteRemovals.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> PriceQuoteRemovals => this.priceQuoteRemovals.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> SecurityAdditions
-        {
-            get
-            {
-                return this.securityAdditions.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> SecurityAdditions => this.securityAdditions.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> SecurityRemovals
-        {
-            get
-            {
-                return this.securityRemovals.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> SecurityRemovals => this.securityRemovals.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> TransactionAdditions
-        {
-            get
-            {
-                return this.transactionAdditions.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> TransactionAdditions => this.transactionAdditions.AsReadOnly();
 
-        public ReadOnlyCollection<OrderedGuid> TransactionRemovals
-        {
-            get
-            {
-                return this.transactionRemovals.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<OrderedGuid> TransactionRemovals => this.transactionRemovals.AsReadOnly();
 
         public void AddAccount(AccountData account)
         {

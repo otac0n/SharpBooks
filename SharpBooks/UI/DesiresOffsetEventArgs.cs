@@ -7,16 +7,11 @@ namespace SharpBooks.UI
 
     public class DesiresOffsetEventArgs : EventArgs
     {
-        private readonly Point desiredOffset;
-
         public DesiresOffsetEventArgs(Point desiredOffset)
         {
-            this.desiredOffset = desiredOffset;
+            this.DesiredOffset = desiredOffset;
         }
 
-        public Point DesiredOffset
-        {
-            get { return this.desiredOffset; }
-        }
+        public Point DesiredOffset { get; }
     }
 }

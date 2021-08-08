@@ -12,7 +12,6 @@ namespace SharpBooks.UI
 
     public partial class HeaderControl : UserControl
     {
-        private readonly ColumnHeaderCollection columnHeaders;
         private readonly List<ColumnHeader> columns = new List<ColumnHeader>();
 
         private int hoverColumn = -1;
@@ -26,7 +25,7 @@ namespace SharpBooks.UI
         public HeaderControl()
         {
             this.CellPadding = 3;
-            this.columnHeaders = new ColumnHeaderCollection(this);
+            this.Columns = new ColumnHeaderCollection(this);
             this.InitializeComponent();
         }
 
@@ -34,10 +33,7 @@ namespace SharpBooks.UI
 
         public int CellPadding { get; set; }
 
-        public ColumnHeaderCollection Columns
-        {
-            get { return this.columnHeaders; }
-        }
+        public ColumnHeaderCollection Columns { get; }
 
         public Rectangle[] GetColumnBounds()
         {
@@ -314,20 +310,12 @@ namespace SharpBooks.UI
                 }
             }
 
-            public HeaderControl HeaderControl
-            {
-                get { return this.headerControl; }
-            }
+            public HeaderControl HeaderControl => this.headerControl;
 
-            public int Index
-            {
-                get
-                {
-                    return this.headerControl != null
-                        ? this.headerControl.columns.IndexOf(this)
-                        : -1;
-                }
-            }
+            public int Index =>
+                this.headerControl != null
+                    ? this.headerControl.columns.IndexOf(this)
+                    : -1;
 
             public int MinWidth
             {
@@ -449,15 +437,9 @@ namespace SharpBooks.UI
                 this.owner = owner;
             }
 
-            public int Count
-            {
-                get { return this.owner.columns.Count; }
-            }
+            public int Count => this.owner.columns.Count;
 
-            public bool IsReadOnly
-            {
-                get { return false; }
-            }
+            public bool IsReadOnly => false;
 
             public ColumnHeader this[int index]
             {

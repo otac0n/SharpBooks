@@ -10,7 +10,6 @@ namespace SharpBooks
     public partial class PersistencePluginSelector : Form
     {
         private IList<IPersistenceStrategyFactory> plugins;
-        private IPersistenceStrategyFactory strategyFactory = null;
 
         public PersistencePluginSelector(IList<IPersistenceStrategyFactory> plugins)
         {
@@ -26,22 +25,17 @@ namespace SharpBooks
             this.comboBox1.SelectedIndex = 0;
         }
 
-        public IPersistenceStrategyFactory StrategyFactory
-        {
-            get { return this.strategyFactory; }
-        }
+        public IPersistenceStrategyFactory StrategyFactory { get; private set; } = null;
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            this.strategyFactory = (this.comboBox1.SelectedItem as FactoryDisplay).Factory;
+            this.StrategyFactory = (this.comboBox1.SelectedItem as FactoryDisplay).Factory;
 
             this.DialogResult = DialogResult.OK;
         }
 
         private class FactoryDisplay
         {
-            private readonly IPersistenceStrategyFactory factory;
-
             public FactoryDisplay(IPersistenceStrategyFactory factory)
             {
                 if (factory == null)
@@ -49,20 +43,14 @@ namespace SharpBooks
                     throw new ArgumentNullException(nameof(factory));
                 }
 
-                this.factory = factory;
+                this.Factory = factory;
             }
 
-            public IPersistenceStrategyFactory Factory
-            {
-                get
-                {
-                    return this.factory;
-                }
-            }
+            public IPersistenceStrategyFactory Factory { get; }
 
             public override string ToString()
             {
-                return this.factory.Name;
+                return this.Factory.Name;
             }
         }
     }

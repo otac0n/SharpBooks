@@ -29,13 +29,7 @@ namespace SharpBooks
             this.balances = balances;
         }
 
-        public ICollection<Balance> Balances
-        {
-            get
-            {
-                return this.balances;
-            }
-        }
+        public ICollection<Balance> Balances => this.balances;
 
         /// <summary>
         /// Adds a single currency <see cref="Balance"/> to the current <see cref="CompositeBalance"/> and returns the new composite balance.

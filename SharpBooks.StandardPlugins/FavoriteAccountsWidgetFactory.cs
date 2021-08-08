@@ -6,13 +6,7 @@ namespace SharpBooks.StandardPlugins
 
     internal class FavoriteAccountsWidgetFactory : IWidgetFactory
     {
-        public string Name
-        {
-            get
-            {
-                return "Favorite Accounts";
-            }
-        }
+        public string Name => "Favorite Accounts";
 
         public string Configure(ReadOnlyBook book, string currentSettings)
         {

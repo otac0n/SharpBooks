@@ -13,7 +13,6 @@ namespace SharpBooks
     {
         private readonly Account originalAccount;
         private readonly MainController owner;
-        private Account newAccount;
 
         public EditAccountView(MainController owner, Account account)
         {
@@ -42,13 +41,7 @@ namespace SharpBooks
             this.fractionTextBox.Text = this.originalAccount.Security == null ? string.Empty : this.originalAccount.Security.FormatValue(this.originalAccount.Security.FractionTraded / this.originalAccount.SmallestFraction.Value);
         }
 
-        public Account NewAccount
-        {
-            get
-            {
-                return this.newAccount;
-            }
-        }
+        public Account NewAccount { get; private set; }
 
         private void fractionTextBox_Validating(object sender, CancelEventArgs e)
         {
@@ -88,7 +81,7 @@ namespace SharpBooks
         {
             var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
 
-            this.newAccount = new Account(
+            this.NewAccount = new Account(
                 this.originalAccount.AccountId,
                 this.balanceAccountRadio.Checked ? AccountType.Balance : AccountType.Grouping,
                 security,
@@ -115,23 +108,18 @@ namespace SharpBooks
 
         private class SecurityOption
         {
-            private Security security;
-
             public SecurityOption(Security security)
             {
-                this.security = security;
+                this.Security = security;
             }
 
-            public Security Security
-            {
-                get { return this.security; }
-            }
+            public Security Security { get; }
 
             public override string ToString()
             {
-                return this.security == null
+                return this.Security == null
                     ? "(any currency)"
-                    : this.security.Name + " (" + this.security.Symbol + ")";
+                    : this.Security.Name + " (" + this.Security.Symbol + ")";
             }
         }
     }

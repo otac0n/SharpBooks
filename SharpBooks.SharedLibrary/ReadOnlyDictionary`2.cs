@@ -20,25 +20,13 @@ namespace SharpBooks
             this.dictionary = dictionary;
         }
 
-        public int Count
-        {
-            get { return this.dictionary.Count; }
-        }
+        public int Count => this.dictionary.Count;
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public bool IsReadOnly => true;
 
-        public ICollection<TKey> Keys
-        {
-            get { return this.dictionary.Keys; }
-        }
+        public ICollection<TKey> Keys => this.dictionary.Keys;
 
-        public ICollection<TValue> Values
-        {
-            get { return this.dictionary.Values; }
-        }
+        public ICollection<TValue> Values => this.dictionary.Values;
 
         public TValue this[TKey key]
         {
