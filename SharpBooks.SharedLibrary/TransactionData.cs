@@ -52,6 +52,6 @@ namespace SharpBooks
         /// <summary>
         /// Gets a read-only list of the splits that make up the transaction.
         /// </summary>
-        public ICollection<SplitData> Splits { get; }
+        public IList<SplitData> Splits { get; }
     }
 }

@@ -70,7 +70,7 @@ namespace SharpBooks.Tests
             var transaction = TestUtils.CreateEmptyTransaction();
 
             // Set the date of the transaction.
-            transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc));
+            transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
 
             // Assert that the Date property reflects the new value.
             Assert.That(transaction.Date, Is.EqualTo(DateTime.MaxValue));
@@ -84,7 +84,7 @@ namespace SharpBooks.Tests
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
 
-            Assert.That(() => transaction.SetDate(DateTime.SpecifyKind(DateTime.MaxValue, kind)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, kind), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -97,8 +97,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
 
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Assert that the AddSplit function successfully created a split.
             Assert.That(split.Transaction, Is.EqualTo(transaction));
@@ -114,8 +114,8 @@ namespace SharpBooks.Tests
             var account = TestUtils.CreateValidAccount();
 
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Remove the split from the transaction.
             transaction.RemoveSplit(split);
@@ -144,8 +144,8 @@ namespace SharpBooks.Tests
 
             // Add and remove a split.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
             transaction.RemoveSplit(split);
 
             // Assert that attempting to remove the split again throws an exception.
@@ -163,12 +163,12 @@ namespace SharpBooks.Tests
 
             // Add a split.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
-            split.SetAmount(1000);
-            split.SetTransactionAmount(100);
-            split.SetIsReconciled(true);
-            split.SetDateCleared(DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc));
+            split.Account = account;
+            split.Security = account.Security;
+            split.Amount = 1000;
+            split.TransactionAmount = 100;
+            split.IsReconciled = true;
+            split.DateCleared = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
 
             var copy = transaction.Copy();
 

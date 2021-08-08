@@ -35,12 +35,12 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the amount and transaction amount to be different.
-            split.SetAmount(1);
-            split.SetTransactionAmount(2);
+            split.Amount = 1;
+            split.TransactionAmount = 2;
 
             Assert.False(split.IsValid);
         }
@@ -62,8 +62,8 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Assert that the split is invalid because the account is a grouping account and may not have transaction splits assigned to it.
             Assert.False(split.IsValid);
@@ -80,12 +80,12 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the amount and transaction amount to have different signs.
-            split.SetAmount(-1);
-            split.SetTransactionAmount(1);
+            split.Amount = -1;
+            split.TransactionAmount = 1;
 
             Assert.False(split.IsValid);
         }
@@ -110,12 +110,12 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the amount and transaction amount to one, which is one tenth of the valid amount for the account.
-            split.SetAmount(1);
-            split.SetTransactionAmount(1);
+            split.Amount = 1;
+            split.TransactionAmount = 1;
 
             Assert.False(split.IsValid);
         }
@@ -148,12 +148,12 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the amount and transaction amount to the test value.
-            split.SetAmount(amount);
-            split.SetTransactionAmount(amount);
+            split.Amount = amount;
+            split.TransactionAmount = amount;
 
             Assert.True(split.IsValid);
         }
@@ -182,7 +182,7 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
+            split.Account = account;
 
             // Assert that the split is invalid without assigning a security.
             Assert.False(split.IsValid);
@@ -199,8 +199,8 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(noCurrency);
+            split.Account = account;
+            split.Security = noCurrency;
 
             // assert that the split is invalid when the security is different from the account's.
             Assert.False(split.IsValid);
@@ -223,8 +223,8 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(noCurrency);
+            split.Account = account;
+            split.Security = noCurrency;
 
             // Assert that the split is invalid without assigning an account.
             Assert.True(split.IsValid);
@@ -247,7 +247,7 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
-            split.SetAccount(account);
+            split.Account = account;
 
             // Assert that the split is invalid without assigning a security, regardless of whether the account's security is null.
             Assert.False(split.IsValid);
@@ -268,7 +268,7 @@ namespace SharpBooks.Tests
             split = transaction.AddSplit();
 
             // Set the account of the split.
-            split.SetAccount(account);
+            split.Account = account;
 
             // Assert that the Account property reflects the new value.
             Assert.That(split.Account, Is.EqualTo(account));
@@ -287,11 +287,11 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the amount of the split.
-            split.SetAmount(1);
+            split.Amount = 1;
 
             // Assert that the Amount property reflects the new value.
             Assert.That(split.Amount, Is.EqualTo(1));
@@ -310,11 +310,11 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the date of the split.
-            split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc));
+            split.DateCleared = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
 
             // Assert that the DateCleared property reflects the new value.
             Assert.That(split.DateCleared, Is.EqualTo(DateTime.MaxValue));
@@ -335,10 +335,10 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
-            Assert.That(() => split.SetDateCleared(DateTime.SpecifyKind(DateTime.MaxValue, kind)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => split.DateCleared = DateTime.SpecifyKind(DateTime.MaxValue, kind), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Test]
@@ -354,11 +354,11 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the reconciled flag of the split.
-            split.SetIsReconciled(true);
+            split.IsReconciled = true;
 
             // Assert that the IsReconciled property reflects the new value.
             Assert.That(split.IsReconciled, Is.EqualTo(true));
@@ -377,11 +377,11 @@ namespace SharpBooks.Tests
 
             // Add a split to the transaction.
             split = transaction.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Set the transaction amount of the split.
-            split.SetTransactionAmount(1);
+            split.TransactionAmount = 1;
 
             // Assert that the TransactionAmount property reflects the new value.
             Assert.That(split.TransactionAmount, Is.EqualTo(1m));

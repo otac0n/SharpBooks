@@ -266,9 +266,9 @@ namespace SharpBooks.Tests
             // Create a transaction that uses this split, but not as the
             var transaction = new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
             var split1 = transaction.AddSplit();
-            split1.SetAccount(account);
-            split1.SetSecurity(TestUtils.TestCurrency);
-            split1.SetAmount(0);
+            split1.Account = account;
+            split1.Security = TestUtils.TestCurrency;
+            split1.Amount = 0;
 
             book.AddTransaction(transaction);
 
@@ -689,8 +689,8 @@ namespace SharpBooks.Tests
                 transaction1.TransactionId,
                 TestUtils.TestCurrency); // OK
             var split = transaction2.AddSplit();
-            split.SetAccount(account);
-            split.SetSecurity(account.Security);
+            split.Account = account;
+            split.Security = account.Security;
 
             // Assert that trying to add the transaction throws an InvalidOperationException.
             Assert.That(() => book.AddTransaction(transaction2), Throws.InstanceOf<InvalidOperationException>());

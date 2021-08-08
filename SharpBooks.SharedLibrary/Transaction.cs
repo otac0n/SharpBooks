@@ -19,6 +19,7 @@ namespace SharpBooks
         private readonly Dictionary<string, string> extensions = new Dictionary<string, string>();
 
         private readonly List<Split> splits = new List<Split>();
+        private DateTime date;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Transaction"/> class.
@@ -75,8 +76,16 @@ namespace SharpBooks
         /// </summary>
         public DateTime Date
         {
-            get;
-            private set;
+            get => this.date;
+            set
+            {
+                if (value.Kind != DateTimeKind.Utc)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                this.date = value;
+            }
         }
 
         /// <summary>
@@ -93,13 +102,7 @@ namespace SharpBooks
         /// <summary>
         /// Gets a value indicating whether or not the transaction is currently considered valid.
         /// </summary>
-        public bool IsValid
-        {
-            get
-            {
-                return !this.RuleViolations.Any();
-            }
-        }
+        public bool IsValid => !this.RuleViolations.Any();
 
         /// <summary>
         /// Gets an enumerable collection of <see cref="RuleViolation"/>s that describe features of the transaction that make it invalid.
@@ -137,20 +140,6 @@ namespace SharpBooks
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Sets the date and time at which the transaction took place.
-        /// </summary>
-        /// <param name="date">The date and time at which the transaction took place.</param>
-        public void SetDate(DateTime date)
-        {
-            if (date.Kind != DateTimeKind.Utc)
-            {
-                throw new ArgumentOutOfRangeException("date");
-            }
-
-            this.Date = date;
         }
 
         /// <summary>
@@ -205,17 +194,17 @@ namespace SharpBooks
         public Transaction Copy()
         {
             var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
-            tNew.SetDate(this.Date);
+            tNew.Date = this.Date;
 
             foreach (var split in this.splits)
             {
                 var sNew = tNew.AddSplit();
-                sNew.SetAccount(split.Account);
-                sNew.SetAmount(split.Amount);
-                sNew.SetDateCleared(split.DateCleared);
-                sNew.SetIsReconciled(split.IsReconciled);
-                sNew.SetSecurity(split.Security);
-                sNew.SetTransactionAmount(split.TransactionAmount);
+                sNew.Account = split.Account;
+                sNew.Amount = split.Amount;
+                sNew.DateCleared = split.DateCleared;
+                sNew.IsReconciled = split.IsReconciled;
+                sNew.Security = split.Security;
+                sNew.TransactionAmount = split.TransactionAmount;
             }
 
             return tNew;

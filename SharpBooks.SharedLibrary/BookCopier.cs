@@ -133,7 +133,7 @@ namespace SharpBooks
                     transaction.TransactionId,
                     baseSecurity);
 
-                newTransaction.SetDate(transaction.Date);
+                newTransaction.Date = transaction.Date;
 
                 foreach (var split in transaction.Splits)
                 {
@@ -142,12 +142,12 @@ namespace SharpBooks
                     var account = this.destinationBook.Accounts.Where(a => a.AccountId == split.AccountId).Single();
                     var security = this.destinationBook.Securities.Where(s => s.SecurityId == split.SecurityId).Single();
 
-                    newSplit.SetAccount(account);
-                    newSplit.SetSecurity(security);
-                    newSplit.SetAmount(split.Amount);
-                    newSplit.SetTransactionAmount(split.TransactionAmount);
-                    newSplit.SetDateCleared(split.DateCleared);
-                    newSplit.SetIsReconciled(split.IsReconciled);
+                    newSplit.Account = account;
+                    newSplit.Security = security;
+                    newSplit.Amount = split.Amount;
+                    newSplit.TransactionAmount = split.TransactionAmount;
+                    newSplit.DateCleared = split.DateCleared;
+                    newSplit.IsReconciled = split.IsReconciled;
                 }
 
                 this.destinationBook.AddTransaction(

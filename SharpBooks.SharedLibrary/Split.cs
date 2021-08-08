@@ -13,86 +13,64 @@ namespace SharpBooks
 
     public sealed class Split
     {
+        private DateTime? dateCleared;
+
         internal Split(Transaction transaction)
         {
             this.Transaction = transaction;
-            this.Amount = 0;
-            this.TransactionAmount = 0;
         }
 
         /// <summary>
         /// Gets the transaction to which the split belongs.
         /// </summary>
-        public Transaction Transaction
-        {
-            get;
-            internal set;
-        }
+        public Transaction Transaction { get; set; }
 
         /// <summary>
         /// Gets the date and time at which the split cleared its account.
         /// </summary>
         public DateTime? DateCleared
         {
-            get;
-            private set;
+            get => this.dateCleared;
+            set
+            {
+                if (value.HasValue && value.Value.Kind != DateTimeKind.Utc)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                this.dateCleared = value;
+            }
         }
 
         /// <summary>
         /// Gets a value indicating whether the split has been reconciled against its account.
         /// </summary>
-        public bool IsReconciled
-        {
-            get;
-            private set;
-        }
+        public bool IsReconciled { get; set; }
 
         /// <summary>
         /// Gets the account to which the split belongs.
         /// </summary>
-        public Account Account
-        {
-            get;
-            private set;
-        }
+        public Account Account { get; set; }
 
         /// <summary>
         /// Gets the security of which the split is made up.
         /// </summary>
-        public Security Security
-        {
-            get;
-            private set;
-        }
+        public Security Security { get; set; }
 
         /// <summary>
         /// Gets the amount by which the split affects its account.
         /// </summary>
-        public long Amount
-        {
-            get;
-            private set;
-        }
+        public long Amount { get; set; }
 
         /// <summary>
         /// Gets the amount by which the split affects its transaction.
         /// </summary>
-        public long TransactionAmount
-        {
-            get;
-            private set;
-        }
+        public long TransactionAmount { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether or not the split is currently considered valid.
         /// </summary>
-        public bool IsValid
-        {
-            get
-            {
-                return !this.RuleViolations.Any();
-            }
-        }
+        public bool IsValid => !this.RuleViolations.Any();
 
         /// <summary>
         /// Gets an enumerable collection of <see cref="RuleViolation"/>s that describe features of the split that make it invalid.
@@ -138,41 +116,6 @@ namespace SharpBooks
 
                 yield break;
             }
-        }
-
-        public void SetAccount(Account account)
-        {
-            this.Account = account;
-        }
-
-        public void SetSecurity(Security security)
-        {
-            this.Security = security;
-        }
-
-        public void SetAmount(long amount)
-        {
-            this.Amount = amount;
-        }
-
-        public void SetTransactionAmount(long transactionAmount)
-        {
-            this.TransactionAmount = transactionAmount;
-        }
-
-        public void SetDateCleared(DateTime? dateCleared)
-        {
-            if (dateCleared.HasValue && dateCleared.Value.Kind != DateTimeKind.Utc)
-            {
-                throw new ArgumentOutOfRangeException("dateCleared");
-            }
-
-            this.DateCleared = dateCleared;
-        }
-
-        public void SetIsReconciled(bool isReconciled)
-        {
-            this.IsReconciled = isReconciled;
         }
     }
 }

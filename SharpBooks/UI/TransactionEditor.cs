@@ -111,7 +111,7 @@ namespace SharpBooks.UI
         {
             if (!this.suppressUpdates)
             {
-                this.transaction.SetDate(this.transactionDatePicker.Value.ToUniversalTime());
+                this.transaction.Date = this.transactionDatePicker.Value.ToUniversalTime();
             }
         }
 
@@ -119,7 +119,7 @@ namespace SharpBooks.UI
         {
             if (!this.suppressUpdates)
             {
-                this.split.SetDateCleared(this.clearDatePicker.Checked ? this.clearDatePicker.Value.ToUniversalTime() : (DateTime?)null);
+                this.split.DateCleared = this.clearDatePicker.Checked ? this.clearDatePicker.Value.ToUniversalTime() : (DateTime?)null;
             }
         }
 
@@ -139,10 +139,8 @@ namespace SharpBooks.UI
         {
             var total = this.split.Security.ParseValue(this.depositTextBox.Text) - this.split.Security.ParseValue(this.withdrawalTextBox.Text);
 
-            this.split.SetAmount(total);
-            this.split.SetTransactionAmount(total);
-            this.otherSplit.SetAmount(-total);
-            this.otherSplit.SetTransactionAmount(-total);
+            this.split.TransactionAmount = this.split.Amount = total;
+            this.otherSplit.TransactionAmount = this.otherSplit.Amount = -total;
 
             ResetControls();
         }
@@ -169,7 +167,7 @@ namespace SharpBooks.UI
 
         private void accountComboBox_Validated(object sender, EventArgs e)
         {
-            this.otherSplit.SetAccount((Account)this.accountComboBox.SelectedItem);
+            this.otherSplit.Account = (Account)this.accountComboBox.SelectedItem;
             ResetControls();
         }
 

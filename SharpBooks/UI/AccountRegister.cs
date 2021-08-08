@@ -96,13 +96,13 @@ namespace SharpBooks.UI
         public void NewTransaction()
         {
             var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
-            transaction.SetDate(DateTime.Today.ToUniversalTime());
+            transaction.Date = DateTime.Today.ToUniversalTime();
             var split1 = transaction.AddSplit();
             var split2 = transaction.AddSplit();
 
-            split1.SetAccount(this.account);
-            split1.SetSecurity(transaction.BaseSecurity);
-            split2.SetSecurity(transaction.BaseSecurity);
+            split1.Account = this.account;
+            split1.Security = transaction.BaseSecurity;
+            split2.Security = transaction.BaseSecurity;
 
             this.transactionEditor.SetSplit(transaction.Splits[0]);
             this.transactionIsNew = true;

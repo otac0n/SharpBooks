@@ -28,9 +28,9 @@ namespace SharpBooks
             this.AccountId = split.Account.AccountId;
             this.SecurityId = split.Security.SecurityId;
             this.Amount = split.Amount;
+            this.TransactionAmount = split.TransactionAmount;
             this.DateCleared = split.DateCleared;
             this.IsReconciled = split.IsReconciled;
-            this.TransactionAmount = split.TransactionAmount;
         }
 
         /// <summary>

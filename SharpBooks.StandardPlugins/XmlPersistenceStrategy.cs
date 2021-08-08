@@ -79,7 +79,7 @@
                 var date = (DateTime)t.Attribute("date");
 
                 var transaction = new Transaction(transactionId, security);
-                transaction.SetDate(date);
+                transaction.Date = date;
 
                 foreach (var s in t.Elements("Split"))
                 {
@@ -87,23 +87,23 @@
 
                     var accountId = (Guid)s.Attribute("accountId");
                     var account = accounts[accountId];
-                    split.SetAccount(account);
+                    split.Account = account;
 
                     var splitSecurityId = (Guid?)s.Attribute("securityId");
                     var splitSecurity = securities[splitSecurityId ?? securityId];
-                    split.SetSecurity(splitSecurity);
+                    split.Security = splitSecurity;
 
                     var amount = (long)s.Attribute("amount");
-                    split.SetAmount(amount);
+                    split.Amount = amount;
 
                     var transactionAmount = (long?)s.Attribute("transactionAmount");
-                    split.SetTransactionAmount(splitSecurity != security ? transactionAmount.Value : transactionAmount ?? amount);
+                    split.TransactionAmount = splitSecurity != security ? transactionAmount.Value : transactionAmount ?? amount;
 
                     var dateCleared = (DateTime?)s.Attribute("dateCleared");
-                    split.SetDateCleared(dateCleared);
+                    split.DateCleared = dateCleared;
 
                     var reconciled = (bool)s.Attribute("reconciled");
-                    split.SetIsReconciled(reconciled);
+                    split.IsReconciled = reconciled;
                 }
 
                 book.AddTransaction(transaction);

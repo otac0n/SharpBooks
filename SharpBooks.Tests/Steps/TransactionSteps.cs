@@ -106,10 +106,10 @@
                 var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
                 var split = transaction.AddSplit();
-                split.SetAccount(account);
-                split.SetSecurity(security);
-                split.SetAmount(amount);
-                split.SetTransactionAmount(transactionAmount);
+                split.Account = account;
+                split.Security = security;
+                split.Amount = amount;
+                split.TransactionAmount = transactionAmount;
             }
 
             ScenarioContext.Current.Add(transactionName, transaction);
@@ -146,10 +146,10 @@
                 var transactionAmount = securityCount > 1 ? long.Parse(row["Transaction Amount"]) : amount;
 
                 var split = transaction.AddSplit();
-                split.SetAccount(account);
-                split.SetSecurity(account.Security);
-                split.SetAmount(amount);
-                split.SetTransactionAmount(transactionAmount);
+                split.Account = account;
+                split.Security = account.Security;
+                split.Amount = amount;
+                split.TransactionAmount = transactionAmount;
             }
         }
     }
