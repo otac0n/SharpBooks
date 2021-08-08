@@ -36,7 +36,7 @@ namespace SharpBooks
             {
                 if (value.HasValue && value.Value.Kind != DateTimeKind.Utc)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 this.dateCleared = value;

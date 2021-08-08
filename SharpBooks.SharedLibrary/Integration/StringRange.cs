@@ -15,7 +15,7 @@ namespace SharpBooks.Integration
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             this.source = source;
@@ -28,17 +28,17 @@ namespace SharpBooks.Integration
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (start < 0 || start > source.Length)
             {
-                throw new ArgumentOutOfRangeException("start");
+                throw new ArgumentOutOfRangeException(nameof(start));
             }
 
             if (length < 0 || start + length > source.Length)
             {
-                throw new ArgumentOutOfRangeException("start");
+                throw new ArgumentOutOfRangeException(nameof(start));
             }
 
             this.source = source;

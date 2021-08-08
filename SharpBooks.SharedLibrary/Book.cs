@@ -97,7 +97,7 @@ namespace SharpBooks
             {
                 if (account == null)
                 {
-                    throw new ArgumentNullException("account");
+                    throw new ArgumentNullException(nameof(account));
                 }
 
                 if (this.accounts.Contains(account))
@@ -159,7 +159,7 @@ namespace SharpBooks
             {
                 if (priceQuote == null)
                 {
-                    throw new ArgumentNullException("priceQuote");
+                    throw new ArgumentNullException(nameof(priceQuote));
                 }
 
                 if (this.priceQuotes.Contains(priceQuote))
@@ -216,7 +216,7 @@ namespace SharpBooks
             {
                 if (security == null)
                 {
-                    throw new ArgumentNullException("security");
+                    throw new ArgumentNullException(nameof(security));
                 }
 
                 if (this.securities.Contains(security))
@@ -261,7 +261,7 @@ namespace SharpBooks
             {
                 if (transaction == null)
                 {
-                    throw new ArgumentNullException("transaction");
+                    throw new ArgumentNullException(nameof(transaction));
                 }
 
                 if (this.transactions.Contains(transaction))
@@ -342,7 +342,7 @@ namespace SharpBooks
             {
                 if (account == null)
                 {
-                    throw new ArgumentNullException("account");
+                    throw new ArgumentNullException(nameof(account));
                 }
 
                 CompositeBalance balance;
@@ -361,7 +361,7 @@ namespace SharpBooks
             {
                 if (account == null)
                 {
-                    throw new ArgumentNullException("account");
+                    throw new ArgumentNullException(nameof(account));
                 }
 
                 if (!this.accounts.Contains(account))
@@ -386,7 +386,7 @@ namespace SharpBooks
             {
                 if (account == null)
                 {
-                    throw new ArgumentNullException("account");
+                    throw new ArgumentNullException(nameof(account));
                 }
 
                 CompositeBalance balance;
@@ -420,7 +420,7 @@ namespace SharpBooks
             {
                 if (account == null)
                 {
-                    throw new ArgumentNullException("account");
+                    throw new ArgumentNullException(nameof(account));
                 }
 
                 if (!this.accounts.Contains(account))
@@ -474,7 +474,7 @@ namespace SharpBooks
             {
                 if (priceQuote == null)
                 {
-                    throw new ArgumentNullException("priceQuote");
+                    throw new ArgumentNullException(nameof(priceQuote));
                 }
 
                 if (!this.priceQuotes.Contains(priceQuote))
@@ -499,7 +499,7 @@ namespace SharpBooks
             {
                 if (security == null)
                 {
-                    throw new ArgumentNullException("security");
+                    throw new ArgumentNullException(nameof(security));
                 }
 
                 if (!this.securities.Contains(security))
@@ -552,7 +552,7 @@ namespace SharpBooks
             {
                 if (string.IsNullOrEmpty(key))
                 {
-                    throw new ArgumentNullException("key");
+                    throw new ArgumentNullException(nameof(key));
                 }
 
                 this.settings.Remove(key);
@@ -570,7 +570,7 @@ namespace SharpBooks
             {
                 if (transaction == null)
                 {
-                    throw new ArgumentNullException("transaction");
+                    throw new ArgumentNullException(nameof(transaction));
                 }
 
                 if (!this.transactions.Remove(transaction))
@@ -598,12 +598,12 @@ namespace SharpBooks
             {
                 if (oldTransaction == null)
                 {
-                    throw new ArgumentNullException("oldTransaction");
+                    throw new ArgumentNullException(nameof(oldTransaction));
                 }
 
                 if (newTransaction == null)
                 {
-                    throw new ArgumentNullException("newTransaction");
+                    throw new ArgumentNullException(nameof(newTransaction));
                 }
 
                 if (oldTransaction.TransactionId != newTransaction.TransactionId)
@@ -699,7 +699,7 @@ namespace SharpBooks
             {
                 if (string.IsNullOrEmpty(key))
                 {
-                    throw new ArgumentNullException("key");
+                    throw new ArgumentNullException(nameof(key));
                 }
 
                 this.settings[key] = value;

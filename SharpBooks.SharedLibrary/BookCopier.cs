@@ -67,7 +67,7 @@ namespace SharpBooks
         {
             if (security == null)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException(nameof(security));
             }
 
             lock (this)

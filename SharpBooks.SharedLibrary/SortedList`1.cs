@@ -40,7 +40,7 @@ namespace SharpBooks
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
             }
 
             this.storage = new List<T>(collection);
@@ -162,7 +162,7 @@ namespace SharpBooks
         {
             if (comparer == null)
             {
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
             }
 
             this.comparer = comparer;

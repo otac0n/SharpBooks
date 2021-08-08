@@ -199,18 +199,18 @@ namespace SharpBooks.UI
         {
             if (itemsText == null)
             {
-                throw new ArgumentNullException("itemsText");
+                throw new ArgumentNullException(nameof(itemsText));
             }
 
             if (textRectangles == null)
             {
-                throw new ArgumentNullException("textRectangles");
+                throw new ArgumentNullException(nameof(textRectangles));
             }
 
             var length = itemsText.Length;
             if (length != textRectangles.Length)
             {
-                throw new ArgumentOutOfRangeException("textRectangles");
+                throw new ArgumentOutOfRangeException(nameof(textRectangles));
             }
 
             if (flags == null)
@@ -224,7 +224,7 @@ namespace SharpBooks.UI
             {
                 if (length != flags.Length)
                 {
-                    throw new ArgumentOutOfRangeException("flags");
+                    throw new ArgumentOutOfRangeException(nameof(flags));
                 }
 
                 for (int i = 0; i < length; i++)
@@ -238,28 +238,28 @@ namespace SharpBooks.UI
         {
             if (itemsText == null)
             {
-                throw new ArgumentNullException("itemsText");
+                throw new ArgumentNullException(nameof(itemsText));
             }
 
             if (textRectangles == null)
             {
-                throw new ArgumentNullException("textRectangles");
+                throw new ArgumentNullException(nameof(textRectangles));
             }
 
             if (fonts == null)
             {
-                throw new ArgumentNullException("fonts");
+                throw new ArgumentNullException(nameof(fonts));
             }
 
             var length = itemsText.Length;
             if (length != textRectangles.Length)
             {
-                throw new ArgumentOutOfRangeException("textRectangles");
+                throw new ArgumentOutOfRangeException(nameof(textRectangles));
             }
 
             if (length != fonts.Length)
             {
-                throw new ArgumentOutOfRangeException("fonts");
+                throw new ArgumentOutOfRangeException(nameof(fonts));
             }
 
             if (flags == null)
@@ -273,7 +273,7 @@ namespace SharpBooks.UI
             {
                 if (length != flags.Length)
                 {
-                    throw new ArgumentOutOfRangeException("flags");
+                    throw new ArgumentOutOfRangeException(nameof(flags));
                 }
 
                 for (int i = 0; i < length; i++)

@@ -12,7 +12,7 @@ namespace SharpBooks.Scheduling
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             return this.YieldAllInstances().Skip(index).Select(d => (DateTime?)d).FirstOrDefault();

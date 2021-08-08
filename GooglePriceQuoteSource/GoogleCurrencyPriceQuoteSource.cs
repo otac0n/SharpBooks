@@ -92,17 +92,17 @@ namespace GooglePriceQuoteSource
         {
             if (security == null)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException(nameof(security));
             }
 
             if (currency == null)
             {
-                throw new ArgumentNullException("currency");
+                throw new ArgumentNullException(nameof(currency));
             }
 
             if (currency.SecurityType != SecurityType.Currency)
             {
-                throw new ArgumentException("The argument must be a Security with a SecurityType of Currency", "currency");
+                throw new ArgumentException("The argument must be a Security with a SecurityType of Currency", nameof(currency));
             }
 
             if (security.SecurityType != SecurityType.Currency)

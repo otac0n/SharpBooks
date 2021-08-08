@@ -19,7 +19,7 @@ namespace SharpBooks
         {
             if (transaction == null)
             {
-                throw new ArgumentNullException("transaction");
+                throw new ArgumentNullException(nameof(transaction));
             }
 
             this.TransactionId = transaction.TransactionId;

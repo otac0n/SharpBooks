@@ -13,7 +13,7 @@ namespace SharpBooks
         {
             if (priceQuote == null)
             {
-                throw new ArgumentNullException("priceQuote");
+                throw new ArgumentNullException(nameof(priceQuote));
             }
 
             this.PriceQuoteId = priceQuote.PriceQuoteId;

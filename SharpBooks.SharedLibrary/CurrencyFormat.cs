@@ -73,17 +73,17 @@ namespace SharpBooks
         {
             if (decimalDigits < 0 || decimalDigits > 99)
             {
-                throw new ArgumentOutOfRangeException("decimalDigits");
+                throw new ArgumentOutOfRangeException(nameof(decimalDigits));
             }
 
             if (string.IsNullOrEmpty(decimalSeparator))
             {
-                throw new ArgumentNullException("decimalSeparator");
+                throw new ArgumentNullException(nameof(decimalSeparator));
             }
 
             if (string.IsNullOrEmpty(groupSeparator))
             {
-                throw new ArgumentNullException("groupSeparator");
+                throw new ArgumentNullException(nameof(groupSeparator));
             }
 
             var copy = (groupSizes ?? new[] { 3 }).ToArray();
@@ -92,23 +92,23 @@ namespace SharpBooks
                 var v = copy[i];
                 if (v < 0 || (v == 0 && i != copy.Length - 1))
                 {
-                    throw new ArgumentOutOfRangeException("groupSizes");
+                    throw new ArgumentOutOfRangeException(nameof(groupSizes));
                 }
             }
 
             if (currencySymbol == null)
             {
-                throw new ArgumentNullException("symbol");
+                throw new ArgumentNullException(nameof(currencySymbol));
             }
 
             if (!Enum.GetValues(typeof(PositiveFormat)).Cast<PositiveFormat>().Contains(positiveFormat))
             {
-                throw new ArgumentOutOfRangeException("positiveFormat");
+                throw new ArgumentOutOfRangeException(nameof(positiveFormat));
             }
 
             if (!Enum.GetValues(typeof(NegativeFormat)).Cast<NegativeFormat>().Contains(negativeFormat))
             {
-                throw new ArgumentOutOfRangeException("negativeFormat");
+                throw new ArgumentOutOfRangeException(nameof(negativeFormat));
             }
 
             this.decimalDigits = decimalDigits;

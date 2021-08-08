@@ -13,12 +13,12 @@ namespace SharpBooks.UI
         {
             if (oldTransaction == null)
             {
-                throw new ArgumentNullException("oldTransaction");
+                throw new ArgumentNullException(nameof(oldTransaction));
             }
 
             if (newTransaction == null)
             {
-                throw new ArgumentNullException("newTransaction");
+                throw new ArgumentNullException(nameof(newTransaction));
             }
 
             this.oldTransaction = oldTransaction;

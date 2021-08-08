@@ -12,7 +12,7 @@ namespace SharpBooks.Events
         {
             if (priceQuote == null)
             {
-                throw new ArgumentNullException("priceQuote");
+                throw new ArgumentNullException(nameof(priceQuote));
             }
 
             this.priceQuote = priceQuote;

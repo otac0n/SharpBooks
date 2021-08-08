@@ -21,32 +21,32 @@ namespace SharpBooks
         {
             if (accountId == Guid.Empty)
             {
-                throw new ArgumentOutOfRangeException("accountId");
+                throw new ArgumentOutOfRangeException(nameof(accountId));
             }
 
             if (!Enum.GetValues(typeof(AccountType)).Cast<AccountType>().Contains(accountType))
             {
-                throw new ArgumentOutOfRangeException("accountType");
+                throw new ArgumentOutOfRangeException(nameof(accountType));
             }
 
             if (security == null && smallestFraction.HasValue)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException(nameof(security));
             }
 
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             }
 
             if (security != null && !smallestFraction.HasValue)
             {
-                throw new ArgumentNullException("smallestFraction");
+                throw new ArgumentNullException(nameof(smallestFraction));
             }
 
             if (smallestFraction <= 0)
             {
-                throw new ArgumentOutOfRangeException("smallestFraction");
+                throw new ArgumentOutOfRangeException(nameof(smallestFraction));
             }
 
             if (security != null)

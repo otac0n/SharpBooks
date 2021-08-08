@@ -12,34 +12,29 @@ namespace SharpBooks
         {
             if (securityId == Guid.Empty)
             {
-                throw new ArgumentNullException("securityId");
+                throw new ArgumentNullException(nameof(securityId));
             }
 
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
             }
 
             if (string.IsNullOrEmpty(symbol))
             {
-                throw new ArgumentNullException("symbol");
-            }
-
-            if (format == null)
-            {
-                throw new ArgumentNullException("signFormat");
+                throw new ArgumentNullException(nameof(symbol));
             }
 
             if (fractionTraded <= 0)
             {
-                throw new ArgumentOutOfRangeException("fractionTraded", "The fraction traded must be greater than or equal to one.");
+                throw new ArgumentOutOfRangeException(nameof(fractionTraded), "The fraction traded must be greater than or equal to one.");
             }
 
             this.SecurityId = securityId;
             this.SecurityType = securityType;
             this.Name = name;
             this.Symbol = symbol;
-            this.Format = format;
+            this.Format = format ?? throw new ArgumentNullException(nameof(format));
             this.FractionTraded = fractionTraded;
         }
 

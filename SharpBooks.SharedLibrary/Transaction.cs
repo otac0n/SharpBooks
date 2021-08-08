@@ -25,12 +25,12 @@ namespace SharpBooks
         {
             if (baseSecurity == null)
             {
-                throw new ArgumentNullException("baseSecurity");
+                throw new ArgumentNullException(nameof(baseSecurity));
             }
 
             if (transactionId == Guid.Empty)
             {
-                throw new ArgumentOutOfRangeException("transactionId");
+                throw new ArgumentOutOfRangeException(nameof(transactionId));
             }
 
             this.BaseSecurity = baseSecurity;
@@ -58,7 +58,7 @@ namespace SharpBooks
             {
                 if (value.Kind != DateTimeKind.Utc)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 this.date = value;
@@ -177,7 +177,7 @@ namespace SharpBooks
         {
             if (split == null)
             {
-                throw new ArgumentNullException("split");
+                throw new ArgumentNullException(nameof(split));
             }
 
             if (!this.splits.Contains(split))

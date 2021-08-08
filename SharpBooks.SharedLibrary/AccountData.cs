@@ -17,7 +17,7 @@ namespace SharpBooks
         {
             if (account == null)
             {
-                throw new ArgumentNullException("account");
+                throw new ArgumentNullException(nameof(account));
             }
 
             this.AccountId = account.AccountId;

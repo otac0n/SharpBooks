@@ -14,7 +14,7 @@ namespace SharpBooks
         {
             if (book == null)
             {
-                throw new ArgumentNullException("book");
+                throw new ArgumentNullException(nameof(book));
             }
 
             this.book = book;

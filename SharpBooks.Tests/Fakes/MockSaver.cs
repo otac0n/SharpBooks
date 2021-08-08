@@ -89,7 +89,7 @@ namespace SharpBooks.Tests.Fakes
         {
             if (account == null)
             {
-                throw new ArgumentNullException("account");
+                throw new ArgumentNullException(nameof(account));
             }
 
             this.accountAdditions.Add(new OrderedGuid
@@ -103,7 +103,7 @@ namespace SharpBooks.Tests.Fakes
         {
             if (priceQuote == null)
             {
-                throw new ArgumentNullException("priceQuote");
+                throw new ArgumentNullException(nameof(priceQuote));
             }
 
             this.priceQuoteAdditions.Add(new OrderedGuid
@@ -117,7 +117,7 @@ namespace SharpBooks.Tests.Fakes
         {
             if (security == null)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException(nameof(security));
             }
 
             this.securityAdditions.Add(new OrderedGuid
@@ -131,7 +131,7 @@ namespace SharpBooks.Tests.Fakes
         {
             if (transaction == null)
             {
-                throw new ArgumentNullException("transaction");
+                throw new ArgumentNullException(nameof(transaction));
             }
 
             this.transactionAdditions.Add(new OrderedGuid

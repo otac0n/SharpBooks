@@ -12,7 +12,7 @@ namespace SharpBooks.Scheduling
         {
             if (baseSchedule == null)
             {
-                throw new ArgumentNullException("baseSchedule");
+                throw new ArgumentNullException(nameof(baseSchedule));
             }
 
             var weekdays = (from DayOfWeek wk in Enum.GetValues(typeof(DayOfWeek))

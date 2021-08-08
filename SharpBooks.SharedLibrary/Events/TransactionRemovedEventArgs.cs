@@ -12,7 +12,7 @@ namespace SharpBooks.Events
         {
             if (transaction == null)
             {
-                throw new ArgumentNullException("transaction");
+                throw new ArgumentNullException(nameof(transaction));
             }
 
             this.transaction = transaction;

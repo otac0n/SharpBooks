@@ -13,32 +13,32 @@ namespace SharpBooks
         {
             if (priceQuoteId == Guid.Empty)
             {
-                throw new ArgumentOutOfRangeException("priceQuoteId");
+                throw new ArgumentOutOfRangeException(nameof(priceQuoteId));
             }
 
             if (dateTime.Kind != DateTimeKind.Utc)
             {
-                throw new ArgumentOutOfRangeException("dateTime");
+                throw new ArgumentOutOfRangeException(nameof(dateTime));
             }
 
             if (security == null)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException(nameof(security));
             }
 
             if (currency == null)
             {
-                throw new ArgumentNullException("currency");
+                throw new ArgumentNullException(nameof(currency));
             }
 
             if (string.IsNullOrEmpty(source))
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (quantity <= 0)
             {
-                throw new ArgumentOutOfRangeException("quantity");
+                throw new ArgumentOutOfRangeException(nameof(quantity));
             }
 
             if (currency.SecurityType != SecurityType.Currency)
@@ -53,7 +53,7 @@ namespace SharpBooks
 
             if (price <= 0)
             {
-                throw new ArgumentOutOfRangeException("price");
+                throw new ArgumentOutOfRangeException(nameof(price));
             }
 
             this.PriceQuoteId = priceQuoteId;

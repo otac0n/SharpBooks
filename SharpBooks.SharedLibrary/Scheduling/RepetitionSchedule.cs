@@ -21,12 +21,12 @@ namespace SharpBooks.Scheduling
         {
             if (baseSchedule == null)
             {
-                throw new ArgumentNullException("baseSchedule");
+                throw new ArgumentNullException(nameof(baseSchedule));
             }
 
             if (increment <= 0)
             {
-                throw new ArgumentOutOfRangeException("increment");
+                throw new ArgumentOutOfRangeException(nameof(increment));
             }
 
             this.BaseSchedule = baseSchedule;

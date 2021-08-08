@@ -247,12 +247,12 @@ namespace SharpBooks.UI
         {
             if (index < 0 || index > this.columns.Count)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             if (header.headerControl != null)
             {
-                throw new ArgumentException("Only one HeaderControl may contain a given ColumnHeader.", "header");
+                throw new ArgumentException("Only one HeaderControl may contain a given ColumnHeader.", nameof(header));
             }
 
             this.columns.Insert(index, header);
@@ -263,7 +263,7 @@ namespace SharpBooks.UI
         {
             if (index < 0 || index >= this.columns.Count)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             var header = this.columns[index];
@@ -341,7 +341,7 @@ namespace SharpBooks.UI
                 {
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException("value");
+                        throw new ArgumentOutOfRangeException(nameof(value));
                     }
 
                     this.minWidth = value;
@@ -400,7 +400,7 @@ namespace SharpBooks.UI
                 {
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException("value");
+                        throw new ArgumentOutOfRangeException(nameof(value));
                     }
 
                     this.SetColumnWidth(value < this.minWidth ? this.minWidth : value);

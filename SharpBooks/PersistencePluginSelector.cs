@@ -46,7 +46,7 @@ namespace SharpBooks
             {
                 if (factory == null)
                 {
-                    throw new ArgumentNullException("factory");
+                    throw new ArgumentNullException(nameof(factory));
                 }
 
                 this.factory = factory;

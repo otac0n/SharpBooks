@@ -11,7 +11,7 @@ namespace SharpBooks.Scheduling
         {
             if (baseSchedule == null)
             {
-                throw new ArgumentNullException("baseSchedule");
+                throw new ArgumentNullException(nameof(baseSchedule));
             }
 
             this.BaseSchedule = baseSchedule;

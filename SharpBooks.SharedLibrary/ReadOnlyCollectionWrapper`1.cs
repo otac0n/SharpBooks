@@ -14,7 +14,7 @@ namespace SharpBooks
         {
             if (wrappedCollection == null)
             {
-                throw new ArgumentNullException("wrappedCollection");
+                throw new ArgumentNullException(nameof(wrappedCollection));
             }
 
             this.collection = wrappedCollection;

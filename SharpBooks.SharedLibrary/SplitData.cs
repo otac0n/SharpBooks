@@ -17,7 +17,7 @@ namespace SharpBooks
         {
             if (split == null)
             {
-                throw new ArgumentNullException("split");
+                throw new ArgumentNullException(nameof(split));
             }
 
             this.AccountId = split.Account.AccountId;
