@@ -43,7 +43,7 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the date and time at which the transaction took place.
+        /// Gets or sets the date and time at which the transaction took place.
         /// </summary>
         public DateTime Date
         {
