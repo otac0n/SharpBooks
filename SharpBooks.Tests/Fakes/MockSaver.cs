@@ -13,37 +13,32 @@ namespace SharpBooks.Tests.Fakes
 
     internal class MockSaver : ISaver
     {
+        private readonly List<OrderedGuid> accountAdditions = new List<OrderedGuid>();
+        private readonly List<OrderedGuid> accountRemovals = new List<OrderedGuid>();
+        private readonly List<OrderedGuid> priceQuoteAdditions = new List<OrderedGuid>();
+        private readonly List<OrderedGuid> priceQuoteRemovals = new List<OrderedGuid>();
         private readonly List<OrderedGuid> securityAdditions = new List<OrderedGuid>();
 
         private readonly List<OrderedGuid> securityRemovals = new List<OrderedGuid>();
-
-        private readonly List<OrderedGuid> priceQuoteAdditions = new List<OrderedGuid>();
-
-        private readonly List<OrderedGuid> priceQuoteRemovals = new List<OrderedGuid>();
-
-        private readonly List<OrderedGuid> accountAdditions = new List<OrderedGuid>();
-
-        private readonly List<OrderedGuid> accountRemovals = new List<OrderedGuid>();
-
         private readonly List<OrderedGuid> transactionAdditions = new List<OrderedGuid>();
 
         private readonly List<OrderedGuid> transactionRemovals = new List<OrderedGuid>();
 
         private long orderIndex;
 
-        public ReadOnlyCollection<OrderedGuid> SecurityAdditions
+        public ReadOnlyCollection<OrderedGuid> AccountAdditions
         {
             get
             {
-                return this.securityAdditions.AsReadOnly();
+                return this.accountAdditions.AsReadOnly();
             }
         }
 
-        public ReadOnlyCollection<OrderedGuid> SecurityRemovals
+        public ReadOnlyCollection<OrderedGuid> AccountRemovals
         {
             get
             {
-                return this.securityRemovals.AsReadOnly();
+                return this.accountRemovals.AsReadOnly();
             }
         }
 
@@ -63,19 +58,19 @@ namespace SharpBooks.Tests.Fakes
             }
         }
 
-        public ReadOnlyCollection<OrderedGuid> AccountAdditions
+        public ReadOnlyCollection<OrderedGuid> SecurityAdditions
         {
             get
             {
-                return this.accountAdditions.AsReadOnly();
+                return this.securityAdditions.AsReadOnly();
             }
         }
 
-        public ReadOnlyCollection<OrderedGuid> AccountRemovals
+        public ReadOnlyCollection<OrderedGuid> SecurityRemovals
         {
             get
             {
-                return this.accountRemovals.AsReadOnly();
+                return this.securityRemovals.AsReadOnly();
             }
         }
 
@@ -95,33 +90,16 @@ namespace SharpBooks.Tests.Fakes
             }
         }
 
-        public void SetSetting(string key, string value)
+        public void AddAccount(AccountData account)
         {
-        }
-
-        public void RemoveSetting(string key)
-        {
-        }
-
-        public void AddSecurity(SecurityData security)
-        {
-            if (security == null)
+            if (account == null)
             {
-                throw new ArgumentNullException("security");
+                throw new ArgumentNullException("account");
             }
 
-            this.securityAdditions.Add(new OrderedGuid
+            this.accountAdditions.Add(new OrderedGuid
             {
-                Guid = security.SecurityId,
-                Order = this.orderIndex++,
-            });
-        }
-
-        public void RemoveSecurity(Guid securityId)
-        {
-            this.securityRemovals.Add(new OrderedGuid
-            {
-                Guid = securityId,
+                Guid = account.AccountId,
                 Order = this.orderIndex++,
             });
         }
@@ -140,34 +118,16 @@ namespace SharpBooks.Tests.Fakes
             });
         }
 
-        public void RemovePriceQuote(Guid priceQuoteId)
+        public void AddSecurity(SecurityData security)
         {
-            this.priceQuoteRemovals.Add(new OrderedGuid
+            if (security == null)
             {
-                Guid = priceQuoteId,
-                Order = this.orderIndex++,
-            });
-        }
-
-        public void AddAccount(AccountData account)
-        {
-            if (account == null)
-            {
-                throw new ArgumentNullException("account");
+                throw new ArgumentNullException("security");
             }
 
-            this.accountAdditions.Add(new OrderedGuid
+            this.securityAdditions.Add(new OrderedGuid
             {
-                Guid = account.AccountId,
-                Order = this.orderIndex++,
-            });
-        }
-
-        public void RemoveAccount(Guid accountId)
-        {
-            this.accountRemovals.Add(new OrderedGuid
-            {
-                Guid = accountId,
+                Guid = security.SecurityId,
                 Order = this.orderIndex++,
             });
         }
@@ -186,6 +146,37 @@ namespace SharpBooks.Tests.Fakes
             });
         }
 
+        public void RemoveAccount(Guid accountId)
+        {
+            this.accountRemovals.Add(new OrderedGuid
+            {
+                Guid = accountId,
+                Order = this.orderIndex++,
+            });
+        }
+
+        public void RemovePriceQuote(Guid priceQuoteId)
+        {
+            this.priceQuoteRemovals.Add(new OrderedGuid
+            {
+                Guid = priceQuoteId,
+                Order = this.orderIndex++,
+            });
+        }
+
+        public void RemoveSecurity(Guid securityId)
+        {
+            this.securityRemovals.Add(new OrderedGuid
+            {
+                Guid = securityId,
+                Order = this.orderIndex++,
+            });
+        }
+
+        public void RemoveSetting(string key)
+        {
+        }
+
         public void RemoveTransaction(Guid transactionId)
         {
             this.transactionRemovals.Add(new OrderedGuid
@@ -195,15 +186,19 @@ namespace SharpBooks.Tests.Fakes
             });
         }
 
+        public void SetSetting(string key, string value)
+        {
+        }
+
         public class OrderedGuid
         {
-            public long Order
+            public Guid Guid
             {
                 get;
                 set;
             }
 
-            public Guid Guid
+            public long Order
             {
                 get;
                 set;

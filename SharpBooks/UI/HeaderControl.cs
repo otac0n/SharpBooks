@@ -1,4 +1,4 @@
-﻿﻿//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="HeaderControl.cs" company="(none)">
 //  Copyright © 2010 John Gietzen. All rights reserved.
 // </copyright>
@@ -11,9 +11,6 @@ namespace SharpBooks.UI
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
-    using System.Data;
-    using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
     using System.Windows.Forms.VisualStyles;
     using System.Collections;
@@ -26,10 +23,10 @@ namespace SharpBooks.UI
         private int hoverColumn = -1;
         private bool hoverResize = true;
 
-        private bool resizing = false;
-        private Point resizeSource;
-        private int originalWidth;
         private MouseEventArgs lastMouseMove;
+        private int originalWidth;
+        private Point resizeSource;
+        private bool resizing = false;
 
         public HeaderControl()
         {
@@ -39,6 +36,112 @@ namespace SharpBooks.UI
         }
 
         public event EventHandler<ColumnWidthChangedEventArgs> ColumnWidthChanged;
+
+        public int CellPadding { get; set; }
+
+        public ColumnHeaderCollection Columns
+        {
+            get { return this.columnHeaders; }
+        }
+
+        public Rectangle[] GetColumnBounds()
+        {
+            var bounds = new Rectangle[this.columns.Count];
+
+            var height = this.ClientSize.Height;
+            int left = 0;
+
+            for (int i = 0; i < this.columns.Count; i++)
+            {
+                var w = this.columns[i].Width;
+                bounds[i] = new Rectangle(left, 0, w, height);
+                left += w;
+            }
+
+            return bounds;
+        }
+
+        internal void ColumnCanResizeChanged(ColumnHeader header)
+        {
+            var index = this.columns.IndexOf(header);
+            if (this.hoverColumn == index)
+            {
+                if (this.resizing && !header.CanResize)
+                {
+                    this.CancelResize();
+                }
+
+                this.OnMouseMove(this.lastMouseMove);
+            }
+        }
+
+        internal void ColumnContentChanged(ColumnHeader header)
+        {
+            this.Invalidate();
+        }
+
+        internal void SetColumnWidth(ColumnHeader header, int width)
+        {
+            if (width < header.MinWidth)
+            {
+                width = header.MinWidth;
+            }
+
+            header.width = width;
+            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.columns.IndexOf(header)));
+            this.Invalidate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && this.hoverResize)
+            {
+                this.StartResize(e);
+            }
+            else if (e.Button == MouseButtons.Right && this.resizing)
+            {
+                this.CancelResize();
+                this.OnMouseMove(e);
+            }
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            this.UpdateHover(-1, false);
+
+            base.OnMouseLeave(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            this.lastMouseMove = e;
+
+            if (!this.resizing)
+            {
+                bool showResize;
+                var column = FindHoveredColumn(e, out showResize);
+
+                this.UpdateHover(column, showResize);
+            }
+            else
+            {
+                this.DoResize(e);
+            }
+
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.resizing = false;
+            }
+
+            base.OnMouseUp(e);
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -62,9 +165,11 @@ namespace SharpBooks.UI
                     case HorizontalAlign.Center:
                         format |= TextFormatFlags.HorizontalCenter;
                         break;
+
                     case HorizontalAlign.Left:
                         format |= TextFormatFlags.Left;
                         break;
+
                     case HorizontalAlign.Right:
                         format |= TextFormatFlags.Right;
                         break;
@@ -79,27 +184,11 @@ namespace SharpBooks.UI
             }
         }
 
-        public ColumnHeaderCollection Columns
+        private void CancelResize()
         {
-            get { return this.columnHeaders; }
-        }
-
-        public int CellPadding { get; set; }
-
-        private void InsertColumn(int index, ColumnHeader header)
-        {
-            if (index < 0 || index > this.columns.Count)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            if (header.headerControl != null)
-            {
-                throw new ArgumentException("Only one HeaderControl may contain a given ColumnHeader.", "header");
-            }
-
-            this.columns.Insert(index, header);
-            header.headerControl = this;
+            this.resizing = false;
+            this.columns[this.hoverColumn].Width = this.originalWidth;
+            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
         }
 
         private void ClearColumns()
@@ -112,18 +201,16 @@ namespace SharpBooks.UI
             this.columns.Clear();
         }
 
-        private bool RemoveColumn(int index)
+        private void DoResize(MouseEventArgs e)
         {
-            if (index < 0 || index >= this.columns.Count)
+            var offset = e.Location.X - this.resizeSource.X;
+            var desiredWidth = this.originalWidth + offset;
+            if (desiredWidth < 0)
             {
-                throw new ArgumentOutOfRangeException("index");
+                desiredWidth = 0;
             }
 
-            var header = this.columns[index];
-            this.columns.RemoveAt(index);
-            header.headerControl = null;
-
-            return true;
+            this.SetColumnWidth(this.columns[this.hoverColumn], desiredWidth);
         }
 
         private int FindHoveredColumn(MouseEventArgs e, out bool showResize)
@@ -161,6 +248,43 @@ namespace SharpBooks.UI
             return showResize ? hoverResize : hoverColumn;
         }
 
+        private void InsertColumn(int index, ColumnHeader header)
+        {
+            if (index < 0 || index > this.columns.Count)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            if (header.headerControl != null)
+            {
+                throw new ArgumentException("Only one HeaderControl may contain a given ColumnHeader.", "header");
+            }
+
+            this.columns.Insert(index, header);
+            header.headerControl = this;
+        }
+
+        private bool RemoveColumn(int index)
+        {
+            if (index < 0 || index >= this.columns.Count)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            var header = this.columns[index];
+            this.columns.RemoveAt(index);
+            header.headerControl = null;
+
+            return true;
+        }
+
+        private void StartResize(MouseEventArgs e)
+        {
+            this.resizing = true;
+            this.resizeSource = e.Location;
+            this.originalWidth = this.columns[this.hoverColumn].Width;
+        }
+
         private void UpdateHover(int hoverColumn, bool showResize)
         {
             if (this.hoverColumn != hoverColumn)
@@ -173,182 +297,26 @@ namespace SharpBooks.UI
             this.Cursor = showResize ? Cursors.VSplit : Cursors.Arrow;
         }
 
-        private void StartResize(MouseEventArgs e)
-        {
-            this.resizing = true;
-            this.resizeSource = e.Location;
-            this.originalWidth = this.columns[this.hoverColumn].Width;
-        }
-
-        private void CancelResize()
-        {
-            this.resizing = false;
-            this.columns[this.hoverColumn].Width = this.originalWidth;
-            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.hoverColumn));
-        }
-
-        private void DoResize(MouseEventArgs e)
-        {
-            var offset = e.Location.X - this.resizeSource.X;
-            var desiredWidth = this.originalWidth + offset;
-            if (desiredWidth < 0)
-            {
-                desiredWidth = 0;
-            }
-
-            this.SetColumnWidth(this.columns[this.hoverColumn], desiredWidth);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            this.lastMouseMove = e;
-
-            if (!this.resizing)
-            {
-                bool showResize;
-                var column = FindHoveredColumn(e, out showResize);
-
-                this.UpdateHover(column, showResize);
-            }
-            else
-            {
-                this.DoResize(e);
-            }
-
-            base.OnMouseMove(e);
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            this.UpdateHover(-1, false);
-
-            base.OnMouseLeave(e);
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && this.hoverResize)
-            {
-                this.StartResize(e);
-            }
-            else if (e.Button == MouseButtons.Right && this.resizing)
-            {
-                this.CancelResize();
-                this.OnMouseMove(e);
-            }
-
-            base.OnMouseDown(e);
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.resizing = false;
-            }
-
-            base.OnMouseUp(e);
-        }
-
-        internal void SetColumnWidth(ColumnHeader header, int width)
-        {
-            if (width < header.MinWidth)
-            {
-                width = header.MinWidth;
-            }
-
-            header.width = width;
-            this.ColumnWidthChanged.SafeInvoke(this, new ColumnWidthChangedEventArgs(this.columns.IndexOf(header)));
-            this.Invalidate();
-        }
-
-        internal void ColumnContentChanged(ColumnHeader header)
-        {
-            this.Invalidate();
-        }
-
-        internal void ColumnCanResizeChanged(ColumnHeader header)
-        {
-            var index = this.columns.IndexOf(header);
-            if (this.hoverColumn == index)
-            {
-                if (this.resizing && !header.CanResize)
-                {
-                    this.CancelResize();
-                }
-
-                this.OnMouseMove(this.lastMouseMove);
-            }
-        }
-
-        public Rectangle[] GetColumnBounds()
-        {
-            var bounds = new Rectangle[this.columns.Count];
-
-            var height = this.ClientSize.Height;
-            int left = 0;
-
-            for (int i = 0; i < this.columns.Count; i++)
-            {
-                var w = this.columns[i].Width;
-                bounds[i] = new Rectangle(left, 0, w, height);
-                left += w;
-            }
-
-            return bounds;
-        }
-
         public class ColumnHeader
         {
             internal HeaderControl headerControl;
             internal int width = 60;
+            private bool canResize = true;
             private int minWidth = 10;
             private string text;
-            private bool canResize = true;
             private HorizontalAlign textAlign = HorizontalAlign.Left;
 
             public bool CanResize
             {
-                get { return this.canResize; }
+                get
+                {
+                    return this.canResize;
+                }
 
                 set
                 {
                     this.canResize = value;
                     this.CanResizeChanged();
-                }
-            }
-
-            public int Width
-            {
-                get { return this.width; }
-
-                set
-                {
-                    if (value < 0)
-                    {
-                        throw new ArgumentOutOfRangeException("value");
-                    }
-
-                    this.SetColumnWidth(value < this.minWidth ? this.minWidth : value);
-                }
-            }
-
-            public int MinWidth
-            {
-                get { return this.minWidth; }
-
-                set
-                {
-                    if (value < 0)
-                    {
-                        throw new ArgumentOutOfRangeException("value");
-                    }
-
-                    this.minWidth = value;
-                    if (this.width < this.minWidth)
-                    {
-                        this.SetColumnWidth(this.minWidth);
-                    }
                 }
             }
 
@@ -367,11 +335,36 @@ namespace SharpBooks.UI
                 }
             }
 
+            public int MinWidth
+            {
+                get
+                {
+                    return this.minWidth;
+                }
+
+                set
+                {
+                    if (value < 0)
+                    {
+                        throw new ArgumentOutOfRangeException("value");
+                    }
+
+                    this.minWidth = value;
+                    if (this.width < this.minWidth)
+                    {
+                        this.SetColumnWidth(this.minWidth);
+                    }
+                }
+            }
+
             public object Tag { get; set; }
 
             public string Text
             {
-                get { return this.text ?? "ColumnHeader"; }
+                get
+                {
+                    return this.text ?? "ColumnHeader";
+                }
 
                 set
                 {
@@ -383,7 +376,10 @@ namespace SharpBooks.UI
 
             public HorizontalAlign TextAlign
             {
-                get { return this.textAlign; }
+                get
+                {
+                    return this.textAlign;
+                }
 
                 set
                 {
@@ -398,11 +394,37 @@ namespace SharpBooks.UI
                 }
             }
 
+            public int Width
+            {
+                get
+                {
+                    return this.width;
+                }
+
+                set
+                {
+                    if (value < 0)
+                    {
+                        throw new ArgumentOutOfRangeException("value");
+                    }
+
+                    this.SetColumnWidth(value < this.minWidth ? this.minWidth : value);
+                }
+            }
+
             private void CanResizeChanged()
             {
                 if (this.headerControl != null)
                 {
                     this.headerControl.ColumnCanResizeChanged(this);
+                }
+            }
+
+            private void ColumnContentChanged()
+            {
+                if (this.headerControl != null)
+                {
+                    this.headerControl.ColumnContentChanged(this);
                 }
             }
 
@@ -422,14 +444,6 @@ namespace SharpBooks.UI
                     this.width = width;
                 }
             }
-
-            private void ColumnContentChanged()
-            {
-                if (this.headerControl != null)
-                {
-                    this.headerControl.ColumnContentChanged(this);
-                }
-            }
         }
 
         public class ColumnHeaderCollection : ICollection<ColumnHeader>
@@ -439,6 +453,24 @@ namespace SharpBooks.UI
             internal ColumnHeaderCollection(HeaderControl owner)
             {
                 this.owner = owner;
+            }
+
+            public int Count
+            {
+                get { return this.owner.columns.Count; }
+            }
+
+            public bool IsReadOnly
+            {
+                get { return false; }
+            }
+
+            public ColumnHeader this[int index]
+            {
+                get
+                {
+                    return this.owner.columns[index];
+                }
             }
 
             public void Add(ColumnHeader header)
@@ -474,22 +506,6 @@ namespace SharpBooks.UI
                 this.owner.columns.CopyTo(array, arrayIndex);
             }
 
-            public int Count
-            {
-                get { return this.owner.columns.Count; }
-            }
-
-            public bool IsReadOnly
-            {
-                get { return false; }
-            }
-
-            public bool Remove(ColumnHeader header)
-            {
-                var index = this.IndexOf(header);
-                return index != -1 && this.owner.RemoveColumn(index);
-            }
-
             public IEnumerator<ColumnHeader> GetEnumerator()
             {
                 return this.owner.columns.GetEnumerator();
@@ -510,17 +526,15 @@ namespace SharpBooks.UI
                 this.owner.InsertColumn(index, header);
             }
 
+            public bool Remove(ColumnHeader header)
+            {
+                var index = this.IndexOf(header);
+                return index != -1 && this.owner.RemoveColumn(index);
+            }
+
             public void RemoveAt(int index)
             {
                 this.owner.RemoveColumn(index);
-            }
-
-            public ColumnHeader this[int index]
-            {
-                get
-                {
-                    return this.owner.columns[index];
-                }
             }
         }
     }

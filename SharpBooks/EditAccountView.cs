@@ -1,4 +1,4 @@
-﻿﻿//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="NewBookWizard.cs" company="(none)">
 //  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
@@ -8,19 +8,16 @@
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
-    using System.Drawing;
     using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
     using SharpBooks.Controllers;
 
     public partial class EditAccountView : Form
     {
-        private readonly MainController owner;
         private readonly Account originalAccount;
+        private readonly MainController owner;
         private Account newAccount;
 
         public EditAccountView(MainController owner, Account account)
@@ -58,6 +55,54 @@ namespace SharpBooks
             }
         }
 
+        private void fractionTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+            this.errorProvider.SetError(box, null);
+
+            var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
+            long fraction;
+            if (!security.TryParseValue(box.Text, out fraction))
+            {
+                this.errorProvider.SetError(box, "You must enter a valid value.");
+                e.Cancel = true;
+            }
+            else if (fraction <= 0)
+            {
+                this.errorProvider.SetError(box, "You must enter a value greater than zero.");
+                e.Cancel = true;
+            }
+            else
+            {
+                box.Text = security.FormatValue(fraction);
+            }
+        }
+
+        private void nameTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+            this.errorProvider.SetError(box, null);
+
+            if (string.IsNullOrEmpty(box.Text))
+            {
+                this.errorProvider.SetError(box, "You must specify an account name.");
+                e.Cancel = true;
+            }
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
+
+            this.newAccount = new Account(
+                this.originalAccount.AccountId,
+                this.balanceAccountRadio.Checked ? AccountType.Balance : AccountType.Grouping,
+                security,
+                this.originalAccount.ParentAccount,
+                this.nameTextBox.Text,
+                security != null ? (int)(security.FractionTraded / security.ParseValue(this.fractionTextBox.Text)) : (int?)null);
+        }
+
         private void securityComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
             var item = (SecurityOption)this.securityComboBox.SelectedItem;
@@ -93,54 +138,6 @@ namespace SharpBooks
                 return this.security == null
                     ? "(any currency)"
                     : this.security.Name + " (" + this.security.Symbol + ")";
-            }
-        }
-
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
-
-            this.newAccount = new Account(
-                this.originalAccount.AccountId,
-                this.balanceAccountRadio.Checked ? AccountType.Balance : AccountType.Grouping,
-                security,
-                this.originalAccount.ParentAccount,
-                this.nameTextBox.Text,
-                security != null ? (int)(security.FractionTraded / security.ParseValue(this.fractionTextBox.Text)) : (int?)null);
-        }
-
-        private void nameTextBox_Validating(object sender, CancelEventArgs e)
-        {
-            var box = (TextBox)sender;
-            this.errorProvider.SetError(box, null);
-
-            if (string.IsNullOrEmpty(box.Text))
-            {
-                this.errorProvider.SetError(box, "You must specify an account name.");
-                e.Cancel = true;
-            }
-        }
-
-        private void fractionTextBox_Validating(object sender, CancelEventArgs e)
-        {
-            var box = (TextBox)sender;
-            this.errorProvider.SetError(box, null);
-
-            var security = ((SecurityOption)this.securityComboBox.SelectedItem).Security;
-            long fraction;
-            if (!security.TryParseValue(box.Text, out fraction))
-            {
-                this.errorProvider.SetError(box, "You must enter a valid value.");
-                e.Cancel = true;
-            }
-            else if (fraction <= 0)
-            {
-                this.errorProvider.SetError(box, "You must enter a value greater than zero.");
-                e.Cancel = true;
-            }
-            else
-            {
-                box.Text = security.FormatValue(fraction);
             }
         }
     }

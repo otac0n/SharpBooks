@@ -41,17 +41,6 @@ namespace SharpBooks.Tests
             return new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
         }
 
-        public static Transaction CreateValidTransaction(Account splitAccouunt)
-        {
-            // Create a new transaction with a single, zero split assigned to splitAccount.
-            var transaction = TestUtils.CreateEmptyTransaction();
-            var split = transaction.AddSplit();
-            split.Account = splitAccouunt;
-            split.Security = splitAccouunt.Security;
-
-            return transaction;
-        }
-
         public static Account CreateValidAccount()
         {
             // Create a new account that is valid.
@@ -67,6 +56,24 @@ namespace SharpBooks.Tests
             return book;
         }
 
+        public static PriceQuote CreateValidPriceQuote()
+        {
+            // Create a new price quote that is valid.
+            // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
+            return new PriceQuote(Guid.NewGuid(), DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), TestStock, 1, TestCurrency, 1, "TESTS");
+        }
+
+        public static Transaction CreateValidTransaction(Account splitAccouunt)
+        {
+            // Create a new transaction with a single, zero split assigned to splitAccount.
+            var transaction = TestUtils.CreateEmptyTransaction();
+            var split = transaction.AddSplit();
+            split.Account = splitAccouunt;
+            split.Security = splitAccouunt.Security;
+
+            return transaction;
+        }
+
         public static void DisplayQuote(PriceQuote quote)
         {
             Debug.Write(quote.Security.FormatValue(quote.Quantity));
@@ -74,13 +81,6 @@ namespace SharpBooks.Tests
             Debug.Write(quote.Currency.FormatValue(quote.Price));
             Debug.Write(" @ ");
             Debug.WriteLine(quote.DateTime.ToString("O"));
-        }
-
-        public static PriceQuote CreateValidPriceQuote()
-        {
-            // Create a new price quote that is valid.
-            // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new PriceQuote(Guid.NewGuid(), DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), TestStock, 1, TestCurrency, 1, "TESTS");
         }
     }
 }

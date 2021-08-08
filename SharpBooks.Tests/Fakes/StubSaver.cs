@@ -11,19 +11,7 @@ namespace SharpBooks.Tests.Fakes
 
     public class StubSaver : ISaver
     {
-        public void SetSetting(string key, string value)
-        {
-        }
-
-        public void RemoveSetting(string key)
-        {
-        }
-
-        public void AddSecurity(SecurityData security)
-        {
-        }
-
-        public void RemoveSecurity(Guid securityId)
+        public void AddAccount(AccountData account)
         {
         }
 
@@ -31,15 +19,7 @@ namespace SharpBooks.Tests.Fakes
         {
         }
 
-        public void RemovePriceQuote(Guid priceQuoteId)
-        {
-        }
-
-        public void AddAccount(AccountData account)
-        {
-        }
-
-        public void RemoveAccount(Guid accountId)
+        public void AddSecurity(SecurityData security)
         {
         }
 
@@ -47,7 +27,27 @@ namespace SharpBooks.Tests.Fakes
         {
         }
 
+        public void RemoveAccount(Guid accountId)
+        {
+        }
+
+        public void RemovePriceQuote(Guid priceQuoteId)
+        {
+        }
+
+        public void RemoveSecurity(Guid securityId)
+        {
+        }
+
+        public void RemoveSetting(string key)
+        {
+        }
+
         public void RemoveTransaction(Guid transactionId)
+        {
+        }
+
+        public void SetSetting(string key, string value)
         {
         }
     }

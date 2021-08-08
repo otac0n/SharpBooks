@@ -13,46 +13,6 @@ namespace SharpBooks.Integration
 
     public static class RangeExtensions
     {
-        public static bool IsEmpty<T>(this IRange<T> range) where T : IComparable<T>
-        {
-            if (range == null)
-            {
-                return true;
-            }
-
-            var startToEnd = range.Start.CompareTo(range.End);
-            if (startToEnd > 0)
-            {
-                return true;
-            }
-            else if (startToEnd == 0 && (!range.StartInclusive || !range.EndInclusive))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static bool IsEmpty<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
-        {
-            if (set == null)
-            {
-                return true;
-            }
-
-            foreach (var range in set)
-            {
-                if (!range.IsEmpty())
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public static bool Contains<T>(this IRange<T> range, T value) where T : IComparable<T>
         {
             if (range.IsEmpty())
@@ -102,6 +62,100 @@ namespace SharpBooks.Integration
             }
 
             return false;
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
+        {
+            if (range.IsEmpty())
+            {
+                return null;
+            }
+
+            var intersection = range.IntersectWith(other);
+
+            if (intersection.IsEmpty())
+            {
+                return new[] { range };
+            }
+            else if (intersection == range)
+            {
+                return null;
+            }
+
+            var ranges = new List<IRange<T>>();
+
+            var startToStart = range.Start.CompareTo(intersection.Start);
+
+            if (startToStart != 0 ||
+                (range.StartInclusive && !intersection.StartInclusive))
+            {
+                ranges.Add(range.Clone(
+                        range.Start,
+                        range.StartInclusive,
+                        intersection.Start,
+                        !intersection.StartInclusive));
+            }
+
+            var endToEnd = range.End.CompareTo(intersection.End);
+
+            if (endToEnd != 0 ||
+                (range.EndInclusive && !intersection.EndInclusive))
+            {
+                ranges.Add(range.Clone(
+                        intersection.End,
+                        !intersection.EndInclusive,
+                        range.End,
+                        range.EndInclusive));
+            }
+
+            return ranges;
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
+        {
+            return set.DifferenceWith(new[] { range });
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            return set.DifferenceWith(new[] { range });
+        }
+
+        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
+        {
+            if (setA.IsEmpty())
+            {
+                return null;
+            }
+            else if (setB.IsEmpty())
+            {
+                return setA.ToList();
+            }
+
+            List<IRange<T>> results = null;
+
+            foreach (var rangeB in setB)
+            {
+                results = new List<IRange<T>>();
+
+                foreach (var rangeA in setA)
+                {
+                    var diff = rangeA.DifferenceWith(rangeB);
+                    if (diff != null)
+                    {
+                        results.AddRange(diff);
+                    }
+                }
+
+                if (results.Count == 0)
+                {
+                    return null;
+                }
+
+                setA = results;
+            }
+
+            return results;
         }
 
         public static IRange<T> IntersectWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
@@ -186,6 +240,82 @@ namespace SharpBooks.Integration
                 startInclusive,
                 end,
                 endInclusive);
+        }
+
+        public static bool IsEmpty<T>(this IRange<T> range) where T : IComparable<T>
+        {
+            if (range == null)
+            {
+                return true;
+            }
+
+            var startToEnd = range.Start.CompareTo(range.End);
+            if (startToEnd > 0)
+            {
+                return true;
+            }
+            else if (startToEnd == 0 && (!range.StartInclusive || !range.EndInclusive))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool IsEmpty<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            if (set == null)
+            {
+                return true;
+            }
+
+            foreach (var range in set)
+            {
+                if (!range.IsEmpty())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static IList<IRange<T>> Simplify<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
+        {
+            var list = (from r in set
+                        where !r.IsEmpty()
+                        orderby r.Start descending
+                        select r).ToList();
+
+            if (list.Count == 0)
+            {
+                return null;
+            }
+
+            Func<IRange<T>> dequeue = () =>
+            {
+                var a = list[list.Count - 1];
+                list.RemoveAt(list.Count - 1);
+                return a;
+            };
+
+            var results = new Stack<IRange<T>>();
+            results.Push(dequeue());
+
+            while (list.Count > 0)
+            {
+                var rangeA = results.Pop();
+                var rangeB = dequeue();
+
+                foreach (var result in rangeA.UnionWith(rangeB))
+                {
+                    results.Push(result);
+                }
+            }
+
+            return results.ToArray();
         }
 
         public static IList<IRange<T>> UnionWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
@@ -334,136 +464,6 @@ namespace SharpBooks.Integration
             setB = setB ?? new IRange<T>[0];
 
             return setA.Concat(setB).Simplify();
-        }
-
-        public static IList<IRange<T>> Simplify<T>(this IEnumerable<IRange<T>> set) where T : IComparable<T>
-        {
-            var list = (from r in set
-                        where !r.IsEmpty()
-                        orderby r.Start descending
-                        select r).ToList();
-
-            if (list.Count == 0)
-            {
-                return null;
-            }
-
-            Func<IRange<T>> dequeue = () =>
-            {
-                var a = list[list.Count - 1];
-                list.RemoveAt(list.Count - 1);
-                return a;
-            };
-
-            var results = new Stack<IRange<T>>();
-            results.Push(dequeue());
-
-            while (list.Count > 0)
-            {
-                var rangeA = results.Pop();
-                var rangeB = dequeue();
-
-                foreach (var result in rangeA.UnionWith(rangeB))
-                {
-                    results.Push(result);
-                }
-            }
-
-            return results.ToArray();
-        }
-
-        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IRange<T> other) where T : IComparable<T>
-        {
-            if (range.IsEmpty())
-            {
-                return null;
-            }
-
-            var intersection = range.IntersectWith(other);
-
-            if (intersection.IsEmpty())
-            {
-                return new[] { range };
-            }
-            else if (intersection == range)
-            {
-                return null;
-            }
-
-            var ranges = new List<IRange<T>>();
-
-            var startToStart = range.Start.CompareTo(intersection.Start);
-
-            if (startToStart != 0 ||
-                (range.StartInclusive && !intersection.StartInclusive))
-            {
-                ranges.Add(range.Clone(
-                        range.Start,
-                        range.StartInclusive,
-                        intersection.Start,
-                        !intersection.StartInclusive));
-            }
-
-            var endToEnd = range.End.CompareTo(intersection.End);
-
-            if (endToEnd != 0 ||
-                (range.EndInclusive && !intersection.EndInclusive))
-            {
-                ranges.Add(range.Clone(
-                        intersection.End,
-                        !intersection.EndInclusive,
-                        range.End,
-                        range.EndInclusive));
-            }
-
-            return ranges;
-        }
-
-        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> set, IRange<T> range) where T : IComparable<T>
-        {
-            return set.DifferenceWith(new[] { range });
-        }
-
-        public static IList<IRange<T>> DifferenceWith<T>(this IRange<T> range, IEnumerable<IRange<T>> set) where T : IComparable<T>
-        {
-            return set.DifferenceWith(new[] { range });
-        }
-
-        public static IList<IRange<T>> DifferenceWith<T>(this IEnumerable<IRange<T>> setA, IEnumerable<IRange<T>> setB) where T : IComparable<T>
-        {
-            if (setA.IsEmpty())
-            {
-                return null;
-            }
-            else if (setB.IsEmpty())
-            {
-                return setA.ToList();
-            }
-
-            List<IRange<T>> results = null;
-
-            foreach (var rangeB in setB)
-            {
-                results = new List<IRange<T>>();
-
-                foreach (var rangeA in setA)
-                {
-                    var diff = rangeA.DifferenceWith(rangeB);
-                    if (diff != null)
-                    {
-                        results.AddRange(diff);
-                    }
-                }
-
-                if (results.Count == 0)
-                {
-                    return null;
-                }
-
-                setA = results;
-            }
-
-            return results;
         }
     }
 }

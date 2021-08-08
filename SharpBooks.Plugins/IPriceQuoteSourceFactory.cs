@@ -7,8 +7,6 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
-
     public interface IPriceQuoteSourceFactory : IPluginFactory
     {
         IPriceQuoteSource CreateInstance();

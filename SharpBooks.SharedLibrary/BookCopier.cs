@@ -21,72 +21,6 @@ namespace SharpBooks
             this.bookToCopy = bookToCopy;
         }
 
-        public Book Load()
-        {
-            lock (this)
-            {
-                try
-                {
-                    this.destinationBook = new Book();
-                    this.bookToCopy.Replay(this, null);
-
-                    return this.destinationBook;
-                }
-                finally
-                {
-                    this.destinationBook = null;
-                }
-            }
-        }
-
-        public void SetSetting(string key, string value)
-        {
-            lock (this)
-            {
-                this.destinationBook.SetSetting(key, value);
-            }
-        }
-
-        public void RemoveSetting(string key)
-        {
-            lock (this)
-            {
-                this.destinationBook.RemoveSetting(key);
-            }
-        }
-
-        public void AddSecurity(SecurityData security)
-        {
-            if (security == null)
-            {
-                throw new ArgumentNullException("security");
-            }
-
-            lock (this)
-            {
-                var newSecurity = new Security(
-                    security.SecurityId,
-                    security.SecurityType,
-                    security.Name,
-                    security.Symbol,
-                    security.Format,
-                    security.FractionTraded);
-
-                this.destinationBook.AddSecurity(newSecurity);
-            }
-        }
-
-        public void RemoveSecurity(Guid securityId)
-        {
-            lock (this)
-            {
-                var security = this.destinationBook.Securities.Where(s => s.SecurityId == securityId).Single();
-
-                this.destinationBook.RemoveSecurity(
-                    security);
-            }
-        }
-
         public void AddAccount(AccountData account)
         {
             lock (this)
@@ -112,14 +46,46 @@ namespace SharpBooks
             }
         }
 
-        public void RemoveAccount(Guid accountId)
+        public void AddPriceQuote(PriceQuoteData priceQuote)
         {
             lock (this)
             {
-                var account = this.destinationBook.Accounts.Where(a => a.AccountId == accountId).Single();
+                var security = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.SecuritySecurityId).Single();
 
-                this.destinationBook.RemoveAccount(
-                    account);
+                var currency = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.CurrencySecurityId).Single();
+
+                var newPriceQuote = new PriceQuote(
+                    priceQuote.PriceQuoteId,
+                    priceQuote.DateTime,
+                    security,
+                    priceQuote.Quantity,
+                    currency,
+                    priceQuote.Price,
+                    priceQuote.Source);
+
+                this.destinationBook.AddPriceQuote(
+                    newPriceQuote);
+            }
+        }
+
+        public void AddSecurity(SecurityData security)
+        {
+            if (security == null)
+            {
+                throw new ArgumentNullException("security");
+            }
+
+            lock (this)
+            {
+                var newSecurity = new Security(
+                    security.SecurityId,
+                    security.SecurityType,
+                    security.Name,
+                    security.Symbol,
+                    security.Format,
+                    security.FractionTraded);
+
+                this.destinationBook.AddSecurity(newSecurity);
             }
         }
 
@@ -155,36 +121,32 @@ namespace SharpBooks
             }
         }
 
-        public void RemoveTransaction(Guid transactionId)
+        public Book Load()
         {
             lock (this)
             {
-                var transaction = this.destinationBook.Transactions.Where(t => t.TransactionId == transactionId).Single();
+                try
+                {
+                    this.destinationBook = new Book();
+                    this.bookToCopy.Replay(this, null);
 
-                this.destinationBook.RemoveTransaction(
-                    transaction);
+                    return this.destinationBook;
+                }
+                finally
+                {
+                    this.destinationBook = null;
+                }
             }
         }
 
-        public void AddPriceQuote(PriceQuoteData priceQuote)
+        public void RemoveAccount(Guid accountId)
         {
             lock (this)
             {
-                var security = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.SecuritySecurityId).Single();
+                var account = this.destinationBook.Accounts.Where(a => a.AccountId == accountId).Single();
 
-                var currency = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.CurrencySecurityId).Single();
-
-                var newPriceQuote = new PriceQuote(
-                    priceQuote.PriceQuoteId,
-                    priceQuote.DateTime,
-                    security,
-                    priceQuote.Quantity,
-                    currency,
-                    priceQuote.Price,
-                    priceQuote.Source);
-
-                this.destinationBook.AddPriceQuote(
-                    newPriceQuote);
+                this.destinationBook.RemoveAccount(
+                    account);
             }
         }
 
@@ -196,6 +158,44 @@ namespace SharpBooks
 
                 this.destinationBook.RemovePriceQuote(
                     priceQuote);
+            }
+        }
+
+        public void RemoveSecurity(Guid securityId)
+        {
+            lock (this)
+            {
+                var security = this.destinationBook.Securities.Where(s => s.SecurityId == securityId).Single();
+
+                this.destinationBook.RemoveSecurity(
+                    security);
+            }
+        }
+
+        public void RemoveSetting(string key)
+        {
+            lock (this)
+            {
+                this.destinationBook.RemoveSetting(key);
+            }
+        }
+
+        public void RemoveTransaction(Guid transactionId)
+        {
+            lock (this)
+            {
+                var transaction = this.destinationBook.Transactions.Where(t => t.TransactionId == transactionId).Single();
+
+                this.destinationBook.RemoveTransaction(
+                    transaction);
+            }
+        }
+
+        public void SetSetting(string key, string value)
+        {
+            lock (this)
+            {
+                this.destinationBook.SetSetting(key, value);
             }
         }
     }

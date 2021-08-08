@@ -11,15 +11,6 @@ namespace SharpBooks
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
-
-    public enum PositiveFormat
-    {
-        Prefix,
-        Suffix,
-        PrefixSpaced,
-        SuffixSpaced,
-    }
 
     public enum NegativeFormat
     {
@@ -29,16 +20,16 @@ namespace SharpBooks
         Suffix,
     }
 
+    public enum PositiveFormat
+    {
+        Prefix,
+        Suffix,
+        PrefixSpaced,
+        SuffixSpaced,
+    }
+
     public class CurrencyFormat
     {
-        private static readonly Dictionary<PositiveFormat, int> positivePatternMapping = new Dictionary<PositiveFormat, int>
-        {
-            { PositiveFormat.Prefix, 0 },
-            { PositiveFormat.Suffix, 1 },
-            { PositiveFormat.PrefixSpaced, 2 },
-            { PositiveFormat.SuffixSpaced, 3 },
-        };
-
         private static readonly Dictionary<Tuple<PositiveFormat, NegativeFormat>, int> negativePatternMapping = new Dictionary<Tuple<PositiveFormat, NegativeFormat>, int>
         {
             { Tuple.Create(PositiveFormat.Prefix,       NegativeFormat.Parentheses), 0 },
@@ -59,15 +50,22 @@ namespace SharpBooks
             { Tuple.Create(PositiveFormat.SuffixSpaced, NegativeFormat.Suffix),      10 },
         };
 
+        private static readonly Dictionary<PositiveFormat, int> positivePatternMapping = new Dictionary<PositiveFormat, int>
+        {
+            { PositiveFormat.Prefix, 0 },
+            { PositiveFormat.Suffix, 1 },
+            { PositiveFormat.PrefixSpaced, 2 },
+            { PositiveFormat.SuffixSpaced, 3 },
+        };
+
+        private readonly string currencySymbol;
         private readonly int decimalDigits;
         private readonly string decimalSeparator;
         private readonly string groupSeparator;
         private readonly int[] groupSizes;
-        private readonly string currencySymbol;
-        private readonly PositiveFormat positiveFormat;
         private readonly NegativeFormat negativeFormat;
-
         private readonly NumberFormatInfo numberFormatInfo;
+        private readonly PositiveFormat positiveFormat;
 
         public CurrencyFormat(
             int decimalDigits = 2,
@@ -163,14 +161,14 @@ namespace SharpBooks
             get { return this.groupSizes.ToArray(); }
         }
 
-        public PositiveFormat PositiveFormat
-        {
-            get { return this.positiveFormat; }
-        }
-
         public NegativeFormat NegativeFormat
         {
             get { return this.negativeFormat; }
+        }
+
+        public PositiveFormat PositiveFormat
+        {
+            get { return this.positiveFormat; }
         }
 
         public string Symbol
@@ -188,18 +186,6 @@ namespace SharpBooks
                 count);
 
             return actualValue.ToString("C" + count, this.numberFormatInfo);
-        }
-
-        private static int CountDecimalDigits(decimal value)
-        {
-            int count = 0;
-            while (decimal.Truncate(value) != value)
-            {
-                value *= 10;
-                count++;
-            }
-
-            return count;
         }
 
         public bool TryParse(string s, int fractionTraded, out long result)
@@ -224,6 +210,18 @@ namespace SharpBooks
 
             result = (long)value;
             return true;
+        }
+
+        private static int CountDecimalDigits(decimal value)
+        {
+            int count = 0;
+            while (decimal.Truncate(value) != value)
+            {
+                value *= 10;
+                count++;
+            }
+
+            return count;
         }
     }
 }

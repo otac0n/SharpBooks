@@ -15,13 +15,13 @@ namespace SharpBooks
             this.Message = message;
         }
 
-        public string Source
+        public string Message
         {
             get;
             private set;
         }
 
-        public string Message
+        public string Source
         {
             get;
             private set;

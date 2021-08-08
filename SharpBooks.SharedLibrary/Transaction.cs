@@ -43,25 +43,6 @@ namespace SharpBooks
             this.Date = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
         }
 
-        public string this[string key]
-        {
-            get
-            {
-                string value;
-                this.extensions.TryGetValue(key, out value);
-                return value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique identifier of the transaction.
-        /// </summary>
-        public Guid TransactionId
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Gets the security in which the values of the transaction are expressed.
         /// </summary>
@@ -77,6 +58,7 @@ namespace SharpBooks
         public DateTime Date
         {
             get => this.date;
+
             set
             {
                 if (value.Kind != DateTimeKind.Utc)
@@ -85,17 +67,6 @@ namespace SharpBooks
                 }
 
                 this.date = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets an enumerable collection of the splits that make up the transaction.
-        /// </summary>
-        public IList<Split> Splits
-        {
-            get
-            {
-                return this.splits.AsReadOnly();
             }
         }
 
@@ -143,19 +114,32 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Sets an extension on the transaction.
+        /// Gets an enumerable collection of the splits that make up the transaction.
         /// </summary>
-        /// <param name="name">The name of the extension.</param>
-        /// <param name="value">The value of the extension.</param>
-        public void SetExtension(string name, string value)
+        public IList<Split> Splits
         {
-            if (value == null)
+            get
             {
-                this.extensions.Remove(name);
+                return this.splits.AsReadOnly();
             }
-            else
+        }
+
+        /// <summary>
+        /// Gets the unique identifier of the transaction.
+        /// </summary>
+        public Guid TransactionId
+        {
+            get;
+            private set;
+        }
+
+        public string this[string key]
+        {
+            get
             {
-                this.extensions[name] = value;
+                string value;
+                this.extensions.TryGetValue(key, out value);
+                return value;
             }
         }
 
@@ -169,6 +153,25 @@ namespace SharpBooks
 
             this.splits.Add(split);
             return split;
+        }
+
+        public Transaction Copy()
+        {
+            var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
+            tNew.Date = this.Date;
+
+            foreach (var split in this.splits)
+            {
+                var sNew = tNew.AddSplit();
+                sNew.Account = split.Account;
+                sNew.Amount = split.Amount;
+                sNew.DateCleared = split.DateCleared;
+                sNew.IsReconciled = split.IsReconciled;
+                sNew.Security = split.Security;
+                sNew.TransactionAmount = split.TransactionAmount;
+            }
+
+            return tNew;
         }
 
         /// <summary>
@@ -191,23 +194,21 @@ namespace SharpBooks
             split.Transaction = null;
         }
 
-        public Transaction Copy()
+        /// <summary>
+        /// Sets an extension on the transaction.
+        /// </summary>
+        /// <param name="name">The name of the extension.</param>
+        /// <param name="value">The value of the extension.</param>
+        public void SetExtension(string name, string value)
         {
-            var tNew = new Transaction(this.TransactionId, this.BaseSecurity);
-            tNew.Date = this.Date;
-
-            foreach (var split in this.splits)
+            if (value == null)
             {
-                var sNew = tNew.AddSplit();
-                sNew.Account = split.Account;
-                sNew.Amount = split.Amount;
-                sNew.DateCleared = split.DateCleared;
-                sNew.IsReconciled = split.IsReconciled;
-                sNew.Security = split.Security;
-                sNew.TransactionAmount = split.TransactionAmount;
+                this.extensions.Remove(name);
             }
-
-            return tNew;
+            else
+            {
+                this.extensions[name] = value;
+            }
         }
     }
 }

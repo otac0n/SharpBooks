@@ -8,18 +8,16 @@
 namespace SharpBooks.UI
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using System.Windows.Forms.VisualStyles;
 
     public partial class AccountRegister : UserControl
     {
         private readonly HeaderControl.ColumnHeader descriptionColumn;
-        private ReadOnlyBook book;
         private Account account;
+        private ReadOnlyBook book;
+        private bool transactionIsNew;
 
         public AccountRegister()
         {
@@ -41,11 +39,24 @@ namespace SharpBooks.UI
             this.headers.Columns.Add("Balance", 110);
         }
 
-        private bool transactionIsNew;
+        public event EventHandler<TransactionCreatedEventArgs> TransactionCreated;
 
         public event EventHandler<TransactionUpdatedEventArgs> TransactionUpdated;
 
-        public event EventHandler<TransactionCreatedEventArgs> TransactionCreated;
+        public void NewTransaction()
+        {
+            var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
+            transaction.Date = DateTime.Today.ToUniversalTime();
+            var split1 = transaction.AddSplit();
+            var split2 = transaction.AddSplit();
+
+            split1.Account = this.account;
+            split1.Security = transaction.BaseSecurity;
+            split2.Security = transaction.BaseSecurity;
+
+            this.transactionEditor.SetSplit(transaction.Splits[0]);
+            this.transactionIsNew = true;
+        }
 
         public void SetAccount(Account account, ReadOnlyBook book)
         {
@@ -65,9 +76,14 @@ namespace SharpBooks.UI
             this.Refresh();
         }
 
-        private void VScroll_ValueChanged(object sender, EventArgs e)
+        private void Splits_DesiresOffset(object sender, DesiresOffsetEventArgs e)
         {
-            this.splitsView.Offset = new Point(0, -this.vScroll.Value);
+            this.vScroll.Value = -e.DesiredOffset.Y;
+        }
+
+        private void Splits_MouseWheel(object sender, MouseEventArgs e)
+        {
+            this.vScroll.Value = (this.vScroll.Value - e.Delta).Clamp(0, this.vScroll.Maximum);
         }
 
         private void Splits_ScrollableSizeChanged(object sender, EventArgs e)
@@ -77,35 +93,10 @@ namespace SharpBooks.UI
             this.vScroll.Maximum = s.Height;
         }
 
-        private void Splits_MouseWheel(object sender, MouseEventArgs e)
-        {
-            this.vScroll.Value = (this.vScroll.Value - e.Delta).Clamp(0, this.vScroll.Maximum);
-        }
-
-        private void Splits_DesiresOffset(object sender, DesiresOffsetEventArgs e)
-        {
-            this.vScroll.Value = -e.DesiredOffset.Y;
-        }
-
         private void Splits_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.transactionEditor.SetSplit(this.splitsView.SelectedSplit);
             this.transactionIsNew = false;
-        }
-
-        public void NewTransaction()
-        {
-            var transaction = new Transaction(Guid.NewGuid(), this.book.Securities.First());
-            transaction.Date = DateTime.Today.ToUniversalTime();
-            var split1 = transaction.AddSplit();
-            var split2 = transaction.AddSplit();
-
-            split1.Account = this.account;
-            split1.Security = transaction.BaseSecurity;
-            split2.Security = transaction.BaseSecurity;
-
-            this.transactionEditor.SetSplit(transaction.Splits[0]);
-            this.transactionIsNew = true;
         }
 
         private void transactionEditor_TransactionUpdated(object sender, TransactionUpdatedEventArgs e)
@@ -118,6 +109,11 @@ namespace SharpBooks.UI
             {
                 this.TransactionUpdated.SafeInvoke(this, e);
             }
+        }
+
+        private void VScroll_ValueChanged(object sender, EventArgs e)
+        {
+            this.splitsView.Offset = new Point(0, -this.vScroll.Value);
         }
     }
 }

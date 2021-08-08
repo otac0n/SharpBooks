@@ -8,14 +8,11 @@
 namespace SharpBooks.UI
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class TransactionUpdatedEventArgs : EventArgs
     {
-        private readonly Transaction oldTransaction;
         private readonly Transaction newTransaction;
+        private readonly Transaction oldTransaction;
 
         public TransactionUpdatedEventArgs(Transaction oldTransaction, Transaction newTransaction)
         {
@@ -33,14 +30,14 @@ namespace SharpBooks.UI
             this.newTransaction = newTransaction;
         }
 
-        public Transaction OldTransaction
-        {
-            get { return this.oldTransaction; }
-        }
-
         public Transaction NewTransaction
         {
             get { return this.newTransaction; }
+        }
+
+        public Transaction OldTransaction
+        {
+            get { return this.oldTransaction; }
         }
     }
 }

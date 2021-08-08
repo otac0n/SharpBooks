@@ -7,7 +7,6 @@
 
 namespace SharpBooks.StandardPlugins
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
 
@@ -22,13 +21,13 @@ namespace SharpBooks.StandardPlugins
             this.AccountPaths = new List<string>();
         }
 
-        public string PathSeperator
+        public List<string> AccountPaths
         {
             get;
             set;
         }
 
-        public List<string> AccountPaths
+        public string PathSeperator
         {
             get;
             set;

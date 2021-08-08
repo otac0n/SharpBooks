@@ -9,8 +9,6 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Collections;
 
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
@@ -27,29 +25,19 @@ namespace SharpBooks
             this.dictionary = dictionary;
         }
 
-        public void Add(TKey key, TValue value)
+        public int Count
         {
-            throw new NotSupportedException();
+            get { return this.dictionary.Count; }
         }
 
-        public bool ContainsKey(TKey key)
+        public bool IsReadOnly
         {
-            return this.dictionary.ContainsKey(key);
+            get { return true; }
         }
 
         public ICollection<TKey> Keys
         {
             get { return this.dictionary.Keys; }
-        }
-
-        public bool Remove(TKey key)
-        {
-            throw new NotSupportedException();
-        }
-
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            return this.dictionary.TryGetValue(key, out value);
         }
 
         public ICollection<TValue> Values
@@ -62,6 +50,11 @@ namespace SharpBooks
             get { return this.dictionary[key]; }
 
             set { throw new NotSupportedException(); }
+        }
+
+        public void Add(TKey key, TValue value)
+        {
+            throw new NotSupportedException();
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -79,24 +72,14 @@ namespace SharpBooks
             return this.dictionary.Contains(item);
         }
 
+        public bool ContainsKey(TKey key)
+        {
+            return this.dictionary.ContainsKey(key);
+        }
+
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             this.dictionary.CopyTo(array, arrayIndex);
-        }
-
-        public int Count
-        {
-            get { return this.dictionary.Count; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotSupportedException();
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -107,6 +90,21 @@ namespace SharpBooks
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)this.dictionary).GetEnumerator();
+        }
+
+        public bool Remove(TKey key)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return this.dictionary.TryGetValue(key, out value);
         }
     }
 }

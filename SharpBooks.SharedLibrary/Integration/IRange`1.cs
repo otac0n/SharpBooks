@@ -11,13 +11,13 @@ namespace SharpBooks.Integration
 
     public interface IRange<T> where T : IComparable<T>
     {
-        T Start { get; }
-
-        bool StartInclusive { get; }
-
         T End { get; }
 
         bool EndInclusive { get; }
+
+        T Start { get; }
+
+        bool StartInclusive { get; }
 
         IRange<T> Clone(T start, bool startInclusive, T end, bool endInclusive);
     }

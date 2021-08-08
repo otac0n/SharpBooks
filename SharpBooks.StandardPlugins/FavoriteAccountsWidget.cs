@@ -59,6 +59,14 @@ namespace SharpBooks.StandardPlugins
             return this.control;
         }
 
+        public void Dispose()
+        {
+            if (this.control != null)
+            {
+                this.control = null;
+            }
+        }
+
         public void Refresh(ReadOnlyBook book, EventProxy events)
         {
             if (this.control == null)
@@ -72,12 +80,14 @@ namespace SharpBooks.StandardPlugins
             this.PopulateControl(book);
         }
 
-        public void Dispose()
+        private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (this.control != null)
+            var args = new AccountSelectedEventArgs
             {
-                this.control = null;
-            }
+                AccountId = (Guid)((Control)sender).Tag,
+            };
+
+            this.events.RaiseAccountSelected(sender, args);
         }
 
         private void PopulateControl(ReadOnlyBook book)
@@ -133,25 +143,15 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
-        private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            var args = new AccountSelectedEventArgs
-            {
-                AccountId = (Guid)((Control)sender).Tag,
-            };
-
-            this.events.RaiseAccountSelected(sender, args);
-        }
-
         private class Settings
         {
-            public char PathSeperator
+            public List<string> Accounts
             {
                 get;
                 set;
             }
 
-            public List<string> Accounts
+            public char PathSeperator
             {
                 get;
                 set;

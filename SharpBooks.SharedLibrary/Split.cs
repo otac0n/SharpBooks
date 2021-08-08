@@ -21,9 +21,14 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Gets the transaction to which the split belongs.
+        /// Gets the account to which the split belongs.
         /// </summary>
-        public Transaction Transaction { get; set; }
+        public Account Account { get; set; }
+
+        /// <summary>
+        /// Gets the amount by which the split affects its account.
+        /// </summary>
+        public long Amount { get; set; }
 
         /// <summary>
         /// Gets the date and time at which the split cleared its account.
@@ -31,6 +36,7 @@ namespace SharpBooks
         public DateTime? DateCleared
         {
             get => this.dateCleared;
+
             set
             {
                 if (value.HasValue && value.Value.Kind != DateTimeKind.Utc)
@@ -46,26 +52,6 @@ namespace SharpBooks
         /// Gets a value indicating whether the split has been reconciled against its account.
         /// </summary>
         public bool IsReconciled { get; set; }
-
-        /// <summary>
-        /// Gets the account to which the split belongs.
-        /// </summary>
-        public Account Account { get; set; }
-
-        /// <summary>
-        /// Gets the security of which the split is made up.
-        /// </summary>
-        public Security Security { get; set; }
-
-        /// <summary>
-        /// Gets the amount by which the split affects its account.
-        /// </summary>
-        public long Amount { get; set; }
-
-        /// <summary>
-        /// Gets the amount by which the split affects its transaction.
-        /// </summary>
-        public long TransactionAmount { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether or not the split is currently considered valid.
@@ -117,5 +103,20 @@ namespace SharpBooks
                 yield break;
             }
         }
+
+        /// <summary>
+        /// Gets the security of which the split is made up.
+        /// </summary>
+        public Security Security { get; set; }
+
+        /// <summary>
+        /// Gets the transaction to which the split belongs.
+        /// </summary>
+        public Transaction Transaction { get; set; }
+
+        /// <summary>
+        /// Gets the amount by which the split affects its transaction.
+        /// </summary>
+        public long TransactionAmount { get; set; }
     }
 }

@@ -66,13 +66,13 @@ namespace SharpBooks.StandardPlugins
 
         public class AccountView
         {
-            public string Name
+            public bool Favorite
             {
                 get;
                 set;
             }
 
-            public bool Favorite
+            public string Name
             {
                 get;
                 set;

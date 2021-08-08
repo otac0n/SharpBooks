@@ -37,13 +37,13 @@ namespace SharpBooks.Scheduling
             set;
         }
 
-        private WeekdayAdjustmentDirection SundayAdjustment
+        private WeekdayAdjustmentDirection SaturdayAdjustment
         {
             get;
             set;
         }
 
-        private WeekdayAdjustmentDirection SaturdayAdjustment
+        private WeekdayAdjustmentDirection SundayAdjustment
         {
             get;
             set;

@@ -11,9 +11,9 @@ namespace SharpBooks
 
     public sealed class Balance
     {
-        private readonly Security security;
         private readonly long amount;
         private readonly bool isExact;
+        private readonly Security security;
 
         public Balance(Security security, long amount, bool isExact)
         {
@@ -25,14 +25,6 @@ namespace SharpBooks
             this.security = security;
             this.amount = amount;
             this.isExact = isExact;
-        }
-
-        public Security Security
-        {
-            get
-            {
-                return this.security;
-            }
         }
 
         public long Amount
@@ -48,6 +40,14 @@ namespace SharpBooks
             get
             {
                 return this.isExact;
+            }
+        }
+
+        public Security Security
+        {
+            get
+            {
+                return this.security;
             }
         }
 

@@ -16,12 +16,11 @@ namespace SharpBooks.UI
     public partial class TransactionEditor : UserControl
     {
         private ReadOnlyBook book;
-        private Split split;
-        private Split otherSplit;
-        private Transaction transaction;
         private Transaction originalTransaction;
-
+        private Split otherSplit;
+        private Split split;
         private bool suppressUpdates;
+        private Transaction transaction;
 
         public TransactionEditor()
         {
@@ -64,6 +63,62 @@ namespace SharpBooks.UI
             ResetControls();
         }
 
+        private void accountComboBox_Validated(object sender, EventArgs e)
+        {
+            this.otherSplit.Account = (Account)this.accountComboBox.SelectedItem;
+            ResetControls();
+        }
+
+        private void accountComboBox_Validating(object sender, CancelEventArgs e)
+        {
+            this.errorProvider.SetError(this.accountComboBox, null);
+
+            if (this.accountComboBox.SelectedItem == null &&
+                !string.IsNullOrEmpty(this.accountComboBox.Text))
+            {
+                var match = this.accountComboBox.Items.Cast<Account>().Where(a => a.ToString() == this.accountComboBox.Text).FirstOrDefault();
+                if (match != null)
+                {
+                    this.accountComboBox.SelectedItem = match;
+                }
+                else
+                {
+                    this.errorProvider.SetError(this.accountComboBox, "You must choose an account from the list.");
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void amountBox_Validated(object sender, EventArgs e)
+        {
+            var total = this.split.Security.ParseValue(this.depositTextBox.Text) - this.split.Security.ParseValue(this.withdrawalTextBox.Text);
+
+            this.split.TransactionAmount = this.split.Amount = total;
+            this.otherSplit.TransactionAmount = this.otherSplit.Amount = -total;
+
+            ResetControls();
+        }
+
+        private void amountBox_Validating(object sender, CancelEventArgs e)
+        {
+            var box = (TextBox)sender;
+
+            long value;
+            if (!this.split.Security.TryParseValue(box.Text, out value))
+            {
+                this.errorProvider.SetError(box, "You must enter a valid amount in " + this.split.Security.Name + ".");
+                e.Cancel = true;
+            }
+        }
+
+        private void clearDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (!this.suppressUpdates)
+            {
+                this.split.DateCleared = this.clearDatePicker.Checked ? this.clearDatePicker.Value.ToUniversalTime() : (DateTime?)null;
+            }
+        }
+
         private void ResetControls()
         {
             this.suppressUpdates = true;
@@ -102,75 +157,6 @@ namespace SharpBooks.UI
             this.suppressUpdates = false;
         }
 
-        private void textBox_Enter(object sender, EventArgs e)
-        {
-            ((TextBox)sender).SelectAll();
-        }
-
-        private void transactionDatePicker_ValueChanged(object sender, EventArgs e)
-        {
-            if (!this.suppressUpdates)
-            {
-                this.transaction.Date = this.transactionDatePicker.Value.ToUniversalTime();
-            }
-        }
-
-        private void clearDatePicker_ValueChanged(object sender, EventArgs e)
-        {
-            if (!this.suppressUpdates)
-            {
-                this.split.DateCleared = this.clearDatePicker.Checked ? this.clearDatePicker.Value.ToUniversalTime() : (DateTime?)null;
-            }
-        }
-
-        private void amountBox_Validating(object sender, CancelEventArgs e)
-        {
-            var box = (TextBox)sender;
-
-            long value;
-            if (!this.split.Security.TryParseValue(box.Text, out value))
-            {
-                this.errorProvider.SetError(box, "You must enter a valid amount in " + this.split.Security.Name + ".");
-                e.Cancel = true;
-            }
-        }
-
-        private void amountBox_Validated(object sender, EventArgs e)
-        {
-            var total = this.split.Security.ParseValue(this.depositTextBox.Text) - this.split.Security.ParseValue(this.withdrawalTextBox.Text);
-
-            this.split.TransactionAmount = this.split.Amount = total;
-            this.otherSplit.TransactionAmount = this.otherSplit.Amount = -total;
-
-            ResetControls();
-        }
-
-        private void accountComboBox_Validating(object sender, CancelEventArgs e)
-        {
-            this.errorProvider.SetError(this.accountComboBox, null);
-
-            if (this.accountComboBox.SelectedItem == null &&
-                !string.IsNullOrEmpty(this.accountComboBox.Text))
-            {
-                var match = this.accountComboBox.Items.Cast<Account>().Where(a => a.ToString() == this.accountComboBox.Text).FirstOrDefault();
-                if (match != null)
-                {
-                    this.accountComboBox.SelectedItem = match;
-                }
-                else
-                {
-                    this.errorProvider.SetError(this.accountComboBox, "You must choose an account from the list.");
-                    e.Cancel = true;
-                }
-            }
-        }
-
-        private void accountComboBox_Validated(object sender, EventArgs e)
-        {
-            this.otherSplit.Account = (Account)this.accountComboBox.SelectedItem;
-            ResetControls();
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             var errors = this.transaction.RuleViolations.ToList();
@@ -186,6 +172,19 @@ namespace SharpBooks.UI
 
                 this.SetSplit(null);
                 this.TransactionUpdated.SafeInvoke(this, new TransactionUpdatedEventArgs(oldTransaction, newTransaction));
+            }
+        }
+
+        private void textBox_Enter(object sender, EventArgs e)
+        {
+            ((TextBox)sender).SelectAll();
+        }
+
+        private void transactionDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            if (!this.suppressUpdates)
+            {
+                this.transaction.Date = this.transactionDatePicker.Value.ToUniversalTime();
             }
         }
     }

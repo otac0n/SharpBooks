@@ -30,7 +30,7 @@ namespace SharpBooks
             this.Source = priceQuote.Source;
         }
 
-        public Guid PriceQuoteId
+        public Guid CurrencySecurityId
         {
             get;
             private set;
@@ -42,7 +42,13 @@ namespace SharpBooks
             private set;
         }
 
-        public Guid SecuritySecurityId
+        public long Price
+        {
+            get;
+            private set;
+        }
+
+        public Guid PriceQuoteId
         {
             get;
             private set;
@@ -54,13 +60,7 @@ namespace SharpBooks
             private set;
         }
 
-        public Guid CurrencySecurityId
-        {
-            get;
-            private set;
-        }
-
-        public long Price
+        public Guid SecuritySecurityId
         {
             get;
             private set;

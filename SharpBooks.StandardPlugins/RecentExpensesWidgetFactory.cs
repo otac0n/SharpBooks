@@ -7,7 +7,6 @@
 
 namespace SharpBooks.StandardPlugins
 {
-    using System;
     using SharpBooks.Plugins;
 
     internal class RecentExpensesWidgetFactory : IWidgetFactory
@@ -20,17 +19,17 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
-        public IWidget CreateInstance(ReadOnlyBook book, string settings)
-        {
-            return new RecentExpensesWidget(settings);
-        }
-
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
             ////var view = new RecentExpensesConfiguration();
             ////currentSettings = view.GetSettings(book, currentSettings);
 
             return currentSettings;
+        }
+
+        public IWidget CreateInstance(ReadOnlyBook book, string settings)
+        {
+            return new RecentExpensesWidget(settings);
         }
     }
 }

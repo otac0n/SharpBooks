@@ -10,7 +10,6 @@ namespace SharpBooks
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
 
     public class ReadOnlyCollectionWrapper<T> : ICollection<T>, IEnumerable<T>, IEnumerable
     {
@@ -36,16 +35,6 @@ namespace SharpBooks
             get { return true; }
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return this.collection.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)this.collection).GetEnumerator();
-        }
-
         public void Add(T item)
         {
             throw new InvalidOperationException();
@@ -64,6 +53,16 @@ namespace SharpBooks
         public void CopyTo(T[] array, int arrayIndex)
         {
             this.collection.CopyTo(array, arrayIndex);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this.collection.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)this.collection).GetEnumerator();
         }
 
         public bool Remove(T item)

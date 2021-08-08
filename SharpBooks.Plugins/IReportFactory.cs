@@ -9,8 +9,8 @@ namespace SharpBooks.Plugins
 {
     public interface IReportFactory : IPluginFactory
     {
-        IReport CreateInstance(ReadOnlyBook book, string settings);
-
         string Configure(ReadOnlyBook book, string currentSettings);
+
+        IReport CreateInstance(ReadOnlyBook book, string settings);
     }
 }

@@ -40,6 +40,64 @@ namespace SharpBooks
             }
         }
 
+        private static void AddBookAccounts(TreeNode node, Book book, Account parent)
+        {
+            if (node.Checked)
+            {
+                var account = new Account(Guid.NewGuid(), (AccountType)node.Tag, null, parent, node.Text, null);
+                book.AddAccount(account);
+
+                foreach (TreeNode child in node.Nodes)
+                {
+                    AddBookAccounts(child, book, account);
+                }
+            }
+        }
+
+        private static XDocument LoadResourceDocument(string resourceName)
+        {
+            using (var accountStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SharpBooks.Resources." + resourceName))
+            {
+                return XDocument.Load(accountStream);
+            }
+        }
+
+        private void AccountsTree_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            var ck = e.Node.Checked;
+
+            SetNodeChildrenChecked(e.Node, ck);
+        }
+
+        private TreeNode[] GetTreeNodes(XElement element)
+        {
+            var nodes = new List<TreeNode>();
+
+            foreach (var a in element.Elements("Account"))
+            {
+                var type = AccountType.Balance;
+
+                var groupOnlyAttr = a.Attribute("groupOnly");
+                if (groupOnlyAttr != null && (bool)groupOnlyAttr)
+                {
+                    type = AccountType.Grouping;
+                }
+
+                var node = new TreeNode
+                {
+                    Checked = true,
+                    Text = (string)a.Attribute("name"),
+                    Tag = type,
+                };
+
+                node.Nodes.AddRange(GetTreeNodes(a));
+
+                nodes.Add(node);
+            }
+
+            return nodes.ToArray();
+        }
+
         private void LoadCurrencies()
         {
             var doc = LoadResourceDocument("ISO4217.xml");
@@ -72,81 +130,12 @@ namespace SharpBooks
             this.currencyList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
-        private void SetDefaultCurrency()
-        {
-            var currentUIRegionInfo = new RegionInfo(CultureInfo.CurrentUICulture.LCID);
-            var localCurrencySymbol = currentUIRegionInfo.ISOCurrencySymbol;
-
-            var localCurrencyRow = (from ListViewItem item in this.currencyList.Items
-                                    where ((Security)item.Tag).Symbol == localCurrencySymbol
-                                    select item).FirstOrDefault();
-
-            if (localCurrencyRow != null)
-            {
-                localCurrencyRow.Checked = true;
-                localCurrencyRow.EnsureVisible();
-            }
-        }
-
         private void LoadDefaultAccounts()
         {
             var doc = LoadResourceDocument("NewBookAccounts.xml");
 
             this.accountsTree.Nodes.AddRange(GetTreeNodes(doc.Element("Accounts")));
             this.accountsTree.ExpandAll();
-        }
-
-        private static XDocument LoadResourceDocument(string resourceName)
-        {
-            using (var accountStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SharpBooks.Resources." + resourceName))
-            {
-                return XDocument.Load(accountStream);
-            }
-        }
-
-        private TreeNode[] GetTreeNodes(XElement element)
-        {
-            var nodes = new List<TreeNode>();
-
-            foreach (var a in element.Elements("Account"))
-            {
-                var type = AccountType.Balance;
-
-                var groupOnlyAttr = a.Attribute("groupOnly");
-                if (groupOnlyAttr != null && (bool)groupOnlyAttr)
-                {
-                    type = AccountType.Grouping;
-                }
-
-                var node = new TreeNode
-                {
-                    Checked = true,
-                    Text = (string)a.Attribute("name"),
-                    Tag = type,
-                };
-
-                node.Nodes.AddRange(GetTreeNodes(a));
-
-                nodes.Add(node);
-            }
-
-            return nodes.ToArray();
-        }
-
-        private void AccountsTree_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            var ck = e.Node.Checked;
-
-            SetNodeChildrenChecked(e.Node, ck);
-        }
-
-        private void SetNodeChildrenChecked(TreeNode treeNode, bool ck)
-        {
-            foreach (TreeNode child in treeNode.Nodes)
-            {
-                child.Checked = ck;
-                SetNodeChildrenChecked(child, ck);
-            }
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -170,17 +159,28 @@ namespace SharpBooks
             this.newBook = book;
         }
 
-        private static void AddBookAccounts(TreeNode node, Book book, Account parent)
+        private void SetDefaultCurrency()
         {
-            if (node.Checked)
-            {
-                var account = new Account(Guid.NewGuid(), (AccountType)node.Tag, null, parent, node.Text, null);
-                book.AddAccount(account);
+            var currentUIRegionInfo = new RegionInfo(CultureInfo.CurrentUICulture.LCID);
+            var localCurrencySymbol = currentUIRegionInfo.ISOCurrencySymbol;
 
-                foreach (TreeNode child in node.Nodes)
-                {
-                    AddBookAccounts(child, book, account);
-                }
+            var localCurrencyRow = (from ListViewItem item in this.currencyList.Items
+                                    where ((Security)item.Tag).Symbol == localCurrencySymbol
+                                    select item).FirstOrDefault();
+
+            if (localCurrencyRow != null)
+            {
+                localCurrencyRow.Checked = true;
+                localCurrencyRow.EnsureVisible();
+            }
+        }
+
+        private void SetNodeChildrenChecked(TreeNode treeNode, bool ck)
+        {
+            foreach (TreeNode child in treeNode.Nodes)
+            {
+                child.Checked = ck;
+                SetNodeChildrenChecked(child, ck);
             }
         }
     }

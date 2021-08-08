@@ -16,10 +16,10 @@ namespace SharpBooks.Controllers
 
     public class MainController
     {
-        private IList<IPluginFactory> plugins;
-        private Book book;
         private Account activeAccount;
+        private Book book;
         private PersistenceMethod currentSaveMethod;
+        private IList<IPluginFactory> plugins;
 
         public MainController()
         {
@@ -29,16 +29,6 @@ namespace SharpBooks.Controllers
         public event EventHandler<EventArgs> ActiveAccountChanged;
 
         public event EventHandler<EventArgs> BookChanged;
-
-        public ReadOnlyBook Book
-        {
-            get
-            {
-                return this.book == null
-                    ? null
-                    : this.book.AsReadOnly();
-            }
-        }
 
         public Account ActiveAccount
         {
@@ -58,49 +48,19 @@ namespace SharpBooks.Controllers
             }
         }
 
-        private void SetBook(Book book)
+        public ReadOnlyBook Book
         {
-            if (book != this.book)
+            get
             {
-                this.ActiveAccount = null;
-
-                this.book = book;
-                this.BookChanged.SafeInvoke(this, () => new EventArgs());
+                return this.book == null
+                    ? null
+                    : this.book.AsReadOnly();
             }
         }
 
-        private static IList<IPluginFactory> LoadAllPlugins()
+        public void AddAccount(Account account)
         {
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-
-            if (assembly != null)
-            {
-                var appPath = Path.GetDirectoryName(assembly.Location);
-
-                return PluginLoader.LoadAllPlugins(appPath);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private void AccountSelected(object sender, AccountSelectedEventArgs e)
-        {
-            this.ActiveAccount = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).SingleOrDefault();
-        }
-
-        private void AccountDeselected(object sender, EventArgs e)
-        {
-            this.ActiveAccount = null;
-        }
-
-        private IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
-        {
-            return (from p in this.plugins
-                    let ps = p as IPersistenceStrategyFactory
-                    where ps != null
-                    select ps).ToList();
+            this.book.AddAccount(account);
         }
 
         ////public Overview GetOverview()
@@ -241,29 +201,52 @@ namespace SharpBooks.Controllers
         ////        public bool IsExpanded { get; set; }
         ////    }
         ////}
-
-        public void AddAccount(Account account)
-        {
-            this.book.AddAccount(account);
-        }
-
         public void AddTransaction(Transaction transaction)
         {
             this.book.AddTransaction(transaction);
         }
 
-        public void UpdateTransaction(Transaction oldTransaction, Transaction newTransaction)
+        public bool Close()
         {
-            this.book.ReplaceTransaction(oldTransaction, newTransaction);
+            if (this.book != null) // TODO: If the book has unsaved changes.
+            {
+                var result = MessageBox.Show("Save changes to your current book?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Cancel)
+                {
+                    return false;
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    var success = this.Save(forceSaveAs: false);
+
+                    if (!success)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            this.currentSaveMethod = null;
+            this.SetBook(null);
+            return true;
         }
 
-        public void Run()
+        public void DeleteAccount(Guid accountId)
         {
-            var view = new MainView(this);
-            view.AccountSelected += AccountSelected;
-            view.AccountDeselected += AccountDeselected;
+            var account = this.book.Accounts.Where(a => a.AccountId == accountId).Single();
+            var existingSplits = this.book.GetAccountSplits(account).ToList();
+            var childAccounts = this.book.Accounts.Where(a => a.ParentAccount == account).ToList();
 
-            Application.Run(view);
+            if (existingSplits.Count == 0 && childAccounts.Count == 0)
+            {
+                this.book.RemoveAccount(account);
+            }
+            else
+            {
+                // TODO: Display a dialog indicating that there are splits or child accounts in this account.  Should they be moved to another account? Should we HIDE the account instead? Should we cancel?
+                MessageBox.Show("Not supported.");
+            }
         }
 
         public void New()
@@ -279,6 +262,29 @@ namespace SharpBooks.Controllers
                 }
 
                 this.SetBook(wizard.NewBook);
+            }
+        }
+
+        public void NewAccount(Guid? parentAccountId)
+        {
+            var parent = parentAccountId.HasValue ? this.book.Accounts.Where(a => a.AccountId == parentAccountId.Value).Single() : null;
+            var newAccount = new Account(
+                Guid.NewGuid(),
+                AccountType.Balance,
+                parent == null ? null : parent.Security,
+                parent,
+                "New Account",
+                parent == null ? null : parent.SmallestFraction);
+
+            using (var editor = new EditAccountView(this, newAccount))
+            {
+                var result = editor.ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    return;
+                }
+
+                this.book.AddAccount(editor.NewAccount);
             }
         }
 
@@ -332,30 +338,13 @@ namespace SharpBooks.Controllers
             }
         }
 
-        public bool Close()
+        public void Run()
         {
-            if (this.book != null) // TODO: If the book has unsaved changes.
-            {
-                var result = MessageBox.Show("Save changes to your current book?", "Unsaved Changes", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            var view = new MainView(this);
+            view.AccountSelected += AccountSelected;
+            view.AccountDeselected += AccountDeselected;
 
-                if (result == DialogResult.Cancel)
-                {
-                    return false;
-                }
-                else if (result == DialogResult.Yes)
-                {
-                    var success = this.Save(forceSaveAs: false);
-
-                    if (!success)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            this.currentSaveMethod = null;
-            this.SetBook(null);
-            return true;
+            Application.Run(view);
         }
 
         public bool Save(bool forceSaveAs)
@@ -413,43 +402,53 @@ namespace SharpBooks.Controllers
             }
         }
 
-        public void NewAccount(Guid? parentAccountId)
+        public void UpdateTransaction(Transaction oldTransaction, Transaction newTransaction)
         {
-            var parent = parentAccountId.HasValue ? this.book.Accounts.Where(a => a.AccountId == parentAccountId.Value).Single() : null;
-            var newAccount = new Account(
-                Guid.NewGuid(),
-                AccountType.Balance,
-                parent == null ? null : parent.Security,
-                parent,
-                "New Account",
-                parent == null ? null : parent.SmallestFraction);
-
-            using (var editor = new EditAccountView(this, newAccount))
-            {
-                var result = editor.ShowDialog();
-                if (result == DialogResult.Cancel)
-                {
-                    return;
-                }
-
-                this.book.AddAccount(editor.NewAccount);
-            }
+            this.book.ReplaceTransaction(oldTransaction, newTransaction);
         }
 
-        public void DeleteAccount(Guid accountId)
+        private static IList<IPluginFactory> LoadAllPlugins()
         {
-            var account = this.book.Accounts.Where(a => a.AccountId == accountId).Single();
-            var existingSplits = this.book.GetAccountSplits(account).ToList();
-            var childAccounts = this.book.Accounts.Where(a => a.ParentAccount == account).ToList();
+            var assembly = System.Reflection.Assembly.GetEntryAssembly();
 
-            if (existingSplits.Count == 0 && childAccounts.Count == 0)
+            if (assembly != null)
             {
-                this.book.RemoveAccount(account);
+                var appPath = Path.GetDirectoryName(assembly.Location);
+
+                return PluginLoader.LoadAllPlugins(appPath);
             }
             else
             {
-                // TODO: Display a dialog indicating that there are splits or child accounts in this account.  Should they be moved to another account? Should we HIDE the account instead? Should we cancel?
-                MessageBox.Show("Not supported.");
+                return null;
+            }
+        }
+
+        private void AccountDeselected(object sender, EventArgs e)
+        {
+            this.ActiveAccount = null;
+        }
+
+        private void AccountSelected(object sender, AccountSelectedEventArgs e)
+        {
+            this.ActiveAccount = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).SingleOrDefault();
+        }
+
+        private IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
+        {
+            return (from p in this.plugins
+                    let ps = p as IPersistenceStrategyFactory
+                    where ps != null
+                    select ps).ToList();
+        }
+
+        private void SetBook(Book book)
+        {
+            if (book != this.book)
+            {
+                this.ActiveAccount = null;
+
+                this.book = book;
+                this.BookChanged.SafeInvoke(this, () => new EventArgs());
             }
         }
     }

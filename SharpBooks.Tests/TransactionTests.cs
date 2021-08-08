@@ -14,27 +14,20 @@ namespace SharpBooks.Tests
     public class TransactionTests
     {
         [Test]
-        public void Constructor_WithValidParameters_Succeeds()
+        public void AddSplit_WhenValueIsValid_Succeeds()
         {
-            // Construct a new transaction with known good values.
-            new Transaction(
-                Guid.NewGuid(), // OK
-                TestUtils.TestCurrency); // OK
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
 
-            // The test passes, because the constructor has completed successfully.
-            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
-        }
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
 
-        [Test]
-        public void Constructor_WhenTransactionIdIsEmpty_ThrowsException()
-        {
-            // Build a delegate to construct a new transaction.
-            TestDelegate constructTransaction = () => new Transaction(
-                Guid.Empty,
-                TestUtils.TestCurrency); // OK
+            var split = transaction.AddSplit();
+            split.Account = account;
+            split.Security = account.Security;
 
-            // Assert that calling the delegate throws an ArgumentOutOfRangeException.
-            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            // Assert that the AddSplit function successfully created a split.
+            Assert.That(split.Transaction, Is.EqualTo(transaction));
         }
 
         [Test]
@@ -50,6 +43,60 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void Constructor_WhenTransactionIdIsEmpty_ThrowsException()
+        {
+            // Build a delegate to construct a new transaction.
+            TestDelegate constructTransaction = () => new Transaction(
+                Guid.Empty,
+                TestUtils.TestCurrency); // OK
+
+            // Assert that calling the delegate throws an ArgumentOutOfRangeException.
+            Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public void Constructor_WithValidParameters_Succeeds()
+        {
+            // Construct a new transaction with known good values.
+            new Transaction(
+                Guid.NewGuid(), // OK
+                TestUtils.TestCurrency); // OK
+
+            // The test passes, because the constructor has completed successfully.
+            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
+        }
+
+        [Test]
+        public void Copy_WithTransactionInAnyState_CopiesTheTransaction()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add a split.
+            var split = transaction.AddSplit();
+            split.Account = account;
+            split.Security = account.Security;
+            split.Amount = 1000;
+            split.TransactionAmount = 100;
+            split.IsReconciled = true;
+            split.DateCleared = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+
+            var copy = transaction.Copy();
+
+            Assert.That(transaction.BaseSecurity, Is.EqualTo(copy.BaseSecurity));
+            Assert.That(transaction.TransactionId, Is.EqualTo(copy.TransactionId));
+            Assert.That(transaction.Splits[0].Account, Is.EqualTo(copy.Splits[0].Account));
+            Assert.That(transaction.Splits[0].Amount, Is.EqualTo(copy.Splits[0].Amount));
+            Assert.That(transaction.Splits[0].DateCleared, Is.EqualTo(copy.Splits[0].DateCleared));
+            Assert.That(transaction.Splits[0].IsReconciled, Is.EqualTo(copy.Splits[0].IsReconciled));
+            Assert.That(transaction.Splits[0].Security, Is.EqualTo(copy.Splits[0].Security));
+            Assert.That(transaction.Splits[0].TransactionAmount, Is.EqualTo(copy.Splits[0].TransactionAmount));
+        }
+
+        [Test]
         public void GetIsValid_WithInvalidSplit_ReturnsFalse()
         {
             // Create a new, empty transaction.
@@ -61,47 +108,6 @@ namespace SharpBooks.Tests
 
             // Assert that the transaction is invalid with an invalid split.
             Assert.That(transaction.IsValid, Is.False);
-        }
-
-        [Test]
-        public void SetDate_WhenValueIsValid_Succeeds()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Set the date of the transaction.
-            transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
-
-            // Assert that the Date property reflects the new value.
-            Assert.That(transaction.Date, Is.EqualTo(DateTime.MaxValue));
-        }
-
-        [Test]
-        [TestCase(DateTimeKind.Local)]
-        [TestCase(DateTimeKind.Unspecified)]
-        public void SetDate_WithNonUTCDate_ThrowsException(DateTimeKind kind)
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            Assert.That(() => transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, kind), Throws.InstanceOf<ArgumentOutOfRangeException>());
-        }
-
-        [Test]
-        public void AddSplit_WhenValueIsValid_Succeeds()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            var split = transaction.AddSplit();
-            split.Account = account;
-            split.Security = account.Security;
-
-            // Assert that the AddSplit function successfully created a split.
-            Assert.That(split.Transaction, Is.EqualTo(transaction));
         }
 
         [Test]
@@ -153,33 +159,27 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void Copy_WithTransactionInAnyState_CopiesTheTransaction()
+        public void SetDate_WhenValueIsValid_Succeeds()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
 
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
+            // Set the date of the transaction.
+            transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc);
 
-            // Add a split.
-            var split = transaction.AddSplit();
-            split.Account = account;
-            split.Security = account.Security;
-            split.Amount = 1000;
-            split.TransactionAmount = 100;
-            split.IsReconciled = true;
-            split.DateCleared = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+            // Assert that the Date property reflects the new value.
+            Assert.That(transaction.Date, Is.EqualTo(DateTime.MaxValue));
+        }
 
-            var copy = transaction.Copy();
+        [Test]
+        [TestCase(DateTimeKind.Local)]
+        [TestCase(DateTimeKind.Unspecified)]
+        public void SetDate_WithNonUTCDate_ThrowsException(DateTimeKind kind)
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
 
-            Assert.That(transaction.BaseSecurity, Is.EqualTo(copy.BaseSecurity));
-            Assert.That(transaction.TransactionId, Is.EqualTo(copy.TransactionId));
-            Assert.That(transaction.Splits[0].Account, Is.EqualTo(copy.Splits[0].Account));
-            Assert.That(transaction.Splits[0].Amount, Is.EqualTo(copy.Splits[0].Amount));
-            Assert.That(transaction.Splits[0].DateCleared, Is.EqualTo(copy.Splits[0].DateCleared));
-            Assert.That(transaction.Splits[0].IsReconciled, Is.EqualTo(copy.Splits[0].IsReconciled));
-            Assert.That(transaction.Splits[0].Security, Is.EqualTo(copy.Splits[0].Security));
-            Assert.That(transaction.Splits[0].TransactionAmount, Is.EqualTo(copy.Splits[0].TransactionAmount));
+            Assert.That(() => transaction.Date = DateTime.SpecifyKind(DateTime.MaxValue, kind), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
     }
 }

@@ -25,27 +25,6 @@ namespace SharpBooks.Tests
             1);
 
         [Test]
-        public void GetIsValid_WhenAmountAndTransactionAmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
-
-            // Add a split to the transaction.
-            var split = transaction.AddSplit();
-            split.Account = account;
-            split.Security = account.Security;
-
-            // Set the amount and transaction amount to be different.
-            split.Amount = 1;
-            split.TransactionAmount = 2;
-
-            Assert.False(split.IsValid);
-        }
-
-        [Test]
         public void GetIsValid_WhenAccountIsGroupingAccount_ReturnsFalse()
         {
             // Create a new, empty transaction.
@@ -70,6 +49,87 @@ namespace SharpBooks.Tests
         }
 
         [Test]
+        public void GetIsValid_WhenAccountIsNull_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Add a split to the transaction.
+            var split = transaction.AddSplit();
+
+            // Assert that the split is invalid without assigning an account.
+            Assert.False(split.IsValid);
+        }
+
+        [Test]
+        public void GetIsValid_WhenAccountSecurityAndSecuirtyAreNull_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new account with a null security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // Add a split to the transaction.
+            var split = transaction.AddSplit();
+            split.Account = account;
+
+            // Assert that the split is invalid without assigning a security, regardless of whether the account's security is null.
+            Assert.False(split.IsValid);
+        }
+
+        [Test]
+        public void GetIsValid_WhenAccountSecurityIsNullButSecuirtyIsNotNull_ReturnsTrue()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new account with a null security.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
+                null, // OK
+                null, // OK
+                "OK_NAME",
+                null); // OK
+
+            // Add a split to the transaction.
+            var split = transaction.AddSplit();
+            split.Account = account;
+            split.Security = noCurrency;
+
+            // Assert that the split is invalid without assigning an account.
+            Assert.True(split.IsValid);
+        }
+
+        [Test]
+        public void GetIsValid_WhenAmountAndTransactionAmountDifferButSecurityIsTheSameAsTheTransactionBaseSecurity_ReturnsFalse()
+        {
+            // Create a new, empty transaction.
+            var transaction = TestUtils.CreateEmptyTransaction();
+
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
+
+            // Add a split to the transaction.
+            var split = transaction.AddSplit();
+            split.Account = account;
+            split.Security = account.Security;
+
+            // Set the amount and transaction amount to be different.
+            split.Amount = 1;
+            split.TransactionAmount = 2;
+
+            Assert.False(split.IsValid);
+        }
+
+        [Test]
         public void GetIsValid_WhenAmountAndTransactionAmountSignsDiffer_ReturnsFalse()
         {
             // Create a new, empty transaction.
@@ -85,36 +145,6 @@ namespace SharpBooks.Tests
 
             // Set the amount and transaction amount to have different signs.
             split.Amount = -1;
-            split.TransactionAmount = 1;
-
-            Assert.False(split.IsValid);
-        }
-
-        [Test]
-        public void GetIsValid_WhenAmountIsNotEvenMultipleOfAccountsSmallestFraction_ReturnsFalse()
-        {
-            // Assume that we are able to run the test.
-            Assume.That(TestUtils.TestCurrency.FractionTraded % 10 == 0);
-
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
-            var account = new Account(
-                Guid.NewGuid(), // OK
-                AccountType.Balance, // OK
-                TestUtils.TestCurrency, // OK
-                null, // OK
-                "OK_NAME", // OK
-                TestUtils.TestCurrency.FractionTraded / 10); // OK
-
-            // Add a split to the transaction.
-            var split = transaction.AddSplit();
-            split.Account = account;
-            split.Security = account.Security;
-
-            // Set the amount and transaction amount to one, which is one tenth of the valid amount for the account.
-            split.Amount = 1;
             split.TransactionAmount = 1;
 
             Assert.False(split.IsValid);
@@ -159,32 +189,32 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WhenAccountIsNull_ReturnsFalse()
+        public void GetIsValid_WhenAmountIsNotEvenMultipleOfAccountsSmallestFraction_ReturnsFalse()
         {
+            // Assume that we are able to run the test.
+            Assume.That(TestUtils.TestCurrency.FractionTraded % 10 == 0);
+
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
 
-            // Add a split to the transaction.
-            var split = transaction.AddSplit();
-
-            // Assert that the split is invalid without assigning an account.
-            Assert.False(split.IsValid);
-        }
-
-        [Test]
-        public void GetIsValid_WhenSecurityIsNull_ReturnsFalse()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new, valid account.
-            var account = TestUtils.CreateValidAccount();
+            // Create a new, valid account with a smallest fraction of 10 times the base security's fraction traded.
+            var account = new Account(
+                Guid.NewGuid(), // OK
+                AccountType.Balance, // OK
+                TestUtils.TestCurrency, // OK
+                null, // OK
+                "OK_NAME", // OK
+                TestUtils.TestCurrency.FractionTraded / 10); // OK
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
             split.Account = account;
+            split.Security = account.Security;
 
-            // Assert that the split is invalid without assigning a security.
+            // Set the amount and transaction amount to one, which is one tenth of the valid amount for the account.
+            split.Amount = 1;
+            split.TransactionAmount = 1;
+
             Assert.False(split.IsValid);
         }
 
@@ -207,49 +237,19 @@ namespace SharpBooks.Tests
         }
 
         [Test]
-        public void GetIsValid_WhenAccountSecurityIsNullButSecuirtyIsNotNull_ReturnsTrue()
+        public void GetIsValid_WhenSecurityIsNull_ReturnsFalse()
         {
             // Create a new, empty transaction.
             var transaction = TestUtils.CreateEmptyTransaction();
 
-            // Create a new account with a null security.
-            var account = new Account(
-                Guid.NewGuid(), // OK
-                AccountType.Balance, // OK
-                null, // OK
-                null, // OK
-                "OK_NAME",
-                null); // OK
-
-            // Add a split to the transaction.
-            var split = transaction.AddSplit();
-            split.Account = account;
-            split.Security = noCurrency;
-
-            // Assert that the split is invalid without assigning an account.
-            Assert.True(split.IsValid);
-        }
-
-        [Test]
-        public void GetIsValid_WhenAccountSecurityAndSecuirtyAreNull_ReturnsFalse()
-        {
-            // Create a new, empty transaction.
-            var transaction = TestUtils.CreateEmptyTransaction();
-
-            // Create a new account with a null security.
-            var account = new Account(
-                Guid.NewGuid(), // OK
-                AccountType.Balance, // OK
-                null, // OK
-                null, // OK
-                "OK_NAME",
-                null); // OK
+            // Create a new, valid account.
+            var account = TestUtils.CreateValidAccount();
 
             // Add a split to the transaction.
             var split = transaction.AddSplit();
             split.Account = account;
 
-            // Assert that the split is invalid without assigning a security, regardless of whether the account's security is null.
+            // Assert that the split is invalid without assigning a security.
             Assert.False(split.IsValid);
         }
 

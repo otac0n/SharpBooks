@@ -11,9 +11,9 @@ namespace SharpBooks.Integration
 
     public class StringRange : IRange<int>
     {
-        private readonly int start;
         private readonly int length;
         private readonly string source;
+        private readonly int start;
         private readonly string value;
 
         public StringRange(string source)
@@ -52,9 +52,14 @@ namespace SharpBooks.Integration
             this.value = source.Substring(start, length);
         }
 
-        public int Start
+        public int End
         {
-            get { return this.start; }
+            get { return this.start + this.length; }
+        }
+
+        bool IRange<int>.EndInclusive
+        {
+            get { return false; }
         }
 
         public int Length
@@ -62,14 +67,9 @@ namespace SharpBooks.Integration
             get { return this.length; }
         }
 
-        public int End
+        public int Start
         {
-            get { return this.start + this.length; }
-        }
-
-        public string Value
-        {
-            get { return this.value; }
+            get { return this.start; }
         }
 
         bool IRange<int>.StartInclusive
@@ -77,9 +77,9 @@ namespace SharpBooks.Integration
             get { return true; }
         }
 
-        bool IRange<int>.EndInclusive
+        public string Value
         {
-            get { return false; }
+            get { return this.value; }
         }
 
         IRange<int> IRange<int>.Clone(int start, bool startInclusive, int end, bool endInclusive)

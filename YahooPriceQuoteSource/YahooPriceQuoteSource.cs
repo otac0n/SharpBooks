@@ -21,6 +21,13 @@ namespace YahooPriceQuoteSource
         private const string YahooTimeZoneId = "Eastern Standard Time";
 
         /// <summary>
+        /// Performs plugin-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+        }
+
+        /// <summary>
         /// Retrieves a price quote from Yahoo!® Finance.
         /// </summary>
         /// <param name="security">The security for which to get the quote.</param>
@@ -135,13 +142,6 @@ namespace YahooPriceQuoteSource
 
                 return new PriceQuote(Guid.NewGuid(), dateTime, security, quantity, currency, longPrice, "Yahoo!® Finance");
             }
-        }
-
-        /// <summary>
-        /// Performs plugin-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
         }
 
         private static Exception BuildError(string symbol, string error)

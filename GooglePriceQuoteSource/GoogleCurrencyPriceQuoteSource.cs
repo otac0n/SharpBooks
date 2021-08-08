@@ -9,10 +9,8 @@ namespace GooglePriceQuoteSource
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Net;
-    using System.Text.RegularExpressions;
     using SharpBooks;
 
     /// <summary>
@@ -21,6 +19,73 @@ namespace GooglePriceQuoteSource
     public class GoogleCurrencyPriceQuoteSource : IPriceQuoteSource
     {
         private const string UrlFormat = "https://www.google.com/finance/getprices?q={0}{1}&x=CURRENCY&i=1&p=1d";
+
+        public static IEnumerable<Tuple<DateTimeOffset, decimal>> Parse(string data)
+        {
+            var lines = data.Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            var headers = new Dictionary<string, string>();
+
+            int i;
+            for (i = 0; i < lines.Length; i++)
+            {
+                int width = 1;
+                var index = lines[i].IndexOf("=");
+                if (index == -1)
+                {
+                    width = 3;
+                    index = lines[i].IndexOf("%3D");
+                }
+
+                if (index == -1)
+                {
+                    break;
+                }
+
+                headers.Add(lines[i].Substring(0, index), lines[i].Substring(index + width));
+            }
+
+            var columns = headers["COLUMNS"]
+                .Split(',')
+                .Select((col, ix) => new { col, ix })
+                .ToDictionary(e => e.col, e => e.ix);
+
+            var interval = int.Parse(headers["INTERVAL"]);
+            var tz = int.Parse(headers["TIMEZONE_OFFSET"]);
+            var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromMinutes(tz));
+
+            var reference = epoch;
+            for (; i < lines.Length; i++)
+            {
+                var cols = lines[i].Split(',');
+
+                var dateStr = cols[columns["DATE"]];
+                var closeStr = cols[columns["CLOSE"]];
+
+                int offset;
+                if (dateStr.StartsWith("a"))
+                {
+                    reference = epoch.AddSeconds(int.Parse(dateStr.Substring(1)));
+                    offset = 0;
+                }
+                else
+                {
+                    offset = int.Parse(dateStr);
+                }
+
+                var date = reference.AddSeconds(offset * interval);
+                var close = decimal.Parse(closeStr);
+
+                yield return Tuple.Create(date, close);
+            }
+        }
+
+        /// <summary>
+        /// Performs plugin-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+        }
 
         /// <summary>
         /// Retrieves a price quote from Google™ Calculator.
@@ -96,73 +161,6 @@ namespace GooglePriceQuoteSource
 
                 return new PriceQuote(Guid.NewGuid(), date.UtcDateTime, security, quantity, currency, longPrice, "Google™ Calculator");
             }
-        }
-
-        public static IEnumerable<Tuple<DateTimeOffset, decimal>> Parse(string data)
-        {
-            var lines = data.Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries);
-
-            var headers = new Dictionary<string, string>();
-
-            int i;
-            for (i = 0; i < lines.Length; i++)
-            {
-                int width = 1;
-                var index = lines[i].IndexOf("=");
-                if (index == -1)
-                {
-                    width = 3;
-                    index = lines[i].IndexOf("%3D");
-                }
-
-                if (index == -1)
-                {
-                    break;
-                }
-
-                headers.Add(lines[i].Substring(0, index), lines[i].Substring(index + width));
-            }
-
-            var columns = headers["COLUMNS"]
-                .Split(',')
-                .Select((col, ix) => new { col, ix })
-                .ToDictionary(e => e.col, e => e.ix);
-
-            var interval = int.Parse(headers["INTERVAL"]);
-            var tz = int.Parse(headers["TIMEZONE_OFFSET"]);
-            var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.FromMinutes(tz));
-
-            var reference = epoch;
-            for (; i < lines.Length; i++)
-            {
-                var cols = lines[i].Split(',');
-
-                var dateStr = cols[columns["DATE"]];
-                var closeStr = cols[columns["CLOSE"]];
-
-                int offset;
-                if (dateStr.StartsWith("a"))
-                {
-                    reference = epoch.AddSeconds(int.Parse(dateStr.Substring(1)));
-                    offset = 0;
-                }
-                else
-                {
-                    offset = int.Parse(dateStr);
-                }
-
-                var date = reference.AddSeconds(offset * interval);
-                var close = decimal.Parse(closeStr);
-
-                yield return Tuple.Create(date, close);
-            }
-        }
-
-        /// <summary>
-        /// Performs plugin-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
         }
 
         private static Exception BuildError(string symbol, string error)

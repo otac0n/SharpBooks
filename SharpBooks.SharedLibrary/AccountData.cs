@@ -45,6 +45,12 @@ namespace SharpBooks
             private set;
         }
 
+        public string Name
+        {
+            get;
+            private set;
+        }
+
         public Guid? ParentAccountId
         {
             get;
@@ -52,12 +58,6 @@ namespace SharpBooks
         }
 
         public Guid? SecurityId
-        {
-            get;
-            private set;
-        }
-
-        public string Name
         {
             get;
             private set;

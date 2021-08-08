@@ -8,28 +8,27 @@
 namespace SharpBooks
 {
     using System;
-    using System.Collections.Generic;
 
     public interface ISaver
     {
-        void SetSetting(string key, string value);
-
-        void RemoveSetting(string key);
-
-        void AddSecurity(SecurityData security);
-
-        void RemoveSecurity(Guid securityId);
-
         void AddAccount(AccountData account);
-
-        void RemoveAccount(Guid accountId);
-
-        void AddTransaction(TransactionData transaction);
-
-        void RemoveTransaction(Guid transactionId);
 
         void AddPriceQuote(PriceQuoteData priceQuote);
 
+        void AddSecurity(SecurityData security);
+
+        void AddTransaction(TransactionData transaction);
+
+        void RemoveAccount(Guid accountId);
+
         void RemovePriceQuote(Guid priceQuoteId);
+
+        void RemoveSecurity(Guid securityId);
+
+        void RemoveSetting(string key);
+
+        void RemoveTransaction(Guid transactionId);
+
+        void SetSetting(string key, string value);
     }
 }

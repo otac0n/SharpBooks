@@ -9,7 +9,6 @@ namespace SharpBooks
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
 
     [SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Justification = "'Security' is a standard term for the financial instrument represented by this class.")]
     public sealed class Security
@@ -49,30 +48,6 @@ namespace SharpBooks
             this.FractionTraded = fractionTraded;
         }
 
-        public Guid SecurityId
-        {
-            get;
-            private set;
-        }
-
-        public SecurityType SecurityType
-        {
-            get;
-            private set;
-        }
-
-        public string Name
-        {
-            get;
-            private set;
-        }
-
-        public string Symbol
-        {
-            get;
-            private set;
-        }
-
         public CurrencyFormat Format
         {
             get;
@@ -85,14 +60,33 @@ namespace SharpBooks
             private set;
         }
 
+        public string Name
+        {
+            get;
+            private set;
+        }
+
+        public Guid SecurityId
+        {
+            get;
+            private set;
+        }
+
+        public SecurityType SecurityType
+        {
+            get;
+            private set;
+        }
+
+        public string Symbol
+        {
+            get;
+            private set;
+        }
+
         public string FormatValue(long value)
         {
             return this.Format.Format(value, this.FractionTraded);
-        }
-
-        public bool TryParseValue(string s, out long result)
-        {
-            return this.Format.TryParse(s, this.FractionTraded, out result);
         }
 
         public long ParseValue(string s)
@@ -104,6 +98,11 @@ namespace SharpBooks
             }
 
             return amount;
+        }
+
+        public bool TryParseValue(string s, out long result)
+        {
+            return this.Format.TryParse(s, this.FractionTraded, out result);
         }
     }
 }

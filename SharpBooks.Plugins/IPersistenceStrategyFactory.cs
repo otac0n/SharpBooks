@@ -7,7 +7,6 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
     using SharpBooks.Persistence;
 
     public interface IPersistenceStrategyFactory : IPluginFactory

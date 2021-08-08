@@ -26,16 +26,19 @@ namespace SharpBooks.UI
             InitializeComponent();
         }
 
+        public event EventHandler<AccountDeleteRequestedEventArgs> AccountDeleteRequested;
+
         public event EventHandler<AccountSelectedEventArgs> AccountSelected;
 
         public event EventHandler<NewAccountRequestedEventArgs> NewAccountRequested;
 
-        public event EventHandler<AccountDeleteRequestedEventArgs> AccountDeleteRequested;
-
         [Browsable(false)]
         public ReadOnlyBook Book
         {
-            get { return this.book; }
+            get
+            {
+                return this.book;
+            }
 
             set
             {
@@ -66,47 +69,6 @@ namespace SharpBooks.UI
                 this.book.AccountAdded += book_AccountAdded;
                 this.book.AccountRemoved += book_AccountRemoved;
             }
-        }
-
-        private void DetachBookHandlers()
-        {
-            if (this.book != null)
-            {
-                this.book.AccountAdded -= book_AccountAdded;
-                this.book.AccountRemoved -= book_AccountRemoved;
-            }
-        }
-
-        private void InitializeBook()
-        {
-            if (this.book != null)
-            {
-                var accounts = this.book.Accounts.ToLookup(a => a.ParentAccount);
-
-                this.tree.Nodes.AddRange(BuildTreeNodes(null, accounts));
-            }
-        }
-
-        private TreeNode[] BuildTreeNodes(Account parentAccount, ILookup<Account, Account> accounts)
-        {
-            var nodes = new List<TreeNode>();
-
-            foreach (var a in accounts[parentAccount])  // TODO: Order by "order" in the metadata.
-            {
-                var node = new TreeNode  // TODO: Determine the icon from the metadata.
-                {
-                    Text = a.Name,
-                    Name = a.Name,
-                    Tag = a,
-                };
-                this.nodeLookup.Add(a, node);
-
-                node.Nodes.AddRange(BuildTreeNodes(a, accounts));
-
-                nodes.Add(node);
-            }
-
-            return nodes.ToArray();
         }
 
         private void book_AccountAdded(object sender, Events.AccountAddedEventArgs e)
@@ -148,6 +110,68 @@ namespace SharpBooks.UI
             }
         }
 
+        private TreeNode[] BuildTreeNodes(Account parentAccount, ILookup<Account, Account> accounts)
+        {
+            var nodes = new List<TreeNode>();
+
+            foreach (var a in accounts[parentAccount])  // TODO: Order by "order" in the metadata.
+            {
+                var node = new TreeNode  // TODO: Determine the icon from the metadata.
+                {
+                    Text = a.Name,
+                    Name = a.Name,
+                    Tag = a,
+                };
+                this.nodeLookup.Add(a, node);
+
+                node.Nodes.AddRange(BuildTreeNodes(a, accounts));
+
+                nodes.Add(node);
+            }
+
+            return nodes.ToArray();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var account = (Account)this.tree.SelectedNode.Tag;
+
+            this.AccountDeleteRequested.SafeInvoke(this, () => new AccountDeleteRequestedEventArgs { AccountId = account.AccountId });
+        }
+
+        private void DetachBookHandlers()
+        {
+            if (this.book != null)
+            {
+                this.book.AccountAdded -= book_AccountAdded;
+                this.book.AccountRemoved -= book_AccountRemoved;
+            }
+        }
+
+        private void InitializeBook()
+        {
+            if (this.book != null)
+            {
+                var accounts = this.book.Accounts.ToLookup(a => a.ParentAccount);
+
+                this.tree.Nodes.AddRange(BuildTreeNodes(null, accounts));
+            }
+        }
+
+        private void newAccount_Click(object sender, EventArgs e)
+        {
+            var parentAccount = (Account)this.tree.SelectedNode.Tag;
+
+            this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
+        }
+
+        private void open_Click(object sender, EventArgs e)
+        {
+            var account = (Account)this.tree.SelectedNode.Tag;
+
+            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+        }
+
         private void tree_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             var g = e.Graphics;
@@ -180,16 +204,6 @@ namespace SharpBooks.UI
             }
         }
 
-        private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                var account = (Account)e.Node.Tag;
-
-                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
-            }
-        }
-
         private void tree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -199,25 +213,14 @@ namespace SharpBooks.UI
             }
         }
 
-        private void open_Click(object sender, EventArgs e)
+        private void tree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var account = (Account)this.tree.SelectedNode.Tag;
+            if (e.Button == MouseButtons.Left)
+            {
+                var account = (Account)e.Node.Tag;
 
-            this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
-        }
-
-        private void newAccount_Click(object sender, EventArgs e)
-        {
-            var parentAccount = (Account)this.tree.SelectedNode.Tag;
-
-            this.NewAccountRequested.SafeInvoke(this, () => new NewAccountRequestedEventArgs { ParentAccountId = parentAccount.AccountId });
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var account = (Account)this.tree.SelectedNode.Tag;
-
-            this.AccountDeleteRequested.SafeInvoke(this, () => new AccountDeleteRequestedEventArgs { AccountId = account.AccountId });
+                this.AccountSelected.SafeInvoke(this, () => new AccountSelectedEventArgs { AccountId = account.AccountId });
+            }
         }
     }
 }

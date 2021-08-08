@@ -34,43 +34,26 @@ namespace SharpBooks
         }
 
         public event EventHandler<AccountAddedEventArgs> AccountAdded;
-        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
-        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
-        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
-        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
-        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
-        public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
-        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
-        public ICollection<Security> Securities
-        {
-            get
-            {
-                return this.book.Securities;
-            }
-        }
+        public event EventHandler<AccountRemovedEventArgs> AccountRemoved;
+
+        public event EventHandler<PriceQuoteAddedEventArgs> PriceQuoteAdded;
+
+        public event EventHandler<PriceQuoteRemovedEventArgs> PriceQuoteRemoved;
+
+        public event EventHandler<SecurityAddedEventArgs> SecurityAdded;
+
+        public event EventHandler<SecurityRemovedEventArgs> SecurityRemoved;
+
+        public event EventHandler<TransactionAddedEventArgs> TransactionAdded;
+
+        public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
         public ICollection<Account> Accounts
         {
             get
             {
                 return this.book.Accounts;
-            }
-        }
-
-        public ICollection<Account> RootAccounts
-        {
-            get
-            {
-                return this.book.RootAccounts;
-            }
-        }
-
-        public ICollection<Transaction> Transactions
-        {
-            get
-            {
-                return this.book.Transactions;
             }
         }
 
@@ -82,11 +65,35 @@ namespace SharpBooks
             }
         }
 
+        public ICollection<Account> RootAccounts
+        {
+            get
+            {
+                return this.book.RootAccounts;
+            }
+        }
+
+        public ICollection<Security> Securities
+        {
+            get
+            {
+                return this.book.Securities;
+            }
+        }
+
         public IDictionary<string, string> Settings
         {
             get
             {
                 return this.book.Settings;
+            }
+        }
+
+        public ICollection<Transaction> Transactions
+        {
+            get
+            {
+                return this.book.Transactions;
             }
         }
 

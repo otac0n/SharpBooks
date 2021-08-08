@@ -107,6 +107,23 @@ namespace SharpBooks.Tests.IntegrationTests
         }
 
         [Test]
+        public void Replay_WithDisposedSavePoint_ThrowsException()
+        {
+            // Create a new, valid books.
+            var book = TestUtils.CreateValidBook();
+
+            // Create a stub data adapter as a destination.
+            var destination = new StubSaver();
+
+            // Create a save point in the first book and dispose it.
+            var savePoint = book.CreateSavePoint();
+            savePoint.Dispose();
+
+            // Assert that trying to use the disposed save point throws an InvalidOperationException.
+            Assert.That(() => book.Replay(destination, savePoint), Throws.InstanceOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void Replay_WithInvalidSavePoint_ThrowsException()
         {
             // Create two new, valid books.
@@ -122,23 +139,6 @@ namespace SharpBooks.Tests.IntegrationTests
                 // Assert that trying to use the save point from the first book on the second book throws an InvalidOperationException.
                 Assert.That(() => book2.Replay(destination, sp1), Throws.InstanceOf<InvalidOperationException>());
             }
-        }
-
-        [Test]
-        public void Replay_WithDisposedSavePoint_ThrowsException()
-        {
-            // Create a new, valid books.
-            var book = TestUtils.CreateValidBook();
-
-            // Create a stub data adapter as a destination.
-            var destination = new StubSaver();
-
-            // Create a save point in the first book and dispose it.
-            var savePoint = book.CreateSavePoint();
-            savePoint.Dispose();
-
-            // Assert that trying to use the disposed save point throws an InvalidOperationException.
-            Assert.That(() => book.Replay(destination, savePoint), Throws.InstanceOf<InvalidOperationException>());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="Account.cs" company="(none)">
 //  Copyright © 2012 John Gietzen. All rights reserved.
 // </copyright>
@@ -8,9 +8,6 @@
 namespace SharpBooks
 {
     using System;
-    using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.IO;
     using System.Linq;
 
@@ -18,9 +15,9 @@ namespace SharpBooks
     {
         private readonly Guid accountId;
         private readonly AccountType accountType;
-        private readonly Security security;
-        private readonly Account parentAccount;
         private readonly string name;
+        private readonly Account parentAccount;
+        private readonly Security security;
         private readonly int? smallestFraction;
 
         private Book book;
@@ -100,19 +97,13 @@ namespace SharpBooks
             }
         }
 
-        public Security Security
+        public CompositeBalance Balance
         {
             get
             {
-                return this.security;
-            }
-        }
-
-        public Account ParentAccount
-        {
-            get
-            {
-                return this.parentAccount;
+                return this.book == null
+                    ? null
+                    : this.book.GetAccountBalance(this);
             }
         }
 
@@ -124,21 +115,27 @@ namespace SharpBooks
             }
         }
 
+        public Account ParentAccount
+        {
+            get
+            {
+                return this.parentAccount;
+            }
+        }
+
+        public Security Security
+        {
+            get
+            {
+                return this.security;
+            }
+        }
+
         public int? SmallestFraction
         {
             get
             {
                 return this.smallestFraction;
-            }
-        }
-
-        public CompositeBalance Balance
-        {
-            get
-            {
-                return this.book == null
-                    ? null
-                    : this.book.GetAccountBalance(this);
             }
         }
 

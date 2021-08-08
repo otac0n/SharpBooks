@@ -7,15 +7,10 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     public interface IWidgetFactory : IPluginFactory
     {
-        IWidget CreateInstance(ReadOnlyBook book, string settings);
-
         string Configure(ReadOnlyBook book, string currentSettings);
+
+        IWidget CreateInstance(ReadOnlyBook book, string settings);
     }
 }

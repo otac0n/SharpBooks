@@ -77,6 +77,123 @@ namespace SharpBooks
         }
 
         /// <summary>
+        /// Adds an account to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="account">The account to add.</param>
+        public void AddAccount(AccountData account)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.AddAccount,
+                Item = account,
+            });
+        }
+
+        /// <summary>
+        /// Adds a price quote to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="priceQuote">The price quote to add.</param>
+        public void AddPriceQuote(PriceQuoteData priceQuote)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.AddPriceQuote,
+                Item = priceQuote,
+            });
+        }
+
+        /// <summary>
+        /// Adds a security to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="security">The security to add.</param>
+        public void AddSecurity(SecurityData security)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.AddSecurity,
+                Item = security,
+            });
+        }
+
+        /// <summary>
+        /// Adds a transaction to the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="transaction">The transaction to add.</param>
+        public void AddTransaction(TransactionData transaction)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.AddTransaction,
+                Item = transaction,
+            });
+        }
+
+        /// <summary>
+        /// Removes an account from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="accountId">The Account Id of the account to remove.</param>
+        public void RemoveAccount(Guid accountId)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemoveAccount,
+                Item = accountId,
+            });
+        }
+
+        /// <summary>
+        /// Removes a price quote from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="priceQuoteId">The Price Quote Id of the price quote to remove.</param>
+        public void RemovePriceQuote(Guid priceQuoteId)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemovePriceQuote,
+                Item = priceQuoteId,
+            });
+        }
+
+        /// <summary>
+        /// Removes a security from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="securityId">The Security Id of the security to remove.</param>
+        public void RemoveSecurity(Guid securityId)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemoveSecurity,
+                Item = securityId,
+            });
+        }
+
+        /// <summary>
+        /// Removes a setting from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        public void RemoveSetting(string key)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemoveSetting,
+                Item = key,
+            });
+        }
+
+        /// <summary>
+        /// Removes a transaction from the <see cref="SaveTrack"/>.
+        /// </summary>
+        /// <param name="transactionId">The Transaction Id of the transaction to remove.</param>
+        public void RemoveTransaction(Guid transactionId)
+        {
+            this.actions.Add(new Action
+            {
+                ActionType = ActionType.RemoveTransaction,
+                Item = transactionId,
+            });
+        }
+
+        /// <summary>
         /// Replays the actions in this save track into an <see cref="ISaver"/>.
         /// </summary>
         /// <param name="dataAdapter">The adapter into which to replay the actions.</param>
@@ -90,30 +207,39 @@ namespace SharpBooks
                         var pair = (KeyValuePair<string, string>)action.Item;
                         dataAdapter.SetSetting(pair.Key, pair.Value);
                         break;
+
                     case ActionType.RemoveSetting:
                         dataAdapter.RemoveSetting((string)action.Item);
                         break;
+
                     case ActionType.AddSecurity:
                         dataAdapter.AddSecurity((SecurityData)action.Item);
                         break;
+
                     case ActionType.RemoveSecurity:
                         dataAdapter.RemoveSecurity((Guid)action.Item);
                         break;
+
                     case ActionType.AddPriceQuote:
                         dataAdapter.AddPriceQuote((PriceQuoteData)action.Item);
                         break;
+
                     case ActionType.RemovePriceQuote:
                         dataAdapter.RemovePriceQuote((Guid)action.Item);
                         break;
+
                     case ActionType.AddAccount:
                         dataAdapter.AddAccount((AccountData)action.Item);
                         break;
+
                     case ActionType.RemoveAccount:
                         dataAdapter.RemoveAccount((Guid)action.Item);
                         break;
+
                     case ActionType.AddTransaction:
                         dataAdapter.AddTransaction((TransactionData)action.Item);
                         break;
+
                     case ActionType.RemoveTransaction:
                         dataAdapter.RemoveTransaction((Guid)action.Item);
                         break;
@@ -132,123 +258,6 @@ namespace SharpBooks
             {
                 ActionType = ActionType.SetSetting,
                 Item = new KeyValuePair<string, string>(key, value),
-            });
-        }
-
-        /// <summary>
-        /// Removes a setting from the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="key">The key of the setting.</param>
-        public void RemoveSetting(string key)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.RemoveSetting,
-                Item = key,
-            });
-        }
-
-        /// <summary>
-        /// Adds a security to the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="security">The security to add.</param>
-        public void AddSecurity(SecurityData security)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.AddSecurity,
-                Item = security,
-            });
-        }
-
-        /// <summary>
-        /// Removes a security from the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="securityId">The Security Id of the security to remove.</param>
-        public void RemoveSecurity(Guid securityId)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.RemoveSecurity,
-                Item = securityId,
-            });
-        }
-
-        /// <summary>
-        /// Adds a price quote to the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="priceQuote">The price quote to add.</param>
-        public void AddPriceQuote(PriceQuoteData priceQuote)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.AddPriceQuote,
-                Item = priceQuote,
-            });
-        }
-
-        /// <summary>
-        /// Removes a price quote from the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="priceQuoteId">The Price Quote Id of the price quote to remove.</param>
-        public void RemovePriceQuote(Guid priceQuoteId)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.RemovePriceQuote,
-                Item = priceQuoteId,
-            });
-        }
-
-        /// <summary>
-        /// Adds an account to the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="account">The account to add.</param>
-        public void AddAccount(AccountData account)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.AddAccount,
-                Item = account,
-            });
-        }
-
-        /// <summary>
-        /// Removes an account from the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="accountId">The Account Id of the account to remove.</param>
-        public void RemoveAccount(Guid accountId)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.RemoveAccount,
-                Item = accountId,
-            });
-        }
-
-        /// <summary>
-        /// Adds a transaction to the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="transaction">The transaction to add.</param>
-        public void AddTransaction(TransactionData transaction)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.AddTransaction,
-                Item = transaction,
-            });
-        }
-
-        /// <summary>
-        /// Removes a transaction from the <see cref="SaveTrack"/>.
-        /// </summary>
-        /// <param name="transactionId">The Transaction Id of the transaction to remove.</param>
-        public void RemoveTransaction(Guid transactionId)
-        {
-            this.actions.Add(new Action
-            {
-                ActionType = ActionType.RemoveTransaction,
-                Item = transactionId,
             });
         }
 

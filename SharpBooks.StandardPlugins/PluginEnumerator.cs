@@ -7,7 +7,6 @@
 
 namespace SharpBooks.StandardPlugins
 {
-    using System;
     using System.Collections.Generic;
     using SharpBooks.Plugins;
 

@@ -21,12 +21,12 @@ namespace SharpBooks.UI
 
     public static class HeaderRenderer
     {
-        [ThreadStatic]
-        private static VisualStyleRenderer visualStyleRenderer;
+        private static bool isSupported;
 
         private static bool renderMatchingApplicationState = true;
 
-        private static bool isSupported;
+        [ThreadStatic]
+        private static VisualStyleRenderer visualStyleRenderer;
 
         static HeaderRenderer()
         {
@@ -36,14 +36,6 @@ namespace SharpBooks.UI
                        && VisualStyleRenderer.IsElementDefined(VisualStyleElement.Header.Item.Pressed);
         }
 
-        private static bool RenderWithVisualStyles
-        {
-            get
-            {
-                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
-            }
-        }
-
         public static bool RenderMatchingApplicationState
         {
             get { return renderMatchingApplicationState; }
@@ -51,31 +43,11 @@ namespace SharpBooks.UI
             set { renderMatchingApplicationState = value; }
         }
 
-        private static ButtonState ConvertToButtonState(HeaderItemState state)
+        private static bool RenderWithVisualStyles
         {
-            if (state == HeaderItemState.Pressed)
+            get
             {
-                return ButtonState.Pushed;
-            }
-
-            return ButtonState.Normal;
-        }
-
-        private static void InitializeRenderer(int state)
-        {
-            if (visualStyleRenderer == null)
-            {
-                visualStyleRenderer = new VisualStyleRenderer(
-                    VisualStyleElement.Header.Item.Normal.ClassName,
-                    VisualStyleElement.Header.Item.Normal.Part,
-                    state);
-            }
-            else
-            {
-                visualStyleRenderer.SetParameters(
-                    VisualStyleElement.Header.Item.Normal.ClassName,
-                    VisualStyleElement.Header.Item.Normal.Part,
-                    state);
+                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
             }
         }
 
@@ -153,6 +125,34 @@ namespace SharpBooks.UI
             }
 
             TextRenderer.DrawText(g, headerText, font, Rectangle.Inflate(bounds, -3, -3), text, flags);
+        }
+
+        private static ButtonState ConvertToButtonState(HeaderItemState state)
+        {
+            if (state == HeaderItemState.Pressed)
+            {
+                return ButtonState.Pushed;
+            }
+
+            return ButtonState.Normal;
+        }
+
+        private static void InitializeRenderer(int state)
+        {
+            if (visualStyleRenderer == null)
+            {
+                visualStyleRenderer = new VisualStyleRenderer(
+                    VisualStyleElement.Header.Item.Normal.ClassName,
+                    VisualStyleElement.Header.Item.Normal.Part,
+                    state);
+            }
+            else
+            {
+                visualStyleRenderer.SetParameters(
+                    VisualStyleElement.Header.Item.Normal.ClassName,
+                    VisualStyleElement.Header.Item.Normal.Part,
+                    state);
+            }
         }
     }
 }

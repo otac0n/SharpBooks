@@ -39,9 +39,9 @@ namespace SharpBooks
         public Guid AccountId { get; }
 
         /// <summary>
-        /// Gets the ID of the security of which the split is made up.
+        /// Gets the amount by which the split affects its account.
         /// </summary>
-        public Guid SecurityId { get; }
+        public long Amount { get; }
 
         /// <summary>
         /// Gets the date and time at which the split cleared its account.
@@ -54,9 +54,9 @@ namespace SharpBooks
         public bool IsReconciled { get; }
 
         /// <summary>
-        /// Gets the amount by which the split affects its account.
+        /// Gets the ID of the security of which the split is made up.
         /// </summary>
-        public long Amount { get; }
+        public Guid SecurityId { get; }
 
         /// <summary>
         /// Gets the amount by which the split affects its transaction.

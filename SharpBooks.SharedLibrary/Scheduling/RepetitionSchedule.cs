@@ -45,13 +45,13 @@ namespace SharpBooks.Scheduling
             set;
         }
 
-        private DateUnit Unit
+        private int Increment
         {
             get;
             set;
         }
 
-        private int Increment
+        private DateUnit Unit
         {
             get;
             set;
@@ -129,9 +129,9 @@ namespace SharpBooks.Scheduling
         {
             public DateTime BaseDate { get; set; }
 
-            public int CurrentOffset { get; set; }
-
             public DateTime CurrentDate { get; set; }
+
+            public int CurrentOffset { get; set; }
         }
     }
 }

@@ -7,7 +7,6 @@
 
 namespace SharpBooks.StandardPlugins
 {
-    using System;
     using SharpBooks.Plugins;
 
     internal class FavoriteAccountsWidgetFactory : IWidgetFactory
@@ -20,17 +19,17 @@ namespace SharpBooks.StandardPlugins
             }
         }
 
-        public IWidget CreateInstance(ReadOnlyBook book, string settings)
-        {
-            return new FavoriteAccountsWidget(settings);
-        }
-
         public string Configure(ReadOnlyBook book, string currentSettings)
         {
             var view = new FavoriteAccountsConfiguration();
             currentSettings = view.GetSettings(book, currentSettings);
 
             return currentSettings;
+        }
+
+        public IWidget CreateInstance(ReadOnlyBook book, string settings)
+        {
+            return new FavoriteAccountsWidget(settings);
         }
     }
 }

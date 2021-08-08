@@ -25,14 +25,14 @@ namespace SharpBooks.UI
     {
         private const TextFormatFlags StandardFlags = TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.NoPrefix | TextFormatFlags.EndEllipsis;
 
-        [ThreadStatic]
-        private static VisualStyleRenderer visualStyleRenderer;
-
-        private static bool renderMatchingApplicationState = true;
+        private static VisualStyleElement baseElement;
 
         private static bool isSupported;
 
-        private static VisualStyleElement baseElement;
+        private static bool renderMatchingApplicationState = true;
+
+        [ThreadStatic]
+        private static VisualStyleRenderer visualStyleRenderer;
 
         static ListItemRenderer()
         {
@@ -80,14 +80,6 @@ namespace SharpBooks.UI
             }
         }
 
-        private static bool RenderWithVisualStyles
-        {
-            get
-            {
-                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
-            }
-        }
-
         public static bool RenderMatchingApplicationState
         {
             get { return renderMatchingApplicationState; }
@@ -95,21 +87,11 @@ namespace SharpBooks.UI
             set { renderMatchingApplicationState = value; }
         }
 
-        private static void InitializeRenderer(ListViewItemState state)
+        private static bool RenderWithVisualStyles
         {
-            if (visualStyleRenderer == null)
+            get
             {
-                visualStyleRenderer = new VisualStyleRenderer(
-                    baseElement.ClassName,
-                    baseElement.Part,
-                    (int)state);
-            }
-            else
-            {
-                visualStyleRenderer.SetParameters(
-                    baseElement.ClassName,
-                    baseElement.Part,
-                    (int)state);
+                return (renderMatchingApplicationState ? Application.RenderWithVisualStyles : true) && isSupported;
             }
         }
 
@@ -137,6 +119,84 @@ namespace SharpBooks.UI
                 {
                     g.FillRectangle(background, bounds);
                 }
+            }
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle textRectangle, string itemText, Font font, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, null, state);
+            RenderItemText(g, textRectangle, itemText, font, StandardFlags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle textRectangle, string itemText, Font font, TextFormatFlags flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, null, state);
+            RenderItemText(g, textRectangle, itemText, font, flags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font font, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, null, state);
+            RenderItemsText(g, textRectangles, itemsText, font);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font font, TextFormatFlags[] flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, null, state);
+            RenderItemsText(g, textRectangles, itemsText, font, flags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font[] fonts, TextFormatFlags[] flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, null, state);
+            RenderItemsText(g, textRectangles, itemsText, fonts, flags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle textRectangle, string itemText, Font font, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, background, state);
+            RenderItemText(g, textRectangle, itemText, font, StandardFlags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle textRectangle, string itemText, Font font, TextFormatFlags flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, background, state);
+            RenderItemText(g, textRectangle, itemText, font, flags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font font, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, background, state);
+            RenderItemsText(g, textRectangles, itemsText, font);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font font, TextFormatFlags[] flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, background, state);
+            RenderItemsText(g, textRectangles, itemsText, font, flags);
+        }
+
+        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font[] fonts, TextFormatFlags[] flags, ListViewItemState state)
+        {
+            RenderBackground(g, bounds, background, state);
+            RenderItemsText(g, textRectangles, itemsText, fonts, flags);
+        }
+
+        private static void InitializeRenderer(ListViewItemState state)
+        {
+            if (visualStyleRenderer == null)
+            {
+                visualStyleRenderer = new VisualStyleRenderer(
+                    baseElement.ClassName,
+                    baseElement.Part,
+                    (int)state);
+            }
+            else
+            {
+                visualStyleRenderer.SetParameters(
+                    baseElement.ClassName,
+                    baseElement.Part,
+                    (int)state);
             }
         }
 
@@ -231,66 +291,6 @@ namespace SharpBooks.UI
         private static void RenderItemText(Graphics g, Rectangle textRectangle, string itemText, Font font, TextFormatFlags flags)
         {
             TextRenderer.DrawText(g, itemText, font, textRectangle, SystemColors.WindowText, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle textRectangle, string itemText, Font font, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, null, state);
-            RenderItemText(g, textRectangle, itemText, font, StandardFlags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle textRectangle, string itemText, Font font, TextFormatFlags flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, null, state);
-            RenderItemText(g, textRectangle, itemText, font, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font font, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, null, state);
-            RenderItemsText(g, textRectangles, itemsText, font);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font font, TextFormatFlags[] flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, null, state);
-            RenderItemsText(g, textRectangles, itemsText, font, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Rectangle[] textRectangles, string[] itemsText, Font[] fonts, TextFormatFlags[] flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, null, state);
-            RenderItemsText(g, textRectangles, itemsText, fonts, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle textRectangle, string itemText, Font font, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, background, state);
-            RenderItemText(g, textRectangle, itemText, font, StandardFlags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle textRectangle, string itemText, Font font, TextFormatFlags flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, background, state);
-            RenderItemText(g, textRectangle, itemText, font, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font font, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, background, state);
-            RenderItemsText(g, textRectangles, itemsText, font);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font font, TextFormatFlags[] flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, background, state);
-            RenderItemsText(g, textRectangles, itemsText, font, flags);
-        }
-
-        public static void RenderItems(Graphics g, Rectangle bounds, Brush background, Rectangle[] textRectangles, string[] itemsText, Font[] fonts, TextFormatFlags[] flags, ListViewItemState state)
-        {
-            RenderBackground(g, bounds, background, state);
-            RenderItemsText(g, textRectangles, itemsText, fonts, flags);
         }
     }
 }

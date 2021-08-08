@@ -28,34 +28,9 @@ namespace SharpBooks
             this.Owner_ActiveAccountChanged(this.owner, new EventArgs());
         }
 
-        public event EventHandler<AccountSelectedEventArgs> AccountSelected;
-
         public event EventHandler<EventArgs> AccountDeselected;
 
-        private void New_Click(object sender, EventArgs e)
-        {
-            this.owner.New();
-        }
-
-        private void Open_Click(object sender, EventArgs e)
-        {
-            this.owner.Open();
-        }
-
-        private void Close_Click(object sender, EventArgs e)
-        {
-            this.owner.Close();
-        }
-
-        private void Save_Click(object sender, EventArgs e)
-        {
-            this.owner.Save(forceSaveAs: false);
-        }
-
-        private void SaveAs_Click(object sender, EventArgs e)
-        {
-            this.owner.Save(forceSaveAs: true);
-        }
+        public event EventHandler<AccountSelectedEventArgs> AccountSelected;
 
         private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -68,28 +43,19 @@ namespace SharpBooks
             }
         }
 
-        private void ReturnToAccounts_Click(object sender, EventArgs e)
+        private void AccountRegister_TransactionCreated(object sender, UI.TransactionCreatedEventArgs e)
         {
-            this.AccountDeselected.SafeInvoke(this, () => new EventArgs());
+            this.owner.AddTransaction(e.NewTransaction);
         }
 
-        private void Owner_BookChanged(object sender, EventArgs e)
+        private void AccountRegister_TransactionUpdated(object sender, UI.TransactionUpdatedEventArgs e)
         {
-            var book = this.owner.Book;
-            this.accountTree.Book = book;
-
-            bool isNull = book == null;
-            this.tabView.Visible = !isNull;
+            this.owner.UpdateTransaction(e.OldTransaction, e.NewTransaction);
         }
 
-        private void Owner_ActiveAccountChanged(object sender, EventArgs e)
+        private void AccountTree_AccountDeleteRequested(object sender, AccountDeleteRequestedEventArgs e)
         {
-            var activeAccount = this.owner.ActiveAccount;
-            this.accountRegister.SetAccount(activeAccount, this.owner.Book);
-
-            bool isNull = activeAccount == null;
-            this.accountViewContainer.Visible = !isNull;
-            this.accountTree.Visible = isNull;
+            this.owner.DeleteAccount(e.AccountId);
         }
 
         private void AccountTree_AccountSelected(object sender, AccountSelectedEventArgs e)
@@ -102,9 +68,14 @@ namespace SharpBooks
             this.owner.NewAccount(e.ParentAccountId);
         }
 
-        private void AccountTree_AccountDeleteRequested(object sender, AccountDeleteRequestedEventArgs e)
+        private void Close_Click(object sender, EventArgs e)
         {
-            this.owner.DeleteAccount(e.AccountId);
+            this.owner.Close();
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            this.owner.New();
         }
 
         private void newTransactionButton_Click(object sender, EventArgs e)
@@ -112,14 +83,43 @@ namespace SharpBooks
             this.accountRegister.NewTransaction();
         }
 
-        private void AccountRegister_TransactionUpdated(object sender, UI.TransactionUpdatedEventArgs e)
+        private void Open_Click(object sender, EventArgs e)
         {
-            this.owner.UpdateTransaction(e.OldTransaction, e.NewTransaction);
+            this.owner.Open();
         }
 
-        private void AccountRegister_TransactionCreated(object sender, UI.TransactionCreatedEventArgs e)
+        private void Owner_ActiveAccountChanged(object sender, EventArgs e)
         {
-            this.owner.AddTransaction(e.NewTransaction);
+            var activeAccount = this.owner.ActiveAccount;
+            this.accountRegister.SetAccount(activeAccount, this.owner.Book);
+
+            bool isNull = activeAccount == null;
+            this.accountViewContainer.Visible = !isNull;
+            this.accountTree.Visible = isNull;
+        }
+
+        private void Owner_BookChanged(object sender, EventArgs e)
+        {
+            var book = this.owner.Book;
+            this.accountTree.Book = book;
+
+            bool isNull = book == null;
+            this.tabView.Visible = !isNull;
+        }
+
+        private void ReturnToAccounts_Click(object sender, EventArgs e)
+        {
+            this.AccountDeselected.SafeInvoke(this, () => new EventArgs());
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            this.owner.Save(forceSaveAs: false);
+        }
+
+        private void SaveAs_Click(object sender, EventArgs e)
+        {
+            this.owner.Save(forceSaveAs: true);
         }
     }
 }

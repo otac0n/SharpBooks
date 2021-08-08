@@ -10,13 +10,11 @@ namespace SharpBooks
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class SortedList<T> : IList<T>
     {
-        private IComparer<T> comparer;
         private readonly List<T> storage;
+        private IComparer<T> comparer;
 
         public SortedList()
             : this(Comparer<T>.Default)
@@ -54,34 +52,14 @@ namespace SharpBooks
             this.storage.Sort(this.comparer);
         }
 
-        public void SetComparer(IComparer<T> comparer)
+        public int Count
         {
-            if (comparer == null)
-            {
-                throw new ArgumentNullException("comparer");
-            }
-
-            this.comparer = comparer;
-            this.storage.Sort(comparer);
+            get { return this.storage.Count; }
         }
 
-        public int IndexOf(T item)
+        public bool IsReadOnly
         {
-            var result = this.storage.BinarySearch(item, this.comparer);
-
-            return result >= 0
-                ? result
-                : -1;
-        }
-
-        public void Insert(int index, T item)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public void RemoveAt(int index)
-        {
-            this.storage.RemoveAt(index);
+            get { return false; }
         }
 
         public T this[int index]
@@ -139,14 +117,28 @@ namespace SharpBooks
             this.storage.CopyTo(array, arrayIndex);
         }
 
-        public int Count
+        public IEnumerator<T> GetEnumerator()
         {
-            get { return this.storage.Count; }
+            return this.storage.GetEnumerator();
         }
 
-        public bool IsReadOnly
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            get { return false; }
+            return this.storage.GetEnumerator();
+        }
+
+        public int IndexOf(T item)
+        {
+            var result = this.storage.BinarySearch(item, this.comparer);
+
+            return result >= 0
+                ? result
+                : -1;
+        }
+
+        public void Insert(int index, T item)
+        {
+            throw new InvalidOperationException();
         }
 
         public int Remove(T item)
@@ -166,14 +158,20 @@ namespace SharpBooks
             return this.Remove(item) >= 0;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public void RemoveAt(int index)
         {
-            return this.storage.GetEnumerator();
+            this.storage.RemoveAt(index);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public void SetComparer(IComparer<T> comparer)
         {
-            return this.storage.GetEnumerator();
+            if (comparer == null)
+            {
+                throw new ArgumentNullException("comparer");
+            }
+
+            this.comparer = comparer;
+            this.storage.Sort(comparer);
         }
     }
 }

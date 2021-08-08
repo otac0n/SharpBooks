@@ -9,34 +9,32 @@ namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using SharpBooks.Events;
 
     public class Book
     {
-        private readonly object lockMutex = new object();
-        private readonly HashSet<Security> securities = new HashSet<Security>();
         private readonly HashSet<Account> accounts = new HashSet<Account>();
-        private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
-        private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
-        private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
-        private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
-        private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
-        private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
-        private readonly SaveTrack baseSaveTrack = new SaveTrack();
-
-        private readonly ReadOnlyBook readOnlyFacade;
-        private readonly ICollection<Security> securitiesReadOnly;
         private readonly ICollection<Account> accountsReadOnly;
-        private readonly ICollection<Account> rootAccountsReadOnly;
-        private readonly ICollection<PriceQuote> priceQuotesReadOnly;
-        private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
 
         // Indexes:
         private readonly Dictionary<Account, CompositeBalance> balances = new Dictionary<Account, CompositeBalance>();
 
+        private readonly SaveTrack baseSaveTrack = new SaveTrack();
+        private readonly object lockMutex = new object();
+        private readonly HashSet<PriceQuote> priceQuotes = new HashSet<PriceQuote>();
+        private readonly ICollection<PriceQuote> priceQuotesReadOnly;
+        private readonly ReadOnlyBook readOnlyFacade;
+        private readonly HashSet<Account> rootAccounts = new HashSet<Account>();
+        private readonly ICollection<Account> rootAccountsReadOnly;
+        private readonly Dictionary<SavePoint, SaveTrack> saveTracks = new Dictionary<SavePoint, SaveTrack>();
+        private readonly HashSet<Security> securities = new HashSet<Security>();
+        private readonly ICollection<Security> securitiesReadOnly;
+        private readonly Dictionary<string, string> settings = new Dictionary<string, string>();
+        private readonly ReadOnlyDictionary<string, string> settingsReadOnly;
         private readonly Dictionary<Account, CompositeBalance> totalBalances = new Dictionary<Account, CompositeBalance>();
+        private readonly HashSet<Guid> transactionIds = new HashSet<Guid>();
+        private readonly HashSet<Transaction> transactions = new HashSet<Transaction>();
 
         public Book()
         {
@@ -64,24 +62,9 @@ namespace SharpBooks
 
         public event EventHandler<TransactionRemovedEventArgs> TransactionRemoved;
 
-        public ICollection<Security> Securities
-        {
-            get { return this.securitiesReadOnly; }
-        }
-
         public ICollection<Account> Accounts
         {
             get { return this.accountsReadOnly; }
-        }
-
-        public ICollection<Account> RootAccounts
-        {
-            get { return this.rootAccountsReadOnly; }
-        }
-
-        public ICollection<Transaction> Transactions
-        {
-            get { return this.transactions; }
         }
 
         public ICollection<PriceQuote> PriceQuotes
@@ -89,268 +72,24 @@ namespace SharpBooks
             get { return this.priceQuotesReadOnly; }
         }
 
+        public ICollection<Account> RootAccounts
+        {
+            get { return this.rootAccountsReadOnly; }
+        }
+
+        public ICollection<Security> Securities
+        {
+            get { return this.securitiesReadOnly; }
+        }
+
         public ReadOnlyDictionary<string, string> Settings
         {
             get { return this.settingsReadOnly; }
         }
 
-        public ICollection<Split> GetAccountSplits(Account account)
+        public ICollection<Transaction> Transactions
         {
-            lock (this.lockMutex)
-            {
-                if (account == null)
-                {
-                    throw new ArgumentNullException("account");
-                }
-
-                if (!this.accounts.Contains(account))
-                {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
-                }
-
-                var splits = new List<Split>();
-
-                foreach (var t in this.transactions)
-                {
-                    splits.AddRange(t.Splits.Where(s => s.Account == account));
-                }
-
-                return splits.AsReadOnly();
-            }
-        }
-
-        /// <summary>
-        /// Adds a transaction to all of the respective balances.
-        /// </summary>
-        /// <param name="transaction">The transaction being added.</param>
-        private void AddTransactionToBalances(Transaction transaction)
-        {
-            foreach (var split in transaction.Splits)
-            {
-                var acct = split.Account;
-                var balance = this.balances[acct];
-                var newBal = balance.CombineWith(split.Security, split.Amount, isExact: true);
-
-                if (newBal != balance)
-                {
-                    this.balances[acct] = newBal;
-
-                    while (acct != null)
-                    {
-                        this.totalBalances.Remove(acct);
-                        acct = acct.ParentAccount;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Removes a transaction from all of the respective balances.
-        /// </summary>
-        /// <param name="transaction">The transaction being removed.</param>
-        private void RemoveTransactionFromBalances(Transaction transaction)
-        {
-            foreach (var split in transaction.Splits)
-            {
-                var acct = split.Account;
-                var balance = this.balances[acct];
-                var newBal = balance.CombineWith(split.Security, -split.Amount, isExact: true);
-
-                if (newBal != balance)
-                {
-                    this.balances[acct] = newBal;
-
-                    while (acct != null)
-                    {
-                        this.totalBalances.Remove(acct);
-                        acct = acct.ParentAccount;
-                    }
-                }
-            }
-        }
-
-        public CompositeBalance GetAccountBalance(Account account)
-        {
-            lock (this.lockMutex)
-            {
-                if (account == null)
-                {
-                    throw new ArgumentNullException("account");
-                }
-
-                CompositeBalance balance;
-                if (!this.balances.TryGetValue(account, out balance))
-                {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
-                }
-
-                return balance;
-            }
-        }
-
-        public CompositeBalance GetAccountTotalBalance(Account account)
-        {
-            lock (this.lockMutex)
-            {
-                if (account == null)
-                {
-                    throw new ArgumentNullException("account");
-                }
-
-                CompositeBalance balance;
-                if (this.totalBalances.TryGetValue(account, out balance))
-                {
-                    return balance;
-                }
-
-                if (!this.balances.TryGetValue(account, out balance))
-                {
-                    throw new InvalidOperationException("The account specified is not a member of the book.");
-                }
-
-                var subAccountBalances = from a in this.accounts
-                                         where a.ParentAccount == account
-                                         select this.GetAccountTotalBalance(a);
-
-                balance = new CompositeBalance(balance, subAccountBalances);
-                this.totalBalances[account] = balance;
-                return balance;
-            }
-        }
-
-        /// <summary>
-        /// Sets the value of a setting.
-        /// </summary>
-        /// <param name="key">The key of the setting.</param>
-        /// <param name="value">The new value of the setting.</param>
-        public void SetSetting(string key, string value)
-        {
-            lock (this.lockMutex)
-            {
-                if (string.IsNullOrEmpty(key))
-                {
-                    throw new ArgumentNullException("key");
-                }
-
-                this.settings[key] = value;
-                this.UpdateSaveTracks(st => st.SetSetting(key, value));
-            }
-        }
-
-        /// <summary>
-        /// Removes a setting from the <see cref="Book"/>.
-        /// </summary>
-        /// <param name="key">The key of the setting.</param>
-        public void RemoveSetting(string key)
-        {
-            lock (this.lockMutex)
-            {
-                if (string.IsNullOrEmpty(key))
-                {
-                    throw new ArgumentNullException("key");
-                }
-
-                this.settings.Remove(key);
-                this.UpdateSaveTracks(st => st.RemoveSetting(key));
-            }
-        }
-
-        /// <summary>
-        /// Adds a security to the <see cref="Book"/>.
-        /// </summary>
-        /// <param name="security">The security to add.</param>
-        public void AddSecurity(Security security)
-        {
-            lock (this.lockMutex)
-            {
-                if (security == null)
-                {
-                    throw new ArgumentNullException("security");
-                }
-
-                if (this.securities.Contains(security))
-                {
-                    throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
-                }
-
-                var duplicateIds = from s in this.securities
-                                   where s.SecurityId == security.SecurityId
-                                   select s;
-
-                if (duplicateIds.Any())
-                {
-                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same Security Id.");
-                }
-
-                var duplicateData = from s in this.securities
-                                    where s.SecurityType == security.SecurityType
-                                    where string.Equals(s.Symbol, security.Symbol, StringComparison.OrdinalIgnoreCase)
-                                    select s;
-
-                if (duplicateData.Any())
-                {
-                    throw new InvalidOperationException(
-                        "Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.");
-                }
-
-                this.securities.Add(security);
-                this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
-            }
-
-            this.SecurityAdded.SafeInvoke(this, new SecurityAddedEventArgs(security));
-        }
-
-        /// <summary>
-        /// Removes a security from the <see cref="Book"/>.
-        /// </summary>
-        /// <param name="security">The security to remove.</param>
-        public void RemoveSecurity(Security security)
-        {
-            lock (this.lockMutex)
-            {
-                if (security == null)
-                {
-                    throw new ArgumentNullException("security");
-                }
-
-                if (!this.securities.Contains(security))
-                {
-                    throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
-                }
-
-                var dependantAccounts = from a in this.accounts
-                                        where a.Security == security
-                                        select a;
-
-                if (dependantAccounts.Any())
-                {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
-                }
-
-                var dependantSplits = from t in this.transactions
-                                      from s in t.Splits
-                                      where s.Security == security
-                                      select s;
-
-                if (dependantSplits.Any())
-                {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one transaction depends on it.");
-                }
-
-                var dependantPriceQuotes = from q in this.priceQuotes
-                                           where q.Security == security || q.Currency == security
-                                           select q;
-
-                if (dependantPriceQuotes.Any())
-                {
-                    throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
-                }
-
-                this.securities.Remove(security);
-                this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
-            }
-
-            this.SecurityRemoved.SafeInvoke(this, new SecurityRemovedEventArgs(security));
+            get { return this.transactions; }
         }
 
         /// <summary>
@@ -416,60 +155,6 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Removes an account from the <see cref="Book"/>.
-        /// </summary>
-        /// <param name="account">The account to remove.</param>
-        public void RemoveAccount(Account account)
-        {
-            lock (this.lockMutex)
-            {
-                if (account == null)
-                {
-                    throw new ArgumentNullException("account");
-                }
-
-                if (!this.accounts.Contains(account))
-                {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account is not a member of the book.");
-                }
-
-                var childAccounts = from a in this.accounts
-                                    where a.ParentAccount == account
-                                    select a;
-
-                if (childAccounts.Any())
-                {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
-                }
-
-                var involvedTransactions = from t in this.transactions
-                                           where (from s in t.Splits
-                                                  where s.Account == account
-                                                  select s).Any()
-                                           select t;
-
-                if (involvedTransactions.Any())
-                {
-                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
-                }
-
-                this.accounts.Remove(account);
-                if (account.ParentAccount == null)
-                {
-                    this.rootAccounts.Remove(account);
-                }
-
-                this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
-                account.Book = null;
-
-                this.balances.Remove(account);
-                this.totalBalances.Remove(account);
-            }
-
-            this.AccountRemoved.SafeInvoke(this, new AccountRemovedEventArgs(account));
-        }
-
-        /// <summary>
         /// Adds a price quote to the <see cref="Book"/>.
         /// </summary>
         /// <param name="priceQuote">The price quote to add.</param>
@@ -527,28 +212,48 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Removes a price quote from the <see cref="Book"/>.
+        /// Adds a security to the <see cref="Book"/>.
         /// </summary>
-        /// <param name="priceQuote">The price quote to remove.</param>
-        public void RemovePriceQuote(PriceQuote priceQuote)
+        /// <param name="security">The security to add.</param>
+        public void AddSecurity(Security security)
         {
             lock (this.lockMutex)
             {
-                if (priceQuote == null)
+                if (security == null)
                 {
-                    throw new ArgumentNullException("priceQuote");
+                    throw new ArgumentNullException("security");
                 }
 
-                if (!this.priceQuotes.Contains(priceQuote))
+                if (this.securities.Contains(security))
                 {
-                    throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
+                    throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
                 }
 
-                this.priceQuotes.Remove(priceQuote);
-                this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
+                var duplicateIds = from s in this.securities
+                                   where s.SecurityId == security.SecurityId
+                                   select s;
+
+                if (duplicateIds.Any())
+                {
+                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same Security Id.");
+                }
+
+                var duplicateData = from s in this.securities
+                                    where s.SecurityType == security.SecurityType
+                                    where string.Equals(s.Symbol, security.Symbol, StringComparison.OrdinalIgnoreCase)
+                                    select s;
+
+                if (duplicateData.Any())
+                {
+                    throw new InvalidOperationException(
+                        "Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.");
+                }
+
+                this.securities.Add(security);
+                this.UpdateSaveTracks(st => st.AddSecurity(new SecurityData(security)));
             }
 
-            this.PriceQuoteRemoved.SafeInvoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
+            this.SecurityAdded.SafeInvoke(this, new SecurityAddedEventArgs(security));
         }
 
         /// <summary>
@@ -609,6 +314,255 @@ namespace SharpBooks
             }
 
             this.TransactionAdded.SafeInvoke(this, new TransactionAddedEventArgs(transaction));
+        }
+
+        /// <summary>
+        /// Returns a read-only wrapper for the current <see cref="Book"/>.
+        /// </summary>
+        /// <returns>A <see cref="ReadOnlyBook"/> that acts a wrapper for the current <see cref="Book"/>.</returns>
+        public ReadOnlyBook AsReadOnly()
+        {
+            return this.readOnlyFacade;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="SavePoint"/> that can be used to keep track of changes in the current <see cref="Book"/>.
+        /// </summary>
+        /// <returns>A <see cref="SavePoint"/> corresponding to the current state of the current <see cref="Book"/>.</returns>
+        public SavePoint CreateSavePoint()
+        {
+            lock (this.lockMutex)
+            {
+                var savePoint = new SavePoint(this);
+
+                this.saveTracks.Add(savePoint, new SaveTrack());
+
+                return savePoint;
+            }
+        }
+
+        public CompositeBalance GetAccountBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                return balance;
+            }
+        }
+
+        public ICollection<Split> GetAccountSplits(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                if (!this.accounts.Contains(account))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                var splits = new List<Split>();
+
+                foreach (var t in this.transactions)
+                {
+                    splits.AddRange(t.Splits.Where(s => s.Account == account));
+                }
+
+                return splits.AsReadOnly();
+            }
+        }
+
+        public CompositeBalance GetAccountTotalBalance(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                CompositeBalance balance;
+                if (this.totalBalances.TryGetValue(account, out balance))
+                {
+                    return balance;
+                }
+
+                if (!this.balances.TryGetValue(account, out balance))
+                {
+                    throw new InvalidOperationException("The account specified is not a member of the book.");
+                }
+
+                var subAccountBalances = from a in this.accounts
+                                         where a.ParentAccount == account
+                                         select this.GetAccountTotalBalance(a);
+
+                balance = new CompositeBalance(balance, subAccountBalances);
+                this.totalBalances[account] = balance;
+                return balance;
+            }
+        }
+
+        /// <summary>
+        /// Removes an account from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="account">The account to remove.</param>
+        public void RemoveAccount(Account account)
+        {
+            lock (this.lockMutex)
+            {
+                if (account == null)
+                {
+                    throw new ArgumentNullException("account");
+                }
+
+                if (!this.accounts.Contains(account))
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account is not a member of the book.");
+                }
+
+                var childAccounts = from a in this.accounts
+                                    where a.ParentAccount == account
+                                    select a;
+
+                if (childAccounts.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has children.");
+                }
+
+                var involvedTransactions = from t in this.transactions
+                                           where (from s in t.Splits
+                                                  where s.Account == account
+                                                  select s).Any()
+                                           select t;
+
+                if (involvedTransactions.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the account from the book, because the account currently has splits.");
+                }
+
+                this.accounts.Remove(account);
+                if (account.ParentAccount == null)
+                {
+                    this.rootAccounts.Remove(account);
+                }
+
+                this.UpdateSaveTracks(st => st.RemoveAccount(account.AccountId));
+                account.Book = null;
+
+                this.balances.Remove(account);
+                this.totalBalances.Remove(account);
+            }
+
+            this.AccountRemoved.SafeInvoke(this, new AccountRemovedEventArgs(account));
+        }
+
+        /// <summary>
+        /// Removes a price quote from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="priceQuote">The price quote to remove.</param>
+        public void RemovePriceQuote(PriceQuote priceQuote)
+        {
+            lock (this.lockMutex)
+            {
+                if (priceQuote == null)
+                {
+                    throw new ArgumentNullException("priceQuote");
+                }
+
+                if (!this.priceQuotes.Contains(priceQuote))
+                {
+                    throw new InvalidOperationException("Could not remove the price quote from the book, because the price quote is not a member of the book.");
+                }
+
+                this.priceQuotes.Remove(priceQuote);
+                this.UpdateSaveTracks(st => st.RemovePriceQuote(priceQuote.PriceQuoteId));
+            }
+
+            this.PriceQuoteRemoved.SafeInvoke(this, new PriceQuoteRemovedEventArgs(priceQuote));
+        }
+
+        /// <summary>
+        /// Removes a security from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="security">The security to remove.</param>
+        public void RemoveSecurity(Security security)
+        {
+            lock (this.lockMutex)
+            {
+                if (security == null)
+                {
+                    throw new ArgumentNullException("security");
+                }
+
+                if (!this.securities.Contains(security))
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because the security is not a member of the book.");
+                }
+
+                var dependantAccounts = from a in this.accounts
+                                        where a.Security == security
+                                        select a;
+
+                if (dependantAccounts.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one account depends on it.");
+                }
+
+                var dependantSplits = from t in this.transactions
+                                      from s in t.Splits
+                                      where s.Security == security
+                                      select s;
+
+                if (dependantSplits.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one transaction depends on it.");
+                }
+
+                var dependantPriceQuotes = from q in this.priceQuotes
+                                           where q.Security == security || q.Currency == security
+                                           select q;
+
+                if (dependantPriceQuotes.Any())
+                {
+                    throw new InvalidOperationException("Could not remove the security from the book, because at least one price quote depends on it.");
+                }
+
+                this.securities.Remove(security);
+                this.UpdateSaveTracks(st => st.RemoveSecurity(security.SecurityId));
+            }
+
+            this.SecurityRemoved.SafeInvoke(this, new SecurityRemovedEventArgs(security));
+        }
+
+        /// <summary>
+        /// Removes a setting from the <see cref="Book"/>.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        public void RemoveSetting(string key)
+        {
+            lock (this.lockMutex)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    throw new ArgumentNullException("key");
+                }
+
+                this.settings.Remove(key);
+                this.UpdateSaveTracks(st => st.RemoveSetting(key));
+            }
         }
 
         /// <summary>
@@ -708,31 +662,6 @@ namespace SharpBooks
         }
 
         /// <summary>
-        /// Returns a read-only wrapper for the current <see cref="Book"/>.
-        /// </summary>
-        /// <returns>A <see cref="ReadOnlyBook"/> that acts a wrapper for the current <see cref="Book"/>.</returns>
-        public ReadOnlyBook AsReadOnly()
-        {
-            return this.readOnlyFacade;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="SavePoint"/> that can be used to keep track of changes in the current <see cref="Book"/>.
-        /// </summary>
-        /// <returns>A <see cref="SavePoint"/> corresponding to the current state of the current <see cref="Book"/>.</returns>
-        public SavePoint CreateSavePoint()
-        {
-            lock (this.lockMutex)
-            {
-                var savePoint = new SavePoint(this);
-
-                this.saveTracks.Add(savePoint, new SaveTrack());
-
-                return savePoint;
-            }
-        }
-
-        /// <summary>
         /// Replays the changes in the current <see cref="Book"/> that have taken place since the <paramref name="savePoint"/> has been created.
         /// </summary>
         /// <param name="dataAdapter">The <see cref="ISaver"/> to which to replay the changes.</param>
@@ -764,6 +693,25 @@ namespace SharpBooks
             }
         }
 
+        /// <summary>
+        /// Sets the value of a setting.
+        /// </summary>
+        /// <param name="key">The key of the setting.</param>
+        /// <param name="value">The new value of the setting.</param>
+        public void SetSetting(string key, string value)
+        {
+            lock (this.lockMutex)
+            {
+                if (string.IsNullOrEmpty(key))
+                {
+                    throw new ArgumentNullException("key");
+                }
+
+                this.settings[key] = value;
+                this.UpdateSaveTracks(st => st.SetSetting(key, value));
+            }
+        }
+
         internal void RemoveSavePoint(SavePoint savePoint)
         {
             lock (this.lockMutex)
@@ -774,6 +722,56 @@ namespace SharpBooks
                 }
 
                 this.saveTracks.Remove(savePoint);
+            }
+        }
+
+        /// <summary>
+        /// Adds a transaction to all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being added.</param>
+        private void AddTransactionToBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a transaction from all of the respective balances.
+        /// </summary>
+        /// <param name="transaction">The transaction being removed.</param>
+        private void RemoveTransactionFromBalances(Transaction transaction)
+        {
+            foreach (var split in transaction.Splits)
+            {
+                var acct = split.Account;
+                var balance = this.balances[acct];
+                var newBal = balance.CombineWith(split.Security, -split.Amount, isExact: true);
+
+                if (newBal != balance)
+                {
+                    this.balances[acct] = newBal;
+
+                    while (acct != null)
+                    {
+                        this.totalBalances.Remove(acct);
+                        acct = acct.ParentAccount;
+                    }
+                }
             }
         }
 
