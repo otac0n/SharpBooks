@@ -70,6 +70,24 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An account&apos;s smallest fraction must represent a whole number multiple of the units used by its security..
+        /// </summary>
+        internal static string ACCOUNT_FRACTION_MUST_BE_CONGRUENT_TO_SECURITY {
+            get {
+                return ResourceManager.GetString("ACCOUNT_FRACTION_MUST_BE_CONGRUENT_TO_SECURITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An account may not share its ID with any of its ancestors..
+        /// </summary>
+        internal static string ACCOUNT_ID_MUST_BE_UNIQUE {
+            get {
+                return ResourceManager.GetString("ACCOUNT_ID_MUST_BE_UNIQUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add the account to the book, because the account&apos;s parent has not been added..
         /// </summary>
         internal static string ACCOUNT_PARENT_NOT_IN_BOOK {
@@ -174,6 +192,15 @@ namespace SharpBooks.Localization {
         internal static string SECURITY_ALREADY_IN_BOOK {
             get {
                 return ResourceManager.GetString("SECURITY_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The fraction traded must be greater than or equal to one..
+        /// </summary>
+        internal static string SECURITY_FRACTION_TRADED_MUST_BE_POSITIVE {
+            get {
+                return ResourceManager.GetString("SECURITY_FRACTION_TRADED_MUST_BE_POSITIVE", resourceCulture);
             }
         }
         

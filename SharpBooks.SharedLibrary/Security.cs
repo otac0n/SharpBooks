@@ -27,7 +27,7 @@ namespace SharpBooks
 
             if (fractionTraded <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(fractionTraded), "The fraction traded must be greater than or equal to one.");
+                throw new ArgumentOutOfRangeException(nameof(fractionTraded), Localization.Localization.SECURITY_FRACTION_TRADED_MUST_BE_POSITIVE);
             }
 
             this.SecurityId = securityId;

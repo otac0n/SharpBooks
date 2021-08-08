@@ -48,7 +48,7 @@ namespace SharpBooks
             {
                 if (security.FractionTraded % smallestFraction != 0)
                 {
-                    throw new InvalidOperationException("An account's smallest fraction must represent a whole number multiple of the units used by its security");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_FRACTION_MUST_BE_CONGRUENT_TO_SECURITY);
                 }
             }
 
@@ -57,7 +57,7 @@ namespace SharpBooks
             {
                 if (parent.AccountId == accountId)
                 {
-                    throw new InvalidOperationException("An account may not share an its Account Id with any of its ancestors.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_ID_MUST_BE_UNIQUE);
                 }
 
                 parent = parent.ParentAccount;
