@@ -4,6 +4,7 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <DebugType>portable</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>SharpBooks</RootNamespace>
     <TargetFramework>net472</TargetFramework>
     <SignAssembly>true</SignAssembly>
