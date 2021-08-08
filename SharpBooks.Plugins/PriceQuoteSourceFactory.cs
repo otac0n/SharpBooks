@@ -11,11 +11,7 @@ namespace SharpBooks.Plugins
         }
 
         /// <inheritdoc/>
-        public string Name
-        {
-            get;
-            private set;
-        }
+        public string Name { get; }
 
         /// <inheritdoc/>
         public IPriceQuoteSource CreateInstance()

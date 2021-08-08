@@ -25,46 +25,18 @@ namespace SharpBooks
             this.Source = priceQuote.Source;
         }
 
-        public Guid CurrencySecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid CurrencySecurityId { get; }
 
-        public DateTime DateTime
-        {
-            get;
-            private set;
-        }
+        public DateTime DateTime { get; }
 
-        public long Price
-        {
-            get;
-            private set;
-        }
+        public long Price { get; }
 
-        public Guid PriceQuoteId
-        {
-            get;
-            private set;
-        }
+        public Guid PriceQuoteId { get; }
 
-        public long Quantity
-        {
-            get;
-            private set;
-        }
+        public long Quantity { get; }
 
-        public Guid SecuritySecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid SecuritySecurityId { get; }
 
-        public string Source
-        {
-            get;
-            private set;
-        }
+        public string Source { get; }
     }
 }

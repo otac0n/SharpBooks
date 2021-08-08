@@ -10,16 +10,8 @@ namespace SharpBooks
             this.Message = message;
         }
 
-        public string Message
-        {
-            get;
-            private set;
-        }
+        public string Message { get; }
 
-        public string Source
-        {
-            get;
-            private set;
-        }
+        public string Source { get; }
     }
 }

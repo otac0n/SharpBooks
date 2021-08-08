@@ -11,11 +11,7 @@ namespace SharpBooks
             this.Book = book;
         }
 
-        public Book Book
-        {
-            get;
-            private set;
-        }
+        public Book Book { get; private set; }
 
         /// <inheritdoc/>
         public void Dispose()

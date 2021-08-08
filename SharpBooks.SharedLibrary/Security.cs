@@ -37,41 +37,17 @@ namespace SharpBooks
             this.FractionTraded = fractionTraded;
         }
 
-        public CurrencyFormat Format
-        {
-            get;
-            private set;
-        }
+        public CurrencyFormat Format { get; }
 
-        public int FractionTraded
-        {
-            get;
-            private set;
-        }
+        public int FractionTraded { get; }
 
-        public string Name
-        {
-            get;
-            private set;
-        }
+        public string Name { get; }
 
-        public Guid SecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid SecurityId { get; }
 
-        public SecurityType SecurityType
-        {
-            get;
-            private set;
-        }
+        public SecurityType SecurityType { get; }
 
-        public string Symbol
-        {
-            get;
-            private set;
-        }
+        public string Symbol { get; }
 
         public string FormatValue(long value)
         {

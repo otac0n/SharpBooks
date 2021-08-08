@@ -28,40 +28,16 @@ namespace SharpBooks
             this.SmallestFraction = account.SmallestFraction;
         }
 
-        public Guid AccountId
-        {
-            get;
-            private set;
-        }
+        public Guid AccountId { get; }
 
-        public AccountType AccountType
-        {
-            get;
-            private set;
-        }
+        public AccountType AccountType { get; }
 
-        public string Name
-        {
-            get;
-            private set;
-        }
+        public string Name { get; }
 
-        public Guid? ParentAccountId
-        {
-            get;
-            private set;
-        }
+        public Guid? ParentAccountId { get; }
 
-        public Guid? SecurityId
-        {
-            get;
-            private set;
-        }
+        public Guid? SecurityId { get; }
 
-        public int? SmallestFraction
-        {
-            get;
-            private set;
-        }
+        public int? SmallestFraction { get; }
     }
 }
