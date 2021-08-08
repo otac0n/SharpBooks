@@ -599,8 +599,8 @@ namespace SharpBooks.Tests
             Assert.That(actual, Is.False);
         }
 
-        [Theory]
-        public void IsEmpty_WithNullSet_ReturnsTrue(int start, int end, bool startInclusive, bool endInclusive)
+        [Test]
+        public void IsEmpty_WithNullSet_ReturnsTrue()
         {
             NumberRange rangeA = null;
 
