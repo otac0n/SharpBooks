@@ -3,20 +3,21 @@
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugType>portable</DebugType>
     <RootNamespace>SharpBooks</RootNamespace>
     <TargetFramework>net472</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FixMe" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="GitVersionTask" Version="5.5.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Localization\Localization.Designer.cs">
@@ -30,5 +31,6 @@
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>

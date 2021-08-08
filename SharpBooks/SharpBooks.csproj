@@ -3,8 +3,8 @@
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
     <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>SharpBooks.ruleset</CodeAnalysisRuleSet>
+    <DebugType>portable</DebugType>
     <OutputType>WinExe</OutputType>
     <StartupObject>SharpBooks.Program</StartupObject>
     <TargetFramework>net472</TargetFramework>
@@ -17,7 +17,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FixMe" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="GitVersionTask" Version="5.5.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="All" />
     <PackageReference Include="Newtonsoft.Json" Version="4.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GooglePriceQuoteSource\GooglePriceQuoteSource.csproj" />
@@ -148,6 +152,7 @@
     <EmbeddedResource Update="PersistencePluginSelector.resx">
       <DependentUpon>PersistencePluginSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
     <None Include="TestBook.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

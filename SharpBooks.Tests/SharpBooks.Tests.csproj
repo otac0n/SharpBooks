@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
-    <CodeAnalysisRuleSet>TestRules.ruleset</CodeAnalysisRuleSet>
-    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>SharpBooks.Tests.ruleset</CodeAnalysisRuleSet>
+    <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
     <TargetFramework>net472</TargetFramework>
     <SignAssembly>true</SignAssembly>
@@ -13,8 +13,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FixMe" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="GitVersionTask" Version="5.5.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="All" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GooglePriceQuoteSource\GooglePriceQuoteSource.csproj" />
@@ -26,6 +30,7 @@
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
-    <None Include="TestRules.ruleset" />
+    <AdditionalFiles Include="SharpBooks.Tests.ruleset" />
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>

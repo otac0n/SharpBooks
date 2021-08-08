@@ -3,7 +3,7 @@
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <TargetFramework>net472</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
@@ -13,6 +13,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FixMe" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="GitVersionTask" Version="5.5.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SharpBooks.Plugins\SharpBooks.Plugins.csproj" />
     <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj" />
   </ItemGroup>
@@ -20,5 +26,6 @@
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>
