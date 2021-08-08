@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,15 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpBooks</RootNamespace>
     <AssemblyName>SharpBooks.SharedLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\SharpBooks.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,69 +40,79 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="CurrencyFormat.cs" />
-    <Compile Include="EventsHelpers.cs" />
     <Compile Include="Events\AccountAddedEventArgs.cs" />
+    <Compile Include="Events\AccountRemovedEventArgs.cs" />
+    <Compile Include="Events\PriceQuoteAddedEventArgs.cs" />
+    <Compile Include="Events\PriceQuoteRemovedEventArgs.cs" />
+    <Compile Include="Events\SecurityAddedEventArgs.cs" />
+    <Compile Include="Events\SecurityRemovedEventArgs.cs" />
+    <Compile Include="Events\TransactionAddedEventArgs.cs" />
+    <Compile Include="Events\TransactionRemovedEventArgs.cs" />
+    <Compile Include="Integration\IRange`1.cs" />
+    <Compile Include="Integration\RangeExtensions.cs" />
+    <Compile Include="Integration\StringRange.cs" />
+    <Compile Include="Localization\Localization.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Localization\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Persistence\IPersistenceStrategy.cs" />
+    <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduling\DateLimitSchedule.cs" />
+    <Compile Include="Scheduling\DateUnit.cs" />
+    <Compile Include="Scheduling\DistinctSchedule.cs" />
+    <Compile Include="Scheduling\InstanceLimitSchedule.cs" />
+    <Compile Include="Scheduling\ISchedule.cs" />
+    <Compile Include="Scheduling\RepetitionSchedule.cs" />
+    <Compile Include="Scheduling\ScheduleBase.cs" />
+    <Compile Include="Scheduling\SingleDaySchedule.cs" />
+    <Compile Include="Scheduling\WeekdayFilter.cs" />
+    <Compile Include="Scheduling\WeekendAdjustSchedule.cs" />
+    <Compile Include="Account.cs" />
     <Compile Include="AccountData.cs" />
     <Compile Include="AccountType.cs" />
     <Compile Include="Balance.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="BookCopier.cs" />
     <Compile Include="CompositeBalance.cs" />
-    <Compile Include="Events\AccountRemovedEventArgs.cs" />
-    <Compile Include="Events\SecurityAddedEventArgs.cs" />
-    <Compile Include="Events\SecurityRemovedEventArgs.cs" />
-    <Compile Include="Events\PriceQuoteRemovedEventArgs.cs" />
-    <Compile Include="Events\PriceQuoteAddedEventArgs.cs" />
-    <Compile Include="Events\TransactionAddedEventArgs.cs" />
-    <Compile Include="Events\TransactionRemovedEventArgs.cs" />
+    <Compile Include="CurrencyFormat.cs" />
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+    <Compile Include="EventsHelpers.cs" />
     <Compile Include="ILoader.cs" />
-    <Compile Include="Integration\IRange`1.cs" />
-    <Compile Include="Integration\RangeExtensions.cs" />
-    <Compile Include="Integration\StringRange.cs" />
-    <Compile Include="Persistence\IPersistenceStrategy.cs" />
-    <Compile Include="Persistence\SimplePersistenceStrategy.cs" />
-    <Compile Include="ReadOnlyDictionary`2.cs" />
-    <Compile Include="ReadOnlyCollectionWrapper`1.cs" />
-    <Compile Include="Scheduling\DateLimitSchedule.cs" />
-    <Compile Include="Scheduling\DateUnit.cs" />
-    <Compile Include="Scheduling\DistinctSchedule.cs" />
-    <Compile Include="Scheduling\InstanceLimitSchedule.cs" />
-    <Compile Include="Scheduling\ISchedule.cs" />
-    <Compile Include="Localization\Localization.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Localization.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MathExtensions.cs" />
     <Compile Include="ISaver.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="PriceQuote.cs" />
-    <Compile Include="PriceRetrievalFailureException.cs" />
     <Compile Include="PriceQuoteData.cs" />
+    <Compile Include="PriceRetrievalFailureException.cs" />
     <Compile Include="ReadOnlyBook.cs" />
+    <Compile Include="ReadOnlyCollectionWrapper`1.cs" />
+    <Compile Include="ReadOnlyDictionary`2.cs" />
+    <Compile Include="RuleViolation.cs" />
     <Compile Include="SavePoint.cs" />
     <Compile Include="SaveTrack.cs" />
-    <Compile Include="Scheduling\ScheduleBase.cs" />
-    <Compile Include="Scheduling\WeekdayFilter.cs" />
-    <Compile Include="Scheduling\WeekendAdjustSchedule.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="SecurityType.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleViolation.cs" />
-    <Compile Include="Scheduling\RepetitionSchedule.cs" />
-    <Compile Include="Scheduling\SingleDaySchedule.cs" />
+    <None Include="..\SharpBooks.snk">
+      <Link>SharpBooks.snk</Link>
+    </None>
     <Compile Include="SortedList`1.cs" />
     <Compile Include="Split.cs" />
     <Compile Include="SplitData.cs" />
@@ -114,29 +120,5 @@
     <Compile Include="TransactionData.cs" />
     <Compile Include="TransactionLock.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\SharpBooks.snk">
-      <Link>SharpBooks.snk</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
-      <Link>CustomDictionary.xml</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
