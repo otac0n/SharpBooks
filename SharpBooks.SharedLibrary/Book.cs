@@ -79,17 +79,17 @@ namespace SharpBooks
 
                 if (this.accounts.Contains(account))
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because the account already belongs to the book.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_ALREADY_IN_BOOK);
                 }
 
                 if (account.Security != null && !this.securities.Contains(account.Security))
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because the account's security has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_SECURITY_NOT_IN_BOOK);
                 }
 
                 if (account.ParentAccount != null && !this.accounts.Contains(account.ParentAccount))
                 {
-                    throw new InvalidOperationException("Could not add the account to the book, because the account's parent has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.ACCOUNT_PARENT_NOT_IN_BOOK);
                 }
 
                 var duplicateIds = from a in this.accounts
@@ -141,17 +141,17 @@ namespace SharpBooks
 
                 if (this.priceQuotes.Contains(priceQuote))
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote already belongs to the book.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_ALREADY_IN_BOOK);
                 }
 
                 if (!this.securities.Contains(priceQuote.Security))
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote's security has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_SECURITY_NOT_IN_BOOK);
                 }
 
                 if (!this.securities.Contains(priceQuote.Currency))
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, because the price quote's currency has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_CURRENCY_NOT_IN_BOOK);
                 }
 
                 var duplicateIds = from q in this.priceQuotes
@@ -160,7 +160,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the price quote to the book, because another price quote has already been added with the same Price Quote Id.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_ID_ALREADY_IN_BOOK);
                 }
 
                 var duplicateData = from q in this.priceQuotes
@@ -172,8 +172,7 @@ namespace SharpBooks
 
                 if (duplicateData.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source.");
+                    throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_REDUNDANT_BY_SOURCE);
                 }
 
                 this.priceQuotes.Add(priceQuote);
@@ -198,7 +197,7 @@ namespace SharpBooks
 
                 if (this.securities.Contains(security))
                 {
-                    throw new InvalidOperationException("Could not add the security to the book, because the security already belongs to the book.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_ALREADY_IN_BOOK);
                 }
 
                 var duplicateIds = from s in this.securities
@@ -207,7 +206,7 @@ namespace SharpBooks
 
                 if (duplicateIds.Any())
                 {
-                    throw new InvalidOperationException("Could not add the security to the book, because another security has already been added with the same Security Id.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_ID_ALREADY_IN_BOOK);
                 }
 
                 var duplicateData = from s in this.securities
@@ -217,8 +216,7 @@ namespace SharpBooks
 
                 if (duplicateData.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.");
+                    throw new InvalidOperationException(Localization.Localization.SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL);
                 }
 
                 this.securities.Add(security);
@@ -646,7 +644,7 @@ namespace SharpBooks
                 {
                     if (!this.saveTracks.ContainsKey(savePoint))
                     {
-                        throw new InvalidOperationException("Could replay the book's modifications, because the save point could not be found.");
+                        throw new InvalidOperationException(Localization.Localization.SAVE_POINT_NOT_FOUND);
                     }
 
                     track = this.saveTracks[savePoint];

@@ -61,6 +61,33 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add the account to the book, because the account already belongs to the book..
+        /// </summary>
+        internal static string ACCOUNT_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the account to the book, because the account&apos;s parent has not been added..
+        /// </summary>
+        internal static string ACCOUNT_PARENT_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_PARENT_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the account to the book, because the account&apos;s security has not been added..
+        /// </summary>
+        internal static string ACCOUNT_SECURITY_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("ACCOUNT_SECURITY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The amount and the transaction amount of a split must have the same value, if they are of the same security..
         /// </summary>
         internal static string AMOUNT_AND_TRANSACTION_AMOUNT_MUST_BE_EQUAL {
@@ -84,6 +111,87 @@ namespace SharpBooks.Localization {
         internal static string AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE {
             get {
                 return ResourceManager.GetString("AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the price quote to the book, because the price quote already belongs to the book..
+        /// </summary>
+        internal static string PRICE_QUOTE_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the price quote to the book, because the price quote&apos;s currency has not been added..
+        /// </summary>
+        internal static string PRICE_QUOTE_CURRENCY_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_CURRENCY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the price quote to the book, because another price quote has already been added with the same ID..
+        /// </summary>
+        internal static string PRICE_QUOTE_ID_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_ID_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source..
+        /// </summary>
+        internal static string PRICE_QUOTE_REDUNDANT_BY_SOURCE {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_REDUNDANT_BY_SOURCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the price quote to the book, because the price quote&apos;s security has not been added..
+        /// </summary>
+        internal static string PRICE_QUOTE_SECURITY_NOT_IN_BOOK {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_SECURITY_NOT_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could replay the book&apos;s modifications, because the save point could not be found..
+        /// </summary>
+        internal static string SAVE_POINT_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SAVE_POINT_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the security to the book, because the security already belongs to the book..
+        /// </summary>
+        internal static string SECURITY_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("SECURITY_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the security to the book, because another security has already been added with the same ID..
+        /// </summary>
+        internal static string SECURITY_ID_ALREADY_IN_BOOK {
+            get {
+                return ResourceManager.GetString("SECURITY_ID_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add the security to the book, because another security has already been added with the same Security Type and Symbol..
+        /// </summary>
+        internal static string SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL {
+            get {
+                return ResourceManager.GetString("SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL", resourceCulture);
             }
         }
         

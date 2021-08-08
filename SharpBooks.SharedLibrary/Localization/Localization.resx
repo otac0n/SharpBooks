@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ACCOUNT_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the account to the book, because the account already belongs to the book.</value>
+  </data>
+  <data name="ACCOUNT_PARENT_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the account to the book, because the account's parent has not been added.</value>
+  </data>
+  <data name="ACCOUNT_SECURITY_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the account to the book, because the account's security has not been added.</value>
+  </data>
   <data name="AMOUNT_AND_TRANSACTION_AMOUNT_MUST_BE_EQUAL" xml:space="preserve">
     <value>The amount and the transaction amount of a split must have the same value, if they are of the same security.</value>
   </data>
@@ -125,6 +134,33 @@
   </data>
   <data name="AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE" xml:space="preserve">
     <value>The amount of a split must be evenly divisible by its account's smallest fraction.</value>
+  </data>
+  <data name="PRICE_QUOTE_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the price quote to the book, because the price quote already belongs to the book.</value>
+  </data>
+  <data name="PRICE_QUOTE_CURRENCY_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the price quote to the book, because the price quote's currency has not been added.</value>
+  </data>
+  <data name="PRICE_QUOTE_ID_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the price quote to the book, because another price quote has already been added with the same ID.</value>
+  </data>
+  <data name="PRICE_QUOTE_REDUNDANT_BY_SOURCE" xml:space="preserve">
+    <value>Could not add the price quote to the book, because another price quote has already been added with the same Security, Currency, Date, and Source.</value>
+  </data>
+  <data name="PRICE_QUOTE_SECURITY_NOT_IN_BOOK" xml:space="preserve">
+    <value>Could not add the price quote to the book, because the price quote's security has not been added.</value>
+  </data>
+  <data name="SAVE_POINT_NOT_FOUND" xml:space="preserve">
+    <value>Could replay the book's modifications, because the save point could not be found.</value>
+  </data>
+  <data name="SECURITY_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the security to the book, because the security already belongs to the book.</value>
+  </data>
+  <data name="SECURITY_ID_ALREADY_IN_BOOK" xml:space="preserve">
+    <value>Could not add the security to the book, because another security has already been added with the same ID.</value>
+  </data>
+  <data name="SECURITY_REDUNDANT_BY_TYPE_AND_SYMBOL" xml:space="preserve">
+    <value>Could not add the security to the book, because another security has already been added with the same Security Type and Symbol.</value>
   </data>
   <data name="SPLIT_CANNOT_BE_ASSIGNED_TO_GROUPING_ACCOUNT" xml:space="preserve">
     <value>The split must not be assigned to an account that is identified as a grouping account.</value>
