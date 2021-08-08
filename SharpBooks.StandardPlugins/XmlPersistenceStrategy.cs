@@ -91,15 +91,15 @@
                         var account = accounts[accountId];
                         split.SetAccount(account, tlock);
 
-                        var splitSecurityId = (Guid)s.Attribute("securityId");
-                        var splitSecurity = securities[splitSecurityId];
+                        var splitSecurityId = (Guid?)s.Attribute("securityId");
+                        var splitSecurity = securities[splitSecurityId ?? securityId];
                         split.SetSecurity(splitSecurity, tlock);
 
                         var amount = (long)s.Attribute("amount");
                         split.SetAmount(amount, tlock);
 
                         var transactionAmount = (long)s.Attribute("transactionAmount");
-                        split.SetTransactionAmount(transactionAmount, tlock);
+                        split.SetTransactionAmount(splitSecurity != security ? transactionAmount.Value : transactionAmount ?? amount, tlock);
 
                         var dateCleared = (DateTime?)s.Attribute("dateCleared");
                         split.SetDateCleared(dateCleared, tlock);
@@ -182,9 +182,9 @@
                             from s in t.Splits
                             select new XElement("Split",
                                 new XAttribute("accountId", s.Account.AccountId),
-                                new XAttribute("securityId", s.Security.SecurityId),
+                                s.Security != t.BaseSecurity ? new XAttribute("securityId", s.Security.SecurityId) : null,
                                 new XAttribute("amount", s.Amount),
-                                new XAttribute("transactionAmount", s.TransactionAmount),
+                                s.Security != t.BaseSecurity || s.Amount != s.TransactionAmount ? new XAttribute("transactionAmount", s.TransactionAmount) : null,
                                 s.DateCleared.HasValue ? new XAttribute("dateCleared", s.DateCleared) : null,
                                 new XAttribute("reconciled", s.IsReconciled)
                             )
