@@ -26,7 +26,7 @@ namespace SharpBooks.StandardPlugins
         /// <param name="book">The book from which to read the list of accounts.</param>
         /// <param name="settings">The current settings of the "Favorite Accounts" widget.</param>
         /// <returns>The new settings for the "Favorite Accounts" widget.</returns>
-        public string GetSettings(ReadOnlyBook book, string settings)
+        public string GetSettings(IReadOnlyBook book, string settings)
         {
             var config = FavoriteAccountsWidget.LoadSettings(settings);
 

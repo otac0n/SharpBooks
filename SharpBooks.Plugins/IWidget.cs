@@ -6,8 +6,12 @@ namespace SharpBooks.Plugins
 
     public interface IWidget : IPlugin
     {
+        string Configure(IReadOnlyBook book, string currentSettings);
+
         Control Create(IReadOnlyBook book, EventProxy events);
 
         void Refresh(IReadOnlyBook book, EventProxy events);
+
+        void SetConfiguration(IReadOnlyBook book, string settings);
     }
 }

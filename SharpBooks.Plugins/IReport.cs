@@ -6,6 +6,10 @@ namespace SharpBooks.Plugins
 
     public interface IReport : IPlugin
     {
+        string Configure(IReadOnlyBook book, string currentSettings);
+
         void Render(IReadOnlyBook book, Graphics g);
+
+        void SetConfiguration(IReadOnlyBook book, string settings);
     }
 }

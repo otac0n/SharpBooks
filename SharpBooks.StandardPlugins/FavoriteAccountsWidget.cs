@@ -11,14 +11,12 @@ namespace SharpBooks.StandardPlugins
 
     internal class FavoriteAccountsWidget : IWidget
     {
-        private readonly FavoriteAccountSettings settings;
-
         private FlowLayoutPanel control;
         private EventProxy events;
+        private FavoriteAccountSettings settings;
 
-        public FavoriteAccountsWidget(string settings)
+        public FavoriteAccountsWidget()
         {
-            this.settings = LoadSettings(settings);
         }
 
         public static FavoriteAccountSettings LoadSettings(string settings)
@@ -37,6 +35,15 @@ namespace SharpBooks.StandardPlugins
             }
 
             return config;
+        }
+
+        /// <inheritdoc/>
+        public string Configure(IReadOnlyBook book, string currentSettings)
+        {
+            var view = new FavoriteAccountsConfiguration();
+            currentSettings = view.GetSettings(book, currentSettings);
+
+            return currentSettings;
         }
 
         /// <inheritdoc/>
@@ -76,6 +83,11 @@ namespace SharpBooks.StandardPlugins
             this.control.Controls.Clear();
 
             this.PopulateControl(book);
+        }
+
+        public void SetConfiguration(IReadOnlyBook book, string settings)
+        {
+            this.settings = LoadSettings(settings);
         }
 
         private void Account_MouseDoubleClick(object sender, MouseEventArgs e)
