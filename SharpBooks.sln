@@ -1,5 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{64CD152E-2A7A-4828-B9D2-CC084E636111}"
 	ProjectSection(SolutionItems) = preProject
 		Mockups\assets\flag.png = Mockups\assets\flag.png
@@ -14,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mockups", "Mockups", "{414E
 		Mockups\SharpBooks-Overview.bmml = Mockups\SharpBooks-Overview.bmml
 		Mockups\SharpBooks-Payments.bmml = Mockups\SharpBooks-Payments.bmml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{864EE9C3-6DA1-4C76-AFF7-F729BEA92F3D}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,21 +35,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooglePriceQuoteSource", "GooglePriceQuoteSource\GooglePriceQuoteSource.csproj", "{BFD8417E-2984-48D9-AFD8-C550550E6536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GooglePriceQuoteSource", "GooglePriceQuoteSource\GooglePriceQuoteSource.csproj", "{BFD8417E-2984-48D9-AFD8-C550550E6536}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks", "SharpBooks\SharpBooks.csproj", "{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks", "SharpBooks\SharpBooks.csproj", "{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Charts", "SharpBooks.Charts\SharpBooks.Charts.csproj", "{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks.Charts", "SharpBooks.Charts\SharpBooks.Charts.csproj", "{C3F4015C-7F74-4FF0-9B41-FB00D7F0DF8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Plugins", "SharpBooks.Plugins\SharpBooks.Plugins.csproj", "{68183E1E-2038-42DD-81CC-7B757A240C1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks.Plugins", "SharpBooks.Plugins\SharpBooks.Plugins.csproj", "{68183E1E-2038-42DD-81CC-7B757A240C1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.SharedLibrary", "SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks.SharedLibrary", "SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj", "{F480083F-7CBA-43AB-94C9-08E834A68EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.StandardPlugins", "SharpBooks.StandardPlugins\SharpBooks.StandardPlugins.csproj", "{C344BABA-2F2C-4DCC-AD9B-146641D148C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks.StandardPlugins", "SharpBooks.StandardPlugins\SharpBooks.StandardPlugins.csproj", "{C344BABA-2F2C-4DCC-AD9B-146641D148C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBooks.Tests", "SharpBooks.Tests\SharpBooks.Tests.csproj", "{B3EC2AB3-AE07-4124-AE3F-1CFDA80BFE70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks.Tests", "SharpBooks.Tests\SharpBooks.Tests.csproj", "{B3EC2AB3-AE07-4124-AE3F-1CFDA80BFE70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooPriceQuoteSource", "YahooPriceQuoteSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YahooPriceQuoteSource", "YahooPriceQuoteSource\YahooPriceQuoteSource.csproj", "{773124A5-7D80-487F-986F-B8FFCD6F17CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,5 +95,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64CD152E-2A7A-4828-B9D2-CC084E636111} = {414EC0F5-B11D-41DD-A9D6-66ADFCEFDF97}
+		{BFD8417E-2984-48D9-AFD8-C550550E6536} = {F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}
+		{773124A5-7D80-487F-986F-B8FFCD6F17CB} = {F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15568FBF-A2CE-4054-A278-DDD34FE433E4}
 	EndGlobalSection
 EndGlobal
