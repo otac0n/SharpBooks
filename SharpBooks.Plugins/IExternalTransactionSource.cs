@@ -2,7 +2,10 @@
 
 namespace SharpBooks.Plugins
 {
+    using System.Collections.Generic;
+
     public interface IExternalTransactionSource : IPlugin
     {
+        IEnumerable<TransactionData> GetTransactionData();
     }
 }

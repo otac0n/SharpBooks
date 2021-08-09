@@ -2,7 +2,10 @@
 
 namespace SharpBooks.Plugins
 {
+    using System.Collections.Generic;
+
     public interface IExternalAccountSource : IPlugin
     {
+        IEnumerable<AccountData> GetAccountData();
     }
 }
