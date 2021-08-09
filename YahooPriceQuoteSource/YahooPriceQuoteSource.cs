@@ -6,6 +6,7 @@ namespace YahooPriceQuoteSource
     using System.Net;
     using System.Text.RegularExpressions;
     using SharpBooks;
+    using SharpBooks.Plugins;
 
     /// <summary>
     /// Provides functionality to download price quote data from Yahoo!® Finance.

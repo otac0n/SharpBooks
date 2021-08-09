@@ -7,7 +7,7 @@ namespace SharpBooks.Plugins
     /// </summary>
     /// <typeparam name="T">The type of plugins that will be instantiated.</typeparam>
     public class PluginFactory<T> : IPluginFactory<T>
-        where T : new()
+        where T : IPlugin, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PluginFactory{T}"/> class.

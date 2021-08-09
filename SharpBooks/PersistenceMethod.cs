@@ -3,7 +3,7 @@
 namespace SharpBooks
 {
     using System;
-    using SharpBooks.Persistence;
+    using SharpBooks.Plugins.Persistence;
 
     public class PersistenceMethod
     {

@@ -2,10 +2,9 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
     using System.Drawing;
 
-    public interface IReport : IDisposable
+    public interface IReport : IPlugin
     {
         void Render(IReadOnlyBook book, Graphics g);
     }

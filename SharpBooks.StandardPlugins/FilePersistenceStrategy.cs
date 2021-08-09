@@ -1,10 +1,10 @@
-﻿// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace SharpBooks.StandardPlugins
 {
     using System;
     using System.Windows.Forms;
-    using SharpBooks.Persistence;
+    using SharpBooks.Plugins.Persistence;
 
     public abstract class FilePersistenceStrategy : SimplePersistenceStrategy
     {

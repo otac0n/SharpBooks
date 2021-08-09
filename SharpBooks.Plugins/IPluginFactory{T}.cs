@@ -7,6 +7,7 @@ namespace SharpBooks.Plugins
     /// </summary>
     /// <typeparam name="T">The type of plugins that can be instantiated.</typeparam>
     public interface IPluginFactory<out T> : IPluginFactory
+        where T : IPlugin
     {
         /// <summary>
         /// Instantiates an instance of the specified plugin.

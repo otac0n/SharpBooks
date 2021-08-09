@@ -7,8 +7,8 @@ namespace SharpBooks.Controllers
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using SharpBooks.Persistence;
     using SharpBooks.Plugins;
+    using SharpBooks.Plugins.Persistence;
 
     public class MainController
     {

@@ -5,8 +5,8 @@ namespace SharpBooks
     using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
-    using SharpBooks.Persistence;
     using SharpBooks.Plugins;
+    using SharpBooks.Plugins.Persistence;
 
     public partial class PersistencePluginSelector : Form
     {

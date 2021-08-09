@@ -1,13 +1,11 @@
 // Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
-namespace SharpBooks
+namespace SharpBooks.Plugins
 {
-    using System;
-
     /// <summary>
     /// Describes the interface for retrieving external price quotes for securities.
     /// </summary>
-    public interface IPriceQuoteSource : IDisposable
+    public interface IPriceQuoteSource : IPlugin
     {
         PriceQuote GetPriceQuote(Security security, Security currency);
     }

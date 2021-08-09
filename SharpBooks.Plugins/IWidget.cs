@@ -2,10 +2,9 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
     using System.Windows.Forms;
 
-    public interface IWidget : IDisposable
+    public interface IWidget : IPlugin
     {
         Control Create(IReadOnlyBook book, EventProxy events);
 
