@@ -6,10 +6,17 @@ namespace SharpBooks
     using System.Collections.Generic;
     using SharpBooks.Events;
 
+    /// <summary>
+    /// Provides a read-only wrapper around a book.
+    /// </summary>
     public class ReadOnlyBook : IReadOnlyBook
     {
         private readonly Book book;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBook"/> class.
+        /// </summary>
+        /// <param name="book">The <see cref="Book"/> to wrap.</param>
         internal ReadOnlyBook(Book book)
         {
             this.book = book ?? throw new ArgumentNullException(nameof(book));
@@ -83,10 +90,8 @@ namespace SharpBooks
         /// <inheritdoc/>
         public ICollection<Security> Securities => this.book.Securities;
 
-        public IDictionary<string, string> Settings => this.book.Settings;
-
         /// <inheritdoc/>
-        ReadOnlyDictionary<string, string> IReadOnlyBook.Settings => this.book.Settings;
+        public ReadOnlyDictionary<string, string> Settings => this.book.Settings;
 
         /// <inheritdoc/>
         public ICollection<Transaction> Transactions => this.book.Transactions;

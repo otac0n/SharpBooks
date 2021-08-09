@@ -6,6 +6,9 @@ namespace SharpBooks
     using System.IO;
     using System.Linq;
 
+    /// <summary>
+    /// Describes an account.
+    /// </summary>
     public class Account
     {
         private readonly int? smallestFraction;
