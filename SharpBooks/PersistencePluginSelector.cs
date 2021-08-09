@@ -1,17 +1,18 @@
-﻿// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace SharpBooks
 {
     using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
+    using SharpBooks.Persistence;
     using SharpBooks.Plugins;
 
     public partial class PersistencePluginSelector : Form
     {
-        private IList<IPersistenceStrategyFactory> plugins;
+        private IList<IPluginFactory<IPersistenceStrategy>> plugins;
 
-        public PersistencePluginSelector(IList<IPersistenceStrategyFactory> plugins)
+        public PersistencePluginSelector(IList<IPluginFactory<IPersistenceStrategy>> plugins)
         {
             this.plugins = plugins;
 
@@ -25,7 +26,7 @@ namespace SharpBooks
             this.comboBox1.SelectedIndex = 0;
         }
 
-        public IPersistenceStrategyFactory StrategyFactory { get; private set; } = null;
+        public IPluginFactory<IPersistenceStrategy> StrategyFactory { get; private set; } = null;
 
         private void OkButton_Click(object sender, EventArgs e)
         {
@@ -36,12 +37,12 @@ namespace SharpBooks
 
         private class FactoryDisplay
         {
-            public FactoryDisplay(IPersistenceStrategyFactory factory)
+            public FactoryDisplay(IPluginFactory<IPersistenceStrategy> factory)
             {
                 this.Factory = factory ?? throw new ArgumentNullException(nameof(factory));
             }
 
-            public IPersistenceStrategyFactory Factory { get; }
+            public IPluginFactory<IPersistenceStrategy> Factory { get; }
 
             public override string ToString()
             {

@@ -16,7 +16,7 @@ namespace GooglePriceQuoteSource
         /// <returns>An enumerable list of factories that can create plugins.</returns>
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
-            yield return new PriceQuoteSourceFactory<GoogleCurrencyPriceQuoteSource>("Google™ Calculator Price Quotes");
+            yield return new PluginFactory<GoogleCurrencyPriceQuoteSource>("Google™ Calculator Price Quotes");
         }
     }
 }
