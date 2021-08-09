@@ -43,12 +43,12 @@ namespace SharpBooks
 
             if (currency.SecurityType != SecurityType.Currency)
             {
-                throw new InvalidOperationException("Could not create a price quote, because the currency parameter was not a valid currency.");
+                throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_CURRENCY_INVALID);
             }
 
             if (currency == security)
             {
-                throw new InvalidOperationException("Could not create a price quote, because the security and currency were the same.");
+                throw new InvalidOperationException(Localization.Localization.PRICE_QUOTE_CURRENCY_MATCHES_SECURITY);
             }
 
             if (price <= 0)

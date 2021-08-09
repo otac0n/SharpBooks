@@ -173,7 +173,7 @@ namespace SharpBooks
 
             if (!this.splits.Contains(split))
             {
-                throw new InvalidOperationException("Could not remove the split from the transaction, because the split is not a member of the transaction.");
+                throw new InvalidOperationException(Localization.Localization.SPLIT_NOT_IN_TRANSACTION);
             }
 
             this.splits.Remove(split);

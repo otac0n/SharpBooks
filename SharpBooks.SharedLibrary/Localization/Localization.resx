@@ -159,8 +159,17 @@
   <data name="AMOUNT_OF_SPLIT_MUST_BE_DIVISIBLE" xml:space="preserve">
     <value>The amount of a split must be evenly divisible by its account's smallest fraction.</value>
   </data>
+  <data name="INVALID_FORMAT" xml:space="preserve">
+    <value>The value was not in an acceptable format.</value>
+  </data>
   <data name="PRICE_QUOTE_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the price quote to the book, because the price quote already belongs to the book.</value>
+  </data>
+  <data name="PRICE_QUOTE_CURRENCY_INVALID" xml:space="preserve">
+    <value>Could not create a price quote, because the currency parameter was not a valid currency.</value>
+  </data>
+  <data name="PRICE_QUOTE_CURRENCY_MATCHES_SECURITY" xml:space="preserve">
+    <value>Could not create a price quote, because the security and currency were the same.</value>
   </data>
   <data name="PRICE_QUOTE_CURRENCY_NOT_IN_BOOK" xml:space="preserve">
     <value>Could not add the price quote to the book, because the price quote's currency has not been added.</value>
@@ -181,7 +190,7 @@
     <value>Could replay the book's modifications, because the save point could not be found.</value>
   </data>
   <data name="SAVE_POINT_NOT_IN_BOOK" xml:space="preserve">
-    <value>"Could not remove the save point, because it does not exist in the book.</value>
+    <value>Could not remove the save point, because it does not exist in the book.</value>
   </data>
   <data name="SECURITY_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the security to the book, because the security already belongs to the book.</value>
@@ -216,6 +225,9 @@
   <data name="SPLIT_MUST_HAVE_A_SECURITY" xml:space="preserve">
     <value>The split must have a security.</value>
   </data>
+  <data name="SPLIT_NOT_IN_TRANSACTION" xml:space="preserve">
+    <value>Could not remove the split from the transaction, because the split is not a member of the transaction.</value>
+  </data>
   <data name="SPLIT_SECURITY_MUST_MATCH_ACCOUNT" xml:space="preserve">
     <value>The security of a split must match the security of its account, if the account has a security specified.</value>
   </data>
@@ -224,6 +236,9 @@
   </data>
   <data name="TRANSACTION_ID_ALREADY_IN_BOOK" xml:space="preserve">
     <value>Could not add the transaction to the book, because another transaction has already been added with the same Transaction Id.</value>
+  </data>
+  <data name="TRANSACTION_ID_DOES_NOT_MATCH" xml:space="preserve">
+    <value>The new transaction given may not replace the old transaction, because they do not share the same ID.</value>
   </data>
   <data name="TRANSACTION_MUST_HAVE_SPLIT" xml:space="preserve">
     <value>The transaction must have at least one split.</value>

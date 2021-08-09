@@ -187,11 +187,38 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value was not in an acceptable format..
+        /// </summary>
+        internal static string INVALID_FORMAT {
+            get {
+                return ResourceManager.GetString("INVALID_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not add the price quote to the book, because the price quote already belongs to the book..
         /// </summary>
         internal static string PRICE_QUOTE_ALREADY_IN_BOOK {
             get {
                 return ResourceManager.GetString("PRICE_QUOTE_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create a price quote, because the currency parameter was not a valid currency..
+        /// </summary>
+        internal static string PRICE_QUOTE_CURRENCY_INVALID {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_CURRENCY_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create a price quote, because the security and currency were the same..
+        /// </summary>
+        internal static string PRICE_QUOTE_CURRENCY_MATCHES_SECURITY {
+            get {
+                return ResourceManager.GetString("PRICE_QUOTE_CURRENCY_MATCHES_SECURITY", resourceCulture);
             }
         }
         
@@ -250,7 +277,7 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Could not remove the save point, because it does not exist in the book..
+        ///   Looks up a localized string similar to Could not remove the save point, because it does not exist in the book..
         /// </summary>
         internal static string SAVE_POINT_NOT_IN_BOOK {
             get {
@@ -358,6 +385,15 @@ namespace SharpBooks.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not remove the split from the transaction, because the split is not a member of the transaction..
+        /// </summary>
+        internal static string SPLIT_NOT_IN_TRANSACTION {
+            get {
+                return ResourceManager.GetString("SPLIT_NOT_IN_TRANSACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The security of a split must match the security of its account, if the account has a security specified..
         /// </summary>
         internal static string SPLIT_SECURITY_MUST_MATCH_ACCOUNT {
@@ -381,6 +417,15 @@ namespace SharpBooks.Localization {
         internal static string TRANSACTION_ID_ALREADY_IN_BOOK {
             get {
                 return ResourceManager.GetString("TRANSACTION_ID_ALREADY_IN_BOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new transaction given may not replace the old transaction, because they do not share the same ID..
+        /// </summary>
+        internal static string TRANSACTION_ID_DOES_NOT_MATCH {
+            get {
+                return ResourceManager.GetString("TRANSACTION_ID_DOES_NOT_MATCH", resourceCulture);
             }
         }
         

@@ -601,17 +601,17 @@ namespace SharpBooks
 
                 if (oldTransaction.TransactionId != newTransaction.TransactionId)
                 {
-                    throw new InvalidOperationException("The new transaction given may not replace the old transaction, because they do not share the same TransactionId.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_ID_DOES_NOT_MATCH);
                 }
 
                 if (!this.transactions.Contains(oldTransaction))
                 {
-                    throw new InvalidOperationException("Could not remove the transaction from the book, because the transaction is not a member of the book.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_NOT_IN_BOOK);
                 }
 
                 if (!newTransaction.IsValid)
                 {
-                    throw new InvalidOperationException("Could not replace the transaction in the book, because the new transaction is not valid.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_NOT_VALID);
                 }
 
                 var splitsWithoutAccountsInBook = from s in newTransaction.Splits
@@ -620,8 +620,7 @@ namespace SharpBooks
 
                 if (splitsWithoutAccountsInBook.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not replace the transaction in the book, because the new transaction contains at least one split whose account has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_SPLIT_ACCOUNT_NOT_IN_BOOK);
                 }
 
                 var splitsWithoutSecurityInBook = from s in newTransaction.Splits
@@ -631,8 +630,7 @@ namespace SharpBooks
 
                 if (splitsWithoutSecurityInBook.Any())
                 {
-                    throw new InvalidOperationException(
-                        "Could not add the transaction to the book, because the transaction contains at least one split whose security has not been added.");
+                    throw new InvalidOperationException(Localization.Localization.TRANSACTION_SPIT_SECURITY_NOT_IN_BOOK);
                 }
 
                 this.transactions.Remove(oldTransaction);
