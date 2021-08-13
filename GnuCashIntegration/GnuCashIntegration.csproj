@@ -10,6 +10,7 @@
     <AssemblyTitle>GNUCash Integration</AssemblyTitle>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="FixMe" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="GitVersionTask" Version="5.5.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="All" />
@@ -21,9 +22,30 @@
     <ProjectReference Include="..\SharpBooks.SharedLibrary\SharpBooks.SharedLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Entities\GnuCash.Context.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GnuCash.Context.tt</DependentUpon>
+    </Compile>
+    <None Update="Entities\GnuCash.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GnuCash.Context.cs</LastGenOutput>
+    </None>
+    <Compile Update="Entities\GnuCash.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GnuCash.tt</DependentUpon>
+    </Compile>
+    <None Update="Entities\GnuCash.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GnuCash.cs</LastGenOutput>
+    </None>
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 </Project>
