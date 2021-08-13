@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GnuCashIntegration", "GnuCashIntegration\GnuCashIntegration.csproj", "{DAFB461C-A84A-4844-9868-37E2FB7E0BA8}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GooglePriceQuoteSource", "GooglePriceQuoteSource\GooglePriceQuoteSource.csproj", "{BFD8417E-2984-48D9-AFD8-C550550E6536}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpBooks", "SharpBooks\SharpBooks.csproj", "{3042F139-DAE6-4A9F-8EE1-AE9E73A179F4}"
@@ -57,6 +59,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAFB461C-A84A-4844-9868-37E2FB7E0BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAFB461C-A84A-4844-9868-37E2FB7E0BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAFB461C-A84A-4844-9868-37E2FB7E0BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAFB461C-A84A-4844-9868-37E2FB7E0BA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFD8417E-2984-48D9-AFD8-C550550E6536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFD8417E-2984-48D9-AFD8-C550550E6536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD8417E-2984-48D9-AFD8-C550550E6536}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +101,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64CD152E-2A7A-4828-B9D2-CC084E636111} = {414EC0F5-B11D-41DD-A9D6-66ADFCEFDF97}
+		{DAFB461C-A84A-4844-9868-37E2FB7E0BA8} = {F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}
 		{BFD8417E-2984-48D9-AFD8-C550550E6536} = {F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}
 		{773124A5-7D80-487F-986F-B8FFCD6F17CB} = {F6242FF0-AD6F-491F-9F08-4BCF3A594DB1}
 	EndGlobalSection
