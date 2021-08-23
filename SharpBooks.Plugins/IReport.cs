@@ -2,11 +2,14 @@
 
 namespace SharpBooks.Plugins
 {
-    using System;
     using System.Drawing;
 
-    public interface IReport : IDisposable
+    public interface IReport : IPlugin
     {
+        string Configure(IReadOnlyBook book, string currentSettings);
+
         void Render(IReadOnlyBook book, Graphics g);
+
+        void SetConfiguration(IReadOnlyBook book, string settings);
     }
 }

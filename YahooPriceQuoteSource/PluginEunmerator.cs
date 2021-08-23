@@ -16,7 +16,7 @@ namespace YahooPriceQuoteSource
         /// <returns>An enumerable list of factories that can create plugins.</returns>
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
-            yield return new PriceQuoteSourceFactory<YahooPriceQuoteSource>("Yahoo!® Finance Price Quotes");
+            yield return new PluginFactory<YahooPriceQuoteSource>("Yahoo!® Finance Price Quotes");
         }
     }
 }

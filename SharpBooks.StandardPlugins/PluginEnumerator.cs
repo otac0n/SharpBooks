@@ -16,9 +16,9 @@ namespace SharpBooks.StandardPlugins
         /// <returns>An enumerable list of factories that can create plugins.</returns>
         public IEnumerable<IPluginFactory> EnumerateFactories()
         {
-            yield return new FavoriteAccountsWidgetFactory();
-            yield return new RecentExpensesWidgetFactory();
-            yield return new PersistenceStrategyFactory<XmlPersistenceStrategy>("XML File");
+            yield return new PluginFactory<FavoriteAccountsWidget>("Favorite Accounts");
+            yield return new PluginFactory<RecentExpensesWidget>("Recent Expenses");
+            yield return new PluginFactory<XmlPersistenceStrategy>("XML File");
         }
     }
 }

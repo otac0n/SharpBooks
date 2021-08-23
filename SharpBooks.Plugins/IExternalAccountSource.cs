@@ -2,10 +2,10 @@
 
 namespace SharpBooks.Plugins
 {
-    using SharpBooks.Persistence;
+    using System.Collections.Generic;
 
-    public interface IPersistenceStrategyFactory : IPluginFactory
+    public interface IExternalAccountSource : IPlugin
     {
-        IPersistenceStrategy CreateInstance();
+        IEnumerable<AccountData> GetAccountData();
     }
 }

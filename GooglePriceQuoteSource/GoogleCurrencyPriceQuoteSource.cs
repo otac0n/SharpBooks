@@ -7,6 +7,7 @@ namespace GooglePriceQuoteSource
     using System.Linq;
     using System.Net;
     using SharpBooks;
+    using SharpBooks.Plugins;
 
     /// <summary>
     /// Provides functionality to download price quote data from Google™ Calculator.

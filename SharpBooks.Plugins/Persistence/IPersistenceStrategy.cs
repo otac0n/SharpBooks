@@ -1,10 +1,11 @@
 // Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
-namespace SharpBooks.Persistence
+namespace SharpBooks.Plugins.Persistence
 {
     using System;
+    using SharpBooks.Plugins;
 
-    public interface IPersistenceStrategy : ILoader, IDisposable
+    public interface IPersistenceStrategy : ILoader, IPlugin
     {
         Uri Open(Uri recentUri);
 

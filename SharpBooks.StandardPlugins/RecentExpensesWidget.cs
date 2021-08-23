@@ -9,14 +9,12 @@ namespace SharpBooks.StandardPlugins
 
     internal class RecentExpensesWidget : IWidget
     {
-        private readonly RecentExpensesSettings settings;
-
         private Control control;
         private EventProxy events;
+        private RecentExpensesSettings settings;
 
-        public RecentExpensesWidget(string settings)
+        public RecentExpensesWidget()
         {
-            this.settings = LoadSettings(settings);
         }
 
         public static RecentExpensesSettings LoadSettings(string settings)
@@ -35,6 +33,15 @@ namespace SharpBooks.StandardPlugins
             }
 
             return config;
+        }
+
+        /// <inheritdoc/>
+        public string Configure(IReadOnlyBook book, string currentSettings)
+        {
+            ////var view = new RecentExpensesConfiguration();
+            ////currentSettings = view.GetSettings(book, currentSettings);
+
+            return currentSettings;
         }
 
         /// <inheritdoc/>
@@ -73,6 +80,11 @@ namespace SharpBooks.StandardPlugins
             this.events = events;
 
             this.PopulateControl(book);
+        }
+
+        public void SetConfiguration(IReadOnlyBook book, string settings)
+        {
+            this.settings = LoadSettings(settings);
         }
 
         private void Account_MouseDoubleClick(object sender, MouseEventArgs e)

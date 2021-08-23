@@ -8,6 +8,7 @@ namespace SharpBooks.Controllers
     using System.Linq;
     using System.Windows.Forms;
     using SharpBooks.Plugins;
+    using SharpBooks.Plugins.Persistence;
 
     public class MainController
     {
@@ -418,10 +419,10 @@ namespace SharpBooks.Controllers
             this.ActiveAccount = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).SingleOrDefault();
         }
 
-        private IList<IPersistenceStrategyFactory> GetPersistenceStrategies()
+        private IList<IPluginFactory<IPersistenceStrategy>> GetPersistenceStrategies()
         {
             return (from p in this.plugins
-                    let ps = p as IPersistenceStrategyFactory
+                    let ps = p as IPluginFactory<IPersistenceStrategy>
                     where ps != null
                     select ps).ToList();
         }
