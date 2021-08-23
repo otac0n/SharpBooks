@@ -9,6 +9,8 @@ namespace GnuCashIntegration
 
     public static class Reports
     {
+        private static string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };
+
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
             var startDate = DateTime.Today;
@@ -57,8 +59,8 @@ namespace GnuCashIntegration
                                     select s.Num / s.Denom).Sum() - 22;
             }
 
-
-            Evaluator eval = new Evaluator();
+            ////Evaluator eval = new Evaluator();
+            FakeEvaluator eval = null;
 
             foreach (var s in allScheduledTransactions)
             {
@@ -148,35 +150,6 @@ namespace GnuCashIntegration
             return result;
         }
 
-        private static RecurrenceBase GetRecurrenceBase(Recurrence r)
-        {
-            RecurrenceBase b = null;
-            switch (r.PeriodType)
-            {
-                case "month":
-                    b = new MonthRecurrence(
-                        ParseDate(r.PeriodStart),
-                        (int)r.Multiplier);
-                    break;
-                case "end of month":
-                    b = new MonthRecurrence(
-                        ParseDate(r.PeriodStart),
-                        (int)r.Multiplier);
-                    break;
-                case "week":
-                    b = new WeekRecurrence(
-                        ParseDate(r.PeriodStart),
-                        (int)r.Multiplier);
-                    break;
-                default:
-                    throw new Exception();
-            }
-
-            return b;
-        }
-
-        private static string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };
-
         public static DateTime ParseDate(string s)
         {
             return DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None);
@@ -187,5 +160,42 @@ namespace GnuCashIntegration
             return DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
         }
 
+        private static RecurrenceBase GetRecurrenceBase(Recurrence r)
+        {
+            RecurrenceBase b = null;
+            switch (r.PeriodType)
+            {
+                case "month":
+                    b = new MonthRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+
+                case "end of month":
+                    b = new MonthRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+
+                case "week":
+                    b = new WeekRecurrence(
+                        ParseDate(r.PeriodStart),
+                        (int)r.Multiplier);
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+
+            return b;
+        }
+
+        private class FakeEvaluator
+        {
+            public object Evaluate(string expr, Dictionary<string, object> parameters)
+            {
+                return null;
+            }
+        }
     }
 }
