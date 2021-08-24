@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace GnuCashIntegration.Scheduling
 {
+    using System;
+
     public class EndOfMonthRecurrence : MonthRecurrence
     {
         private int occurence = 0;
-
-        private DateTime startMonth
-        {
-            get;
-            set;
-        }
 
         public EndOfMonthRecurrence(DateTime startDate, int multiplier)
             : base(startDate, multiplier)
@@ -21,9 +14,10 @@ namespace GnuCashIntegration.Scheduling
             this.startMonth = new DateTime(this.startDate.Year, this.startDate.Month, 1);
         }
 
-        public override void Reset()
+        private DateTime startMonth
         {
-            this.occurence = 0;
+            get;
+            set;
         }
 
         public override DateTime GetNextOccurence()
@@ -32,6 +26,11 @@ namespace GnuCashIntegration.Scheduling
             var day = DateTime.DaysInMonth(month.Year, month.Month);
 
             return new DateTime(month.Year, month.Month, day);
+        }
+
+        public override void Reset()
+        {
+            this.occurence = 0;
         }
     }
 }

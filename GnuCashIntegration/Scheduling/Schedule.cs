@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace GnuCashIntegration.Scheduling
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Schedule
     {
-        public string Name { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime? EndDate { get; private set; }
-        public DateTime? LastOccurence { get; private set; }
-        public int? TotalOccurences { get; private set; }
-        public int? RemainingOccurences { get; private set; }
-
         private List<RecurrenceBase> recurrences;
 
         public Schedule(string name, DateTime startDate, DateTime? endDate, DateTime? lastOccurence, int? totalOccurences, int? remainingOccurences, IEnumerable<RecurrenceBase> recurrences)
@@ -27,6 +21,18 @@ namespace GnuCashIntegration.Scheduling
 
             this.recurrences = new List<RecurrenceBase>(recurrences);
         }
+
+        public DateTime? EndDate { get; private set; }
+
+        public DateTime? LastOccurence { get; private set; }
+
+        public string Name { get; private set; }
+
+        public int? RemainingOccurences { get; private set; }
+
+        public DateTime StartDate { get; private set; }
+
+        public int? TotalOccurences { get; private set; }
 
         public IEnumerable<KeyValuePair<int, DateTime>> GetDatesInRange(DateTime startDate, DateTime endDate)
         {
@@ -42,7 +48,7 @@ namespace GnuCashIntegration.Scheduling
             startDate = this.LastOccurence.HasValue ? (this.LastOccurence.Value > startDate ? this.LastOccurence.Value : startDate) : startDate;
 
             dates = dates.Distinct().ToList();
-            
+
             int i = 1;
             foreach (var d in dates)
             {

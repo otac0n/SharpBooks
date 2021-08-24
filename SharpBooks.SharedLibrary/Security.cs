@@ -3,7 +3,6 @@
 namespace SharpBooks
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     public sealed class Security
     {
