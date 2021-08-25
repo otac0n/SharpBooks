@@ -9,7 +9,7 @@ namespace SharpBooks.Tests
     public class SecurityTests
     {
         [Datapoints]
-        private int[] integerDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
+        private readonly int[] integerDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
 
         [Test]
         [TestCase("a2394d50-0b8e-4374-a66b-540a0a15767e", SecurityType.Currency, "Test Currency", "XTS", null)]
@@ -21,13 +21,16 @@ namespace SharpBooks.Tests
         public void Constructor_WithEmptyParameters_ThrowsException(string securityId, SecurityType securityType, string name, string symbol, string currencySymbol)
         {
             // Build a delegate to construct a new security.
-            TestDelegate constructSecurity = () => new Security(
-                new Guid(securityId),
-                securityType,
-                name,
-                symbol,
-                currencySymbol == null ? null : new CurrencyFormat(currencySymbol: currencySymbol),
-                1); // OK
+            Security constructSecurity()
+            {
+                return new Security(
+                    new Guid(securityId),
+                    securityType,
+                    name,
+                    symbol,
+                    currencySymbol == null ? null : new CurrencyFormat(currencySymbol: currencySymbol),
+                    1); // OK
+            }
 
             // Assert that calling the delegate throws an ArgumentNullException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentNullException>());
@@ -39,13 +42,16 @@ namespace SharpBooks.Tests
             Assume.That(fractionTraded <= 0);
 
             // Build a delegate to construct a new security.
-            TestDelegate constructSecurity = () => new Security(
-                Guid.NewGuid(), // OK
-                SecurityType.Currency, // OK
-                "OK_NAME",
-                "OK_SYMBOL",
-                new CurrencyFormat(currencySymbol: "OK_SYMBOL"),
-                fractionTraded);
+            Security constructSecurity()
+            {
+                return new Security(
+                    Guid.NewGuid(), // OK
+                    SecurityType.Currency, // OK
+                    "OK_NAME",
+                    "OK_SYMBOL",
+                    new CurrencyFormat(currencySymbol: "OK_SYMBOL"),
+                    fractionTraded);
+            }
 
             // Assert that calling the delegate throws an ArgumentException.
             Assert.That(constructSecurity, Throws.InstanceOf<ArgumentException>());
@@ -61,7 +67,7 @@ namespace SharpBooks.Tests
         public void Constructor_WithRealWorldParameters_Succeeds(SecurityType securityType, string name, string symbol, string currencySymbol, int fractionTraded)
         {
             // Construct a new security with known good values.
-            new Security(
+            _ = new Security(
                 Guid.NewGuid(),
                 securityType,
                 name,
@@ -70,7 +76,6 @@ namespace SharpBooks.Tests
                 fractionTraded);
 
             // The test passes, because the constructor has completed successfully.
-            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
         }
     }
 }

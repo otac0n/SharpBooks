@@ -11,8 +11,6 @@ namespace SharpBooks
     /// </summary>
     public class Account
     {
-        private readonly int? smallestFraction;
-
         public Account(Guid accountId, AccountType accountType, Security security, Account parentAccount, string name, int? smallestFraction)
         {
             if (accountId == Guid.Empty)
@@ -69,7 +67,7 @@ namespace SharpBooks
             this.Security = security;
             this.ParentAccount = parentAccount;
             this.Name = name;
-            this.smallestFraction = smallestFraction;
+            this.SmallestFraction = smallestFraction;
         }
 
         public Guid AccountId { get; }
@@ -84,7 +82,7 @@ namespace SharpBooks
 
         public Security Security { get; }
 
-        public int? SmallestFraction => this.smallestFraction;
+        public int? SmallestFraction { get; }
 
         public CompositeBalance TotalBalance => this.Book?.GetAccountTotalBalance(this);
 

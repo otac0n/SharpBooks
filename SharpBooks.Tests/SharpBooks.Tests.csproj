@@ -2,7 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
-    <CodeAnalysisRuleSet>SharpBooks.Tests.ruleset</CodeAnalysisRuleSet>
     <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
     <TargetFramework>net472</TargetFramework>
@@ -30,7 +29,6 @@
     <None Include="..\SharpBooks.snk">
       <Link>SharpBooks.snk</Link>
     </None>
-    <AdditionalFiles Include="SharpBooks.Tests.ruleset" />
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>

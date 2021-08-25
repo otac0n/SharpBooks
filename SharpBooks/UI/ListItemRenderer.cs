@@ -20,9 +20,9 @@ namespace SharpBooks.UI
     {
         private const TextFormatFlags StandardFlags = TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.NoPrefix | TextFormatFlags.EndEllipsis;
 
-        private static VisualStyleElement baseElement;
+        private static readonly VisualStyleElement baseElement;
 
-        private static bool isSupported;
+        private static readonly bool isSupported;
 
         [ThreadStatic]
         private static VisualStyleRenderer visualStyleRenderer;

@@ -6,11 +6,9 @@ namespace SharpBooks
 
     public sealed class Balance
     {
-        private readonly Security security;
-
         public Balance(Security security, long amount, bool isExact)
         {
-            this.security = security ?? throw new ArgumentNullException(nameof(security));
+            this.Security = security ?? throw new ArgumentNullException(nameof(security));
             this.Amount = amount;
             this.IsExact = isExact;
         }
@@ -19,12 +17,12 @@ namespace SharpBooks
 
         public bool IsExact { get; }
 
-        public Security Security => this.security;
+        public Security Security { get; }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return (this.IsExact ? string.Empty : "\u2248") + this.security.FormatValue(this.Amount);
+            return (this.IsExact ? string.Empty : "\u2248") + this.Security.FormatValue(this.Amount);
         }
     }
 }

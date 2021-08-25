@@ -26,12 +26,12 @@ namespace SharpBooks
 
             lock (this)
             {
-                var security = this.destinationBook.Securities.Where(s => s.SecurityId == account.SecurityId).Single();
+                var security = this.destinationBook.Securities.Single(s => s.SecurityId == account.SecurityId);
 
                 Account parent = null;
                 if (account.ParentAccountId.HasValue)
                 {
-                    parent = this.destinationBook.Accounts.Where(a => a.AccountId == account.ParentAccountId).Single();
+                    parent = this.destinationBook.Accounts.Single(a => a.AccountId == account.ParentAccountId);
                 }
 
                 var newAccount = new Account(
@@ -52,9 +52,9 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var security = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.SecuritySecurityId).Single();
+                var security = this.destinationBook.Securities.Single(s => s.SecurityId == priceQuote.SecuritySecurityId);
 
-                var currency = this.destinationBook.Securities.Where(s => s.SecurityId == priceQuote.CurrencySecurityId).Single();
+                var currency = this.destinationBook.Securities.Single(s => s.SecurityId == priceQuote.CurrencySecurityId);
 
                 var newPriceQuote = new PriceQuote(
                     priceQuote.PriceQuoteId,
@@ -97,7 +97,7 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var baseSecurity = this.destinationBook.Securities.Where(s => s.SecurityId == transaction.BaseSecurityId).Single();
+                var baseSecurity = this.destinationBook.Securities.Single(s => s.SecurityId == transaction.BaseSecurityId);
 
                 var newTransaction = new Transaction(
                     transaction.TransactionId,
@@ -110,8 +110,8 @@ namespace SharpBooks
                 {
                     var newSplit = newTransaction.AddSplit();
 
-                    var account = this.destinationBook.Accounts.Where(a => a.AccountId == split.AccountId).Single();
-                    var security = this.destinationBook.Securities.Where(s => s.SecurityId == split.SecurityId).Single();
+                    var account = this.destinationBook.Accounts.Single(a => a.AccountId == split.AccountId);
+                    var security = this.destinationBook.Securities.Single(s => s.SecurityId == split.SecurityId);
 
                     newSplit.Account = account;
                     newSplit.Security = security;
@@ -150,7 +150,7 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var account = this.destinationBook.Accounts.Where(a => a.AccountId == accountId).Single();
+                var account = this.destinationBook.Accounts.Single(a => a.AccountId == accountId);
 
                 this.destinationBook.RemoveAccount(
                     account);
@@ -162,7 +162,7 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var priceQuote = this.destinationBook.PriceQuotes.Where(q => q.PriceQuoteId == priceQuoteId).Single();
+                var priceQuote = this.destinationBook.PriceQuotes.Single(q => q.PriceQuoteId == priceQuoteId);
 
                 this.destinationBook.RemovePriceQuote(
                     priceQuote);
@@ -174,7 +174,7 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var security = this.destinationBook.Securities.Where(s => s.SecurityId == securityId).Single();
+                var security = this.destinationBook.Securities.Single(s => s.SecurityId == securityId);
 
                 this.destinationBook.RemoveSecurity(
                     security);
@@ -195,7 +195,7 @@ namespace SharpBooks
         {
             lock (this)
             {
-                var transaction = this.destinationBook.Transactions.Where(t => t.TransactionId == transactionId).Single();
+                var transaction = this.destinationBook.Transactions.Single(t => t.TransactionId == transactionId);
 
                 this.destinationBook.RemoveTransaction(
                     transaction);

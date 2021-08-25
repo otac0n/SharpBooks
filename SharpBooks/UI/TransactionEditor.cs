@@ -52,7 +52,7 @@ namespace SharpBooks.UI
                 this.originalTransaction = split.Transaction;
                 this.transaction = split.Transaction.Copy();
                 this.split = this.transaction.Splits[this.originalTransaction.Splits.IndexOf(split)];
-                this.otherSplit = this.transaction.Splits.Where(s => s != this.split).Single();
+                this.otherSplit = this.transaction.Splits.Single(s => s != this.split);
             }
 
             this.ResetControls();
@@ -71,7 +71,7 @@ namespace SharpBooks.UI
             if (this.accountComboBox.SelectedItem == null &&
                 !string.IsNullOrEmpty(this.accountComboBox.Text))
             {
-                var match = this.accountComboBox.Items.Cast<Account>().Where(a => a.ToString() == this.accountComboBox.Text).FirstOrDefault();
+                var match = this.accountComboBox.Items.Cast<Account>().FirstOrDefault(a => a.ToString() == this.accountComboBox.Text);
                 if (match != null)
                 {
                     this.accountComboBox.SelectedItem = match;

@@ -29,9 +29,12 @@ namespace SharpBooks.Tests
         public void Constructor_WhenSecurityIsNull_ThrowsException()
         {
             // Build a delegate to construct a new transaction.
-            TestDelegate constructTransaction = () => new Transaction(
-                Guid.NewGuid(), // OK
-                null);
+            Transaction constructTransaction()
+            {
+                return new Transaction(
+                    Guid.NewGuid(), // OK
+                    null);
+            }
 
             // Assert that calling the delegate throws an ArgumentNullException.
             Assert.That(constructTransaction, Throws.InstanceOf<ArgumentNullException>());
@@ -41,9 +44,12 @@ namespace SharpBooks.Tests
         public void Constructor_WhenTransactionIdIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new transaction.
-            TestDelegate constructTransaction = () => new Transaction(
-                Guid.Empty,
-                TestUtils.TestCurrency); // OK
+            Transaction constructTransaction()
+            {
+                return new Transaction(
+                    Guid.Empty,
+                    TestUtils.TestCurrency); // OK
+            }
 
             // Assert that calling the delegate throws an ArgumentOutOfRangeException.
             Assert.That(constructTransaction, Throws.InstanceOf<ArgumentOutOfRangeException>());

@@ -30,7 +30,7 @@ namespace SharpBooks.Plugins
                 {
                     try
                     {
-                        var newFactories = PluginLoader.LoadPlugins(path);
+                        var newFactories = LoadPlugins(path);
 
                         if (newFactories != null)
                         {

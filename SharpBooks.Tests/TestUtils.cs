@@ -33,14 +33,14 @@ namespace SharpBooks.Tests
         {
             // Create a new transaction that is empty, but otherwise valid.
             // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new Transaction(Guid.NewGuid(), TestUtils.TestCurrency);
+            return new Transaction(Guid.NewGuid(), TestCurrency);
         }
 
         public static Account CreateValidAccount()
         {
             // Create a new account that is valid.
             // Guid.NewGuid() is OK here, because it is guaranteed to never return an invalid value.
-            return new Account(Guid.NewGuid(), AccountType.Balance, TestUtils.TestCurrency, null, "OK_NAME", TestUtils.TestCurrency.FractionTraded);
+            return new Account(Guid.NewGuid(), AccountType.Balance, TestCurrency, null, "OK_NAME", TestCurrency.FractionTraded);
         }
 
         public static Book CreateValidBook()
@@ -61,7 +61,7 @@ namespace SharpBooks.Tests
         public static Transaction CreateValidTransaction(Account splitAccouunt)
         {
             // Create a new transaction with a single, zero split assigned to splitAccount.
-            var transaction = TestUtils.CreateEmptyTransaction();
+            var transaction = CreateEmptyTransaction();
             var split = transaction.AddSplit();
             split.Account = splitAccouunt;
             split.Security = splitAccouunt.Security;

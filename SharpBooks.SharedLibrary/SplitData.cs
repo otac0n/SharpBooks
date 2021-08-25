@@ -10,9 +10,9 @@ namespace SharpBooks
     public sealed class SplitData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharpBooks.SplitData"/> class.
+        /// Initializes a new instance of the <see cref="SplitData"/> class.
         /// </summary>
-        /// <param name="split">The <see cref="SharpBooks.Split"/> from which to copy.</param>
+        /// <param name="split">The <see cref="Split"/> from which to copy.</param>
         public SplitData(Split split)
         {
             if (split == null)

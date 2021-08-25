@@ -143,16 +143,20 @@ namespace SharpBooks.StandardPlugins
         protected override void Save(Book book, Uri uri)
         {
             var root =
-                new XElement("Book",
-                    new XElement("Securities",
+                new XElement(
+                    "Book",
+                    new XElement(
+                        "Securities",
                         from s in book.Securities
-                        select new XElement("Security",
+                        select new XElement(
+                            "Security",
                             new XAttribute("id", s.SecurityId),
                             new XAttribute("type", s.SecurityType),
                             new XAttribute("name", s.Name),
                             new XAttribute("symbol", s.Symbol),
                             new XAttribute("fractionTraded", s.FractionTraded),
-                            new XElement("Format",
+                            new XElement(
+                                "Format",
                                 new XAttribute("decimalDigits", s.Format.DecimalDigits),
                                 new XAttribute("decimalSeparator", s.Format.DecimalSeparator),
                                 new XAttribute("groupSeparator", s.Format.GroupSeparator),
@@ -160,32 +164,39 @@ namespace SharpBooks.StandardPlugins
                                 new XAttribute("negativeFormat", s.Format.NegativeFormat),
                                 new XAttribute("positiveFormat", s.Format.PositiveFormat),
                                 new XAttribute("symbol", s.Format.Symbol)))),
-                    new XElement("Accounts",
+                    new XElement(
+                        "Accounts",
                         from a in book.Accounts
-                        select new XElement("Account",
+                        select new XElement(
+                            "Account",
                             new XAttribute("id", a.AccountId),
                             new XAttribute("type", a.AccountType),
                             a.Security == null ? null : new XAttribute("securityId", a.Security.SecurityId),
                             a.ParentAccount == null ? null : new XAttribute("parentAccountId", a.ParentAccount.AccountId),
                             new XAttribute("name", a.Name),
                             a.Security == null ? null : new XAttribute("smallestFraction", a.SmallestFraction))),
-                    new XElement("Transactions",
+                    new XElement(
+                        "Transactions",
                         from t in book.Transactions
-                        select new XElement("Transaction",
+                        select new XElement(
+                            "Transaction",
                             new XAttribute("id", t.TransactionId),
                             new XAttribute("securityId", t.BaseSecurity.SecurityId),
                             new XAttribute("date", t.Date),
                             from s in t.Splits
-                            select new XElement("Split",
+                            select new XElement(
+                                "Split",
                                 new XAttribute("accountId", s.Account.AccountId),
                                 s.Security != t.BaseSecurity ? new XAttribute("securityId", s.Security.SecurityId) : null,
                                 new XAttribute("amount", s.Amount),
                                 s.Security != t.BaseSecurity || s.Amount != s.TransactionAmount ? new XAttribute("transactionAmount", s.TransactionAmount) : null,
                                 s.DateCleared.HasValue ? new XAttribute("dateCleared", s.DateCleared) : null,
                                 new XAttribute("reconciled", s.IsReconciled)))),
-                    new XElement("PriceQuotes",
+                    new XElement(
+                        "PriceQuotes",
                         from p in book.PriceQuotes
-                        select new XElement("PriceQuote",
+                        select new XElement(
+                            "PriceQuote",
                             new XAttribute("id", p.PriceQuoteId),
                             new XAttribute("date", p.DateTime),
                             new XAttribute("securityId", p.Security.SecurityId),
@@ -193,9 +204,11 @@ namespace SharpBooks.StandardPlugins
                             new XAttribute("currencyId", p.Currency.SecurityId),
                             new XAttribute("price", p.Price),
                             new XAttribute("source", p.Source))),
-                    new XElement("Settings",
+                    new XElement(
+                        "Settings",
                         from s in book.Settings
-                        select new XElement("Setting",
+                        select new XElement(
+                            "Setting",
                             new XAttribute("key", s.Key),
                             new XAttribute("value", s.Value))));
 

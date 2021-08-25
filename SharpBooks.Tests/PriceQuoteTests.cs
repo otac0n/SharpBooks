@@ -9,20 +9,23 @@ namespace SharpBooks.Tests
     public class PriceQuoteTests
     {
         [Datapoints]
-        private long[] longDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, long.MaxValue, long.MinValue };
+        private readonly long[] longDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, long.MaxValue, long.MinValue };
 
         [Test]
         public void Constructor_WhenCurrencyIsEqualToSecurity_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestCurrency,
-                1, // OK
-                TestUtils.TestCurrency,
-                1, // OK
-                "OK_SOURCE");
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestCurrency,
+                    1, // OK
+                    TestUtils.TestCurrency,
+                    1, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that the delegate throws an InvalidOperationException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
@@ -40,14 +43,17 @@ namespace SharpBooks.Tests
                 1); // OK
 
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                1, // OK
-                invalidCurrency,
-                1, // OK
-                "OK_SOURCE");
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    invalidCurrency,
+                    1, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that the delegate throws an InvalidOperationException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<InvalidOperationException>());
@@ -57,14 +63,17 @@ namespace SharpBooks.Tests
         public void Constructor_WhenCurrencyIsNull_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                1, // OK
-                null,
-                1, // OK
-                "OK_SOURCE");
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    null,
+                    1, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -74,14 +83,17 @@ namespace SharpBooks.Tests
         public void Constructor_WhenPriceQuoteIdIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.Empty,
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                1, // OK
-                TestUtils.TestCurrency, // OK
-                1, // OK
-                "OK_SOURCE");
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.Empty,
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    TestUtils.TestCurrency, // OK
+                    1, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that calling the delegate throws an ArgumentOutOfRangeException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
@@ -93,14 +105,17 @@ namespace SharpBooks.Tests
             Assume.That(quantity <= 0 || price <= 0);
 
             // Build a test delegate to construct the PriceQuote.
-            TestDelegate buildQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                quantity,
-                TestUtils.TestCurrency, // OK
-                price, // OK
-                "OK_SOURCE");
+            PriceQuote buildQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    quantity,
+                    TestUtils.TestCurrency, // OK
+                    price, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that calling the delegate with a negative or zero value throws an exception.
             Assert.That(buildQuote, Throws.InstanceOf<ArgumentOutOfRangeException>());
@@ -110,14 +125,17 @@ namespace SharpBooks.Tests
         public void Constructor_WhenSecurityIsNull_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                null,
-                1, // OK
-                TestUtils.TestCurrency, // OK
-                1, // OK
-                "OK_SOURCE");
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    null,
+                    1, // OK
+                    TestUtils.TestCurrency, // OK
+                    1, // OK
+                    "OK_SOURCE");
+            }
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -127,14 +145,17 @@ namespace SharpBooks.Tests
         public void Constructor_WhenSourceIsEmpty_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                1, // OK
-                TestUtils.TestCurrency, // OK
-                1, // OK
-                string.Empty);
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    TestUtils.TestCurrency, // OK
+                    1, // OK
+                    string.Empty);
+            }
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -144,14 +165,17 @@ namespace SharpBooks.Tests
         public void Constructor_WhenSourceIsNull_ThrowsException()
         {
             // Build a delegate to construct a new price quote.
-            TestDelegate constructPriceQuote = () => new PriceQuote(
-                Guid.NewGuid(), // OK
-                DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
-                TestUtils.TestStock, // OK
-                1, // OK
-                TestUtils.TestCurrency, // OK
-                1, // OK
-                null);
+            PriceQuote constructPriceQuote()
+            {
+                return new PriceQuote(
+                    Guid.NewGuid(), // OK
+                    DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
+                    TestUtils.TestStock, // OK
+                    1, // OK
+                    TestUtils.TestCurrency, // OK
+                    1, // OK
+                    null);
+            }
 
             // Assert that the delegate throws an ArgumentNullException.
             Assert.That(constructPriceQuote, Throws.InstanceOf<ArgumentNullException>());
@@ -178,7 +202,7 @@ namespace SharpBooks.Tests
         [Test]
         public void Constructor_WithValidParameters_Succeeds()
         {
-            new PriceQuote(
+            _ = new PriceQuote(
                 Guid.NewGuid(), // OK
                 DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc), // OK
                 TestUtils.TestStock, // OK
@@ -188,7 +212,6 @@ namespace SharpBooks.Tests
                 "OK_SOURCE");
 
             // The test passes, because the call to the constructor has completed successfully.
-            Assert.True(true);  // Assert.Pass() was not used, to maintain compatibility with ReSharper.
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GnuCashIntegration
 
     public static class Reports
     {
-        private static string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };
+        private static readonly string[] formats = new string[] { "yyyyMMddHHmmss", "yyyyMMdd" };
 
         public static Dictionary<int, decimal> CashFlow(GnuCashDatabase db)
         {
@@ -36,7 +36,7 @@ namespace GnuCashIntegration
                                 select s;
 
             var intrustTx = from t in allTransactions
-                            where intrustSplits.Where(s => s.TransactionGuid == t.Guid).Any()
+                            where intrustSplits.Any(s => s.TransactionGuid == t.Guid)
                             select t;
 
             var txList = intrustTx.ToList();
@@ -46,7 +46,7 @@ namespace GnuCashIntegration
                               {
                                   Num = (decimal)s.QuantityNumerator,
                                   Denom = (decimal)s.QuantityDenominator,
-                                  PostDate = ParseDate(txList.Where(t => t.Guid == s.TransactionGuid).Single().PostDate).Date
+                                  PostDate = ParseDate(txList.Single(t => t.Guid == s.TransactionGuid).PostDate).Date,
                               }).ToList();
 
             var startingBalance = (from s in splitsList
@@ -54,7 +54,7 @@ namespace GnuCashIntegration
                                    select s.Num / s.Denom).Sum();
 
             var balance = startingBalance;
-            for (DateTime d = startDate; d <= endDate; d = d.AddDays(1))
+            for (var d = startDate; d <= endDate; d = d.AddDays(1))
             {
                 balances[d.Date] = (from s in splitsList
                                     where s.PostDate == d
@@ -66,13 +66,11 @@ namespace GnuCashIntegration
 
             foreach (var s in allScheduledTransactions)
             {
-                DateTime temp;
-
                 var schedule = new Schedule(
                      s.Name,
                      ParseDate(s.StartDate),
-                     TryParseDate(s.EndDate, out temp) ? (DateTime?)temp : null,
-                     TryParseDate(s.LastOccurence, out temp) ? (DateTime?)temp : null,
+                     TryParseDate(s.EndDate, out var scheduleEndDate) ? (DateTime?)scheduleEndDate : null,
+                     TryParseDate(s.LastOccurence, out var lastOccurence) ? (DateTime?)lastOccurence : null,
                      (int)s.NumOccurences,
                      (int)s.RemainingOccurences,
                      from r in allRecurrences.ToList()
@@ -81,23 +79,25 @@ namespace GnuCashIntegration
 
                 foreach (var d in schedule.GetDatesInRange(startDate, endDate))
                 {
-                    var parameters = new Dictionary<string, object>();
-                    parameters["i"] = d.Key;
+                    var parameters = new Dictionary<string, object>
+                    {
+                        ["i"] = d.Key,
+                    };
 
                     foreach (var sp in from sp in allSplits
                                        where sp.AccountGuid == s.TemplateAccountGuid
                                        let slots = from sl in allSlots
                                                    where sl.ObjGuid == sp.Guid
                                                    select sl
-                                       let credit = slots.Where(sl => sl.Name == "sched-xaction/credit-formula").FirstOrDefault()
-                                       let debit = slots.Where(sl => sl.Name == "sched-xaction/debit-formula").FirstOrDefault()
-                                       let account = slots.Where(sl => sl.Name == "sched-xaction/account").FirstOrDefault()
+                                       let credit = slots.FirstOrDefault(sl => sl.Name == "sched-xaction/credit-formula")
+                                       let debit = slots.FirstOrDefault(sl => sl.Name == "sched-xaction/debit-formula")
+                                       let account = slots.FirstOrDefault(sl => sl.Name == "sched-xaction/account")
                                        select new
                                        {
                                            Split = sp,
-                                           Credit = credit == null ? null : credit.StringVal,
-                                           Debit = debit == null ? null : debit.StringVal,
-                                           Account = account == null ? null : account.GuidVal,
+                                           Credit = credit?.StringVal,
+                                           Debit = debit?.StringVal,
+                                           Account = account?.GuidVal,
                                        })
                     {
                         decimal credit = 0;
@@ -164,7 +164,7 @@ namespace GnuCashIntegration
 
         private static RecurrenceBase GetRecurrenceBase(Recurrence r)
         {
-            RecurrenceBase b = null;
+            RecurrenceBase b;
             switch (r.PeriodType)
             {
                 case "month":
@@ -186,7 +186,7 @@ namespace GnuCashIntegration
                     break;
 
                 default:
-                    throw new Exception();
+                    throw new NotImplementedException();
             }
 
             return b;

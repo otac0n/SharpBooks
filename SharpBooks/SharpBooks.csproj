@@ -3,7 +3,6 @@
   <Import Project="..\SharedAssemblyInfo.props" />
   <PropertyGroup>
     <BuildDependsOn>$(BuildDependsOn);AfterBuildMigrated</BuildDependsOn>
-    <CodeAnalysisRuleSet>SharpBooks.ruleset</CodeAnalysisRuleSet>
     <DebugType>portable</DebugType>
     <OutputType>WinExe</OutputType>
     <StartupObject>SharpBooks.Program</StartupObject>

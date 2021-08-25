@@ -1,4 +1,4 @@
-// Copyright © John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
+// Copyright Â© John Gietzen. All Rights Reserved. This source is subject to the MIT license. Please see license.md for more information.
 
 namespace GnuCashIntegration.Scheduling
 {
@@ -13,14 +13,14 @@ namespace GnuCashIntegration.Scheduling
         {
         }
 
+        public override DateTime GetNextOccurence()
+        {
+            return this.StartDate.AddMonths(this.Multiplier * this.occurence++);
+        }
+
         public override void Reset()
         {
             this.occurence = 0;
-        }
-
-        public override DateTime GetNextOccurence()
-        {
-            return this.startDate.AddMonths(this.multiplier * (this.occurence++));
         }
     }
 }

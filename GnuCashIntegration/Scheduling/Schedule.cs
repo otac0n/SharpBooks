@@ -8,7 +8,7 @@ namespace GnuCashIntegration.Scheduling
 
     public class Schedule
     {
-        private List<RecurrenceBase> recurrences;
+        private readonly List<RecurrenceBase> recurrences;
 
         public Schedule(string name, DateTime startDate, DateTime? endDate, DateTime? lastOccurence, int? totalOccurences, int? remainingOccurences, IEnumerable<RecurrenceBase> recurrences)
         {
@@ -16,7 +16,7 @@ namespace GnuCashIntegration.Scheduling
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.LastOccurence = lastOccurence;
-            this.TotalOccurences = (totalOccurences.HasValue && totalOccurences.Value == 0) ? (int?)null : totalOccurences;
+            this.TotalOccurences = (totalOccurences.HasValue && totalOccurences.Value == 0) ? null : totalOccurences;
             this.RemainingOccurences = remainingOccurences;
 
             this.recurrences = new List<RecurrenceBase>(recurrences);
@@ -38,10 +38,10 @@ namespace GnuCashIntegration.Scheduling
         {
             endDate = this.EndDate.HasValue ? (this.EndDate.Value < endDate ? this.EndDate.Value : endDate) : endDate;
 
-            List<DateTime> dates = new List<DateTime>();
+            var dates = new List<DateTime>();
             foreach (var r in this.recurrences)
             {
-                dates.AddRange(GetDatesInRange(r, this.StartDate, endDate));
+                dates.AddRange(this.GetDatesInRange(r, this.StartDate, endDate));
             }
 
             startDate = this.StartDate > startDate ? this.StartDate : startDate;
@@ -49,7 +49,7 @@ namespace GnuCashIntegration.Scheduling
 
             dates = dates.Distinct().ToList();
 
-            int i = 1;
+            var i = 1;
             foreach (var d in dates)
             {
                 if (d >= startDate && d <= endDate && (!this.LastOccurence.HasValue || d > this.LastOccurence.Value))
@@ -81,7 +81,8 @@ namespace GnuCashIntegration.Scheduling
                 {
                     yield return date;
                 }
-            } while (date <= endDate);
+            }
+            while (date <= endDate);
 
             yield break;
         }

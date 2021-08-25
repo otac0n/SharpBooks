@@ -15,10 +15,7 @@ namespace SharpBooks.Plugins
 
         public void RaiseAccountSelected(object sender, AccountSelectedEventArgs args)
         {
-            if (this.accountSelected != null)
-            {
-                this.accountSelected(sender, args);
-            }
+            this.accountSelected?.Invoke(sender, args);
         }
     }
 }

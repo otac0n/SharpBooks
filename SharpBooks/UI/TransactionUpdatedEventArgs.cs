@@ -6,16 +6,14 @@ namespace SharpBooks.UI
 
     public class TransactionUpdatedEventArgs : EventArgs
     {
-        private readonly Transaction oldTransaction;
-
         public TransactionUpdatedEventArgs(Transaction oldTransaction, Transaction newTransaction)
         {
-            this.oldTransaction = oldTransaction ?? throw new ArgumentNullException(nameof(oldTransaction));
+            this.OldTransaction = oldTransaction ?? throw new ArgumentNullException(nameof(oldTransaction));
             this.NewTransaction = newTransaction ?? throw new ArgumentNullException(nameof(newTransaction));
         }
 
         public Transaction NewTransaction { get; }
 
-        public Transaction OldTransaction => this.oldTransaction;
+        public Transaction OldTransaction { get; }
     }
 }

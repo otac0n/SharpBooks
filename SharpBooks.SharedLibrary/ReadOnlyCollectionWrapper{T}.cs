@@ -8,7 +8,7 @@ namespace SharpBooks
 
     public class ReadOnlyCollectionWrapper<T> : ICollection<T>, IEnumerable<T>, IEnumerable
     {
-        private ICollection<T> collection = null;
+        private readonly ICollection<T> collection;
 
         public ReadOnlyCollectionWrapper(ICollection<T> wrappedCollection)
         {

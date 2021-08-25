@@ -27,7 +27,7 @@ namespace SharpBooks
             this.nameTextBox.Text = this.originalAccount.Name;
             this.balanceAccountRadio.Checked = this.originalAccount.AccountType == AccountType.Balance;
             this.groupingAccountRadio.Checked = this.originalAccount.AccountType == AccountType.Grouping;
-            this.securityComboBox.SelectedItem = this.securityComboBox.Items.Cast<SecurityOption>().Where(so => so.Security == this.originalAccount.Security).Single();
+            this.securityComboBox.SelectedItem = this.securityComboBox.Items.Cast<SecurityOption>().Single(so => so.Security == this.originalAccount.Security);
             this.fractionTextBox.Text = this.originalAccount.Security == null ? string.Empty : this.originalAccount.Security.FormatValue(this.originalAccount.Security.FractionTraded / this.originalAccount.SmallestFraction.Value);
         }
 

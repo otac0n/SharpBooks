@@ -53,7 +53,6 @@ namespace SharpBooks
             { PositiveFormat.SuffixSpaced, 3 },
         };
 
-        private readonly string groupSeparator;
         private readonly int[] groupSizes;
         private readonly NumberFormatInfo numberFormatInfo;
 
@@ -103,7 +102,7 @@ namespace SharpBooks
 
             this.DecimalDigits = decimalDigits;
             this.DecimalSeparator = decimalSeparator;
-            this.groupSeparator = groupSeparator;
+            this.GroupSeparator = groupSeparator;
             this.groupSizes = copy;
             this.PositiveFormat = positiveFormat;
             this.NegativeFormat = negativeFormat;
@@ -113,7 +112,7 @@ namespace SharpBooks
             {
                 CurrencyDecimalDigits = this.DecimalDigits,
                 CurrencyDecimalSeparator = this.DecimalSeparator,
-                CurrencyGroupSeparator = this.groupSeparator,
+                CurrencyGroupSeparator = this.GroupSeparator,
                 CurrencyGroupSizes = this.groupSizes,
                 CurrencyPositivePattern = PositivePatternMapping[this.PositiveFormat],
                 CurrencyNegativePattern = NegativePatternMapping[Tuple.Create(this.PositiveFormat, this.NegativeFormat)],
@@ -121,7 +120,7 @@ namespace SharpBooks
 
                 NumberDecimalDigits = this.DecimalDigits,
                 NumberDecimalSeparator = this.DecimalSeparator,
-                NumberGroupSeparator = this.groupSeparator,
+                NumberGroupSeparator = this.GroupSeparator,
                 NumberGroupSizes = this.groupSizes,
             };
         }
@@ -130,7 +129,7 @@ namespace SharpBooks
 
         public string DecimalSeparator { get; }
 
-        public string GroupSeparator => this.groupSeparator;
+        public string GroupSeparator { get; }
 
         public int[] GroupSizes => this.groupSizes.ToArray();
 

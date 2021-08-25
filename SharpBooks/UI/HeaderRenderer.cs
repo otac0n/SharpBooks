@@ -16,7 +16,8 @@ namespace SharpBooks.UI
 
     public static class HeaderRenderer
     {
-        private static bool isSupported;
+        private static readonly bool isSupported;
+
         [ThreadStatic]
         private static VisualStyleRenderer visualStyleRenderer;
 
@@ -110,12 +111,7 @@ namespace SharpBooks.UI
 
         private static ButtonState ConvertToButtonState(HeaderItemState state)
         {
-            if (state == HeaderItemState.Pressed)
-            {
-                return ButtonState.Pushed;
-            }
-
-            return ButtonState.Normal;
+            return state == HeaderItemState.Pressed ? ButtonState.Pushed : ButtonState.Normal;
         }
 
         private static void InitializeRenderer(int state)

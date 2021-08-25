@@ -10,7 +10,7 @@ namespace SharpBooks
 
     public partial class PersistencePluginSelector : Form
     {
-        private IList<IPluginFactory<IPersistenceStrategy>> plugins;
+        private readonly IList<IPluginFactory<IPersistenceStrategy>> plugins;
 
         public PersistencePluginSelector(IList<IPluginFactory<IPersistenceStrategy>> plugins)
         {

@@ -11,18 +11,14 @@ namespace GnuCashIntegration.Scheduling
         public EndOfMonthRecurrence(DateTime startDate, int multiplier)
             : base(startDate, multiplier)
         {
-            this.startMonth = new DateTime(this.startDate.Year, this.startDate.Month, 1);
+            this.StartMonth = new DateTime(this.StartDate.Year, this.StartDate.Month, 1);
         }
 
-        private DateTime startMonth
-        {
-            get;
-            set;
-        }
+        private DateTime StartMonth { get; }
 
         public override DateTime GetNextOccurence()
         {
-            var month = this.startMonth.AddMonths(this.occurence++);
+            var month = this.StartMonth.AddMonths(this.occurence++);
             var day = DateTime.DaysInMonth(month.Year, month.Month);
 
             return new DateTime(month.Year, month.Month, day);

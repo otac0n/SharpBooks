@@ -11,7 +11,7 @@ namespace SharpBooks.Tests.ScheduleTests
     public class SingleDayTests
     {
         [Datapoints]
-        private int[] intDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
+        private readonly int[] intDatapoints = new[] { 0, 1, -1, 3, -3, 5, -5, 7, -7, 10, -10, 100, -100, 1000, -1000, int.MaxValue, int.MinValue };
 
         [Theory]
         public void GetInstance_WhenCalledWithNegativeIndex_ThrowsException(int index)

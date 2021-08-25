@@ -18,14 +18,7 @@ namespace SharpBooks
 
         public SortedList(IComparer<T> comparer)
         {
-            if (comparer == null)
-            {
-                this.comparer = Comparer<T>.Default;
-            }
-            else
-            {
-                this.comparer = comparer;
-            }
+            this.comparer = comparer ?? Comparer<T>.Default;
 
             this.storage = new List<T>();
         }

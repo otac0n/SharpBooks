@@ -121,8 +121,7 @@ namespace SharpBooks
         {
             get
             {
-                string value;
-                this.extensions.TryGetValue(key, out value);
+                this.extensions.TryGetValue(key, out var value);
                 return value;
             }
         }

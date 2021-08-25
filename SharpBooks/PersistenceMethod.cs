@@ -7,21 +7,14 @@ namespace SharpBooks
 
     public class PersistenceMethod
     {
-        private Uri uri;
-
         public PersistenceMethod(IPersistenceStrategy strategy, Uri uri)
         {
             this.Strategy = strategy;
-            this.uri = uri;
+            this.Uri = uri;
         }
 
         public IPersistenceStrategy Strategy { get; }
 
-        public Uri Uri
-        {
-            get => this.uri;
-
-            set => this.uri = value;
-        }
+        public Uri Uri { get; set; }
     }
 }

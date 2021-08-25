@@ -12,10 +12,10 @@ namespace SharpBooks.Controllers
 
     public class MainController
     {
+        private readonly IList<IPluginFactory> plugins;
         private Account activeAccount;
         private Book book;
         private PersistenceMethod currentSaveMethod;
-        private IList<IPluginFactory> plugins;
 
         public MainController()
         {
@@ -220,7 +220,7 @@ namespace SharpBooks.Controllers
 
         public void DeleteAccount(Guid accountId)
         {
-            var account = this.book.Accounts.Where(a => a.AccountId == accountId).Single();
+            var account = this.book.Accounts.Single(a => a.AccountId == accountId);
             var existingSplits = this.book.GetAccountSplits(account).ToList();
             var childAccounts = this.book.Accounts.Where(a => a.ParentAccount == account).ToList();
 
@@ -253,7 +253,7 @@ namespace SharpBooks.Controllers
 
         public void NewAccount(Guid? parentAccountId)
         {
-            var parent = parentAccountId.HasValue ? this.book.Accounts.Where(a => a.AccountId == parentAccountId.Value).Single() : null;
+            var parent = parentAccountId.HasValue ? this.book.Accounts.Single(a => a.AccountId == parentAccountId.Value) : null;
             var newAccount = new Account(
                 Guid.NewGuid(),
                 AccountType.Balance,
@@ -416,7 +416,7 @@ namespace SharpBooks.Controllers
 
         private void AccountSelected(object sender, AccountSelectedEventArgs e)
         {
-            this.ActiveAccount = this.Book.Accounts.Where(a => a.AccountId == e.AccountId).SingleOrDefault();
+            this.ActiveAccount = this.Book.Accounts.SingleOrDefault(a => a.AccountId == e.AccountId);
         }
 
         private IList<IPluginFactory<IPersistenceStrategy>> GetPersistenceStrategies()

@@ -415,7 +415,7 @@ namespace SharpBooks.UI
 
         public class ColumnHeaderCollection : ICollection<ColumnHeader>
         {
-            private HeaderControl owner;
+            private readonly HeaderControl owner;
 
             internal ColumnHeaderCollection(HeaderControl owner)
             {
@@ -487,10 +487,7 @@ namespace SharpBooks.UI
                 return index != -1 && this.owner.RemoveColumn(index);
             }
 
-            public void RemoveAt(int index)
-            {
-                this.owner.RemoveColumn(index);
-            }
+            public void RemoveAt(int index) => this.owner.RemoveColumn(index);
         }
     }
 }
